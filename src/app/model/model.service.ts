@@ -8,6 +8,7 @@ import {Project} from './project'
 import {Client} from './client'
 import {dateTimeToDate} from '../mixins'
 import {modelBeforeSave, modelSaved} from '../signals'
+import {INVOICE} from '../config/invoice'
 import * as dummyConfig from '../dummy/config'
 import * as dummyData from '../dummy/data'
 
@@ -216,7 +217,8 @@ export class ModelService {
         project:Project = this.createProject(<IProject>{
           clientNr: client.nr,
           invoiceNr,
-          quotationDate: dateTimeToDate()
+          quotationDate: dateTimeToDate(),
+          lines: [{amount:0, description:'', hours:0, vat:INVOICE.VAT_DEFAULT}]
         })
     client.projects.push(project)
     this.updateProjects()
