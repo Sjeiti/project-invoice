@@ -6,8 +6,6 @@ import {HttpModule} from '@angular/http'
 // modules
 // main
 import {AppComponent} from './app.component'
-// config
-import {INVOICE_CONFIG, InvoiceConfig} from './config/invoice.config'
 // service
 import {DOMHeadService} from './service/dom.head.service'
 import {RestService} from './service/rest.service'
@@ -97,8 +95,7 @@ import {InterpolationUIComponent} from './component/interpolationUI/interpolatio
     ModelService,
     InterpolationService,
     LocalisationService,
-    {provide: DOCUMENT, useValue: document},
-    {provide: INVOICE_CONFIG, useValue: InvoiceConfig}
+    {provide: DOCUMENT, useValue: document}
   ],
   bootstrap: [AppComponent]
 })
