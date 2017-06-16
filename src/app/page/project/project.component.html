@@ -8,7 +8,7 @@
     <dt>invoiceNr</dt><dd>{{project?.invoiceNr}}</dd>
     <dt>hourlyRate</dt><dd><input [(ngModel)]="project.hourlyRate" (ngModelChange)="onNgModelChanged()" type="number" /></dd>
     <dt>discount</dt><dd><input [(ngModel)]="project.discount" (ngModelChange)="onNgModelChanged()" type="number" /></dd>
-    <dt>discounted rate</dt><dd>{{project.hourlyRate - project.hourlyRate*project.discount*0.01}}</dd>
+    <dt>discounted rate</dt><dd>{{project.hourlyRate - project.hourlyRate*project.discount*0.01 | number : '1.2-2'}}</dd>
     <dt>paid</dt><dd><label class="checkbox"><input [(ngModel)]="project.paid" type="checkbox" (ngModelChange)="onNgModelChanged()" /><span></span></label></dd>
   </dl>
 </section>
