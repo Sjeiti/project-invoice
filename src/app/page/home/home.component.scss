@@ -6,7 +6,6 @@
   border: 0;
   font-size: 2em;
   background-color: $bgcolor;
-  color: white;
-
   box-shadow: 400px 0 0 $bgcolor, -400px 0 0 $bgcolor, 100px 0 0 $bgcolor, -100px 0 0 $bgcolor;
+  &, * { color: white; }
 }

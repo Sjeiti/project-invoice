@@ -1,6 +1,7 @@
-<section class="jumbotron">
+<section *ngIf="config.homeMessage" class="jumbotron">
   <p>This invoicing application stores all your data on your local machine.<br/>
   <em><small>Because all your data are belongs to you.</small></em></p>
+  <button class="btn btn-sm btn-link float-right" (click)="onHideWelcome()">hide message</button>
 </section>
 <div class="row">
   <section class="col-12 col-md-7">

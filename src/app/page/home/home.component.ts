@@ -7,6 +7,7 @@ import {INVOICE} from '../../config/invoice'
 import {IClient} from '../../interface/client'
 import {Project} from '../../model/project'
 import {IInvoice} from '../../interface/invoice'
+import {IConfig} from '../../interface/config'
 import {dateTimeToDate} from '../../mixins'
 
 @Component({
@@ -21,6 +22,7 @@ export class HomeComponent implements OnInit {
     heading: '',
     meta: {description: 'Welcome to something'}
   }
+  config:IConfig
   projects:IProject[] = []
   latestClient:IClient
   latestProject:IProject
@@ -32,6 +34,7 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.config = this.modelService.getConfig()
     this.projects = this.modelService.getProjects()
     this.latestClient = this.modelService.getClients().slice(0).sort((client1, client2)=>{
       return (client1 as Client).lastProjectDate>(client2 as Client).lastProjectDate?1:-1
@@ -73,6 +76,11 @@ export class HomeComponent implements OnInit {
       const clonedProject = this.modelService.cloneProject(this.latestProject)
       this.router.navigate(['/client/'+clonedProject.clientNr+'/'+clonedProject.invoiceNr])
     }
+  }
+
+  onHideWelcome() {
+    this.config.homeMessage = false
+    this.modelService.save()
   }
 
 }

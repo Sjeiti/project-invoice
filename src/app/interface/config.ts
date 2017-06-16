@@ -5,6 +5,7 @@ export interface IConfig {
   invoiceCSS: string
   csvTemplate: string
   langs: string[]
-  lang: string
+  lang: string,
+  homeMessage: boolean,
   type: string
 }

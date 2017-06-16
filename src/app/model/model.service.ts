@@ -18,8 +18,6 @@ declare const localStorage:any
 
 export class ModelService {
 
-  // private static instance:ModelService = null
-
   private dataName = 'data'
   private data:IStoreData
 
@@ -34,7 +32,7 @@ export class ModelService {
   ) {
     // get initial config
     let config:string = localStorage.getItem(this.configName)
-    this.initConfig(<IConfig>(config&&JSON.parse(config)||this.saveConfig(dummyConfig.default)))
+    this.initConfig(<IConfig>(config&&Object.assign(dummyConfig.default, JSON.parse(config))||this.saveConfig(dummyConfig.default)))
     // get initial data
     let data:string = localStorage.getItem(this.dataName)
     this.initData((data&&JSON.parse(data)||dummyData.default))

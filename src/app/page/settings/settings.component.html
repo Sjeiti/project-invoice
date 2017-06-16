@@ -40,5 +40,13 @@
     <dt class="name">langs</dt><dd>
       <textarea rows="4" [(ngModel)]="settings.langs" (ngModelChange)="onNgModelChanged()"></textarea>
     </dd>
+    
+    <dt class="name">csvTemplate</dt><dd>
+      <app-interpolationui [(ngModel)]="settings.csvTemplate" (ngModelChange)="onNgModelChanged()"></app-interpolationui>
+    </dd>
+    
+    <dt class="name">welcome message</dt><dd>
+      <input type="checkbox" [(ngModel)]="settings.homeMessage" (ngModelChange)="onNgModelChanged()" />
+    </dd>
   </dl>
 </section>

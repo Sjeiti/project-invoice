@@ -37,5 +37,6 @@ export default {
     'nl'
   ],
   lang: 'en',
+  homeMessage: true,
   type: 'config'
 }
