@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Project Invoice</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+  <app-root>
+    <div>loading...</div>
+    <svg xmlns="http://www.w3.org/2000/svg" width="280" height="280" viewBox="0 0 280 280"><path fill="#65635B" d="M263.635 175.965l-91.202 89.51-123.12-34.227-31.917-123.74L108.6 18l123.12 34.228"/><path fill="#CFCEC9" d="M17.396 107.51L108.6 17.997l31.266 121.218"/><path fill="#9F9D94" d="M49.313 231.248l-31.917-123.74 122.47 31.708 32.567 126.26"/></svg>
+    <style>
+      div {
+        width: 150px;
+        height: 50px;
+        position: fixed;
+        left: calc(50% - 75px);
+        top: calc(50% + 30px);
+        text-align: center;
+        font-family: Verdana, sans-serif;
+        color: #888;
+      }
+      svg {
+        width: 50px;
+        height: 50px;
+        position: fixed;
+        left: calc(50% - 25px);
+        top: calc(50% - 25px);
+        border-radius: 50%;
+        animation-name: rotate;
+        animation-duration: 12s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+      }
+      @keyframes rotate {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+    </style>
+  </app-root>
+  <script>
+    if (location.port!=='4201'&&'serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
+        console.log('Service Worker registered', registration);
+      }).catch(function(err) {
+        console.log('Service Worker registration failed: ', err);
+      });
+    }
+  </script>
+</body>
+</html>

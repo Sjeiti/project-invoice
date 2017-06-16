@@ -1,0 +1,28 @@
+<section>
+  <table>
+    <thead><tr>
+      <th data-order-key="paid" width="5%">paid</th>
+      <th data-order-key="invoiceNr" width="10%">nr</th>
+      <th data-order-key="date" width="10%">date</th>
+      <th data-order-key="changed" width="10%">changed</th>
+      <th data-order-key="client" width="35%">client</th>
+      <th data-order-key="description" width="40%">description</th>
+      <th data-order-key="totalIncDiscounted" width="10%">amount</th>
+    </tr></thead>
+    <tbody>
+      <tr *ngFor="let project of projects | arraySort:'paid':'-timestampLatest'" class="row-select ng-scope" [ngClass]="{'row-select':true,'alert-paid':project.paid,'alert-late':project.isLate,'alert-pending':project.isPending}">
+        <td>
+          <label class="checkbox">
+            <input [(ngModel)]="project.paid" (change)="onPaidChange()" type="checkbox" /><span></span>
+          </label>
+        </td>
+        <td><a routerLink="/client/{{project.clientNr}}/{{project.invoiceNr}}">{{project.invoiceNr}}</a></td>
+        <td><small>{{project.date | date:dateFormat}}</small></td>
+        <td><small>{{project.dateLatest | date:dateFormat}}</small></td>
+        <td>{{modelService.getClientByNr(project.clientNr).name}}</td>
+        <td>{{project.description}}</td>
+        <td class="text-right">{{project.totalIncDiscounted | currency:'EUR':true}}</td>
+      </tr>
+    </tbody>
+  </table>
+</section>

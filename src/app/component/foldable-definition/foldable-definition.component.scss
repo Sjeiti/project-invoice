@@ -1,0 +1,15 @@
+[data-list] {
+	display: none;
+}
+input[type=radio]+* {
+	max-height: 0;
+	transition: max-height 200ms ease;
+	overflow: hidden;
+}
+input[type=radio]:checked+* {
+	max-height: 300px;
+}
+dt:not(:first-of-type) {
+	border-top: 1px solid lightgray;
+	padding-top: 10px;
+}

@@ -1,0 +1,44 @@
+<section>
+  <dl class="row">
+    <dt class="name">Backup</dt>
+    <dd>
+      <a (click)="onClickDownload($event,'config')" class="btn btn-secondary btn-sm" href="#">config</a>
+      <a (click)="onClickDownload($event,'data')" class="btn btn-secondary btn-sm" href="#">data</a>
+    </dd>
+    <dt class="name">Restore</dt>
+    <dd>
+      <label class="btn btn-secondary btn-sm" for="config">config</label><input accept="application/json, text/json, .json" type="file" id="config" (change)="onChangeRestore($event,'config')" class="visually-hidden" />
+      <label class="btn btn-secondary btn-sm" for="data">data</label><input accept="application/json, text/json, .json" type="file" id="data" (change)="onChangeRestore($event,'data')" class="visually-hidden" />
+    </dd>
+    <dt class="name">Clear</dt>
+    <dd>
+      <button (click)="onClickClear('config')" class="btn btn-secondary btn-sm">config</button>
+      <button (click)="onClickClear('data')" class="btn btn-secondary btn-sm">data</button>
+    </dd>
+  </dl>
+</section>
+<section class="float-right">
+  <div class="invoice-shade"><div></div></div>
+  <app-print-invoice [client]="client" [project]="project" [invoice]="invoice"></app-print-invoice>
+  <app-lang class="float-right"></app-lang>
+</section>
+<section>
+  <dl class="row">
+    <dt class="name wide">invoiceCSS</dt><dd>
+      <textarea class="sass" rows="16" [(ngModel)]="settings.invoiceCSS" (ngModelChange)="onNgModelChanged();onChangeCSS(settings.invoiceCSS)" (select)="onSelectCSS($event)" (change)="onSelectCSS($event)" (click)="onSelectCSS($event)" (keyup)="onSelectCSS($event)" (blur)="onBlurCSS()"></textarea>
+      <label class="btn btn-secondary btn-sm">add image<input accept="image/gif, image/jpg, image/jpeg, image/png, .gif, .jpg, .jpeg, .png" type="file" (focus)="onFocusImageInput()" (change)="onChangeImage($event)" class="visually-hidden" /></label>
+    </dd>
+    
+    <dt class="name">projectNumberTemplate</dt><dd>
+      <app-interpolationui [(ngModel)]="settings.projectNumberTemplate" (ngModelChange)="onNgModelChanged()"></app-interpolationui>
+    </dd>
+    
+    <dt class="name">csvTemplate</dt><dd>
+      <app-interpolationui [(ngModel)]="settings.csvTemplate" (ngModelChange)="onNgModelChanged()"></app-interpolationui>
+    </dd>
+    
+    <dt class="name">langs</dt><dd>
+      <textarea rows="4" [(ngModel)]="settings.langs" (ngModelChange)="onNgModelChanged()"></textarea>
+    </dd>
+  </dl>
+</section>

@@ -1,0 +1,147 @@
+@import "../../../variables";
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins/breakpoints';
+
+header {
+  height: $headerHeight;
+  max-width: 100vw;
+  background-color: $colorMain;
+  color: white;
+}
+
+img {
+  $scale: 0.7;
+  width: $scale*$headerHeight;
+  height: $scale*$headerHeight;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+li {
+  position: relative;
+  vertical-align: top;
+  a { line-height: $headerHeight; }
+  &.drop {
+    @include media-breakpoint-up(sm) {
+      ul {
+        position: absolute;
+        left: 0;
+        top: $headerHeight;
+        display: block;
+        min-width: 100%;
+        overflow: hidden;
+        li:first-child {
+          margin-top: -2*40px;
+          transition: margin-top ease 300ms;
+        }
+      }
+      &:hover ul, >input:checked+ul {
+        li:first-child { margin-top: 0; }
+      }
+    }
+  }
+  li li {
+    padding-right: 2em;
+  }
+}
+label {
+  margin: 0;
+  padding: 0;
+}
+a {
+  display: block;
+  padding: 0 1em;
+  color: inherit;
+  transition: background-color 200ms linear;
+  &:hover { text-decoration: none; }
+  &.active {
+    background-color: dimgray;
+  }
+}
+
+.buttons {
+  padding-top: $headerHeight/7;
+  padding-right: 0.5em;
+}
+
+nav {
+  >ul {
+    display: flex;
+    justify-content: flex-end;
+    >li:first-child {
+      order: 9;
+    }
+  }
+  [for=hamburger] {
+    position: relative;
+    display: block;
+    width: $headerHeight/2;
+    height: $headerHeight/2;
+    margin-top: $headerHeight/4;
+    border-top: 4px solid white;
+    border-bottom: 4px solid white;
+    @include media-breakpoint-up(sm) {
+      display: none;
+    }
+    &:after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-2px);
+      width: 100%;
+      border-top: 4px solid white;
+    }
+  }
+  #hamburger~ul {
+    display:none;
+    left: 0;
+    top: $headerHeight;
+    width: 100vw;
+    box-shadow: 0 8px 8px rgba(0,0,0,0.3);
+    @include media-breakpoint-up(sm) {
+      box-shadow: none;
+    }
+    .list-inline-item {
+      display: block;
+      min-height: $headerHeight;
+      @include media-breakpoint-up(sm) {
+        display: inline-block;
+      }
+    }
+  }
+  #hamburger:checked~ul {
+    display:block;
+    position: fixed;
+  }
+  @include media-breakpoint-up(sm) {
+    #hamburger~ul,
+    #hamburger:checked~ul {
+      display: inline;
+      position: initial;
+      > li {
+        display: inline-block;
+      }
+    }
+  }
+  > ul {
+    text-align: right;
+    @include media-breakpoint-up(sm) {
+      text-align: center;
+      justify-content: space-between;
+      >li:first-child {
+        order: initial;
+      }
+    }
+    > li {
+      display: inline-block;
+      ul {
+        background-color: $colorMain;
+      }
+    }
+  }
+}
+

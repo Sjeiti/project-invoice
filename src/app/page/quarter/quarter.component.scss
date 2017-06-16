@@ -1,0 +1,59 @@
+@import "../../../variables";
+@import "../../../style";
+
+.current {
+  font-weight: 600;
+  a {
+    color: #333;
+  }
+}
+
+table, .table thead th, .table th, .table td {
+  border-color: #98ABA6;
+}
+th:last-child {
+  text-align: right;
+}
+.table tr.alert-paid th, .table tr.alert-paid td {
+  border-color: darken($colorBackground,10%);
+}
+table,input {
+  max-width: 100%;
+}
+//table tr>*:nth-child(4),table tr>*:nth-child(4) .form-control { width: 80px; }
+//table tr>*:nth-child(5),table tr>*:nth-child(5) .form-control { width: 120px; }
+//table tr>*:nth-child(6),table tr>*:nth-child(6) .form-control { width: 80px; }
+//table tr>*:nth-child(7),table tr>*:nth-child(7) .form-control { width: 60px; }
+//table tr>*:nth-child(8),table tr>*:nth-child(8) .form-control { width: 120px; }
+
+table tr>*:nth-child(2),
+table tr>*:nth-child(3),
+table tr>*:nth-child(4) { display: none; }
+@include media-breakpoint-up(sm) {
+  table tr>*:nth-child(2),
+  table tr>*:nth-child(3),
+  table tr>*:nth-child(4) { display: table-cell; }
+}
+
+.alert-paid {
+  color: darken($colorBackground, 20%);
+  background-color: transparent;
+  border-color: darken($colorBackground, 10%);
+}
+.alert-paid a { color: inherit; }
+
+.alert-late {
+  color: #a6321d;
+  background-color: #fff1f8;
+  border-color: #d4d4d4;
+}
+.alert-late a { color: inherit; }
+.alert-late.alert-pending {
+  color: #a66b29;
+  background-color: #fff4e2;
+}
+
+.alert-paid input.checkbox:checked+label {
+  background-color: transparent;
+  color: #CCC;
+}

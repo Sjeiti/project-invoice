@@ -1,0 +1,125 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/scss/bootstrap";
+
+html { box-sizing: border-box; }
+*, *:before, *:after { box-sizing: inherit; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  //font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+body {
+  background-color: #F8F8F8;
+}
+
+section {
+  margin-bottom: 30px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border: 0 solid #CCC;
+  border-top-width: 1px;
+}
+
+button {
+  @extend .btn;
+  @extend .btn-sm;
+}
+
+// fix normalise font-family issue
+button, input, optgroup, select, textarea {
+  font-family: inherit;
+}
+
+input, textarea, select {
+  @extend .form-control;
+  @extend .form-control-sm;
+  &.auto {
+    width: auto;
+  }
+}
+
+input[type=checkbox] {
+  transform: translateY(6px);
+  width: auto;
+}
+
+dl.row {
+  dt {
+    @extend .col-4;
+    @extend .text-right;
+    &.wide {
+      &, +dd {
+        text-align: left!important;
+        flex: 0 0 100%;
+        width: 100%;
+        max-width: 100%;
+      }
+    }
+  }
+  dd {
+    @extend .col-8;
+    margin-bottom: 0.1rem;
+  }
+}
+
+table {
+  @extend .table;
+  @extend .table-sm;
+}
+thead, tfoot {
+  background-color: #EEE;
+}
+
+tfoot {
+  border-top: 2px solid #98ABA6;
+  border-bottom: 1px solid #98ABA6;
+}
+
+.visually-hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+.text-overflow {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+label.checkbox {
+  $checkSize: 20px;
+  input {
+    @extend .visually-hidden;
+  }
+  span {
+    &:before {
+      content: '✓';
+    }
+    display: inline-block;
+    width: $checkSize;
+    height: $checkSize;
+    background-color: #EEE;
+    color: #F8F8F8;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: $checkSize;
+    text-align: center;
+    box-shadow: 0 0 0 1px #D3D3D3;
+    border-radius: 2px;
+  }
+  input:checked+span {
+    color: $btn-primary-bg;
+  }
+}

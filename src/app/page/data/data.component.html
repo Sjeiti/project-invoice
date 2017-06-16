@@ -1,0 +1,7 @@
+<section>
+  <dl class="row">
+    <ng-template ngFor let-item [ngForOf]="personal | object">
+      <dt>{{item.key}}</dt><dd><input [(ngModel)]="personal[item.key]" (ngModelChange)="onNgModelChanged()" /></dd>
+    </ng-template>
+  </dl>
+</section>

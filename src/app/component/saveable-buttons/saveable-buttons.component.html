@@ -1,0 +1,5 @@
+<span>
+  <button *ngIf="isSaveable" (click)="onSave()" [disabled]="!isModelDirty" class="btn-primary">save</button>
+  <button *ngIf="isSaveable" (click)="onRevert()" [disabled]="!isModelDirty" class="btn-primary">revert</button>
+  <button *ngIf="isDeletable" (click)="onDelete()" class="btn-warning">delete</button>
+</span>

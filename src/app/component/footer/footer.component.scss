@@ -1,0 +1,13 @@
+@import "../../../variables";
+
+footer {
+  height: $footerHeight;
+  background-color: $colorMainDark;
+  color: gray;
+  box-shadow: 0 2px 0 $colorMainDark;
+}
+small {
+  font-size: 9px;
+  text-transform: uppercase;
+  font-family: monospace;
+}

@@ -1,0 +1,13 @@
+<app-lang></app-lang>
+<section>
+  <dl class="row">
+    <ng-template ngFor let-item [ngForOf]="copySorted">
+      <dt>{{item.name}}</dt>
+      <dd>
+        <app-interpolationui [(ngModel)]="item.value[lang]" (ngModelChange)="onNgModelChanged()" localise></app-interpolationui>
+        <button *ngIf="keyDeletable(item.name)" (click)="onRemoveCopy(item.name)">&#10006;</button>
+      </dd>
+    </ng-template>
+  </dl>
+  <button (click)="onAdd()" class="btn-primary">add</button>
+</section>

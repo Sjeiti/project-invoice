@@ -1,0 +1,120 @@
+@import "../../../variables";
+
+header {
+  height: $headerHeight;
+  background-color: $colorMain;
+  color: white;
+  a { color: inherit; }
+  ul { list-style: none; }
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+li {
+  position: relative;
+  padding: 0 10px;
+  vertical-align: top;
+  a { line-height: $headerHeight; }
+}
+
+.buttons {
+  padding-top: $headerHeight/7;
+}
+
+nav {
+  >ul {
+    display: flex;
+    justify-content: flex-end;
+    >li:first-child {
+      order: 9;
+    }
+  }
+  [for=hamburger] {
+    position: relative;
+    display: block;
+    width: $headerHeight/2;
+    height: $headerHeight/2;
+    margin-top: $headerHeight/4;
+    border-top: 4px solid white;
+    border-bottom: 4px solid white;
+    &:after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-2px);
+      width: 100%;
+      border-top: 4px solid white;
+    }
+  }
+  #hamburger~ul {
+    display:none;
+    left: 0;
+    top: $headerHeight;
+    width: 100vw;
+  }
+  #hamburger~ul .list-inline-item {
+    display: block;
+    min-height: $headerHeight;
+  }
+  #hamburger:checked~ul {
+    display:block;
+    position: fixed;
+  }
+  > ul {
+    text-align: center;
+    > li {
+      display: inline-block;
+      ul {
+        background-color: $colorMain;
+      }
+    }
+  }
+  @media (min-width: 768px) {
+    >ul {
+      justify-content: space-between;
+      >li:first-child {
+        order: initial;
+      }
+    }
+    [for=hamburger] { display: none; }
+    #hamburger~ul .list-inline-item { display: inline-block; }
+    #hamburger~ul,
+    #hamburger:checked~ul {
+      display: inline;
+      position: initial;
+      > li {
+        display: inline-block;
+      }
+    }
+  }
+}
+
+li.drop {
+  label {
+    min-height: $headerHeight;
+    margin: 0;
+    padding: 0;
+  }
+  ul {
+    display: block;
+    min-width: 100%;
+    overflow: hidden;
+    li:first-child {
+      margin-top: -2*40px;
+      transition: margin-top ease 300ms;
+    }
+  }
+  &:hover ul, >input:checked+ul {
+    li:first-child { margin-top: 0; }
+  }
+  @media (min-width: 768px) {
+    ul {
+      position: absolute;
+      left: 0;
+      top: $headerHeight;
+    }
+  }
+}

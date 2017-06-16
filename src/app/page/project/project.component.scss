@@ -1,0 +1,12 @@
+td>app-currency {
+  width: 80px;
+  margin-left: 10px;
+}
+thead th {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 10%;
+  &:nth-child(1), &:nth-child(3) {
+    width: 30%;
+  }
+}

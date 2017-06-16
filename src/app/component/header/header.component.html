@@ -1,0 +1,33 @@
+<header>
+  <nav>
+    <ul class="list-unstyled list-inline">
+      <li>
+        <input id="hamburger" type="checkbox" class="visually-hidden" [(ngModel)]="dropped" />
+        <label for="hamburger"><span></span></label>
+        <ul class="list-unstyled list-inline">
+          <li><a routerLink="/" [routerLinkActive]="[active]" [routerLinkActiveOptions]="{exact: true}"><!--<img src="/static/img/logo.svg" /> -->home</a></li>
+          <li class="drop">
+            <label for="drop1"><a routerLink="/overview" [routerLinkActive]="[active]">overview</a></label>
+            <input id="drop1" type="checkbox" class="visually-hidden" />
+            <ul>
+              <li><a routerLink="/overview/quarter" [routerLinkActive]="[active]">quarter</a></li>
+            </ul>
+          </li>
+          <li><a routerLink="/clients" [routerLinkActive]="[active]">clients</a></li>
+          <li class=" drop">
+            <label for="drop2"><a routerLink="/settings" [routerLinkActive]="[active]">settings</a></label>
+            <input id="drop2" type="checkbox" class="visually-hidden" />
+            <ul>
+              <li><a routerLink="/data" [routerLinkActive]="[active]">data</a></li>
+              <li><a routerLink="/copy" [routerLinkActive]="[active]">copy</a></li>
+            </ul>
+          </li>
+          <li><a routerLink="/about" [routerLinkActive]="[active]">about</a></li>
+        </ul>
+      </li>
+      <li class="buttons">
+        <app-saveable-buttons></app-saveable-buttons>
+      </li>
+    </ul>
+  </nav>
+</header>

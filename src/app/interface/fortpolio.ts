@@ -1,0 +1,25 @@
+export interface IFortpolio {
+    ID:number
+    slug:string
+    title:string
+    excerpt:string
+    content:string
+    uri:string
+    type:string
+    order:number
+    tags:any
+    categories:any
+    clients:any
+    collaboration:any
+    prizes:any
+    media:any
+    'meta-cvcopy':string
+    'meta-datefrom':string
+    'meta-dateto':string
+    'meta-featured':string
+    'meta-incv':string
+    'meta-inportfolio':string
+    'meta-note':string
+    'meta-uri':string
+    image:any
+}

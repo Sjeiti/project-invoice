@@ -1,0 +1,27 @@
+:host {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  text-align: right;
+  white-space: nowrap;
+  &:before {
+    content: attr(sign);
+    float: left;
+  }
+  /*/deep/ .chunk:before, /deep/ .decimal:before {
+    content: attr(char);
+  }*/
+  /deep/ {
+    .chunk:before, .decimal:before {
+      content: attr(char);
+    }
+    .decimal {
+      position: relative;
+      &:before {
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+    }
+  }
+}

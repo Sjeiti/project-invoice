@@ -1,0 +1,5 @@
+<ul>
+  <li class=" buttons btn-group">
+    <button *ngFor="let _lang of config?.langs" (click)="setLang(_lang)" class="{{_lang===config.lang?'btn-secondary':''}} lang-{{_lang}}">{{_lang}}</button>
+  </li>
+</ul>

@@ -1,0 +1,13 @@
+<div class="invoice-options">
+  <script type="text/javascript">console.log('script')</script>
+  <a routerLink="/client/{{client?.nr}}/{{project?.invoiceNr}}" class="btn btn-default">back</a>
+  <button (click)="onClickPrint()" class="btn-primary" [disabled]="!pageReady">print</button>
+  <a (click)="onClickDownload($event)" class="btn btn-sm btn-primary" ngClass="{disabled:!pageReady}" href="{{dataUrl}}" download="{{invoiceName}}.png">download</a>
+  
+  <app-lang class="float-right"></app-lang>
+</div>
+<section>
+  <div class="invoice-shade"><div></div></div>
+  <app-print-invoice [client]="client" [project]="project" [invoice]="invoice"></app-print-invoice>
+</section>
+<iframe class="visually-hidden"></iframe>

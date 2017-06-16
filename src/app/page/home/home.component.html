@@ -1,0 +1,42 @@
+<section class="jumbotron">
+  <p>This invoicing application stores all your data on your local machine.<br/>
+  <em><small>Because all your data are belongs to you.</small></em></p>
+</section>
+<div class="row">
+  <section class="col-12 col-md-7">
+    <h2>Open invoices</h2>
+    <p *ngIf="projects.length===0"><em>You currently have no open invoices... yay!</em></p>
+    <table *ngIf="projects.length>0">
+      <thead><tr>
+        <th data-order-key="paid" width="10%">paid</th>
+        <th data-order-key="client" width="60%">client</th>
+        <th data-order-key="totalIncDiscounted" width="20%">amount</th>
+        <th width="20%">actions</th>
+      </tr></thead>
+      <tbody>
+        <tr
+            *ngFor="let project of projects | arrayFilter:'!paid' | arraySort:'-timestampLatest' "
+            class="row-select ng-scope"
+            [ngClass]="{'row-select':true,'alert-paid':project.paid,'alert-late':project.isLate,'alert-pending':project.isPending}"
+            title="{{project.invoiceNr}} {{project.date | date:dateFormat}} {{project.description}}"
+        >
+          <td>
+            <label class="checkbox">
+              <input [(ngModel)]="project.paid" (change)="onPaidChange()" type="checkbox" /><span></span>
+            </label>
+          </td>
+          <td><a routerLink="/client/{{project.clientNr}}/{{project.invoiceNr}}">{{modelService.getClientByNr(project.clientNr).name}}</a></td>
+          <td class="text-right">{{project.totalIncDiscounted | currency:'EUR':true}}</td>
+          <td><button (click)="onAddReminder(project)" class="btn btn-sm btn-primary">Add reminder</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+  <section class="col-12 col-md-5">
+    <p>What do you want to do:</p>
+    <p><button (click)="onAddClient()" class="btn btn-primary">Create a new client</button></p>
+    <p><button (click)="onAddProjectForLatestClient()" *ngIf="latestClient" class="btn btn-primary">Create project for {{latestClient.name}}</button></p>
+    <p><button (click)="onCloneLatestProject()" *ngIf="latestProject" class="btn btn-primary">Clone project {{latestProject.description}}</button></p>
+    <p><a href="/overview/quarter" class="btn btn-primary">See current quarter</a></p>
+  </section>
+</div>

@@ -1,0 +1,11 @@
+<div class="float-right">
+  <button (click)="onAddClient()" class="btn-primary">add client</button>
+</div>
+<section>
+  <input [(ngModel)]="nameFilter" class="w-25" />
+  <ul class="list-unstyled">
+    <li *ngFor="let client of clients | name:nameFilter | arraySort:'-lastProjectDate' ">
+      <a routerLink="/client/{{client.nr}}">{{client.name}}</a>
+    </li>
+  </ul>
+</section>
