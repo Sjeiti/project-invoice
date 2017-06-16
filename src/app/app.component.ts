@@ -11,14 +11,16 @@ import {DOMHeadService} from './service/dom.head.service'
 
 export class AppComponent {
 
+  headingBase: string
   heading: string
 
   constructor(private router: Router, private headService: DOMHeadService) {
+    this.headingBase = document.title
     router.events.subscribe(e => {
       if (e instanceof NavigationEnd) {
         let activatedRoute = router.routerState.root
         this.heading = this.getRouteData(activatedRoute, 'heading')
-        headService.setTitle('Voice - '+this.getRouteData(activatedRoute, 'title'))
+        headService.setTitle(this.headingBase+' - '+this.getRouteData(activatedRoute, 'title'))
         headService.setMetas(this.getRouteData(activatedRoute, 'meta'))
         //
         window.scrollTo(0, 0)

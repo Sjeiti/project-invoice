@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
-    "version": "1.2.11",
+    "version": "1.2.12",
     "name": "project-invoice"
   },
   "apps": [
