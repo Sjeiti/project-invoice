@@ -36,6 +36,14 @@ So I created my own:
 I cleaned it up a bit because I thought you might like it.
 
 
+## Contributing
+
+The sources of this application are open-source and can be found at
+    [Github](https://github.com/Sjeiti/project-invoice).
+    
+If you find a bug or have a good idea for a feature you can file it there.
+    
+
 ## faq
 
 ### Wait, this app is online in a browser. How is my private data not online?
