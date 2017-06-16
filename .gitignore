@@ -1,21 +1,9 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
-
-/_old
-
-# compiled output
-/build
 /dist
-
 /temp
-/data
-/output
-/src/data
-/src/lang
-
-# dependencies
 /node_modules
 
-# IDEs and editors
+# IDE
+
 /.idea
 .project
 .classpath
