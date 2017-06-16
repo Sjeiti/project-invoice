@@ -93,6 +93,7 @@ export class ProjectComponent extends Saveable implements OnInit, OnDestroy {
       exhortation: false
     })
     // numInvoices===0&&this.checkInvoiceNumber()
+    this.onSave()
     this.checkModelDirty()
   }
 
