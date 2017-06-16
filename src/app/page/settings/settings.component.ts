@@ -61,7 +61,7 @@ export class SettingsComponent extends Saveable implements OnInit, OnDestroy {
         dataWithType:any = Object.assign(data, {type}),
         dataString:string = JSON.stringify(dataWithType)
     currentTarget.setAttribute('href', `data:text/json,${encodeURIComponent(dataString)}`)
-    currentTarget.setAttribute('download', `new_${type}.json`)
+    currentTarget.setAttribute('download', `${type}.json`)
   }
 
   onChangeRestore(e:any, type:string){
