@@ -27,7 +27,7 @@ export class PrintInvoiceComponent implements OnInit, OnDestroy {
   binds:any[]
   personal:any
   config:any
-  __:any
+  __:Function
 
   isQuotation = false
 
@@ -55,7 +55,7 @@ export class PrintInvoiceComponent implements OnInit, OnDestroy {
       cssChanged.add(bind)
       return bind
     })
-    this.isQuotation = /\/client\/\d+\/(\d+\.)+\d+\/quotation/.test(location.href)
+    this.isQuotation = /\/client\/\d+\/\d+\/quotation/.test(location.href)
   }
 
   ngOnDestroy(){

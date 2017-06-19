@@ -20,7 +20,6 @@ const data = {
         {
           clientNr: 1,
           description: 'Krabby Patty innovations',
-          invoiceNr: '1.1.16.1',
           hourlyRate: 0,
           discount: 0,
           lines: [

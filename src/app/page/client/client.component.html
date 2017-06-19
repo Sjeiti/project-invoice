@@ -22,7 +22,6 @@
   </div>
   <ul class="list-unstyled">
     <li *ngFor="let project of client?.projects">
-      <!--<a routerLink="/client/{{clientNr}}/{{project.invoiceNr}}">{{project.invoiceNr}} {{project.description}}</a>-->
       <a routerLink="{{project.uri}}">{{project.invoiceNr}} {{project.description}}</a>
     </li>
   </ul>

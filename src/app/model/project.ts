@@ -3,15 +3,18 @@ import {IProject} from '../interface/project'
 import {IInvoice} from '../interface/invoice'
 import {IInvoiceLine} from '../interface/invoice-line'
 import {ModelService} from './model.service'
+import {Client} from './client'
 import {dontEnumerateAccessors} from '../mixins'
+import {projectSort} from '../util/project'
 
 export class Project implements IProject {
 
+  id = 0
   clientNr:number = -1
   description = ''
   discount = 0
   hourlyRate = 80
-  invoiceNr = ''
+  // invoiceNr = ''
   invoices:IInvoice[] = []
   lines:IInvoiceLine[] = []
   paid = false
@@ -27,15 +30,26 @@ export class Project implements IProject {
 
   private startValue:any[] = [0]
 
+  /**
+   * Project constructor
+   * Since projects are saved by JSON.stringify all accessors are set to non-enumerable.
+   * The injected service should also be non-enumerable but that would break certain template references (mainly project.uri).
+   * So modelService is deleted right before saving (@see ModelService::saveData)
+   * @param model
+   * @param modelService
+   */
   constructor(
       model:IProject,
       public modelService:ModelService
   ) {
-    Object.defineProperty(this, 'modelService', { enumerable:false })
+    // Object.defineProperty(this, 'modelService', { enumerable:false, value:modelService })
     dontEnumerateAccessors(this)
     for (let name in model) {
       if (model.hasOwnProperty(name)) {
-        this[name] = model[name]
+        // const descriptor = Object.getOwnPropertyDescriptor(model, name)
+        // if (descriptor.set||descriptor.writable) {
+          this[name] = model[name]
+        // }
       }
     }
     this.datePipe = new DatePipe('en')
@@ -46,6 +60,10 @@ export class Project implements IProject {
 
   clone(){
     return new Project(this, this.modelService)
+  }
+
+  get invoiceNr():string {
+    return this.modelService.calculateInvoiceNr(this) // todo move method to here
   }
 
   get total():number {
@@ -107,17 +125,28 @@ export class Project implements IProject {
     return this.startValue.concat(this.lines).reduce((acc, line)=>acc+line.hours)
   }
 
+  /**
+   * Get the index of the project on the client.projects by checking the id
+   * @returns {number}
+   */
   get indexOnClient():number {
-    let client = this.modelService.getClientByNr(this.clientNr),
-        projects = client&&client.projects.sort(this.sortProjectsByDateDescription)||[]
-    return projects.indexOf(this)
+    const client = this.modelService.getClientByNr(this.clientNr) as Client,
+        projects = client&&client.sortProjects()||[]
+    let index = -1
+    projects.forEach((project, i)=>{
+      // project could be a clone so client.projects.indexOf wouldn't work
+      if (this.id===(project as Project).id) {
+        index = i
+      }
+    })
+    return index
   }
 
   get indexOnYear():number {
     let year = this.year,
         projectsInYear = this.modelService.getProjects()
             .filter(project=>project.invoices.length>0&&project.year===year)
-            .sort(this.sortProjectsByDateDescription)
+            .sort(projectSort)
     return projectsInYear.indexOf(this)
   }
 
@@ -142,16 +171,12 @@ export class Project implements IProject {
   }
 
   get dateFormatted():string {
-    const dateFormat = this.copy.dateFormat[this.config.lang];
+    const dateFormat = this.copy.dateFormat[this.config.lang]
     return this.datePipe.transform(this.date, dateFormat)
   }
 
   get uri():string {
-    return `/client/${this.clientNr}/${this.invoiceNr}`
-  }
-
-  private sortProjectsByDateDescription(a:Project, b:Project){
-    return a.date.toString()===b.date.toString()?(a.description>b.description?1:-1):(a.date>b.date?1:-1)
+    return `/client/${this.clientNr}/${this.indexOnClient+1}`
   }
 
 }

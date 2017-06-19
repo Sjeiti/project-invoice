@@ -1,11 +1,10 @@
 import {Component, OnInit, ElementRef} from '@angular/core'
 import {ActivatedRoute} from '@angular/router'
 import {ModelService} from '../../model/model.service'
+import {Project} from '../../model/project'
 import {IClient} from '../../interface/client'
-import {IProject} from '../../interface/project'
 import {IInvoice} from '../../interface/invoice'
 import {cssCompiled} from '../../signals'
-// import {INVOICE} from '../../config/invoice'
 
 @Component({
   selector: 'app-invoice',
@@ -26,7 +25,7 @@ export class InvoiceComponent implements OnInit {
 
   public client:IClient
   public reminderNr:number
-  public project:IProject
+  public project:Project
   public invoice:IInvoice
   public invoiceName:string
   public pageReady = false
@@ -43,10 +42,13 @@ export class InvoiceComponent implements OnInit {
   ngOnInit() {
     this.elm = this.element.nativeElement
     this.subscription = this.route.params.subscribe((params:any)=> {
-      let clientNr:number = params.clientNr<<0
+      const clientNr:number = params['clientNr']<<0
+      const projectIndex:number = (params['projectIndex']<<0) - 1
+      //
       this.projectId = params.projectNr
       this.client = this.modelService.getClientByNr(clientNr)
-      this.project = this.modelService.getProject(this.projectId)
+      //
+      this.project = this.modelService.getProject(clientNr, projectIndex)
       this.reminderNr = params.hasOwnProperty('reminderNr')?params.reminderNr<<0:0
       this.invoice = this.project.invoices[this.reminderNr]
       this.invoiceName = 'invoice' + this.project.invoiceNr + '_' + this.invoice.type

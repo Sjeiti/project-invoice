@@ -11,8 +11,8 @@ export interface IProject {
   lines:IInvoiceLine[]
   paid:boolean
   quotationDate:string
-  quotationStartDate:string // todo: wtf!?
-  quotationDuration:number // todo: wtf!?
+  quotationStartDate:string
+  quotationDuration:number
   quotationAfter:string
   quotationBefore:string
   // getters

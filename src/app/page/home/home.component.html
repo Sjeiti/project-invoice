@@ -26,7 +26,7 @@
               <input [(ngModel)]="project.paid" (change)="onPaidChange()" type="checkbox" /><span></span>
             </label>
           </td>
-          <td><a routerLink="/client/{{project.clientNr}}/{{project.invoiceNr}}">{{modelService.getClientByNr(project.clientNr).name}}</a></td>
+          <td><a routerLink="{{project.uri}}">{{modelService.getClientByNr(project.clientNr).name}}</a></td>
           <td class="text-right">{{project.totalIncDiscounted | currency:'EUR':true}}</td>
           <td><button (click)="onAddReminder(project)" class="btn btn-sm btn-primary">Add reminder</button></td>
         </tr>
@@ -38,6 +38,6 @@
     <p><button (click)="onAddClient()" class="btn btn-primary">Create a new client</button></p>
     <p><button (click)="onAddProjectForLatestClient()" *ngIf="latestClient" class="btn btn-primary">Create project for {{latestClient.name}}</button></p>
     <p><button (click)="onCloneLatestProject()" *ngIf="latestProject" class="btn btn-primary">Clone project {{latestProject.description}}</button></p>
-    <p><a href="/overview/quarter" class="btn btn-primary">See current quarter</a></p>
+    <p><a routerLink="/overview/quarter" class="btn btn-primary">See current quarter</a></p>
   </section>
 </div>

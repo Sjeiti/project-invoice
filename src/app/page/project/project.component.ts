@@ -1,6 +1,6 @@
 import {Component, OnInit, OnDestroy} from '@angular/core'
 import {Router, ActivatedRoute} from '@angular/router'
-import {IClient} from '../../interface/client'
+import {Client} from '../../model/client'
 import {IProject} from '../../interface/project'
 import {IInvoice} from '../../interface/invoice'
 import {IInvoiceLine} from '../../interface/invoice-line'
@@ -8,7 +8,7 @@ import {ModelService} from '../../model/model.service'
 import {Saveable} from '../../abstract/saveable'
 import {INVOICE} from '../../config/invoice'
 import {dateTimeToDate} from '../../mixins'
-import {modelAction, modelAble, modelBeforeSave, modelSaved} from '../../signals'
+import {modelAction, modelAble} from '../../signals'
 import {Project} from '../../model/project'
 
 @Component({
@@ -25,10 +25,9 @@ export class ProjectComponent extends Saveable implements OnInit, OnDestroy {
     meta: {description: 'Foo is the bar of all qux'}
   }
   private subscription:any
-  private projectId:string
   private projectProper:Project
 
-  public client:IClient
+  public client:Client
   public project:Project
   public INVOICE:any = INVOICE
 
@@ -39,19 +38,24 @@ export class ProjectComponent extends Saveable implements OnInit, OnDestroy {
   ) {
     super(modelService, modelAble.SAVE|modelAble.DELETE)
     modelAction.add(state=>{
-      state===modelAction.DELETE&&this.onDelete()||
-      state===modelAction.SAVE&&this.checkInvoiceNumberBeforeSave()
+      state===modelAction.DELETE&&this.onDelete()
     })
   }
 
   ngOnInit() {
     super.ngOnInit()
     this.subscription = this.route.params.subscribe(params=> {
-      let clientNr:number = params['clientNr']<<0
-      this.projectId = params['projectNr']
+      const clientNr:number = params['clientNr']<<0
+      const projectIndex:number = (params['projectIndex']<<0) - 1
+      //
       this.client = this.modelService.getClientByNr(clientNr)
-      this.projectProper = this.modelService.getProject(this.projectId)
-      this.project = this.setModel(this.projectProper)
+      this.projectProper = this.modelService.getProject(clientNr, projectIndex)
+      //
+      if (!this.projectProper) {
+        this.router.navigate([(this.client as Client).uri])
+      } else {
+        this.project = this.setModel(this.projectProper)
+      }
     })
   }
 
@@ -62,13 +66,13 @@ export class ProjectComponent extends Saveable implements OnInit, OnDestroy {
 
   protected onDelete():boolean {
     let isDeleted = super.onDelete(this.modelService.removeProject.bind(this.modelService))
-    isDeleted&&this.router.navigate(['/client/'+this.client.nr])
+    isDeleted&&this.router.navigate([this.client.uri])
     return isDeleted
   }
 
   clone(project:IProject) {
     const clonedProject = this.modelService.cloneProject(project)
-    this.router.navigate(['/client/'+clonedProject.clientNr+'/'+clonedProject.invoiceNr])
+    this.router.navigate([clonedProject.uri])
   }
 
   onRemoveLine(line:IInvoiceLine) {
@@ -84,15 +88,13 @@ export class ProjectComponent extends Saveable implements OnInit, OnDestroy {
   }
 
   onAddInvoice() {
-    let invoices = this.project.invoices/*,
-        numInvoices = invoices.length*/
+    let invoices = this.project.invoices
     invoices.push(<IInvoice>{
       date: dateTimeToDate(),
       type: this.project.invoices.length===0?'invoice':'reminder', // todo: from const
       interest: false,
       exhortation: false
     })
-    // numInvoices===0&&this.checkInvoiceNumber()
     this.onSave()
     this.checkModelDirty()
   }
@@ -107,23 +109,6 @@ export class ProjectComponent extends Saveable implements OnInit, OnDestroy {
   onClickCalculation(project:Project, line:IInvoiceLine) {
     line.amount = line.hours*project.hourlyRateDiscounted
     this.checkModelDirty()
-  }
-
-  /*private checkInvoiceNumber() {
-    modelAction.addOnce(action=>{
-      if (action===modelAction.SAVE) {
-        this.checkInvoiceNumberBeforeSave()
-      }
-    }, null, 1)
-  }*/
-
-  private checkInvoiceNumberBeforeSave() {
-    modelBeforeSave.addOnce(()=>{
-      this.projectProper.invoiceNr = this.modelService.calculateInvoiceNr(this.projectProper)
-      modelSaved.addOnce(()=>{
-        this.router.navigate([this.projectProper.uri])
-      })
-    })
   }
 
   protected cloneModel():any {

@@ -2,6 +2,7 @@ import {IClient} from '../interface/client'
 import {IProject} from '../interface/project'
 import {dontEnumerateAccessors} from '../mixins'
 import {Project} from './project'
+import {projectSort} from '../util/project'
 
 export class Client implements IClient {
 
@@ -45,4 +46,12 @@ export class Client implements IClient {
     return date
   }
 
+  get uri():string {
+    return '/client/'+this.nr
+  }
+
+
+  sortProjects():IProject[] {
+    return this.projects.sort(projectSort)
+  }
 }

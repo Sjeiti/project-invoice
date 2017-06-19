@@ -56,25 +56,23 @@ export class HomeComponent implements OnInit {
       exhortation: false
     })
     this.modelService.save()
-    const clientNr = project.clientNr
-    this.router.navigate(['/client/'+clientNr+'/'+project.invoiceNr+'/reminder/'+(numInvoices+1)])
+    this.router.navigate([project.uri+'/reminder/'+numInvoices])
   }
 
   onAddClient() {
-    let client:IClient = this.modelService.addClient()
-    this.router.navigate(['/client/'+client.nr])
+    let client = this.modelService.addClient()
+    this.router.navigate([client.uri])
   }
 
   onAddProjectForLatestClient() {
-    const clientNr = this.latestClient.nr
-    const project:IProject = this.modelService.addProject(this.latestClient.nr)
-    this.router.navigate(['/client/'+clientNr+'/'+project.invoiceNr])
+    const project = this.modelService.addProject(this.latestClient.nr)
+    this.router.navigate([project.uri])
   }
 
   onCloneLatestProject() {
     if (this.latestProject) {
-      const clonedProject = this.modelService.cloneProject(this.latestProject)
-      this.router.navigate(['/client/'+clonedProject.clientNr+'/'+clonedProject.invoiceNr])
+      const clonedProject = this.modelService.cloneProject(this.latestProject) as Project
+      this.router.navigate([clonedProject.uri])
     }
   }
 

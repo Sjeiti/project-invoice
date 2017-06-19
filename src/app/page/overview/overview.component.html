@@ -16,7 +16,7 @@
             <input [(ngModel)]="project.paid" (change)="onPaidChange()" type="checkbox" /><span></span>
           </label>
         </td>
-        <td><a routerLink="/client/{{project.clientNr}}/{{project.invoiceNr}}">{{project.invoiceNr}}</a></td>
+        <td><a routerLink="{{project.uri}}">{{project.invoiceNr}}</a></td>
         <td><small>{{project.date | date:dateFormat}}</small></td>
         <td><small>{{project.dateLatest | date:dateFormat}}</small></td>
         <td>{{modelService.getClientByNr(project.clientNr).name}}</td>

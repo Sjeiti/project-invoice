@@ -27,6 +27,8 @@ export class ModelService {
   private clients:Client[]
   private projects:Project[]
 
+  private projectID = 1
+
   constructor(
       protected interpolationService:InterpolationService
   ) {
@@ -105,6 +107,11 @@ export class ModelService {
     this.clients.forEach(client=> {
       // force client.nr to type number
       client.nr = client.nr<<0
+      // alter project input
+      // invoiceNr removed from json after v1.2.13 (1.3.0)
+      client.projects.forEach(project=>{
+        delete project.invoiceNr
+      })
       // create project instances
       client.projects = <IProject[]>client.projects.map(this.createProject.bind(this))
     })
@@ -112,6 +119,7 @@ export class ModelService {
     this.updateProjects()
     // convert datetime to date otherwise input[type=date] cannot eat model
     this.projects.forEach(project=> {
+      project.id = this.projectID++ // add unique id
       project.invoices.forEach(invoice=> {
         invoice.date = dateTimeToDate(invoice.date)
       })
@@ -134,7 +142,13 @@ export class ModelService {
   }
 
   private saveData(data:IStoreData):IStoreData {
-    localStorage.setItem(this.dataName, JSON.stringify(this.setTimestamp(_.cloneDeep(data))))
+    const dataToStore = this.setTimestamp(_.cloneDeep(data))
+    //
+    dataToStore.clients.forEach(client=>client.projects.forEach(project=>{
+      delete project.modelService
+    }))
+    //
+    localStorage.setItem(this.dataName, JSON.stringify(dataToStore))
     return data
   }
 
@@ -158,7 +172,7 @@ export class ModelService {
     return this.clients||[]
   }
 
-  public getClientByNr(nr:number):IClient {
+  public getClientByNr(nr:number):Client {
     return this.clients&&this.clients.filter(client=>client.nr===nr).pop()
   }
 
@@ -195,8 +209,9 @@ export class ModelService {
     return this.projects
   }
 
-  public getProject(projectId:string):Project {
-    return this.projects&&this.projects.filter(project=>project.invoiceNr===projectId).pop()
+  public getProject(clientNr:number, projectIndex:number):Project {
+    const client = this.getClientByNr(clientNr) as Client
+    return client&&client.sortProjects()[projectIndex] as Project
   }
 
   private updateProjects() {
@@ -206,15 +221,15 @@ export class ModelService {
   }
 
   private createProject(project:IProject):Project {
-    return new Project(project, this)
+    const newProject = new Project(project, this)
+    newProject.id = this.projectID++
+    return newProject
   }
 
   public addProject(clientNr:number):Project {
     const client:IClient = this.getClientByNr(clientNr),
-        invoiceNr:string = [client.nr, client.projects.length + 1, 0, 0].join('.'), // todo: fix
         project:Project = this.createProject(<IProject>{
           clientNr: client.nr,
-          invoiceNr,
           quotationDate: dateTimeToDate(),
           lines: [{amount:0, description:'', hours:0, vat:INVOICE.VAT_DEFAULT}]
         })
@@ -243,10 +258,11 @@ export class ModelService {
     return invoiceNr
   }
 
-  public cloneProject(project:IProject):IProject {
+  public cloneProject(project:IProject):Project {
     const clientNr = project.clientNr
-    const clonedProject:IProject = this.addProject(clientNr)
+    const clonedProject = this.addProject(clientNr)
     Object.assign(clonedProject, {
+      id: this.projectID++,
       description: project.description,
       discount: project.discount,
       hourlyRate: project.hourlyRate,

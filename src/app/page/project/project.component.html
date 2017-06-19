@@ -1,82 +1,84 @@
-<button (click)="clone(project)" class="btn-default float-right">clone</button>
-<h2>{{project?.description}}</h2>
-<section>
-  <dl class="row">
-    <dt>client</dt><dd><a routerLink="/client/{{client?.nr}}">{{client?.name}}</a></dd>
-    <dt>description</dt><dd><input [(ngModel)]="project.description" (ngModelChange)="onNgModelChanged()" /></dd>
-    <!--<dt>invoiceNr</dt><dd><input [(ngModel)]="project.invoiceNr" (ngModelChange)="onNgModelChanged()" /></dd>-->
-    <dt>invoiceNr</dt><dd>{{project?.invoiceNr}}</dd>
-    <dt>hourlyRate</dt><dd><input [(ngModel)]="project.hourlyRate" (ngModelChange)="onNgModelChanged()" type="number" /></dd>
-    <dt>discount</dt><dd><input [(ngModel)]="project.discount" (ngModelChange)="onNgModelChanged()" type="number" /></dd>
-    <dt>discounted rate</dt><dd>{{project.hourlyRate - project.hourlyRate*project.discount*0.01 | number : '1.2-2'}}</dd>
-    <dt>paid</dt><dd><label class="checkbox"><input [(ngModel)]="project.paid" type="checkbox" (ngModelChange)="onNgModelChanged()" /><span></span></label></dd>
-  </dl>
-</section>
-
-<section>
-  <button (click)="onAddLine()" class="btn-primary float-right">add line</button>
-  <h3>lines</h3>
-  <table>
-    <thead><tr>
-      <th>description</th>
-      <th><span class="hidden-xs-down">hours</span><span class="hidden-sm-up">hrs</span></th>
-      <th></th>
-      <th>amount</th>
-      <th>VAT</th>
-      <th></th>
-    </tr></thead>
-    <tbody><tr *ngFor="let line of project?.lines">
-      <td><input [(ngModel)]="line.description" (ngModelChange)="onNgModelChanged()" /></td>
-      <td><input [(ngModel)]="line.hours" (ngModelChange)="onNgModelChanged()" type="number" /></td>
-      <td><small (dblclick)="onClickCalculation(project,line)"><app-currency [amount]="line.hours*project.hourlyRateDiscounted"></app-currency></small></td>
-      <td><input [(ngModel)]="line.amount" (ngModelChange)="onNgModelChanged()" type="number" /></td>
-      <td>
-        <select [(ngModel)]="line.vat" (ngModelChange)="onNgModelChanged()">
-          <option *ngFor="let vat of INVOICE.VAT | object" [value]="vat.value">{{vat.value}}</option>
-        </select>
-      </td>
-      <td><button (click)="onRemoveLine(line)" class="btn-default">&#10006;</button></td>
-    </tr></tbody>
-    <tfoot><tr>
-      <td><strong>Total ex</strong></td>
-      <td>{{project.totalHours}}</td>
-      <td><small><app-currency [amount]="project.totalHours*project.hourlyRateDiscounted"></app-currency></small></td>
-      <td><app-currency [amount]="project.total"></app-currency></td>
-      <td></td>
-      <td></td>
-    </tr><tr>
-      <td><strong>Total incl</strong></td>
-      <td></td>
-      <td></td>
-      <td><app-currency [amount]="project.totalIncDiscounted"></app-currency></td>
-      <td></td>
-      <td></td>
-    </tr></tfoot>
-  </table>
-</section>
-
-<section>
-  <button (click)="onAddInvoice()" class="btn-primary float-right">add invoice</button>
-  <h3>invoices</h3>
-  <ul class="list-unstyled">
-    <li *ngFor="let invoice of project?.invoices; let i = index" class="row">
-      <div class="col-3 col-md-3"><input [(ngModel)]="invoice.date" (ngModelChange)="onNgModelChanged()" type="date" /></div>
-      <div class="col-3 col-md-2"><a routerLink="/client/{{client.nr}}/{{project.invoiceNr}}/{{invoice.type}}{{i!==0?'/'+i:''}}" class="btn btn-sm btn-primary">{{invoice.type}} {{i!==0?i:''}}</a></div>
-      <div class="col-4 col-md-2 form-inline">
-        <label *ngIf="i>0" class="checkbox"><input [(ngModel)]="invoice.interest" type="checkbox" /><span title="add interest"></span></label>
-        <label *ngIf="i>1" class="checkbox"><input [(ngModel)]="invoice.exhortation" type="checkbox" /><span title="exhortation"></span></label>
-      </div>
-      <div class="col-2 col-md-5"><button (click)="onRemoveInvoice(invoice)" class="btn-default">&#10006;</button></div>
-    </li>
-  </ul>
-</section>
-
-<section>
-  <a routerLink="/client/{{client.nr}}/{{project.invoiceNr}}/quotation" class="btn btn-sm btn-primary float-right">show quotation</a>
-  <h3>quotation</h3>
-  <dl class="row">
-    <dt class="col-6">quotationBefore</dt><dd class="col-6"><textarea [(ngModel)]="project.quotationBefore"></textarea></dd>
-    <dt class="col-6">quotationAfter</dt><dd class="col-6"><textarea [(ngModel)]="project.quotationAfter"></textarea></dd>
-    <dt class="col-6">quotationDate</dt><dd class="col-6"><input [(ngModel)]="project.quotationDate" (ngModelChange)="onNgModelChanged()" type="date" /></dd>
-  </dl>
-</section>
+<div *ngIf="project">
+  <button (click)="clone(project)" class="btn-default float-right">clone</button>
+  <h2>{{project?.description}}</h2>
+  <section>
+    <dl class="row">
+      <dt>client</dt><dd><a routerLink="/client/{{client?.nr}}">{{client?.name}}</a></dd>
+      <dt>description</dt><dd><input [(ngModel)]="project.description" (ngModelChange)="onNgModelChanged()" /></dd>
+      <!--<dt>invoiceNr</dt><dd><input [(ngModel)]="project.invoiceNr" (ngModelChange)="onNgModelChanged()" /></dd>-->
+      <dt>invoiceNr</dt><dd>{{project?.invoiceNr}}</dd>
+      <dt>hourlyRate</dt><dd><input [(ngModel)]="project.hourlyRate" (ngModelChange)="onNgModelChanged()" type="number" /></dd>
+      <dt>discount</dt><dd><input [(ngModel)]="project.discount" (ngModelChange)="onNgModelChanged()" type="number" /></dd>
+      <dt>discounted rate</dt><dd>{{project.hourlyRate - project.hourlyRate*project.discount*0.01 | number : '1.2-2'}}</dd>
+      <dt>paid</dt><dd><label class="checkbox"><input [(ngModel)]="project.paid" type="checkbox" (ngModelChange)="onNgModelChanged()" /><span></span></label></dd>
+    </dl>
+  </section>
+  
+  <section>
+    <button (click)="onAddLine()" class="btn-primary float-right">add line</button>
+    <h3>lines</h3>
+    <table>
+      <thead><tr>
+        <th>description</th>
+        <th><span class="hidden-xs-down">hours</span><span class="hidden-sm-up">hrs</span></th>
+        <th></th>
+        <th>amount</th>
+        <th>VAT</th>
+        <th></th>
+      </tr></thead>
+      <tbody><tr *ngFor="let line of project?.lines">
+        <td><input [(ngModel)]="line.description" (ngModelChange)="onNgModelChanged()" /></td>
+        <td><input [(ngModel)]="line.hours" (ngModelChange)="onNgModelChanged()" type="number" /></td>
+        <td><small (dblclick)="onClickCalculation(project,line)"><app-currency [amount]="line.hours*project.hourlyRateDiscounted"></app-currency></small></td>
+        <td><input [(ngModel)]="line.amount" (ngModelChange)="onNgModelChanged()" type="number" /></td>
+        <td>
+          <select [(ngModel)]="line.vat" (ngModelChange)="onNgModelChanged()">
+            <option *ngFor="let vat of INVOICE.VAT | object" [value]="vat.value">{{vat.value}}</option>
+          </select>
+        </td>
+        <td><button (click)="onRemoveLine(line)" class="btn-default">&#10006;</button></td>
+      </tr></tbody>
+      <tfoot><tr>
+        <td><strong>Total ex</strong></td>
+        <td>{{project.totalHours}}</td>
+        <td><small><app-currency [amount]="project.totalHours*project.hourlyRateDiscounted"></app-currency></small></td>
+        <td><app-currency [amount]="project.total"></app-currency></td>
+        <td></td>
+        <td></td>
+      </tr><tr>
+        <td><strong>Total incl</strong></td>
+        <td></td>
+        <td></td>
+        <td><app-currency [amount]="project.totalIncDiscounted"></app-currency></td>
+        <td></td>
+        <td></td>
+      </tr></tfoot>
+    </table>
+  </section>
+  
+  <section>
+    <button (click)="onAddInvoice()" class="btn-primary float-right">add invoice</button>
+    <h3>invoices</h3>
+    <ul class="list-unstyled">
+      <li *ngFor="let invoice of project?.invoices; let i = index" class="row">
+        <div class="col-3 col-md-3"><input [(ngModel)]="invoice.date" (ngModelChange)="onNgModelChanged()" type="date" /></div>
+        <div class="col-3 col-md-2"><a routerLink="{{project.uri}}/{{invoice.type}}{{i!==0?'/'+i:''}}" class="btn btn-sm btn-primary">{{invoice.type}} {{i!==0?i:''}}</a></div>
+        <div class="col-4 col-md-2 form-inline">
+          <label *ngIf="i>0" class="checkbox"><input [(ngModel)]="invoice.interest" type="checkbox" /><span title="add interest"></span></label>
+          <label *ngIf="i>1" class="checkbox"><input [(ngModel)]="invoice.exhortation" type="checkbox" /><span title="exhortation"></span></label>
+        </div>
+        <div class="col-2 col-md-5"><button (click)="onRemoveInvoice(invoice)" class="btn-default">&#10006;</button></div>
+      </li>
+    </ul>
+  </section>
+  
+  <section>
+    <a routerLink="{{project.uri}}/quotation" class="btn btn-sm btn-primary float-right">show quotation</a>
+    <h3>quotation</h3>
+    <dl class="row">
+      <dt class="col-6">quotationBefore</dt><dd class="col-6"><textarea [(ngModel)]="project.quotationBefore"></textarea></dd>
+      <dt class="col-6">quotationAfter</dt><dd class="col-6"><textarea [(ngModel)]="project.quotationAfter"></textarea></dd>
+      <dt class="col-6">quotationDate</dt><dd class="col-6"><input [(ngModel)]="project.quotationDate" (ngModelChange)="onNgModelChanged()" type="date" /></dd>
+    </dl>
+  </section>
+</div>

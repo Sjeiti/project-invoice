@@ -1,7 +1,6 @@
 import {Component, OnInit, OnDestroy} from '@angular/core'
 import {Router, ActivatedRoute} from '@angular/router'
 import {IClient} from '../../interface/client'
-import {IProject} from '../../interface/project'
 import {Saveable} from '../../abstract/saveable'
 import {ModelService} from '../../model/model.service'
 import {modelAction, modelAble} from '../../signals'
@@ -38,8 +37,8 @@ export class ClientComponent extends Saveable implements OnInit, OnDestroy {
     super.ngOnInit()
     this.subscription = this.route.params.subscribe(params => {
        this.clientNr = params['clientNr']<<0
+    this.client = this.setModel(this.modelService.getClientByNr(this.clientNr)) as IClient
     })
-    this.client = <IClient>this.setModel(this.modelService.getClientByNr(this.clientNr))
   }
 
   ngOnDestroy() {
@@ -54,12 +53,12 @@ export class ClientComponent extends Saveable implements OnInit, OnDestroy {
   }
 
   onAddProject() {
-    let project:IProject = this.modelService.addProject(this.clientNr)
-    this.router.navigate(['/client/'+this.clientNr+'/'+project.invoiceNr])
+    let project = this.modelService.addProject(this.clientNr)
+    this.router.navigate([project.uri])
   }
 
-  protected cloneModel():any {
-    this.client = <IClient>super.cloneModel()
+  protected cloneModel():IClient {
+    this.client = super.cloneModel() as IClient
     return this.client
   }
 
