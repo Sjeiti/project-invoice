@@ -1,6 +1,6 @@
 import {IClient} from './client'
 
-export interface IStoreData {
+export interface IData {
   clients: IClient[]
   copy: any[]
   personal: any

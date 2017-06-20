@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core'
 import {InterpolationService} from '../service/interpolation.service'
 import {IConfig} from '../interface/config'
-import {IStoreData} from '../interface/store-data'
+import {IData} from '../interface/store-data'
 import {IClient} from '../interface/client'
 import {IProject} from '../interface/project'
 import {Project} from './project'
@@ -19,7 +19,7 @@ declare const localStorage:any
 export class ModelService {
 
   private dataName = 'data'
-  private data:IStoreData
+  private data:IData
 
   private configName = 'config'
   public config:IConfig
@@ -85,11 +85,11 @@ export class ModelService {
 
   //////////////////////////////////////////////////
 
-  getData():IStoreData {
+  getData():IData {
     return this.data
   }
 
-  setData(data:IStoreData):IStoreData {
+  setData(data:IData):IData {
     return this.initData(this.saveData(data))
   }
 
@@ -101,7 +101,7 @@ export class ModelService {
     return this.data.personal
   }
 
-  private initData(data:IStoreData):IStoreData {
+  private initData(data:IData):IData {
     this.data = data
     this.clients = data.clients = data.clients.map(client=>this.createClient(client))
     this.clients.forEach(client=> {
@@ -141,11 +141,15 @@ export class ModelService {
     return data
   }
 
-  private saveData(data:IStoreData):IStoreData {
+  private saveData(data:IData):IData {
     const dataToStore = this.setTimestamp(_.cloneDeep(data))
     //
+    // delete properties to prevent circular references in json (non-enumerability does not work due to template references)
     dataToStore.clients.forEach(client=>client.projects.forEach(project=>{
       delete project.modelService
+      delete project.config
+      delete project.data
+      delete project.copy
     }))
     //
     localStorage.setItem(this.dataName, JSON.stringify(dataToStore))

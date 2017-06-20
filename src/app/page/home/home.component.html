@@ -16,7 +16,7 @@
       </tr></thead>
       <tbody>
         <tr
-            *ngFor="let project of projects | arrayFilter:'!paid' | arraySort:'-timestampLatest' "
+            *ngFor="let project of projects | arrayFilter:'!paid':'invoiceNum' | arraySort:'-timestampLatest' "
             class="row-select ng-scope"
             [ngClass]="{'row-select':true,'alert-paid':project.paid,'alert-late':project.isLate,'alert-pending':project.isPending}"
             title="{{project.invoiceNr}} {{project.date | date:dateFormat}} {{project.description}}"
@@ -28,7 +28,7 @@
           </td>
           <td><a routerLink="{{project.uri}}">{{modelService.getClientByNr(project.clientNr).name}}</a></td>
           <td class="text-right">{{project.totalIncDiscounted | currency:'EUR':true}}</td>
-          <td><button (click)="onAddReminder(project)" class="btn btn-sm btn-primary">Add reminder</button></td>
+          <td><button *ngIf="project.overdue" (click)="onAddReminder(project)" class="btn btn-sm btn-primary">Add reminder</button></td>
         </tr>
       </tbody>
     </table>

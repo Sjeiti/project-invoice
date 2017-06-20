@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core'
 import {ModelService} from '../../model/model.service'
 import {Saveable} from '../../abstract/saveable'
 import {IConfig} from '../../interface/config'
-import {IStoreData} from '../../interface/store-data'
+import {IData} from '../../interface/store-data'
 
 import {IClient} from '../../interface/client'
 import {Client} from '../../model/client'
@@ -77,7 +77,7 @@ export class SettingsComponent extends Saveable implements OnInit, OnDestroy {
         if (type==='config') {
           this.settings = this.setModel(this.modelService.setConfig(<IConfig>resultData))
         } else if (type==='data') {
-          this.modelService.setData(<IStoreData>resultData)
+          this.modelService.setData(<IData>resultData)
         }
       }
       target.value = null

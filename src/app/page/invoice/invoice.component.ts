@@ -49,9 +49,10 @@ export class InvoiceComponent implements OnInit {
       this.client = this.modelService.getClientByNr(clientNr)
       //
       this.project = this.modelService.getProject(clientNr, projectIndex)
-      this.reminderNr = params.hasOwnProperty('reminderNr')?params.reminderNr<<0:0
+      const hasReminderNr = params.hasOwnProperty('reminderNr')
+      this.reminderNr = hasReminderNr?params.reminderNr<<0:0
       this.invoice = this.project.invoices[this.reminderNr]
-      this.invoiceName = 'invoice' + this.project.invoiceNr + '_' + this.invoice.type
+      this.invoiceName = 'invoice' + this.project.invoiceNr + '_' + (this.invoice&&this.invoice.type)
     })
     this.populateIframe()
         .then(cssCompiled.add.bind(cssCompiled, this.onCssCompiled.bind(this)))

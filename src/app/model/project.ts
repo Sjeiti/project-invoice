@@ -6,6 +6,7 @@ import {ModelService} from './model.service'
 import {Client} from './client'
 import {dontEnumerateAccessors} from '../mixins'
 import {projectSort} from '../util/project'
+import {IData} from '../interface/store-data'
 
 export class Project implements IProject {
 
@@ -25,6 +26,7 @@ export class Project implements IProject {
   quotationDuration = 1
   private personal:any
   private copy:any
+  private data:IData
   private config:any
   private datePipe:DatePipe
 
@@ -55,6 +57,7 @@ export class Project implements IProject {
     this.datePipe = new DatePipe('en')
     this.personal = this.modelService.getPersonal()
     this.copy = this.modelService.getCopy()
+    this.data = this.modelService.getData()
     this.config = this.modelService.getConfig()
   }
 
@@ -64,6 +67,10 @@ export class Project implements IProject {
 
   get invoiceNr():string {
     return this.modelService.calculateInvoiceNr(this) // todo move method to here
+  }
+
+  get invoiceNum():number {
+    return this.invoices.length
   }
 
   get total():number {
@@ -177,6 +184,12 @@ export class Project implements IProject {
 
   get uri():string {
     return `/client/${this.clientNr}/${this.indexOnClient+1}`
+  }
+
+  get overdue():boolean {
+    const dateDiff = +new Date() - +this.dateLatest
+    const dateDiffDays = dateDiff/(1000*60*60*24)
+    return dateDiffDays>this.data.personal.reminderPeriod
   }
 
 }
