@@ -1,6 +1,6 @@
 {
   "name": "project-invoice",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -15,6 +15,14 @@
     "version:cache": "next-version src/invoice.appcache",
     "version:minor": "npm run version -- --minor",
     "version:major": "npm run version -- --major",
+    "icon": "npm run icon:fav & npm run icon:iosstart & npm run icon:ios57 & npm run icon:ios72 & npm run icon:ios114 & npm run icon:android196 & npm run icon:android128",
+    "icon:fav": "svg2png src/static/img/logo.svg --output=src/static/img/favicon.png --width=16 --height=16 --overwrite",
+    "icon:iosstart": "svg2png src/static/img/logo.svg --output=src/static/img/icon-320x460.png --width=320 --height=460 --overwrite",
+    "icon:ios57": "svg2png src/static/img/logo.svg --output=src/static/img/icon-57x57.png --width=57 --height=57 --overwrite",
+    "icon:ios72": "svg2png src/static/img/logo.svg --output=src/static/img/icon-72x72.png --width=72 --height=72 --overwrite",
+    "icon:ios114": "svg2png src/static/img/logo.svg --output=src/static/img/icon-114x114.png --width=114 --height=114 --overwrite",
+    "icon:android196": "svg2png src/static/img/logo.svg --output=src/static/img/icon-196x196.png --width=196 --height=196 --overwrite",
+    "icon:android128": "svg2png src/static/img/logo.svg --output=src/static/img/icon-128x128.png --width=128 --height=128 --overwrite",
     "markdown": "showdown makehtml -i README.md -o temp/bar.html",
     "sw": "sw-precache --root=dist/ --config=sw-precache-config.js"
   },
@@ -66,6 +74,7 @@
     "pre-commit": "^1.2.2",
     "protractor": "~5.1.2",
     "showdown": "^1.7.1",
+    "svg2png": "^4.1.1",
     "ts-node": "~3.0.4",
     "tslint": "~5.3.2",
     "typescript": "^2.3.4",
