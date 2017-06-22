@@ -4,7 +4,7 @@ import {ModelService} from '../../model/model.service'
 import {Project} from '../../model/project'
 import {IClient} from '../../interface/client'
 import {IInvoice} from '../../interface/invoice'
-import {cssCompiled} from '../../signals'
+import {sassCompiled} from '../../signals'
 
 @Component({
   selector: 'app-invoice',
@@ -55,7 +55,7 @@ export class InvoiceComponent implements OnInit {
       this.invoiceName = 'invoice' + this.project.invoiceNr + '_' + (this.invoice&&this.invoice.type)
     })
     this.populateIframe()
-        .then(cssCompiled.add.bind(cssCompiled, this.onCssCompiled.bind(this)))
+        .then(sassCompiled.add.bind(sassCompiled, this.onCssCompiled.bind(this)))
   }
 
   /**

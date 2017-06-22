@@ -8,7 +8,7 @@ import {IClient} from '../../interface/client'
 import {Client} from '../../model/client'
 import {Project} from '../../model/project'
 import * as dummyData from '../../dummy/data'
-import {cssChanged} from '../../signals'
+import {sassChanged} from '../../signals'
 
 @Component({
   selector: 'app-settings',
@@ -47,12 +47,12 @@ export class SettingsComponent extends Saveable implements OnInit, OnDestroy {
     this.client = client
     this.project = client&&client.projects.slice(0).pop()
     this.invoice = this.project.invoices.slice(0).shift()
-    cssChanged.dispatch(this.settings.invoiceCSS)
-    setTimeout(cssChanged.dispatch.bind(cssChanged, this.settings.invoiceCSS))
+    sassChanged.dispatch(this.settings.invoiceCSS)
+    setTimeout(sassChanged.dispatch.bind(sassChanged, this.settings.invoiceCSS))
   }
 
   ngOnDestroy(){
-    cssChanged.dispatch()
+    sassChanged.dispatch()
   }
 
   onClickDownload(e:any, type:string){
@@ -90,17 +90,17 @@ export class SettingsComponent extends Saveable implements OnInit, OnDestroy {
     }
   }
 
-  onChangeCSS(css:string){
-    cssChanged.dispatch(css)
+  onChangeSass(sass:string){
+    sassChanged.dispatch(sass)
   }
 
-  onSelectCSS(e:Event){
+  onSelectSass(e:Event){
     const target:HTMLTextAreaElement = e.target as HTMLTextAreaElement
     this.selectStart = target.selectionStart
     this.selectEnd = target.selectionEnd
   }
 
-  onBlurCSS(){
+  onBlurSass(){
     this.blurTimeoutId = window.setTimeout(()=>{
       this.selectStart = -1
       this.selectEnd = -1
@@ -125,7 +125,7 @@ export class SettingsComponent extends Saveable implements OnInit, OnDestroy {
         target.value = null
         const s = this.settings.invoiceCSS
         this.settings.invoiceCSS = s.substr(0, this.selectStart) + result + s.substr(this.selectEnd)
-        cssChanged.dispatch(this.settings.invoiceCSS)
+        sassChanged.dispatch(this.settings.invoiceCSS)
         this.onNgModelChanged()
         this.selectStart = -1
         this.selectEnd = -1
@@ -139,7 +139,7 @@ export class SettingsComponent extends Saveable implements OnInit, OnDestroy {
 
   onRevert(){
     super.onRevert()
-    cssChanged.dispatch()
+    sassChanged.dispatch()
   }
 
   protected cloneModel():any {

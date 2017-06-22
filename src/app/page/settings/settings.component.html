@@ -25,7 +25,7 @@
 <section>
   <dl class="row">
     <dt class="name wide">invoiceCSS</dt><dd>
-      <textarea class="sass" rows="16" [(ngModel)]="settings.invoiceCSS" (ngModelChange)="onNgModelChanged();onChangeCSS(settings.invoiceCSS)" (select)="onSelectCSS($event)" (change)="onSelectCSS($event)" (click)="onSelectCSS($event)" (keyup)="onSelectCSS($event)" (blur)="onBlurCSS()"></textarea>
+      <textarea class="sass" rows="16" [(ngModel)]="settings.invoiceCSS" (ngModelChange)="onNgModelChanged();onChangeSass(settings.invoiceCSS)" (select)="onSelectSass($event)" (change)="onSelectSass($event)" (click)="onSelectSass($event)" (keyup)="onSelectSass($event)" (blur)="onBlurSass()"></textarea>
       <label class="btn btn-secondary btn-sm">add image<input accept="image/gif, image/jpg, image/jpeg, image/png, .gif, .jpg, .jpeg, .png" type="file" (focus)="onFocusImageInput()" (change)="onChangeImage($event)" class="visually-hidden" /></label>
     </dd>
     

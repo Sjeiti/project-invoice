@@ -6,7 +6,7 @@ import {ModelService} from '../../model/model.service'
 import {LocalisationService} from '../../service/localisation.service'
 import {InterpolationService} from '../../service/interpolation.service'
 import {CurrencyFormat} from '../../filter/currency-format.pipe'
-import {cssChanged, cssCompiled} from '../../signals'
+import {sassChanged, sassCompiled} from '../../signals'
 
 @Component({
   selector: 'app-print-invoice',
@@ -50,19 +50,23 @@ export class PrintInvoiceComponent implements OnInit, OnDestroy {
     this.config = this.modelService.getConfig()
     this.localisationService.addExtra(this.project, 'project')
     this.localisationService.addExtra(this.client, 'client')
-    this.setCustomStyle()
-    this.binds = [this.setCustomStyle.bind(this)].map(bind=>{
-      cssChanged.add(bind)
+    //
+    this.cloneStyleElement()
+    const css = localStorage.getItem('css')
+    css&&this.setStyle(css)||this.sassCompile()
+    //
+    this.binds = [this.sassCompile.bind(this)].map(bind=>{
+      sassChanged.add(bind)
       return bind
     })
     this.isQuotation = /\/client\/\d+\/\d+\/quotation/.test(location.href)
   }
 
   ngOnDestroy(){
-    this.binds.forEach(bind=>cssChanged.remove(bind))
+    this.binds.forEach(bind=>sassChanged.remove(bind))
   }
 
-  private setCustomStyle(css:string = null){
+  private cloneStyleElement(){
     this.styleClone = document.getElementById('invoiceCSS') as HTMLStyleElement
     !this.styleClone&&Array.from(document.querySelectorAll('style')).forEach(style=>{
       if (style.innerText==='{{config.invoiceCSS}}') {
@@ -71,14 +75,22 @@ export class PrintInvoiceComponent implements OnInit, OnDestroy {
         this.elementRef.nativeElement.querySelector('.invoice').appendChild(this.styleClone)
       }
     })
-    this.sass.compile(css||this.config.invoiceCSS, this.onSassCompiled.bind(this))
   }
 
-  private onSassCompiled(result){
-    if (result.status===0){
-      this.styleClone.textContent = result.text
-      cssCompiled.dispatch(result.text)
+  private sassCompile(sass:string = null){
+    this.sass.compile(sass||this.config.invoiceCSS, this.onSassCompiled.bind(this))
+  }
+
+  private onSassCompiled({status, text}){
+    if (status===0){
+      this.setStyle(text)
+      localStorage.setItem('css', text)
+      sassCompiled.dispatch(text)
     }
+  }
+
+  private setStyle(css:string) {
+      this.styleClone.textContent = css
   }
 
   parse(key){
