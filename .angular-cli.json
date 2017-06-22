@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
-    "version": "1.3.1",
+    "version": "1.3.3",
     "name": "project-invoice"
   },
   "apps": [
@@ -11,7 +11,9 @@
       "assets": [
         "assets",
         "static",
-        "favicon.ico"
+        "favicon.ico",
+        "invoice.appcache",
+        ".htaccess"
       ],
       "index": "index.html",
       "main": "main.ts",
