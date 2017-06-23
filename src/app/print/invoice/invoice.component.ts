@@ -99,7 +99,7 @@ export class PrintInvoiceComponent implements OnInit, OnDestroy {
       this.css = css
     }
     if (!settings){
-      settings = this.settings
+      settings = this.config
     }
     this.styleClone.textContent = `html {
   --main-bg-color: ${settings.themeMainBgColor};
