@@ -56,7 +56,7 @@ export class InterpolationUIComponent implements OnInit, ControlValueAccessor {
       private localisationService:LocalisationService
   ) {
     const client = new Client(<IClient>dummyData.default.clients[0])
-    client.projects = client&&client.projects.map(project=>new Project(project, modelService))
+    client.projects = client&&client.projects.map(project=>new Project(project, client, modelService))
     const project = client&&client.projects.slice(0).pop(),
         invoice = project.invoices.slice(0).shift(),
         data = modelService.getData().personal,

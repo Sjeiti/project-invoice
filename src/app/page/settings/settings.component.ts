@@ -40,7 +40,7 @@ export class SettingsComponent extends Saveable implements OnInit, OnDestroy {
     this.settings = this.setModel(this.modelService.getConfig())
     //
     const client = new Client(<IClient>dummyData.default.clients[0])
-    client.projects = client&&client.projects.map(project=>new Project(project, this.modelService))
+    client.projects = client&&client.projects.map(project=>new Project(project, client, this.modelService))
     this.client = client
     this.project = client&&client.projects.slice(0).pop()
     this.invoice = this.project.invoices.slice(0).shift()

@@ -26,7 +26,7 @@
               <input [(ngModel)]="project.paid" (change)="onPaidChange()" type="checkbox" /><span></span>
             </label>
           </td>
-          <td><a routerLink="{{project.uri}}">{{modelService.getClientByNr(project.clientNr).name}}</a></td>
+          <td><a routerLink="{{project.uri}}">{{project.client.name}}</a></td>
           <td class="text-right">{{project.totalIncDiscounted | currency:'EUR':true}}</td>
           <td><button *ngIf="project.overdue" (click)="onAddReminder(project)" class="btn btn-sm btn-primary">Add reminder</button></td>
         </tr>

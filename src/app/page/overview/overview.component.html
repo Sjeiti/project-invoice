@@ -19,7 +19,7 @@
         <td><a routerLink="{{project.uri}}">{{project.invoiceNr}}</a></td>
         <td><small>{{project.date | date:dateFormat}}</small></td>
         <td><small>{{project.dateLatest | date:dateFormat}}</small></td>
-        <td>{{modelService.getClientByNr(project.clientNr).name}}</td>
+        <td>{{project.client.name}}</td>
         <td>{{project.description}}</td>
         <td class="text-right">{{project.totalIncDiscounted | currency:'EUR':true}}</td>
       </tr>

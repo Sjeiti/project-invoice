@@ -21,7 +21,7 @@
       <tr *ngFor="let project of quarter | arraySort:'date'" class="row-select">
         <td><a routerLink="{{project.uri}}">{{project.invoiceNr}}</a></td>
         <td><small>{{project.date | date:dateFormat}}</small></td>
-        <td class="text-overflow">{{modelService.getClientByNr(project.clientNr).name}}</td>
+        <td class="text-overflow">{{project.client.name}}</td>
         <td class="text-overflow">{{project.description}}</td>
         <td class="text-right">{{project.totalDiscounted | currency:'EUR':true}}</td>
         <td class="text-right">{{project.totalVatDiscounted | currency:'EUR':true}}</td>

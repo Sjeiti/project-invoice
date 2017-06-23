@@ -81,7 +81,7 @@ export class QuarterComponent implements OnInit {
 
   onClickCsv(quarter:IProject[]) {
     const parsed = quarter.map(project=>{
-      const client = this.modelService.getClientByNr(project.clientNr),
+      const client = (project as Project).client,
         invoice = project.invoices.slice(0).shift(),
         currencyPipe = new CurrencyFormat(),
         data = this.modelService.getData().personal,

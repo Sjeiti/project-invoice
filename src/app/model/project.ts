@@ -29,40 +29,42 @@ export class Project implements IProject {
   private data:IData
   private config:any
   private datePipe:DatePipe
+  private _client:Client
 
   private startValue:any[] = [0]
 
   /**
    * Project constructor
    * Since projects are saved by JSON.stringify all accessors are set to non-enumerable.
-   * The injected service should also be non-enumerable but that would break certain template references (mainly project.uri).
-   * So modelService is deleted right before saving (@see ModelService::saveData)
+   * Not enumerating certain private variables does not work due to interpolation and Zone errors.
+   * So we're still forced to delete some properties on save (@see ModelService::saveData).
    * @param model
+   * @param forClient:Client
    * @param modelService
    */
   constructor(
       model:IProject,
+      forClient:Client,
       public modelService:ModelService
   ) {
-    // Object.defineProperty(this, 'modelService', { enumerable:false, value:modelService })
+    Object.defineProperty(this, 'copy', { enumerable:false, value:this.modelService.getCopy() })
+    Object.defineProperty(this, 'config', { enumerable:false, value:this.modelService.getConfig() })
+    Object.defineProperty(this, 'data', { enumerable:false, value:this.modelService.getData() })
+    // cannot do this for modelService, personal and _client
     dontEnumerateAccessors(this)
+    //
     for (let name in model) {
       if (model.hasOwnProperty(name)) {
-        // const descriptor = Object.getOwnPropertyDescriptor(model, name)
-        // if (descriptor.set||descriptor.writable) {
-          this[name] = model[name]
-        // }
+        this[name] = model[name]
       }
     }
     this.datePipe = new DatePipe('en')
     this.personal = this.modelService.getPersonal()
-    this.copy = this.modelService.getCopy()
-    this.data = this.modelService.getData()
-    this.config = this.modelService.getConfig()
+    this._client = forClient
   }
 
   clone(){
-    return new Project(this, this.modelService)
+    return new Project(this, this.client, this.modelService)
   }
 
   get invoiceNr():string {
@@ -137,7 +139,7 @@ export class Project implements IProject {
    * @returns {number}
    */
   get indexOnClient():number {
-    const client = this.modelService.getClientByNr(this.clientNr) as Client,
+    const client = this.client,
         projects = client&&client.sortProjects()||[]
     let index = -1
     projects.forEach((project, i)=>{
@@ -184,6 +186,10 @@ export class Project implements IProject {
 
   get uri():string {
     return `/client/${this.clientNr}/${this.indexOnClient+1}`
+  }
+
+  get client():Client {
+    return this._client
   }
 
   get overdue():boolean {

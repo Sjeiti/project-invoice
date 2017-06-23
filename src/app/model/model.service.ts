@@ -109,11 +109,10 @@ export class ModelService {
       client.nr = client.nr<<0
       // alter project input
       // invoiceNr removed from json after v1.2.13 (1.3.0)
-      client.projects.forEach(project=>{
-        delete project.invoiceNr
-      })
+      client.projects.forEach(project=>delete project.invoiceNr)
       // create project instances
-      client.projects = <IProject[]>client.projects.map(this.createProject.bind(this))
+      // client.projects = <IProject[]>client.projects.map(this.createProject.bind(this))
+      client.projects = <IProject[]>client.projects.map(project=>this.createProject(project, client))
     })
     // create all projects
     this.updateProjects()
@@ -147,9 +146,7 @@ export class ModelService {
     // delete properties to prevent circular references in json (non-enumerability does not work due to template references)
     dataToStore.clients.forEach(client=>client.projects.forEach(project=>{
       delete project.modelService
-      delete project.config
-      delete project.data
-      delete project.copy
+      delete project._client // well that sucks
     }))
     //
     localStorage.setItem(this.dataName, JSON.stringify(dataToStore))
@@ -224,8 +221,8 @@ export class ModelService {
       .reduce((prev, curr)=>prev.concat(curr))
   }
 
-  private createProject(project:IProject):Project {
-    const newProject = new Project(project, this)
+  private createProject(project:IProject, client:Client):Project {
+    const newProject = new Project(project, client, this)
     newProject.id = this.projectID++
     return newProject
   }
@@ -236,15 +233,21 @@ export class ModelService {
           clientNr: client.nr,
           quotationDate: dateTimeToDate(),
           lines: [{amount:0, description:'', hours:0, vat:INVOICE.VAT_DEFAULT}]
-        })
+        }, client as Client)
     client.projects.push(project)
     this.updateProjects()
     this.save()
     return project
   }
 
+  /**
+   * Remove a project
+   * @param {IProject} project
+   * @returns {boolean}
+   * @todo make param Project
+   */
   public removeProject(project:IProject):boolean {
-    let client:IClient = this.getClientByNr(project.clientNr),
+    let client:IClient = (project as Project).client,
         projects:IProject[] = client.projects,
         numProjects:number = projects.length
     _.pull(client.projects, project)
@@ -255,9 +258,8 @@ export class ModelService {
   }
 
   public calculateInvoiceNr(project:Project):string {
-    let client:IClient = this.getClientByNr(project.clientNr),
-        projectNumberTemplate = (<any>this.config).projectNumberTemplate,
-        model = {project, client},
+    let projectNumberTemplate = (<any>this.config).projectNumberTemplate,
+        model = {project, client: project.client},
         invoiceNr = this.interpolationService.parse(projectNumberTemplate, model)
     return invoiceNr
   }
