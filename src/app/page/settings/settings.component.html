@@ -17,34 +17,17 @@
     </dd>
   </dl>
 </section>
-<section class="float-right">
-  <div class="invoice-shade"><div></div></div>
-  <app-print-invoice [client]="client" [project]="project" [invoice]="invoice"></app-print-invoice>
-  <app-lang class="float-right"></app-lang>
-</section>
 <section>
   <dl class="row">
-    <dt class="name wide">invoiceCSS</dt><dd>
-      <textarea class="sass" rows="16" [(ngModel)]="settings.invoiceCSS" (ngModelChange)="onNgModelChanged();onChangeSass(settings.invoiceCSS)" (select)="onSelectSass($event)" (change)="onSelectSass($event)" (click)="onSelectSass($event)" (keyup)="onSelectSass($event)" (blur)="onBlurSass()"></textarea>
-      <label class="btn btn-secondary btn-sm">add image<input accept="image/gif, image/jpg, image/jpeg, image/png, .gif, .jpg, .jpeg, .png" type="file" (focus)="onFocusImageInput()" (change)="onChangeImage($event)" class="visually-hidden" /></label>
-    </dd>
-    
     <dt class="name">projectNumberTemplate</dt><dd>
       <app-interpolationui [(ngModel)]="settings.projectNumberTemplate" (ngModelChange)="onNgModelChanged()"></app-interpolationui>
     </dd>
-    
     <dt class="name">csvTemplate</dt><dd>
       <app-interpolationui [(ngModel)]="settings.csvTemplate" (ngModelChange)="onNgModelChanged()"></app-interpolationui>
     </dd>
-    
     <dt class="name">langs</dt><dd>
       <textarea rows="4" [(ngModel)]="settings.langs" (ngModelChange)="onNgModelChanged()"></textarea>
     </dd>
-    
-    <dt class="name">csvTemplate</dt><dd>
-      <app-interpolationui [(ngModel)]="settings.csvTemplate" (ngModelChange)="onNgModelChanged()"></app-interpolationui>
-    </dd>
-    
     <dt class="name">welcome message</dt><dd>
       <input type="checkbox" [(ngModel)]="settings.homeMessage" (ngModelChange)="onNgModelChanged()" />
     </dd>

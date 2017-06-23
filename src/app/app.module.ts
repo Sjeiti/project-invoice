@@ -32,6 +32,7 @@ import {ProjectComponent} from './page/project/project.component'
 import {InvoiceComponent} from './page/invoice/invoice.component'
 import {PrintInvoiceComponent} from './print/invoice/invoice.component'
 import {SettingsComponent} from './page/settings/settings.component'
+import {LayoutComponent} from './page/layout/layout.component'
 import {DataComponent} from './page/data/data.component'
 import {CopyComponent} from './page/copy/copy.component'
 import {AboutComponent} from './page/about/about.component'
@@ -67,6 +68,7 @@ import {InterpolationUIComponent} from './component/interpolationUI/interpolatio
     ClientComponent,
     ProjectComponent,
     SettingsComponent,
+    LayoutComponent,
     DataComponent,
     CopyComponent,
     AboutComponent,

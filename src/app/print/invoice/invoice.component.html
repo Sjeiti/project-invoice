@@ -1,18 +1,20 @@
-<div class="invoice">
+<div class="invoice" ngClass="{{config.theme}}">
   <link href='https://fonts.googleapis.com/css?family=Droid+Sans+Mono|Istok+Web:400,400italic,700,700italic' rel='stylesheet' type='text/css'/>
   <style>{{config.invoiceCSS}}</style>
   <header>
     <div class="page">
       <div class="wrapper block clearfix">
-        <div id="logo"></div>
-        <div class="left client" [innerHTML]="parse('receiver') | safeHtml"></div>
-        <div class="right text-right" [innerHTML]="parse('sender') | safeHtml"></div>
+        <div class="float-left client" [innerHTML]="parse('receiver') | safeHtml"></div>
+        <div class="float-right you">
+          <div id="logo"></div>
+          <div [innerHTML]="parse('sender') | safeHtml"></div>
+        </div>
       </div>
     </div>
   </header>
   <div class="page">
     <div class="wrapper block clearfix">
-      <dl class="float-right text-right">
+      <dl class="float-right date">
         <dt>{{__('date')}}</dt>
         <dd>{{(isQuotation?project.quotationDate:invoice.date) | date:copy.dateFormat[config.lang]}}</dd>
       </dl>

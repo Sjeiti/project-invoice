@@ -6,7 +6,8 @@ import {ModelService} from '../../model/model.service'
 import {LocalisationService} from '../../service/localisation.service'
 import {InterpolationService} from '../../service/interpolation.service'
 import {CurrencyFormat} from '../../filter/currency-format.pipe'
-import {sassChanged, sassCompiled} from '../../signals'
+import {sassChanged, sassCompiled, cssVariablesChanged} from '../../signals'
+import {IConfig} from '../../interface/config'
 
 @Component({
   selector: 'app-print-invoice',
@@ -22,11 +23,14 @@ export class PrintInvoiceComponent implements OnInit, OnDestroy {
   client:IClient
   @Input()
   invoice:IInvoice
+  @Input()
+  settings:IConfig
 
   copy:any
   binds:any[]
   personal:any
   config:any
+  css:string
   __:Function
 
   isQuotation = false
@@ -47,7 +51,7 @@ export class PrintInvoiceComponent implements OnInit, OnDestroy {
   ngOnInit(){
     this.copy = this.modelService.getCopy()
     this.personal = this.modelService.getPersonal()
-    this.config = this.modelService.getConfig()
+    this.config = this.settings||this.modelService.getConfig()
     this.localisationService.addExtra(this.project, 'project')
     this.localisationService.addExtra(this.client, 'client')
     //
@@ -55,6 +59,7 @@ export class PrintInvoiceComponent implements OnInit, OnDestroy {
     const css = localStorage.getItem('css')
     css&&this.setStyle(css)||this.sassCompile()
     //
+    cssVariablesChanged.add(settings=>this.setStyle(null, settings))
     this.binds = [this.sassCompile.bind(this)].map(bind=>{
       sassChanged.add(bind)
       return bind
@@ -89,8 +94,20 @@ export class PrintInvoiceComponent implements OnInit, OnDestroy {
     }
   }
 
-  private setStyle(css:string) {
-      this.styleClone.textContent = css
+  private setStyle(css?:string, settings?:IConfig) {
+    if (css){
+      this.css = css
+    }
+    if (!settings){
+      settings = this.settings
+    }
+    this.styleClone.textContent = `html {
+  --main-bg-color: ${settings.themeMainBgColor};
+  --main-fg-color: ${settings.themeMainFgColor};
+  --secondary-bg-color: ${settings.themeSecondaryBgColor};
+  --secondary-fg-color: ${settings.themeSecondaryFgColor};
+}
+${this.css}`
   }
 
   parse(key){

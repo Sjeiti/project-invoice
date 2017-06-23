@@ -28,9 +28,6 @@ export class SettingsComponent extends Saveable implements OnInit, OnDestroy {
   client:any
   project:any
   invoice:any
-  private blurTimeoutId:number
-  private selectStart = -1
-  private selectEnd = -1
 
   constructor(
       protected modelService:ModelService
@@ -88,53 +85,6 @@ export class SettingsComponent extends Saveable implements OnInit, OnDestroy {
     if (confirm(`Do you really want to clear the ${type}?`)) {
       type==='config'?this.modelService.clearConfig():this.modelService.clearData()
     }
-  }
-
-  onChangeSass(sass:string){
-    sassChanged.dispatch(sass)
-  }
-
-  onSelectSass(e:Event){
-    const target:HTMLTextAreaElement = e.target as HTMLTextAreaElement
-    this.selectStart = target.selectionStart
-    this.selectEnd = target.selectionEnd
-  }
-
-  onBlurSass(){
-    this.blurTimeoutId = window.setTimeout(()=>{
-      this.selectStart = -1
-      this.selectEnd = -1
-    }, 1000)
-  }
-
-  onFocusImageInput(){
-    // console.log('onFocusImageInput'); // todo: remove log
-    clearTimeout(this.blurTimeoutId)
-  }
-
-  onChangeImage(e:Event){
-    // console.log('onChangeImage',this.cssInsertable,this.selectStart,this.selectEnd); // todo: remove log
-    if (this.cssInsertable){
-      clearTimeout(this.blurTimeoutId)
-      const target:HTMLInputElement = e.target as HTMLInputElement
-      const fileReader = new FileReader()
-      const file = target.files[0]
-      fileReader.readAsDataURL(file)
-      fileReader.addEventListener('load', ()=>{
-        const result = fileReader.result
-        target.value = null
-        const s = this.settings.invoiceCSS
-        this.settings.invoiceCSS = s.substr(0, this.selectStart) + result + s.substr(this.selectEnd)
-        sassChanged.dispatch(this.settings.invoiceCSS)
-        this.onNgModelChanged()
-        this.selectStart = -1
-        this.selectEnd = -1
-      })
-    }
-  }
-
-  get cssInsertable(){
-    return this.selectStart!==-1&&this.selectEnd!==-1
   }
 
   onRevert(){

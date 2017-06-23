@@ -49,6 +49,13 @@ input[type=checkbox] {
   width: auto;
 }
 
+input[type=color] {
+  padding: 0;
+  width: 2em;
+  display: inline-block;
+  margin-right: 0.5em;
+}
+
 dl.row {
   dt {
     @extend .col-4;

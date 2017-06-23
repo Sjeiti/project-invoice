@@ -10,6 +10,7 @@ import {ClientComponent} from './page/client/client.component'
 import {ProjectComponent} from './page/project/project.component'
 import {InvoiceComponent} from './page/invoice/invoice.component'
 import {SettingsComponent} from './page/settings/settings.component'
+import {LayoutComponent} from './page/layout/layout.component'
 import {DataComponent} from './page/data/data.component'
 import {CopyComponent} from './page/copy/copy.component'
 import {AboutComponent} from './page/about/about.component'
@@ -28,6 +29,7 @@ const appRoutes:Routes = [
   {path: 'client/:clientNr/:projectIndex/invoice', component: InvoiceComponent},
   {path: 'client/:clientNr/:projectIndex/reminder/:reminderNr', component: InvoiceComponent},
   {path: 'settings', component: SettingsComponent},
+  {path: 'layout', component: LayoutComponent},
   {path: 'data', component: DataComponent},
   {path: 'copy', component: CopyComponent},
   {path: 'about', component: AboutComponent},

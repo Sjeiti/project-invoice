@@ -5,7 +5,7 @@ import {DebugElement} from '@angular/core'
 
 import {SettingsComponent} from './settings.component'
 
-describe('SettingsComponent', ()=> {
+describe('LayoutComponent', ()=> {
   let component:SettingsComponent
   let fixture:ComponentFixture<SettingsComponent>
 

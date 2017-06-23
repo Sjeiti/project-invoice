@@ -1,0 +1,28 @@
+
+<section class="float-right">
+  <div class="invoice-shade"><div></div></div>
+  <app-print-invoice [client]="client" [project]="project" [invoice]="invoice" [settings]="settings"></app-print-invoice>
+  <app-lang class="float-right"></app-lang>
+</section>
+<section>
+  <dl class="row">
+    
+    <dt class="name">Theme</dt><dd>
+      <select [(ngModel)]="settings.theme" (ngModelChange)="onNgModelChanged()">
+        <option *ngFor="let theme of settings.themes" value="{{theme}}">{{theme}}</option>
+      </select>
+    </dd>
+    
+    <dt class="name">Colors</dt><dd>
+      <label><input class="form-control" type="color" (ngModelChange)="onNgModelChanged();onChangeVariables()" [(ngModel)]="settings.themeMainBgColor"/>main background</label>
+      <label><input class="form-control" type="color" (ngModelChange)="onNgModelChanged();onChangeVariables()" [(ngModel)]="settings.themeMainFgColor"/>main foreground</label>
+      <label><input class="form-control" type="color" (ngModelChange)="onNgModelChanged();onChangeVariables()" [(ngModel)]="settings.themeSecondaryBgColor"/>secondary background</label>
+      <label><input class="form-control" type="color" (ngModelChange)="onNgModelChanged();onChangeVariables()" [(ngModel)]="settings.themeSecondaryFgColor"/>secondary foreground</label>
+    </dd>
+    
+    <dt class="name wide">invoiceCSS</dt><dd>
+      <textarea class="sass" rows="16" [(ngModel)]="settings.invoiceCSS" (ngModelChange)="onNgModelChanged();onChangeSass(settings.invoiceCSS)" (select)="onSelectSass($event)" (change)="onSelectSass($event)" (click)="onSelectSass($event)" (keyup)="onSelectSass($event)" (blur)="onBlurSass()"></textarea>
+      <label class="btn btn-secondary btn-sm">add image<input accept="image/gif, image/jpg, image/jpeg, image/png, .gif, .jpg, .jpeg, .png" type="file" (focus)="onFocusImageInput()" (change)="onChangeImage($event)" class="visually-hidden" /></label>
+    </dd>
+  </dl>
+</section>
