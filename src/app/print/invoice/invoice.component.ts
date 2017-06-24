@@ -59,6 +59,7 @@ export class PrintInvoiceComponent implements OnInit, OnDestroy {
     const css = localStorage.getItem('css')
     css&&this.setStyle(css)||this.sassCompile()
     //
+    //
     cssVariablesChanged.add(settings=>this.setStyle(null, settings))
     this.binds = [this.sassCompile.bind(this)].map(bind=>{
       sassChanged.add(bind)
@@ -107,6 +108,7 @@ export class PrintInvoiceComponent implements OnInit, OnDestroy {
   --secondary-bg-color: ${settings.themeSecondaryBgColor};
   --secondary-fg-color: ${settings.themeSecondaryFgColor};
 }
+${settings.themeLogoCSS||''}
 ${this.css}`
   }
 

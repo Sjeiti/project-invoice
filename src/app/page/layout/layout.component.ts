@@ -27,8 +27,6 @@ export class LayoutComponent extends Saveable implements OnInit, OnDestroy {
   project:any
   invoice:any
   private blurTimeoutId:number
-  private selectStart = -1
-  private selectEnd = -1
 
   constructor(
       protected modelService:ModelService
@@ -63,45 +61,32 @@ export class LayoutComponent extends Saveable implements OnInit, OnDestroy {
     sassChanged.dispatch(sass)
   }
 
-  onSelectSass(e:Event){
-    const target:HTMLTextAreaElement = e.target as HTMLTextAreaElement
-    this.selectStart = target.selectionStart
-    this.selectEnd = target.selectionEnd
-  }
-
-  onBlurSass(){
-    this.blurTimeoutId = window.setTimeout(()=>{
-      this.selectStart = -1
-      this.selectEnd = -1
-    }, 1000)
-  }
-
-  onFocusImageInput(){
-    clearTimeout(this.blurTimeoutId)
-  }
-
-  onChangeImage(e:Event){
-    if (this.cssInsertable){
-      clearTimeout(this.blurTimeoutId)
+  onChangeLogo(e:Event){
       const target:HTMLInputElement = e.target as HTMLInputElement
       const fileReader = new FileReader()
       const file = target.files[0]
       fileReader.readAsDataURL(file)
       fileReader.addEventListener('load', ()=>{
         const result = fileReader.result
+        const img = document.createElement('img')
+        img.addEventListener('load', this.onLogoLoad.bind(this, result, img))
+        img.setAttribute('src', result)
         target.value = null
-        const s = this.settings.invoiceCSS
-        this.settings.invoiceCSS = s.substr(0, this.selectStart) + result + s.substr(this.selectEnd)
-        sassChanged.dispatch(this.settings.invoiceCSS)
-        this.onNgModelChanged()
-        this.selectStart = -1
-        this.selectEnd = -1
       })
-    }
   }
 
-  get cssInsertable(){
-    return this.selectStart!==-1&&this.selectEnd!==-1
+  onDeleteLogo(){
+    this.onLogoLoad()
+  }
+
+  onLogoLoad(result?:string, img?:HTMLImageElement){
+    this.settings.themeLogoCSS = result?`.invoice #logo {
+    width: ${img.naturalWidth}px;
+    height: ${img.naturalHeight}px;
+    background: url(${result}) no-repeat;
+}`:''
+    cssVariablesChanged.dispatch(this.settings)
+    this.onNgModelChanged()
   }
 
   onRevert(){

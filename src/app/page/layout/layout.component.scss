@@ -6,6 +6,9 @@
 dd {
 	position: relative;
 }
+.colors + *>label {
+  display: block;
+}
 
 /* todo: duplicate code below */
 

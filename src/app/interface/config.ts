@@ -6,6 +6,7 @@ export interface IConfig {
   themeMainFgColor: string
   themeSecondaryBgColor: string
   themeSecondaryFgColor: string
+  themeLogoCSS: string
   projectNumberTemplate: string
   invoiceCSS: string
   csvTemplate: string
