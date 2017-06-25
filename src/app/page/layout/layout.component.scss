@@ -9,6 +9,9 @@ dd {
 .colors + *>label {
   display: block;
 }
+select.form-control {
+  display: inline-block;
+}
 
 /* todo: duplicate code below */
 

@@ -5,10 +5,17 @@ import {Pipe, PipeTransform} from '@angular/core'
 })
 export class ArrayFilterPipe implements PipeTransform {
   transform(array: Array<any>, ...filters:Array<string>): Array<any> {
-    filters.forEach(filter=>{
-      const key = filter.match(/\w+/).pop()
+    array&&filters.forEach(filter=>{
+      const keyVal = filter.split('=')
+      const key = keyVal.shift() // filter.match(/\w+/).pop()
+      const val = keyVal.pop()
+      // console.log('key',key); // todo: remove log
       const isNegate = filter.substr(0, 1)==='!'
-      array = array.filter(o=>!o[key]===isNegate)
+      if (val) {
+        array = array.filter(o=>o[key]===val)
+      } else {
+        array = array.filter(o=>!o[key]===isNegate)
+      }
     })
     return array
   }

@@ -8,7 +8,7 @@
   <dl class="row">
     
     <dt class="name">Theme</dt><dd>
-      <select [(ngModel)]="settings.theme" (ngModelChange)="onNgModelChanged()">
+      <select class="form-control" [(ngModel)]="settings.theme" (ngModelChange)="onNgModelChanged()">
         <option *ngFor="let theme of settings.themes" value="{{theme}}">{{theme}}</option>
       </select>
     </dd>
@@ -25,20 +25,21 @@
       <label><input class="form-control" type="color" (ngModelChange)="onNgModelChanged();onChangeVariables()" [(ngModel)]="settings.themeSecondaryFgColor"/>secondary foreground</label>
     </dd>
     
-    <dt class="name colors">Fonts</dt><dd>
-      <label>main
-        <select [(ngModel)]="settings.themeFontMain" (ngModelChange)="onNgModelChanged();onChangeFonts()">
-          <option *ngFor="let font of fonts" value="{{font.family}}">{{font.family}}</option>
-        </select>
-      </label>
-      <label>currency
-        <select [(ngModel)]="settings.themeFontCurrency" (ngModelChange)="onNgModelChanged();onChangeFonts()">
-          <option *ngFor="let font of fonts" value="{{font.family}}">{{font.family}}</option>
-        </select>
-      </label>
+    <dt class="name colors"><label for="font-size">Base font size</label></dt><dd>
+        <input class="form-control" id="font-size" type="range" min="5" max="30" step="0.1"  [(ngModel)]="settings.themeFontSize" (ngModelChange)="onNgModelChanged();onChangeVariables()" />
     </dd>
     
+    <dt class="name colors"><label for="font-main">Main font</label></dt><dd>
+      <select id="font-main" class="form-control" [(ngModel)]="settings.themeFontMain" (ngModelChange)="onNgModelChanged();onChangeVariables()">
+        <option *ngFor="let font of fonts" value="{{font.family}}">{{font.family}}</option>
+      </select>
+    </dd>
     
+    <dt class="name colors"><label for="font-currency">Currency font</label></dt><dd>
+      <select id="font-currency" class="form-control" [(ngModel)]="settings.themeFontCurrency" (ngModelChange)="onNgModelChanged();onChangeVariables()">
+        <option *ngFor="let font of fonts | arrayFilter:'category=monospace'" value="{{font.family}}">{{font.family}}</option>
+      </select>
+    </dd>
     
     <dt class="name wide">invoiceCSS</dt><dd>
       <textarea class="sass" rows="16" [(ngModel)]="settings.invoiceCSS" (ngModelChange)="onNgModelChanged();onChangeSass(settings.invoiceCSS)"></textarea>

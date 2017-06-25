@@ -6,7 +6,7 @@ import {ModelService} from '../../model/model.service'
 import {LocalisationService} from '../../service/localisation.service'
 import {InterpolationService} from '../../service/interpolation.service'
 import {CurrencyFormat} from '../../filter/currency-format.pipe'
-import {sassChanged, sassCompiled, cssVariablesChanged, cssFontsChanged} from '../../signals'
+import {sassChanged, sassCompiled, cssVariablesChanged} from '../../signals'
 import {IConfig} from '../../interface/config'
 import {DomSanitizer} from '@angular/platform-browser'
 
@@ -65,7 +65,6 @@ export class PrintInvoiceComponent implements OnInit, OnDestroy {
     //
     //
     cssVariablesChanged.add(settings=>this.setStyle(null, settings))
-    cssFontsChanged.add(settings=>this.setStyle(null, settings))
     this.binds = [this.sassCompile.bind(this)].map(bind=>{
       sassChanged.add(bind)
       return bind
@@ -116,6 +115,7 @@ export class PrintInvoiceComponent implements OnInit, OnDestroy {
   --secondary-fg-color: ${settings.themeSecondaryFgColor};
   --font-main: "${settings.themeFontMain}", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-currency: "${settings.themeFontCurrency}", monospace;
+  --base-font-size: ${settings.themeFontSize}px;
 }
 ${settings.themeLogoCSS||''}
 ${this.css}`

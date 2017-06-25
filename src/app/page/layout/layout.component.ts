@@ -8,7 +8,7 @@ import {IFont} from '../../interface/font'
 import {Client} from '../../model/client'
 import {Project} from '../../model/project'
 import * as dummyData from '../../dummy/data'
-import {sassChanged, cssVariablesChanged, cssFontsChanged} from '../../signals'
+import {sassChanged, cssVariablesChanged} from '../../signals'
 
 @Component({
   selector: 'app-settings',
@@ -70,11 +70,6 @@ export class LayoutComponent extends Saveable implements OnInit, OnDestroy {
     setTimeout(cssVariablesChanged.dispatch.bind(cssVariablesChanged, this.settings))
   }
 
-  onChangeFonts(){
-    // todo: check why this.settings takes one tick to update ngmodel
-    setTimeout(cssFontsChanged.dispatch.bind(cssFontsChanged, this.settings))
-  }
-
   onChangeSass(sass:string){
     sassChanged.dispatch(sass)
   }
@@ -98,10 +93,10 @@ export class LayoutComponent extends Saveable implements OnInit, OnDestroy {
   }
 
   onLogoLoad(result?:string, img?:HTMLImageElement){
+    // width: ${img.naturalWidth}px;
     this.settings.themeLogoCSS = result?`.invoice #logo {
-    width: ${img.naturalWidth}px;
     height: ${img.naturalHeight}px;
-    background: url(${result}) no-repeat;
+    background-image: url(${result});
 }`:''
     cssVariablesChanged.dispatch(this.settings)
     this.onNgModelChanged()
@@ -110,6 +105,7 @@ export class LayoutComponent extends Saveable implements OnInit, OnDestroy {
   onRevert(){
     super.onRevert()
     sassChanged.dispatch()
+    setTimeout(cssVariablesChanged.dispatch.bind(cssVariablesChanged, this.settings))
   }
 
   protected cloneModel():any {

@@ -6,6 +6,7 @@ export interface IConfig {
   themeMainFgColor: string
   themeSecondaryBgColor: string
   themeSecondaryFgColor: string
+  themeFontSize: number
   themeFontMain: string
   themeFontCurrency: string
   themeLogoCSS: string

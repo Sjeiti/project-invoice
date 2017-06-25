@@ -17,8 +17,7 @@ const
   modelSaved = signal(),
   sassChanged = signal(),
   sassCompiled = signal(),
-  cssVariablesChanged = signal(),
-  cssFontsChanged = signal()
+  cssVariablesChanged = signal()
 
 Object.assign(modelAction, {
   SAVE: 1,
@@ -39,6 +38,5 @@ export {
   modelSaved,
   sassChanged,
   sassCompiled,
-  cssVariablesChanged,
-  cssFontsChanged
+  cssVariablesChanged
 }

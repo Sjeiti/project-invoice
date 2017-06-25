@@ -7,6 +7,7 @@ html {
   --secondary-fg-color: white;
   --font-main: "Istok Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-currency: 'Droid Sans Mono', monospace;
+  --base-font-size: 14px;
 }
 
 @page {
@@ -42,6 +43,7 @@ body {
 }
 
 .invoice {
+  $currencyWidth: 10em;
   width: 210mm;
   min-height: 296.9mm;
   display: flex;
@@ -51,6 +53,7 @@ body {
   overflow: hidden;
   margin: 0 auto;
   font-family: var(--font-main);
+  font-size: var(--base-font-size);
   -webkit-print-color-adjust: exact;
   &.quotation {
     display: block;
@@ -67,12 +70,10 @@ body {
   header {
     padding-top: 20pt;
     margin-bottom: 30pt;
-    font-size: 16pt;
+    font-size: 1.3em;
     > * {
       z-index: 1;
     }
-    .client {}
-    .you { text-align: right; }
     p {
       margin: 0;
     }
@@ -84,21 +85,31 @@ body {
       z-index: 0;
     }
   }
+  .client {}
+  .you { text-align: right; }
+  #logo {
+    width: 100%;
+    background-position: top right;
+    background-repeat: no-repeat;
+  }
   footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     flex: 0 1 63pt;
     padding: 0;
-    font-size: 10pt;
+    font-size: 0.9em;
     line-height: 140%;
     box-shadow: 0 10mm 0 0 var(--secondary-bg-color);
     text-align: center;
-    div {
-      padding-top: 8pt;
+    .page {
+      padding: 9pt 0;
     }
   }
 
   h1 {
     margin: 0;
-    font-size: 24pt;
+    font-size: 1.3em;
     line-height: 120%;
   }
   h3.payment {
@@ -137,10 +148,12 @@ body {
 
   .date {
     text-align: right;
+    position: absolute;
+    right: 0;
   }
 
   small {
-    font-size: 80%;
+    font-size: 0.8em;
     line-height: 140%;
   }
   small p {
@@ -169,17 +182,20 @@ body {
     margin: 0;
     vertical-align: top;
   }
-  dl.list dt {
-    width: 30%;
-    font-weight: bold;
-  }
-  dl.list dd {
-    width: 70%;
+  dl.list {
+    $dtWidth: 6em;
+    dt {
+      width: $dtWidth;
+      font-weight: bold;
+    }
+    dd {
+      width: calc(99% - $dtWidth);
+    }
   }
 
   dl.main {
     margin-top: 10mm;
-    font-size: 18px;
+    font-size: 1.1em;
     font-weight: bold;
     dt {
       width: 15%;
@@ -201,9 +217,9 @@ body {
     border: 0;
   }
   th {
-    &:nth-child(1) { width: 50%; }
-    &:nth-child(2) { width: 25%; }
-    &:nth-child(3) { width: 25%; }
+    &:nth-child(1) { width: calc(100 - 2*$currencyWidth); }
+    &:nth-child(2) { width: $currencyWidth; }
+    &:nth-child(3) { width: $currencyWidth; }
   }
   tr.separate,
   tr.add {
@@ -220,32 +236,22 @@ body {
   tr.add td:last-child:after {
     content: '+';
     position: absolute;
-    top: -2pt;
+    top: -6pt;
     right: -14pt;
     color: var(--secondary-bg-color);
   }
   td, th {
-    padding-right: 16pt;
-    &:first-child {
-      padding-right: 0;
-    }
-  }
-  /*app-currency {
-    padding: 0 20px 0 140px;
-  }*/
-  .quotation tr.total td:last-child {
-    padding-right: 15px;
+      padding: 0 0 10pt 0;
   }
   th {
-    font-size: 16px;
+    font-size: 1.1em;
     text-align: right;
   }
   td {
     position: relative;
-    /*border: 1px solid rgba(0,0,0,0.01);*/
   }
   app-currency {
-    width: 80%;
+    width: 60%;
     float: right;
     font-family: var(--font-currency);
   }
@@ -258,7 +264,7 @@ body {
       float: none;
       transform: translateX(18pt);
       font-weight: bold;
-      font-size: 20px;
+      font-size: 1.3em;
       text-align: center;
     }
     td:last-child:before {
@@ -270,7 +276,7 @@ body {
       display: block;
       position: absolute;
       left: 0;
-      top: -8px;
+      top: -10pt;
       width: 95%;
       height: 100%;
       margin-left: 5%;
@@ -329,24 +335,24 @@ body {
         left: 0;
       }
       &:after {
-        width: $barWidth;
+        width: $barWidth - 8pt;
         right: 0;
       }
-      .you {
-        width: $barWidth;
-        position: absolute;
-        right: - $barWidth;
-        text-align: left;
-        color: var(--secondary-fg-color);
-        font-size: 12pt;
-        padding-left: 16pt;
-      }
+    }
+    .you {
+      width: $barWidth;
+      position: absolute;
+      right: - $barWidth;
+      text-align: left;
+      color: var(--secondary-fg-color);
+      font-size: 0.9em;
+      padding-left: 16pt;
+    }
+    #logo {
+      background-position: top left;
     }
     footer {
       flex: 0 1 83pt;
-      padding-right: 16pt;
-    }
-    .date {
       padding-right: 16pt;
     }
     tr.add td:last-child:after {
@@ -356,9 +362,17 @@ body {
       td:last-child {
         padding: 0;
         color: var(--secondary-fg-color);
-        transform: translateX($barWidth);
+        //transform: translateX($barWidth);
+        transform: translateX(2*$currencyWidth + 3.4em);
         &:before, &:after { display: none; }
-        app-currency { margin: 0; transform: none; }
+        app-currency {
+          margin: 0;
+          text-align: left;
+          transform: none;
+          &:before {
+            margin-right: 0.5em;
+          }
+        }
       }
     }
   }
