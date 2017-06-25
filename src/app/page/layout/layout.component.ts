@@ -1,12 +1,14 @@
 import {Component, OnDestroy, OnInit} from '@angular/core'
 import {ModelService} from '../../model/model.service'
+import {RestService} from '../../service/rest.service'
 import {Saveable} from '../../abstract/saveable'
 
 import {IClient} from '../../interface/client'
+import {IFont} from '../../interface/font'
 import {Client} from '../../model/client'
 import {Project} from '../../model/project'
 import * as dummyData from '../../dummy/data'
-import {sassChanged, cssVariablesChanged} from '../../signals'
+import {sassChanged, cssVariablesChanged, cssFontsChanged} from '../../signals'
 
 @Component({
   selector: 'app-settings',
@@ -26,10 +28,12 @@ export class LayoutComponent extends Saveable implements OnInit, OnDestroy {
   client:any
   project:any
   invoice:any
-  private blurTimeoutId:number
+
+  fonts:IFont[]
 
   constructor(
-      protected modelService:ModelService
+      protected modelService:ModelService,
+      protected restService:RestService
   ) {
     super(modelService)
   }
@@ -44,6 +48,8 @@ export class LayoutComponent extends Saveable implements OnInit, OnDestroy {
     this.project = client&&client.projects.slice(0).pop()
     this.invoice = this.project.invoices.slice(0).shift()
     //
+    this.getFonts()
+    //
     sassChanged.dispatch(this.settings.invoiceCSS)
     setTimeout(sassChanged.dispatch.bind(sassChanged, this.settings.invoiceCSS))
   }
@@ -52,9 +58,21 @@ export class LayoutComponent extends Saveable implements OnInit, OnDestroy {
     sassChanged.dispatch()
   }
 
+  getFonts(){
+    this.restService.load(`https://www.googleapis.com/webfonts/v1/webfonts?key=${this.settings.googleFontsAPIKey}`)
+        .then(result=>{
+          this.fonts = result.items
+        })
+  }
+
   onChangeVariables(){
     // todo: check why this.settings takes one tick to update ngmodel
     setTimeout(cssVariablesChanged.dispatch.bind(cssVariablesChanged, this.settings))
+  }
+
+  onChangeFonts(){
+    // todo: check why this.settings takes one tick to update ngmodel
+    setTimeout(cssFontsChanged.dispatch.bind(cssFontsChanged, this.settings))
   }
 
   onChangeSass(sass:string){

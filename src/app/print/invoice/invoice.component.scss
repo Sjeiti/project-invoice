@@ -5,6 +5,8 @@ html {
   --main-fg-color: black;
   --secondary-bg-color: #AAA;
   --secondary-fg-color: white;
+  --font-main: "Istok Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-currency: 'Droid Sans Mono', monospace;
 }
 
 @page {
@@ -48,7 +50,7 @@ body {
   background-color: var(--main-bg-color);
   overflow: hidden;
   margin: 0 auto;
-  font-family: "Istok Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: var(--font-main);
   -webkit-print-color-adjust: exact;
   &.quotation {
     display: block;
@@ -245,7 +247,7 @@ body {
   app-currency {
     width: 80%;
     float: right;
-    font-family: 'Droid Sans Mono', monospace;
+    font-family: var(--font-currency);
   }
   .total {
     height: 40pt;

@@ -13,6 +13,11 @@
       </select>
     </dd>
     
+    <dt class="name">logo</dt><dd>
+      <label class="btn btn-secondary btn-sm">add image<input accept="image/gif, image/jpg, image/jpeg, image/png, image/svg, .gif, .jpg, .jpeg, .png, .svg" type="file" (change)="onChangeLogo($event)" class="visually-hidden" /></label>
+      <button class="btn btn-secondary btn-sm" (click)="onDeleteLogo()">delete image</button>
+    </dd>
+    
     <dt class="name colors">Colors</dt><dd>
       <label><input class="form-control" type="color" (ngModelChange)="onNgModelChanged();onChangeVariables()" [(ngModel)]="settings.themeMainBgColor"/>main background</label>
       <label><input class="form-control" type="color" (ngModelChange)="onNgModelChanged();onChangeVariables()" [(ngModel)]="settings.themeMainFgColor"/>main foreground</label>
@@ -20,10 +25,20 @@
       <label><input class="form-control" type="color" (ngModelChange)="onNgModelChanged();onChangeVariables()" [(ngModel)]="settings.themeSecondaryFgColor"/>secondary foreground</label>
     </dd>
     
-    <dt class="name">logo</dt><dd>
-      <label class="btn btn-secondary btn-sm">add image<input accept="image/gif, image/jpg, image/jpeg, image/png, image/svg, .gif, .jpg, .jpeg, .png, .svg" type="file" (change)="onChangeLogo($event)" class="visually-hidden" /></label>
-      <button class="btn btn-secondary btn-sm" (click)="onDeleteLogo()">delete image</button>
+    <dt class="name colors">Fonts</dt><dd>
+      <label>main
+        <select [(ngModel)]="settings.themeFontMain" (ngModelChange)="onNgModelChanged();onChangeFonts()">
+          <option *ngFor="let font of fonts" value="{{font.family}}">{{font.family}}</option>
+        </select>
+      </label>
+      <label>currency
+        <select [(ngModel)]="settings.themeFontCurrency" (ngModelChange)="onNgModelChanged();onChangeFonts()">
+          <option *ngFor="let font of fonts" value="{{font.family}}">{{font.family}}</option>
+        </select>
+      </label>
     </dd>
+    
+    
     
     <dt class="name wide">invoiceCSS</dt><dd>
       <textarea class="sass" rows="16" [(ngModel)]="settings.invoiceCSS" (ngModelChange)="onNgModelChanged();onChangeSass(settings.invoiceCSS)"></textarea>

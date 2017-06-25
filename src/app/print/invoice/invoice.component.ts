@@ -6,8 +6,9 @@ import {ModelService} from '../../model/model.service'
 import {LocalisationService} from '../../service/localisation.service'
 import {InterpolationService} from '../../service/interpolation.service'
 import {CurrencyFormat} from '../../filter/currency-format.pipe'
-import {sassChanged, sassCompiled, cssVariablesChanged} from '../../signals'
+import {sassChanged, sassCompiled, cssVariablesChanged, cssFontsChanged} from '../../signals'
 import {IConfig} from '../../interface/config'
+import {DomSanitizer} from '@angular/platform-browser'
 
 @Component({
   selector: 'app-print-invoice',
@@ -15,6 +16,8 @@ import {IConfig} from '../../interface/config'
   styleUrls: ['./invoice.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
+
+// todo move all layout/styling logic to a service
 export class PrintInvoiceComponent implements OnInit, OnDestroy {
 
   @Input()
@@ -40,6 +43,7 @@ export class PrintInvoiceComponent implements OnInit, OnDestroy {
 
   constructor(
       private modelService:ModelService,
+      private sanitizer:DomSanitizer,
       protected interpolationService:InterpolationService,
       private localisationService:LocalisationService,
       private elementRef: ElementRef
@@ -61,10 +65,13 @@ export class PrintInvoiceComponent implements OnInit, OnDestroy {
     //
     //
     cssVariablesChanged.add(settings=>this.setStyle(null, settings))
+    cssFontsChanged.add(settings=>this.setStyle(null, settings))
     this.binds = [this.sassCompile.bind(this)].map(bind=>{
       sassChanged.add(bind)
       return bind
     })
+    //
+    //
     this.isQuotation = /\/client\/\d+\/\d+\/quotation/.test(location.href)
   }
 
@@ -107,6 +114,8 @@ export class PrintInvoiceComponent implements OnInit, OnDestroy {
   --main-fg-color: ${settings.themeMainFgColor};
   --secondary-bg-color: ${settings.themeSecondaryBgColor};
   --secondary-fg-color: ${settings.themeSecondaryFgColor};
+  --font-main: "${settings.themeFontMain}", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-currency: "${settings.themeFontCurrency}", monospace;
 }
 ${settings.themeLogoCSS||''}
 ${this.css}`
@@ -130,6 +139,10 @@ ${this.css}`
 
   get invoiceIndex(){
     return this.project.invoices.indexOf(this.invoice)
+  }
+
+  get fontsURI(){
+    return this.sanitizer.bypassSecurityTrustResourceUrl(`https://fonts.googleapis.com/css?family=${this.config.themeFontMain}|${this.config.themeFontCurrency}`)
   }
 
 }

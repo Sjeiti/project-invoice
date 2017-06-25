@@ -8,6 +8,8 @@ export default {
   themeMainFgColor: '#333333',
   themeSecondaryBgColor: '#FFF244',
   themeSecondaryFgColor: '#ff0071',
+  themeFontMain: 'Henny Penny',
+  themeFontCurrency: 'Nova Mono',
   themeLogoCSS: `.invoice #logo {
   width: 91px;
   height: 74px;
@@ -27,6 +29,7 @@ export default {
     'nl'
   ],
   lang: 'en',
+  googleFontsAPIKey: 'AIzaSyAFYPRYJcm8kFOxnKJNpnCIPNoA1rEQ1NA',
   homeMessage: true,
   type: 'config'
 }

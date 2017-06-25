@@ -6,12 +6,15 @@ export interface IConfig {
   themeMainFgColor: string
   themeSecondaryBgColor: string
   themeSecondaryFgColor: string
+  themeFontMain: string
+  themeFontCurrency: string
   themeLogoCSS: string
   projectNumberTemplate: string
   invoiceCSS: string
   csvTemplate: string
   langs: string[]
-  lang: string,
-  homeMessage: boolean,
+  lang: string
+  googleFontsAPIKey: string
+  homeMessage: boolean
   type: string
 }

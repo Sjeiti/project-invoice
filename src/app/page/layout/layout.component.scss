@@ -12,6 +12,8 @@ dd {
 
 /* todo: duplicate code below */
 
+$zoom: 0.6;
+
 app-print-invoice {
   display: block;
   width: 210mm;
@@ -19,14 +21,14 @@ app-print-invoice {
   margin: 0 auto 60px;
   position: relative;
   z-index: 1;
-  zoom: .4;
+  zoom: $zoom;
   font-family: "Istok Web","Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 .invoice-shade {
   position: relative;
   display: block;
   height: 0;
-  zoom: .399;
+  zoom: $zoom - 0.001;
   div {
     position: relative;
     left: 50%;

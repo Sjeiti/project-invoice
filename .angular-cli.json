@@ -9,6 +9,7 @@
       "root": "src",
       "outDir": "dist",
       "assets": [
+        "google*.html",
         "assets",
         "static",
         "invoice.appcache",
