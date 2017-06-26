@@ -26,6 +26,23 @@ section {
   border-top-width: 1px;
 }
 
+h1 {
+  @include media-breakpoint-down(sm) {    position: fixed;
+    left: 2.4rem;
+    top: 0.4rem;
+    color: white;
+    font-size: 1.4rem;
+    z-index: 2000;
+    font-weight: normal;
+  }
+}
+
+.btn {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 button {
   @extend .btn;
   @extend .btn-sm;
@@ -103,6 +120,10 @@ tfoot {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+label.btn {
+  margin-bottom: 0;
 }
 
 label.checkbox {

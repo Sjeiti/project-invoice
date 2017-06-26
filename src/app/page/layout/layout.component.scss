@@ -1,3 +1,6 @@
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins/breakpoints';
+
 .name:not(:first-of-type) {
 	&,&+* {
 		margin-top: 30px;
@@ -9,13 +12,25 @@ dd {
 .colors + *>label {
   display: block;
 }
+.font-size + *>input {
+  position: relative;
+  width: 90%;
+  &:after {
+    content: attr(ng-reflect-model);
+    position: absolute;
+    right: 0;
+    transform: translateX(100%);
+    font-size: 12px;
+    line-height: 160%;
+  }
+}
 select.form-control {
   display: inline-block;
 }
 
 /* todo: duplicate code below */
 
-$zoom: 0.6;
+$zoom: 0.41;
 
 app-print-invoice {
   display: block;
@@ -53,6 +68,15 @@ app-print-invoice {
     &:after {
       transform: skewX(-3deg);
     }
+  }
+}
+@include media-breakpoint-up(sm) {
+  $zoom: 0.6;
+  app-print-invoice {
+    zoom: $zoom;
+  }
+  .invoice-shade {
+    zoom: $zoom - 0.001;
   }
 }
 .invoice {

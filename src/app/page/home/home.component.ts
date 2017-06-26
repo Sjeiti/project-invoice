@@ -18,8 +18,8 @@ import {dateTimeToDate} from '../../mixins'
 export class HomeComponent implements OnInit {
 
   static data:any = {
-    title: 'Home',
-    heading: '',
+    title: '',
+    heading: 'Project Invoice',
     meta: {description: 'Welcome to something'}
   }
   config:IConfig

@@ -7,11 +7,10 @@ export class ArrayFilterPipe implements PipeTransform {
   transform(array: Array<any>, ...filters:Array<string>): Array<any> {
     array&&filters.forEach(filter=>{
       const keyVal = filter.split('=')
-      const key = keyVal.shift() // filter.match(/\w+/).pop()
-      const val = keyVal.pop()
-      // console.log('key',key); // todo: remove log
+      const key = keyVal.shift().match(/\w+/).pop()
+      const val = value(keyVal.pop())
       const isNegate = filter.substr(0, 1)==='!'
-      if (val) {
+      if (val!==undefined) {
         array = array.filter(o=>o[key]===val)
       } else {
         array = array.filter(o=>!o[key]===isNegate)
@@ -19,4 +18,16 @@ export class ArrayFilterPipe implements PipeTransform {
     })
     return array
   }
+}
+
+function value(val){
+  const numberValue = parseFloat(val)
+  if (val===numberValue.toString()) {
+    val = numberValue
+  } else if (val==='true') {
+    val = true
+  } else if (val==='false') {
+    val = false
+  }
+  return val
 }

@@ -25,17 +25,17 @@
       <label><input class="form-control" type="color" (ngModelChange)="onNgModelChanged();onChangeVariables()" [(ngModel)]="settings.themeSecondaryFgColor"/>secondary foreground</label>
     </dd>
     
-    <dt class="name colors"><label for="font-size">Base font size</label></dt><dd>
-        <input class="form-control" id="font-size" type="range" min="5" max="30" step="0.1"  [(ngModel)]="settings.themeFontSize" (ngModelChange)="onNgModelChanged();onChangeVariables()" />
+    <dt class="name font-size"><label for="font-size">Base font size</label></dt><dd>
+        <input class="form-control" id="font-size" type="range" min="5" max="30" step="0.2"  [(ngModel)]="settings.themeFontSize" (ngModelChange)="onNgModelChanged();onChangeVariables()" />
     </dd>
     
-    <dt class="name colors"><label for="font-main">Main font</label></dt><dd>
+    <dt class="name"><label for="font-main">Main font</label></dt><dd>
       <select id="font-main" class="form-control" [(ngModel)]="settings.themeFontMain" (ngModelChange)="onNgModelChanged();onChangeVariables()">
         <option *ngFor="let font of fonts" value="{{font.family}}">{{font.family}}</option>
       </select>
     </dd>
     
-    <dt class="name colors"><label for="font-currency">Currency font</label></dt><dd>
+    <dt class="name"><label for="font-currency">Currency font</label></dt><dd>
       <select id="font-currency" class="form-control" [(ngModel)]="settings.themeFontCurrency" (ngModelChange)="onNgModelChanged();onChangeVariables()">
         <option *ngFor="let font of fonts | arrayFilter:'category=monospace'" value="{{font.family}}">{{font.family}}</option>
       </select>

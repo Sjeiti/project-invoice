@@ -7,7 +7,7 @@
 </header>
 <section *ngFor="let quarter of quarters; let i = index">
   <h3 class="float-left">quarter {{i+1}}</h3>
-  <button (click)="onClickCsv(quarter)" class="btn btn-secondary float-right">copy csv data</button>
+  <button (click)="onClickCsv(quarter)" class="btn btn-secondary btn-sm float-right">copy csv data</button>
   <table>
     <thead><tr>
       <th width="10%" data-order-key="invoiceNr">nr</th>

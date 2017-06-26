@@ -9,6 +9,19 @@ header {
   color: white;
 }
 
+.home-icon {
+  float: left;
+  height: $headerHeight;
+  width: $headerHeight;
+  padding: 0;
+  background: url(/static/img/logo.svg) no-repeat;
+  background-size: 80%;
+  background-position: center;
+  @include media-breakpoint-up(sm) {
+    display: none;
+  }
+}
+
 img {
   $scale: 0.7;
   width: $scale*$headerHeight;
