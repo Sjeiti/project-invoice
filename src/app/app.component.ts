@@ -20,7 +20,8 @@ export class AppComponent {
       if (e instanceof NavigationEnd) {
         let activatedRoute = router.routerState.root
         this.heading = this.getRouteData(activatedRoute, 'heading')
-        headService.setTitle(this.headingBase+' - '+this.getRouteData(activatedRoute, 'title'))
+        const title = this.getRouteData(activatedRoute, 'title')
+        headService.setTitle(this.headingBase+(title?' - '+title:''))
         headService.setMetas(this.getRouteData(activatedRoute, 'meta'))
         //
         window.scrollTo(0, 0)
