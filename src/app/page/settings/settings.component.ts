@@ -52,11 +52,10 @@ export class SettingsComponent extends Saveable implements OnInit, OnDestroy {
     sassChanged.dispatch()
   }
 
-  onClickDownload(e:any, type:string){
+  onClickDownload(e:Event, type:string){
     let currentTarget:HTMLElement = <HTMLElement>e.currentTarget,
-        data:any = type==='config'?this.modelService.getConfig():this.modelService.getData(),
-        dataWithType:any = Object.assign(data, {type}),
-        dataString:string = JSON.stringify(dataWithType)
+        isConfig = type==='config',
+        dataString:string = isConfig?this.modelService.getStoreableConfig():this.modelService.getStoreableData()
     currentTarget.setAttribute('href', `data:text/json,${encodeURIComponent(dataString)}`)
     currentTarget.setAttribute('download', `${type}.json`)
   }

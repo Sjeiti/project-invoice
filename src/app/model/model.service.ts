@@ -53,13 +53,17 @@ export class ModelService {
     return config
   }
 
+  getStoreableConfig(config:IConfig = null):string {
+    return JSON.stringify(Object.assign(this.setTimestamp(this.parseConfig(config||this.getConfig())), {type:'config'}))
+  }
+
   /**
    * Config is saved to LocalStorage
    * @param {IConfig} config
    * @returns {IConfig}
    */
   private saveConfig(config:IConfig):IConfig {
-    localStorage.setItem(this.configName, JSON.stringify(this.setTimestamp(this.parseConfig(config))))
+    localStorage.setItem(this.configName, this.getStoreableConfig(config))
     return config
   }
 
@@ -140,8 +144,8 @@ export class ModelService {
     return data
   }
 
-  private saveData(data:IData):IData {
-    const dataToStore = this.setTimestamp(_.cloneDeep(data))
+  getStoreableData(data:IData = null):string {
+    const dataToStore = Object.assign(this.setTimestamp(_.cloneDeep(data||this.getData())), {type:'data'})
     //
     // delete properties to prevent circular references in json (non-enumerability does not work due to template references)
     dataToStore.clients.forEach(client=>client.projects.forEach(project=>{
@@ -149,7 +153,11 @@ export class ModelService {
       delete project._client // well that sucks
     }))
     //
-    localStorage.setItem(this.dataName, JSON.stringify(dataToStore))
+    return JSON.stringify(dataToStore)
+  }
+
+  private saveData(data:IData):IData {
+    localStorage.setItem(this.dataName, this.getStoreableData(data))
     return data
   }
 
