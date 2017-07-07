@@ -265,11 +265,8 @@ export class ModelService {
     return isDeleted
   }
 
-  public calculateInvoiceNr(project:Project):string {
-    let projectNumberTemplate = (<any>this.config).projectNumberTemplate,
-        model = {project, client: project.client},
-        invoiceNr = this.interpolationService.parse(projectNumberTemplate, model)
-    return invoiceNr
+  public getInterpolationService():InterpolationService {
+    return this.interpolationService
   }
 
   public cloneProject(project:IProject):Project {

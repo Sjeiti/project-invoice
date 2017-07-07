@@ -67,8 +67,14 @@ export class Project implements IProject {
     return new Project(this, this.client, this.modelService)
   }
 
+  private calculateInvoiceNr():string {
+    const projectNumberTemplate = (<any>this.modelService.getConfig()).projectNumberTemplate,
+        model = {project: this, client: this.client}
+    return this.modelService.getInterpolationService().parse(projectNumberTemplate, model)
+  }
+
   get invoiceNr():string {
-    return this.modelService.calculateInvoiceNr(this) // todo move method to here
+    return this.calculateInvoiceNr()
   }
 
   get invoiceNum():number {
@@ -156,7 +162,8 @@ export class Project implements IProject {
         projectsInYear = this.modelService.getProjects()
             .filter(project=>project.invoices.length>0&&project.year===year)
             .sort(projectSort)
-    return projectsInYear.indexOf(this)
+            .map(project=>project.id)
+    return projectsInYear.indexOf(this.id)
   }
 
   get timestamp():number {
