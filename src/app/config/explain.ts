@@ -45,30 +45,23 @@ let explain = {
     homeMessage:           ['welcome message',           'show or hide the welcome message on the first page']
   },
   copy: {
-    sender:                ['sender',                    'text shown before the lorem ipsum'],
-    receiver:              ['receiver',                  'text shown before the lorem ipsum'],
-    footer:                ['footer',                    'text shown before the lorem ipsum'],
-    reminder:              ['first reminder',            'text shown before the lorem ipsum'],
-    reminder1:             ['second reminder',           'text shown before the lorem ipsum'],
-    reminder2:             ['last reminder',             'text shown before the lorem ipsum'],
-    quotation:             ['quotation',                 'text shown before the lorem ipsum'],
-    exhortation_:          ['exhortation',               'text shown before the lorem ipsum'],
-    total:                 ['total',                     'text shown before the lorem ipsum'],
-    date:                  ['date',                      'text shown before the lorem ipsum'],
-    dateFormat:            ['date format',               'text shown before the lorem ipsum'],
-    amount:                ['amount',                    'text shown before the lorem ipsum'],
-    vat:                   ['VAT',                       'text shown before the lorem ipsum'],
-    pagebreak:             ['page-break',                'text shown before the lorem ipsum'],
-    subtotal:              ['subtotal',                  'text shown before the lorem ipsum'],
-    concerns:              ['concerns',                  'text shown before the lorem ipsum'],
-    number:                ['number',                    'text shown before the lorem ipsum'],
-    legalInterest:         ['legal interest',            'text shown before the lorem ipsum'],
-    administrationCosts:   ['administration costs',      'text shown before the lorem ipsum']
+    sender:                ['sender',                    'your contact information shown at the top of the invoice'],
+    receiver:              ['receiver',                  'contact information of the client receiving the invoice'],
+    footer:                ['footer',                    'footer information, shown at the footer'],
+    reminder1:             ['first reminder',            'first reminder text'],
+    reminder2:             ['later reminder',            'later reminder text'],
+    exhortation_:          ['exhortation',               'exhortation text'],
+    dateFormat:            ['date format',               'see: https://en.wikipedia.org/wiki/Date_format_by_country'],
+    vat:                   ['VAT'],
+    pagebreak:             ['page-break'],
+    legalInterest:         ['legal interest'],
+    administrationCosts:   ['administration costs']
   }
 }
 
-
+for (let s in explain) {
+  Object.freeze(explain[s])
+}
 Object.freeze(explain)
-Object.freeze(explain.data)
 
 export const EXPLAIN = explain
