@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core'
+import {Component, OnInit} from '@angular/core'
 import {Saveable} from '../../abstract/saveable'
 import {ModelService} from '../../model/model.service'
+import {ExplainDirective} from '../../directive/explain.directive'
 
 @Component({
   selector: 'app-data',
@@ -12,7 +13,8 @@ export class DataComponent extends Saveable implements OnInit {
   static data:any = {
     title: 'Data',
     heading: 'Data',
-    meta: {description: 'Foo is the bar of all qux'}
+    meta: {description: 'Foo is the bar of all qux'},
+    declarations: [ExplainDirective]
   }
   personal:any
 
@@ -30,5 +32,4 @@ export class DataComponent extends Saveable implements OnInit {
   protected cloneModel():any {
     return this.personal = <any>super.cloneModel()
   }
-
 }

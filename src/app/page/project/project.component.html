@@ -3,14 +3,13 @@
   <h2>{{project?.description}}</h2>
   <section>
     <dl class="row">
-      <dt>client</dt><dd><a routerLink="/client/{{client?.nr}}">{{client?.name}}</a></dd>
-      <dt>description</dt><dd><input [(ngModel)]="project.description" (ngModelChange)="onNgModelChanged()" /></dd>
-      <!--<dt>invoiceNr</dt><dd><input [(ngModel)]="project.invoiceNr" (ngModelChange)="onNgModelChanged()" /></dd>-->
-      <dt>invoiceNr</dt><dd>{{project?.invoiceNr}}</dd>
-      <dt>hourlyRate</dt><dd><input [(ngModel)]="project.hourlyRate" (ngModelChange)="onNgModelChanged()" type="number" /></dd>
-      <dt>discount</dt><dd><input [(ngModel)]="project.discount" (ngModelChange)="onNgModelChanged()" type="number" /></dd>
-      <dt>discounted rate</dt><dd>{{project.hourlyRate - project.hourlyRate*project.discount*0.01 | number : '1.2-2'}}</dd>
-      <dt>paid</dt><dd><label class="checkbox"><input [(ngModel)]="project.paid" type="checkbox" (ngModelChange)="onNgModelChanged()" /><span></span></label></dd>
+      <dt [appExplain]="'project.client'">client</dt><dd><a routerLink="/client/{{client?.nr}}">{{client?.name}}</a></dd>
+      <dt [appExplain]="'project.description'">description</dt><dd><input [(ngModel)]="project.description" (ngModelChange)="onNgModelChanged()" /></dd>
+      <dt [appExplain]="'project.invoiceNr'">invoice number</dt><dd>{{project?.invoiceNr}}</dd>
+      <dt [appExplain]="'project.hourlyRate'">hourly rate</dt><dd><input [(ngModel)]="project.hourlyRate" (ngModelChange)="onNgModelChanged()" type="number" /></dd>
+      <dt [appExplain]="'project.discount'">discount</dt><dd><input [(ngModel)]="project.discount" (ngModelChange)="onNgModelChanged()" type="number" /></dd>
+      <dt [appExplain]="'project.discountRate'">discounted rate</dt><dd>{{project.hourlyRate - project.hourlyRate*project.discount*0.01 | number : '1.2-2'}}</dd>
+      <dt [appExplain]="'project.paid'">paid</dt><dd><label class="checkbox"><input [(ngModel)]="project.paid" type="checkbox" (ngModelChange)="onNgModelChanged()" /><span></span></label></dd>
     </dl>
   </section>
   
@@ -39,14 +38,14 @@
         <td><button (click)="onRemoveLine(line)" class="btn-default">&#10006;</button></td>
       </tr></tbody>
       <tfoot><tr>
-        <td><strong>Total ex</strong></td>
+        <td><strong>total ex VAT</strong></td>
         <td>{{project.totalHours}}</td>
         <td><small><app-currency [amount]="project.totalHours*project.hourlyRateDiscounted"></app-currency></small></td>
         <td><app-currency [amount]="project.total"></app-currency></td>
         <td></td>
         <td></td>
       </tr><tr>
-        <td><strong>Total incl</strong></td>
+        <td><strong>total inc VAT</strong></td>
         <td></td>
         <td></td>
         <td><app-currency [amount]="project.totalIncDiscounted"></app-currency></td>
@@ -76,9 +75,9 @@
     <a routerLink="{{project.uri}}/quotation" class="btn btn-sm btn-primary float-right">show quotation</a>
     <h3>quotation</h3>
     <dl class="row">
-      <dt class="col-6">quotationBefore</dt><dd class="col-6"><textarea [(ngModel)]="project.quotationBefore"></textarea></dd>
-      <dt class="col-6">quotationAfter</dt><dd class="col-6"><textarea [(ngModel)]="project.quotationAfter"></textarea></dd>
-      <dt class="col-6">quotationDate</dt><dd class="col-6"><input [(ngModel)]="project.quotationDate" (ngModelChange)="onNgModelChanged()" type="date" /></dd>
+      <dt class="col-6" [appExplain]="'project.quotationBefore'">quotation before</dt><dd class="col-6"><textarea [(ngModel)]="project.quotationBefore"></textarea></dd>
+      <dt class="col-6" [appExplain]="'project.quotationAfter'">quotation after</dt><dd class="col-6"><textarea [(ngModel)]="project.quotationAfter"></textarea></dd>
+      <dt class="col-6" [appExplain]="'project.quotationDate'">quotation date</dt><dd class="col-6"><input [(ngModel)]="project.quotationDate" (ngModelChange)="onNgModelChanged()" type="date" /></dd>
     </dl>
   </section>
 </div>

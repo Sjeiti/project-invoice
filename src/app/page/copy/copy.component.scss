@@ -14,7 +14,7 @@ dl.row {
   }
   dt {
     flex: 0 0 30%;
-    overflow: hidden;
+    //overflow: hidden;
     text-overflow: ellipsis;
     & + dd {
       position: relative;

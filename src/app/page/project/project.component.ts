@@ -10,6 +10,7 @@ import {INVOICE} from '../../config/invoice'
 import {dateTimeToDate} from '../../mixins'
 import {modelAction, modelAble} from '../../signals'
 import {Project} from '../../model/project'
+import {ExplainDirective} from '../../directive/explain.directive'
 
 @Component({
   selector: 'app-project',
@@ -22,7 +23,8 @@ export class ProjectComponent extends Saveable implements OnInit, OnDestroy {
   static data:any = {
     title: 'Project',
     heading: 'Project',
-    meta: {description: 'Foo is the bar of all qux'}
+    meta: {description: 'Foo is the bar of all qux'},
+    declarations: [ExplainDirective]
   }
   private subscription:any
   private projectProper:Project
@@ -30,6 +32,9 @@ export class ProjectComponent extends Saveable implements OnInit, OnDestroy {
   public client:Client
   public project:Project
   public INVOICE:any = INVOICE
+
+  name:Function
+  explain:Function
 
   constructor(
       protected modelService:ModelService,

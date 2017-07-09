@@ -47,6 +47,7 @@ import {ArraySortPipe} from './filter/sort.pipe'
 import {ArrayFilterPipe} from './filter/filter.pipe'
 // directives
 import {InterpolationUIComponent} from './component/interpolationUI/interpolationui.component'
+import {ExplainDirective} from './directive/explain.directive'
 
 @NgModule({
   imports: [
@@ -88,6 +89,7 @@ import {InterpolationUIComponent} from './component/interpolationUI/interpolatio
     CurrencyComponent,
     FoldableDefinitionComponent,
     InterpolationUIComponent,
+    ExplainDirective,
     LangComponent
   ],
   providers: [

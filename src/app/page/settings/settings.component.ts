@@ -9,6 +9,7 @@ import {Client} from '../../model/client'
 import {Project} from '../../model/project'
 import * as dummyData from '../../dummy/data'
 import {sassChanged} from '../../signals'
+import {ExplainDirective} from '../../directive/explain.directive'
 
 @Component({
   selector: 'app-settings',
@@ -21,7 +22,8 @@ export class SettingsComponent extends Saveable implements OnInit, OnDestroy {
   static data:any = {
     title: 'Settings',
     heading: 'Settings',
-    meta: {robots: 'noindex, nofollow'}
+    meta: {robots: 'noindex, nofollow'},
+    declarations: [ExplainDirective]
   }
 
   settings:any

@@ -1,16 +1,16 @@
 <section>
   <dl class="row">
-    <dt class="name">Backup</dt>
+    <dt [appExplain]="'settings.backup'" class="name">backup</dt>
     <dd>
       <a (click)="onClickDownload($event,'config')" class="btn btn-secondary btn-sm" href="#">config</a>
       <a (click)="onClickDownload($event,'data')" class="btn btn-secondary btn-sm" href="#">data</a>
     </dd>
-    <dt class="name">Restore</dt>
+    <dt [appExplain]="'settings.restore'" class="name">restore</dt>
     <dd>
       <label class="btn btn-secondary btn-sm" for="config">config</label><input accept="application/json, text/json, .json" type="file" id="config" (change)="onChangeRestore($event,'config')" class="visually-hidden" />
       <label class="btn btn-secondary btn-sm" for="data">data</label><input accept="application/json, text/json, .json" type="file" id="data" (change)="onChangeRestore($event,'data')" class="visually-hidden" />
     </dd>
-    <dt class="name">Clear</dt>
+    <dt [appExplain]="'settings.clear'" class="name">clear</dt>
     <dd>
       <button (click)="onClickClear('config')" class="btn btn-secondary btn-sm">config</button>
       <button (click)="onClickClear('data')" class="btn btn-secondary btn-sm">data</button>
@@ -19,16 +19,19 @@
 </section>
 <section>
   <dl class="row">
-    <dt class="name">projectNumberTemplate</dt><dd>
+    <dt [appExplain]="'settings.projectNumberTemplate'" class="name">projectNumberTemplate</dt><dd>
       <app-interpolationui [(ngModel)]="settings.projectNumberTemplate" (ngModelChange)="onNgModelChanged()"></app-interpolationui>
     </dd>
-    <dt class="name">csvTemplate</dt><dd>
+    <dt [appExplain]="'settings.csvTemplate'" class="name">csvTemplate</dt><dd>
       <app-interpolationui [(ngModel)]="settings.csvTemplate" (ngModelChange)="onNgModelChanged()"></app-interpolationui>
     </dd>
-    <dt class="name">langs</dt><dd>
+    <dt [appExplain]="'settings.langs'" class="name">langs</dt><dd>
       <textarea rows="4" [(ngModel)]="settings.langs" (ngModelChange)="onNgModelChanged()"></textarea>
     </dd>
-    <dt class="name">welcome message</dt><dd>
+    <dt [appExplain]="'settings.currency'" class="name">currency</dt><dd>
+      <input type="text" [(ngModel)]="settings.currency" (ngModelChange)="onNgModelChanged()" />
+    </dd>
+    <dt [appExplain]="'settings.homeMessage'" class="name">welcome message</dt><dd>
       <input type="checkbox" [(ngModel)]="settings.homeMessage" (ngModelChange)="onNgModelChanged()" />
     </dd>
   </dl>

@@ -3,6 +3,7 @@ import {Saveable} from '../../abstract/saveable'
 import {ModelService} from '../../model/model.service'
 import * as dummyData from '../../dummy/data'
 import * as Rx from 'rxjs/Rx'
+import {ExplainDirective} from '../../directive/explain.directive'
 
 @Component({
   selector: 'app-copy',
@@ -15,7 +16,8 @@ export class CopyComponent extends Saveable implements OnInit {
   static data:any = {
     title: 'Copy',
     heading: 'Copy',
-    meta: {description: 'Foo is the bar of all qux'}
+    meta: {description: 'Foo is the bar of all qux'},
+    declarations: [ExplainDirective]
   }
 
   private clone:any
