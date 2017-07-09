@@ -23,9 +23,9 @@
         <td><small>{{project.date | date:dateFormat}}</small></td>
         <td class="text-overflow">{{project.client.name}}</td>
         <td class="text-overflow">{{project.description}}</td>
-        <td class="text-right">{{project.totalDiscounted | currency:'EUR':true}}</td>
-        <td class="text-right">{{project.totalVatDiscounted | currency:'EUR':true}}</td>
-        <td class="text-right">{{project.totalIncDiscounted | currency:'EUR':true}}</td>
+        <td class="text-right"><app-currency [amount]="project.totalDiscounted"></app-currency></td>
+        <td class="text-right"><app-currency [amount]="project.totalVatDiscounted"></app-currency></td>
+        <td class="text-right"><app-currency [amount]="project.totalIncDiscounted"></app-currency></td>
       </tr>
     </tbody>
     <tfoot>
@@ -34,9 +34,9 @@
         <td></td>
         <td></td>
         <td></td>
-        <td class="text-right">{{getTotalDiscounted(quarter) | currency:'EUR':true}}</td>
-        <td class="text-right">{{getTotalVatDiscounted(quarter) | currency:'EUR':true}}</td>
-        <td class="text-right">{{getTotalIncDiscounted(quarter) | currency:'EUR':true}}</td>
+        <td class="text-right"><app-currency [amount]="getTotalDiscounted(quarter)"></app-currency></td>
+        <td class="text-right"><app-currency [amount]="getTotalVatDiscounted(quarter)"></app-currency></td>
+        <td class="text-right"><app-currency [amount]="getTotalIncDiscounted(quarter)"></app-currency></td>
       </tr>
     </tfoot>
   </table>
@@ -57,9 +57,9 @@
         <td></td>
         <td></td>
         <td></td>
-        <td class="text-right">{{getTotalDiscounted() | currency:'EUR':true}}</td>
-        <td class="text-right">{{getTotalVatDiscounted() | currency:'EUR':true}}</td>
-        <td class="text-right">{{getTotalIncDiscounted() | currency:'EUR':true}}</td>
+        <td class="text-right"><app-currency [amount]="getTotalDiscounted()"></app-currency></td>
+        <td class="text-right"><app-currency [amount]="getTotalVatDiscounted()"></app-currency></td>
+        <td class="text-right"><app-currency [amount]="getTotalIncDiscounted()"></app-currency></td>
       </tr>
     </tbody>
   </table>

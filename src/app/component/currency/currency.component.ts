@@ -1,4 +1,5 @@
 import {Component, Input, ElementRef} from '@angular/core'
+import {ModelService} from '../../model/model.service'
 
 @Component({
   selector: 'app-currency',
@@ -9,7 +10,10 @@ export class CurrencyComponent {
   @Input()
   amount:number
 
-  constructor(private elementRef:ElementRef) {
-    elementRef.nativeElement.setAttribute('sign', '€')
+  constructor(
+      private modelService:ModelService,
+      private elementRef:ElementRef
+  ) {
+    elementRef.nativeElement.setAttribute('sign', (modelService.getConfig() as any).currencySign) // todo: don't `as`
   }
 }

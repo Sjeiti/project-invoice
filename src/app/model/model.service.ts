@@ -12,9 +12,13 @@ import {INVOICE} from '../config/invoice'
 import * as dummyConfig from '../dummy/config'
 import * as dummyData from '../dummy/data'
 
+import {CURRENCY_ISO} from '../config/currencyISO'
+
 declare const localStorage:any
 
 @Injectable()
+
+// todo: split into multiple services using custom decorator for fns
 
 export class ModelService {
 
@@ -79,6 +83,15 @@ export class ModelService {
     if (typeof config.langs==='string') {
       config.langs = (config.langs as String).split(/,/g)
     }
+    Object.defineProperty(config, 'currencySign', { get: ()=>{
+      const iso = CURRENCY_ISO[config.currency]
+      return iso&&iso.sign||'-'
+    } })
+    Object.defineProperty(config, 'currencyISO', { get: ()=>{
+      const iso = CURRENCY_ISO[config.currency]
+      return iso&&iso.ISO||'-'
+    } })
+    //
     return config
   }
 

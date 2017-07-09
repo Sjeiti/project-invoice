@@ -16,6 +16,7 @@ export interface IConfig {
   langs: string[]
   lang: string
   googleFontsAPIKey: string
+  currency: string
   homeMessage: boolean
   type: string
 }

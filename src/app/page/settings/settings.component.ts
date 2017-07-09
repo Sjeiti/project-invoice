@@ -10,6 +10,7 @@ import {Project} from '../../model/project'
 import * as dummyData from '../../dummy/data'
 import {sassChanged} from '../../signals'
 import {ExplainDirective} from '../../directive/explain.directive'
+import {CURRENCY_ISO} from '../../config/currencyISO'
 
 @Component({
   selector: 'app-settings',
@@ -30,11 +31,14 @@ export class SettingsComponent extends Saveable implements OnInit, OnDestroy {
   client:any
   project:any
   invoice:any
+  currencies:any[]
 
   constructor(
       protected modelService:ModelService
   ) {
     super(modelService)
+    // this.currencies = CURRENCY_ISO
+    this.currencies = Object.keys(CURRENCY_ISO).map(key=>CURRENCY_ISO[key])
   }
 
   ngOnInit() {

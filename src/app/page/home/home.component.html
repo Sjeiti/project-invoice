@@ -34,7 +34,7 @@
             </label>
           </td>
           <td><a routerLink="{{project.uri}}">{{project.client.name}}</a></td>
-          <td class="text-right">{{project.totalIncDiscounted | currency:'EUR':true}}</td>
+          <td class="text-right"><app-currency [amount]="project.totalIncDiscounted"></app-currency></td>
           <td><button *ngIf="project.overdue" (click)="onAddReminder(project)" class="btn btn-sm btn-primary">Add reminder</button></td>
         </tr>
       </tbody>
@@ -58,7 +58,7 @@
         >
           <td></td>
           <td><a routerLink="{{project.uri}}">{{project.client.name}}</a></td>
-          <td class="text-right">{{project.totalIncDiscounted | currency:'EUR':true}}</td>
+          <td class="text-right"><app-currency [amount]="project.totalIncDiscounted"></app-currency></td>
           <td><button *ngIf="project.overdue" (click)="onAddReminder(project)" class="btn btn-sm btn-primary">Add invoice</button></td>
         </tr>
       </tbody>

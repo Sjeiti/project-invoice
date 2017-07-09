@@ -29,7 +29,9 @@
       <textarea rows="4" [(ngModel)]="settings.langs" (ngModelChange)="onNgModelChanged()"></textarea>
     </dd>
     <dt [appExplain]="'settings.currency'" class="name">currency</dt><dd>
-      <input type="text" [(ngModel)]="settings.currency" (ngModelChange)="onNgModelChanged()" />
+      <select [(ngModel)]="settings.currency" (ngModelChange)="onNgModelChanged()">
+        <option *ngFor="let currency of currencies" value="{{currency.ISO}}" ngDefaultControl>{{currency.name}} ({{currency.sign}})</option>
+      </select>
     </dd>
     <dt [appExplain]="'settings.homeMessage'" class="name">welcome message</dt><dd>
       <input type="checkbox" [(ngModel)]="settings.homeMessage" (ngModelChange)="onNgModelChanged()" />

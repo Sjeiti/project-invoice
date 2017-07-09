@@ -26,6 +26,7 @@ export default {
     'nl'
   ],
   lang: 'en',
+  currency: 'EUR',
   googleFontsAPIKey: 'AIzaSyAFYPRYJcm8kFOxnKJNpnCIPNoA1rEQ1NA',
   homeMessage: true,
   type: 'config'
