@@ -164,6 +164,9 @@ export class ModelService {
     dataToStore.clients.forEach(client=>client.projects.forEach(project=>{
       delete project.modelService
       delete project._client // well that sucks
+      delete project.datePipe // todo: ehrm?
+      delete project.personal // todo: not getter?
+      delete project.startValue // todo: wa?
     }))
     //
     return JSON.stringify(dataToStore)
