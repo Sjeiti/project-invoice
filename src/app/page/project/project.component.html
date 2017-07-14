@@ -32,7 +32,7 @@
         <td><input [(ngModel)]="line.amount" (ngModelChange)="onNgModelChanged()" type="number" /></td>
         <td>
           <select [(ngModel)]="line.vat" (ngModelChange)="onNgModelChanged()">
-            <option *ngFor="let vat of INVOICE.VAT | object" [value]="vat.value">{{vat.value}}</option>
+            <option *ngFor="let vat of vatAmounts" [value]="vat">{{vat}}</option>
           </select>
         </td>
         <td><button (click)="onRemoveLine(line)" class="btn-default">&#10006;</button></td>

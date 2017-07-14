@@ -30,7 +30,7 @@
     </dd>
     <dt [appExplain]="'settings.currency'" class="name">currency</dt><dd>
       <select [(ngModel)]="settings.currency" (ngModelChange)="onNgModelChanged()">
-        <option *ngFor="let currency of currencies" value="{{currency.ISO}}" ngDefaultControl>{{currency.name}} ({{currency.sign}})</option>
+        <option *ngFor="let currency of currencies" value="{{currency.code}}" ngDefaultControl>{{currency.name}} ({{currency.symbol}})</option>
       </select>
     </dd>
     <dt [appExplain]="'settings.homeMessage'" class="name">welcome message</dt><dd>

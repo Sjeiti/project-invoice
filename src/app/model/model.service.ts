@@ -85,11 +85,11 @@ export class ModelService {
     }
     Object.defineProperty(config, 'currencySign', { get: ()=>{
       const iso = CURRENCY_ISO[config.currency]
-      return iso&&iso.sign||'-'
+      return iso&&iso.symbol||'-'
     } })
     Object.defineProperty(config, 'currencyISO', { get: ()=>{
       const iso = CURRENCY_ISO[config.currency]
-      return iso&&iso.ISO||'-'
+      return iso&&iso.code||'-'
     } })
     //
     return config

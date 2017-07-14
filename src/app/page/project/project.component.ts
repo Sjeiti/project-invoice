@@ -6,7 +6,6 @@ import {IInvoice} from '../../interface/invoice'
 import {IInvoiceLine} from '../../interface/invoice-line'
 import {ModelService} from '../../model/model.service'
 import {Saveable} from '../../abstract/saveable'
-import {INVOICE} from '../../config/invoice'
 import {dateTimeToDate} from '../../mixins'
 import {modelAction, modelAble} from '../../signals'
 import {Project} from '../../model/project'
@@ -31,10 +30,9 @@ export class ProjectComponent extends Saveable implements OnInit, OnDestroy {
 
   public client:Client
   public project:Project
-  public INVOICE:any = INVOICE
+  public personal:any
 
   name:Function
-  explain:Function
 
   constructor(
       protected modelService:ModelService,
@@ -55,6 +53,7 @@ export class ProjectComponent extends Saveable implements OnInit, OnDestroy {
       //
       this.client = this.modelService.getClientByNr(clientNr)
       this.projectProper = this.modelService.getProject(clientNr, projectIndex)
+      this.personal = this.modelService.getPersonal()
       //
       if (!this.projectProper) {
         this.router.navigate([(this.client as Client).uri])
@@ -88,7 +87,7 @@ export class ProjectComponent extends Saveable implements OnInit, OnDestroy {
   }
 
   onAddLine() {
-    this.project.lines.push(<IInvoiceLine>{amount:0, hours:0, vat:INVOICE.VAT_DEFAULT})
+    this.project.lines.push(<IInvoiceLine>{amount:0, hours:0, vat:this.vatAmounts.slice(0).shift()})
     this.checkModelDirty()
   }
 
@@ -119,5 +118,9 @@ export class ProjectComponent extends Saveable implements OnInit, OnDestroy {
   protected cloneModel():any {
     this.project = super.cloneModel() as Project
     return this.project
+  }
+
+  get vatAmounts():number[] {
+    return this.personal.vatAmounts.split(/,/g).map(vat=>parseFloat(vat))
   }
 }

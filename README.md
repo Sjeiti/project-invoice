@@ -58,7 +58,7 @@ Since the data is stored locally you can only access it from one computer. Howev
 
 ### I want to clear my LocalStorage to wipe all my data.
 
-There is a button for that on the settings page.
+There is a button for that on the [settings page](http://invoice.ronvalstar.nl/settings).
 
 ### Why?
 

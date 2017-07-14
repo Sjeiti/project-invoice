@@ -13,7 +13,7 @@ let explain = {
     bankName:              ['bank name',            'Your bank name'],
     country:               ['country',              'Your country'],
     reminderPeriod:        ['reminder period',      'Number of days the invoice is due'],
-    vatAmount:             ['VAT amount',           'The percentate of VAT, ie `21`'],
+    vatAmounts:            ['VAT amounts',          'A comma separated list of VAT percentages, ie `21,6,0`'],
     interestAmount:        ['interest percentage',  'The amount of interest added when a reminder is sent (differs per country), ie `8.05`'],
     administrationCosts:   ['administration costs', 'The amount of administrations costs added when a reminder is sent, ie `25`'],
     terms:                 ['terms url',            'An optional url to your terms and conditions'],

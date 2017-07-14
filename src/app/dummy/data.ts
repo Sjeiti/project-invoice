@@ -88,7 +88,7 @@ I, Spongebob Squarepants, hereby solemly swear to make one gazillion Krabby Patt
     bankName: 'Bikini Bottom Bank',
     country: 'Pacific ocean',
     reminderPeriod: 7,
-    vatAmount: '21',
+    vatAmounts: '21,6,0',
     interestAmount: 8.05,
     administrationCosts: 25,
     terms: 'http://squarepants.org/terms.pdf',
