@@ -73,6 +73,10 @@ input[type=color] {
   margin-right: 0.5em;
 }
 
+input:invalid {
+  border-color: red;
+}
+
 dl.row {
   dt {
     @extend .col-4;

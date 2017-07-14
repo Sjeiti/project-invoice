@@ -253,7 +253,7 @@ export class ModelService {
         project:Project = this.createProject(<IProject>{
           clientNr: client.nr,
           quotationDate: dateTimeToDate(),
-          lines: [{amount:0, description:'', hours:0, vat:INVOICE.VAT_DEFAULT}]
+          lines: [{amount:0, description:'', hours:0, vat:this.data.personal.vatAmounts.split(',').shift()}]
         }, client as Client)
     client.projects.push(project)
     this.updateProjects()

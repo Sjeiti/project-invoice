@@ -26,7 +26,7 @@
       <app-interpolationui [(ngModel)]="settings.csvTemplate" (ngModelChange)="onNgModelChanged()"></app-interpolationui>
     </dd>
     <dt [appExplain]="'settings.langs'" class="name">langs</dt><dd>
-      <textarea rows="4" [(ngModel)]="settings.langs" (ngModelChange)="onNgModelChanged()"></textarea>
+      <input type="text" pattern="\w\w(,\w\w)*" rows="4" [(ngModel)]="settings.langs" (ngModelChange)="onNgModelChanged()" />
     </dd>
     <dt [appExplain]="'settings.currency'" class="name">currency</dt><dd>
       <select [(ngModel)]="settings.currency" (ngModelChange)="onNgModelChanged()">

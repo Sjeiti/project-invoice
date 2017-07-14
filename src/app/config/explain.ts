@@ -23,8 +23,7 @@ let explain = {
     hourrateMin:           ['minimum hourly rate',  'Minimum hourly rate to calculate the hourly rate (corresponding to `minimum hours`)'],
     hourrateMax:           ['maximum hourly rate',  'Maximum hourly rate to calculate the hourly rate (corresponding to `maximum hours`)'],
     hoursMin:              ['minimum hours',        'Minimum hours rate to calculate the hourly rate (corresponding to `minimum hourly`)'],
-    hoursMax:              ['maximum hours',        'Maximum hours rate to calculate the hourly rate (corresponding to `maximum hourly`)'],
-    lang:                  ['lang',                 'A comma separated list of language ISO codes, ie `en,nl`. These are the languages you want to send your invoices in.']
+    hoursMax:              ['maximum hours',        'Maximum hours rate to calculate the hourly rate (corresponding to `maximum hourly`)']
   },
   project: {
     description:           ['project description'],

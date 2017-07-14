@@ -84,7 +84,7 @@ I, Spongebob Squarepants, hereby solemly swear to make one gazillion Krabby Patt
     kvkNumber: '9876543',
     bank: '192837465',
     iban: 'PO55BBBA0938282773',
-    bic: 'BIBOBA',
+    bic: 'BIBOBA23',
     bankName: 'Bikini Bottom Bank',
     country: 'Pacific ocean',
     reminderPeriod: 7,
@@ -98,8 +98,7 @@ I, Spongebob Squarepants, hereby solemly swear to make one gazillion Krabby Patt
     hourrateMin: '65',
     hourrateMax: '90',
     hoursMin: '32',
-    hoursMax: '256',
-    lang: 'nl,en'
+    hoursMax: '256'
   },
   copy: {
     sender: {

@@ -11,6 +11,7 @@ import * as dummyData from '../../dummy/data'
 import {sassChanged} from '../../signals'
 import {ExplainDirective} from '../../directive/explain.directive'
 import {CURRENCY_ISO} from '../../config/currencyISO'
+// import { PatternValidator } from '@angular/forms'
 
 @Component({
   selector: 'app-settings',

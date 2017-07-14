@@ -1,6 +1,7 @@
 import {OnInit, OnDestroy} from '@angular/core'
 import {ModelService} from '../model/model.service'
 import {modelDirty, modelAction, modelAble} from '../signals'
+import {ATTRIBUTE} from '../config/attribute'
 
 /**
  * Saveable is a base-class for pages that handle saving a model
@@ -143,6 +144,21 @@ export class Saveable implements OnInit, OnDestroy {
    */
   private isObjectLiteral(o:any):boolean{
     return o instanceof Object && o.constructor===Object
+  }
+
+  /**
+   * Check if attributes for model.property exist
+   * @param {string} key
+   * @param {string} type
+   * @returns {null}
+   */
+  public getAttribute(key:string, type:string){
+    let returnValue = null
+    const attrKey = ATTRIBUTE[key]
+    if (attrKey) {
+      returnValue = attrKey[type]
+    }
+    return returnValue
   }
 
 }

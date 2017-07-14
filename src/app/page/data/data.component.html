@@ -4,7 +4,16 @@
   </dl>
   <dl class="row">
     <ng-template ngFor let-item [ngForOf]="personal | object">
-      <dt [appExplain]="'data.'+item.key"></dt><dd><input [(ngModel)]="personal[item.key]" (ngModelChange)="onNgModelChanged()" /></dd>
+      <dt [appExplain]="'data.'+item.key"></dt>
+      <dd><input
+          [(ngModel)]="personal[item.key]"
+          (ngModelChange)="onNgModelChanged()"
+          
+          [attr.type]="getAttribute('data.'+item.key,'type')"
+          [attr.min]="getAttribute('data.'+item.key,'min')"
+          [attr.step]="getAttribute('data.'+item.key,'step')"
+          [attr.pattern]="getAttribute('data.'+item.key,'pattern')"
+      /></dd>
     </ng-template>
   </dl>
 </section>
