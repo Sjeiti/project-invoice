@@ -10,6 +10,8 @@ header {
 }
 
 .home-icon {
+  position: relative;
+  z-index: 1;
   float: left;
   height: $headerHeight;
   width: $headerHeight;
@@ -36,6 +38,7 @@ ul {
 li {
   position: relative;
   vertical-align: top;
+  margin: 0 -2px;
   a { line-height: $headerHeight; }
   &.drop {
     @include media-breakpoint-up(sm) {
@@ -56,8 +59,24 @@ li {
       }
     }
   }
-  li li {
-    padding-right: 2em;
+  @include media-breakpoint-down(xs) {
+      li li a {
+        position: relative;
+        &:after {
+          content: '';
+          display: inline-block;
+          border-bottom: 1px solid gray;
+          width: 3rem;
+        }
+      }
+  }
+  @include media-breakpoint-up(xs) {
+    a:not(.active) {
+      transition: background-color 200ms linear;
+      &:hover {
+        background-color: #555;
+      }
+    }
   }
 }
 label {
@@ -110,10 +129,13 @@ nav {
     }
   }
   #hamburger~ul {
-    display:none;
+    position: fixed;
     left: 0;
     top: $headerHeight;
     width: 100vw;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 400ms ease;
     box-shadow: 0 8px 8px rgba(0,0,0,0.3);
     @include media-breakpoint-up(sm) {
       box-shadow: none;
@@ -126,9 +148,19 @@ nav {
       }
     }
   }
+  #hamburger:checked+label {
+    &:before {
+      content: '';
+      display: block;
+      width: 100vw;
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+    }
+  }
   #hamburger:checked~ul {
-    display:block;
-    position: fixed;
+    max-height: 100vh;
   }
   @include media-breakpoint-up(sm) {
     #hamburger~ul,
