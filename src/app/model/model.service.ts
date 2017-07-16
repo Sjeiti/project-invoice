@@ -18,8 +18,10 @@ declare const localStorage:any
 
 @Injectable()
 
-// todo: split into multiple services using custom decorator for fns
-
+/**
+ * Main service for all data
+ * @todo split into multiple services using custom decorator for fns
+ */
 export class ModelService {
 
   private dataName = 'data'
@@ -33,6 +35,11 @@ export class ModelService {
 
   private projectID = 1
 
+  /**
+   * Constructor
+   * Gets data from LocalStorage if present, otherwise set dummy data
+   * @param {InterpolationService} interpolationService
+   */
   constructor(
       protected interpolationService:InterpolationService
   ) {
@@ -59,6 +66,12 @@ export class ModelService {
     return config
   }
 
+  /**
+   * Converts config data to something storeable
+   * Adds a timestamp
+   * @param config
+   * @returns {string}
+   */
   getStoreableConfig(config:IConfig = null):string {
     return JSON.stringify(Object.assign(this.setTimestamp(this.parseConfig(config||this.getConfig())), {type:'config'}))
   }
@@ -73,14 +86,30 @@ export class ModelService {
     return config
   }
 
+  /**
+   * Returns configuration
+   * @returns {IConfig}
+   */
   getConfig():IConfig {
     return this.config
   }
 
+  /**
+   * Sets configuration
+   * @param {IConfig} config
+   * @returns {IConfig}
+   */
   setConfig(config:IConfig):IConfig {
     return this.initConfig(this.saveConfig(config))
   }
 
+  /**
+   * Parses raw config data
+   * Splits `langs` to an array
+   * Adds getters for `currencySign` and `currencyISO`
+   * @param config
+   * @returns {IConfig}
+   */
   parseConfig(config:IConfig):IConfig {
     if (typeof config.langs==='string') {
       config.langs = (config.langs as String).split(/,/g)
@@ -97,6 +126,9 @@ export class ModelService {
     return config
   }
 
+  /**
+   * Clears the configuration from LocalStorage and reloads the page
+   */
   clearConfig(){
     localStorage.removeItem(this.configName)
     location.href = location.href
@@ -104,22 +136,45 @@ export class ModelService {
 
   //////////////////////////////////////////////////
 
+  /**
+   * Returns data
+   * @returns {IData}
+   */
   getData():IData {
     return this.data
   }
 
+  /**
+   * Sets the data
+   * @param {IData} data
+   * @returns {IData}
+   */
   setData(data:IData):IData {
     return this.initData(this.saveData(data))
   }
 
+  /**
+   * Returns copy data
+   * @returns {any[]}
+   */
   getCopy():any[] {
     return this.data.copy
   }
 
+  /**
+   * Returns personal data
+   * @returns {any}
+   */
   getPersonal():any {
     return this.data.personal
   }
 
+  /**
+   * Initialises data
+   * Creates clients and projects and defaults missing copy to the dummy data
+   * @param {IData} data
+   * @returns {IData}
+   */
   private initData(data:IData):IData {
     this.data = data
     this.clients = data.clients = data.clients.map(client=>this.createClient(client))
@@ -159,6 +214,12 @@ export class ModelService {
     return data
   }
 
+  /**
+   * Converts config data to something storeable
+   * Removes invalid properties (not on IData)
+   * @param {IData} data
+   * @returns {string}
+   */
   getStoreableData(data:IData = null):string {
     const dataToStore = Object.assign(this.setTimestamp(_.cloneDeep(data||this.getData())), {type:'data'})
     //
@@ -174,11 +235,19 @@ export class ModelService {
     return JSON.stringify(dataToStore)
   }
 
+  /**
+   * Save data to LocalStorage
+   * @param {IData} data
+   * @returns {IData}
+   */
   private saveData(data:IData):IData {
     localStorage.setItem(this.dataName, this.getStoreableData(data))
     return data
   }
 
+  /**
+   * Clears data from LocalStorage and reloads the page
+   */
   clearData(){
     localStorage.removeItem(this.dataName)
     location.href = location.href
@@ -186,6 +255,9 @@ export class ModelService {
 
   //////////////////////////////////////////////////
 
+  /**
+   * Save data and config
+   */
   public save() {
     modelBeforeSave.dispatch()
     this.saveData(this.data)
@@ -195,18 +267,36 @@ export class ModelService {
 
   //////////////////////////////////////////////////
 
+  /**
+   * Get all clients
+   * @returns {Client[]}
+   */
   public getClients():IClient[] {
     return this.clients||[]
   }
 
+  /**
+   * Get a client by number
+   * @param {number} nr
+   * @returns {Client}
+   */
   public getClientByNr(nr:number):Client {
     return this.clients&&this.clients.filter(client=>client.nr===nr).pop()
   }
 
+  /**
+   * Create a client
+   * @param {IClient} client
+   * @returns {Client}
+   */
   private createClient(client:IClient):Client {
     return new Client(client)
   }
 
+  /**
+   * Add a client and save
+   * @returns {Client}
+   */
   public addClient():Client {
     let nr:number = this.highestClientNr() + 1,
         name:string = 'new'+nr,
@@ -221,6 +311,11 @@ export class ModelService {
     return client
   }
 
+  /**
+   * Removes a client from the client list
+   * @param {IClient} client
+   * @returns {boolean} succes
+   */
   public removeClient(client:IClient):boolean {
     let clients:Client[] = this.clients,
         numClients:number = clients.length
@@ -232,27 +327,51 @@ export class ModelService {
 
   //////////////////////////////////////////////////
 
+  /**
+   * Get all projects
+   * @returns {Project[]}
+   */
   public getProjects():Project[] {
     return this.projects
   }
 
+  /**
+   * Get a single project by `clientNr` and `projectIndex`
+   * @param {number} clientNr
+   * @param {number} projectIndex
+   * @returns {Project}
+   */
   public getProject(clientNr:number, projectIndex:number):Project {
     const client = this.getClientByNr(clientNr) as Client
     return client&&client.sortProjects()[projectIndex] as Project
   }
 
+  /**
+   * Update project list by adding all client.projects
+   */
   private updateProjects() {
     this.projects = this.clients.length===0?[]:<Project[]>this.clients
       .map(client=>client.projects)
       .reduce((prev, curr)=>prev.concat(curr))
   }
 
+  /**
+   * Create a project
+   * @param {IProject} project
+   * @param {Client} client
+   * @returns {Project}
+   */
   private createProject(project:IProject, client:Client):Project {
     const newProject = new Project(project, client, this)
     newProject.id = this.projectID++
     return newProject
   }
 
+  /**
+   * Add a net project to a client and save
+   * @param clientNr
+   * @returns {Project}
+   */
   public addProject(clientNr:number):Project {
     const client:IClient = this.getClientByNr(clientNr),
         project:Project = this.createProject(<IProject>{
@@ -283,10 +402,19 @@ export class ModelService {
     return isDeleted
   }
 
+  /**
+   * Returns the interpolationService
+   * @returns {InterpolationService}
+   */
   public getInterpolationService():InterpolationService {
     return this.interpolationService
   }
 
+  /**
+   * Clone an existing project to a new one (minus the invoices)
+   * @param {IProject} project
+   * @returns {Project}
+   */
   public cloneProject(project:IProject):Project {
     const clientNr = project.clientNr
     const clonedProject = this.addProject(clientNr)
@@ -305,6 +433,10 @@ export class ModelService {
 
   //////////////////////////////////////////////////
 
+  /**
+   * Returns the heighest client number
+   * @returns {number}
+   */
   private highestClientNr():number {
     let highest = 0
     this.clients.forEach(client=> {
@@ -315,6 +447,11 @@ export class ModelService {
     return highest
   }
 
+  /**
+   * Adds a timestamp to an object
+   * @param {object} o
+   * @returns {any}
+   */
   private setTimestamp(o:any):any {
     o.timestamp = Date.now()
     return o
