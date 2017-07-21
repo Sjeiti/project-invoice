@@ -3,6 +3,10 @@ import {Pipe, PipeTransform} from '@angular/core'
 @Pipe({
   name: 'currencyFormat'
 })
+/**
+ * A currency formatter pipe
+ * Has the ability to use any chunk- or decimal delimiter while still enabling copying of a valid number
+ */
 export class CurrencyFormat implements PipeTransform {
   transform(
       value:number,

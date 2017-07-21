@@ -8,9 +8,10 @@ import {Project} from './project'
 import {Client} from './client'
 import {dateTimeToDate} from '../mixins'
 import {modelBeforeSave, modelSaved} from '../signals'
-import {INVOICE} from '../config/invoice'
+// import {INVOICE} from '../config/invoice'
 import * as dummyConfig from '../dummy/config'
 import * as dummyData from '../dummy/data'
+import {setTimestamp} from '../util/helper'
 
 import {CURRENCY_ISO} from '../config/currencyISO'
 
@@ -73,7 +74,7 @@ export class ModelService {
    * @returns {string}
    */
   getStoreableConfig(config:IConfig = null):string {
-    return JSON.stringify(Object.assign(this.setTimestamp(this.parseConfig(config||this.getConfig())), {type:'config'}))
+    return JSON.stringify(Object.assign(setTimestamp(this.parseConfig(config||this.getConfig())), {type:'config'}))
   }
 
   /**
@@ -211,6 +212,12 @@ export class ModelService {
       }
     }
     //
+    // hourrateMin, hourrateMax, hoursMin, hoursMax should be numeral (since 1.3.24) // todo find way to add types (data.personal is any plus interface)
+    this.data.personal.hourrateMin = parseFloat(this.data.personal.hourrateMin)
+    this.data.personal.hourrateMax = parseFloat(this.data.personal.hourrateMax)
+    this.data.personal.hoursMin = parseFloat(this.data.personal.hoursMin)
+    this.data.personal.hoursMax = parseFloat(this.data.personal.hoursMax)
+    //
     return data
   }
 
@@ -221,7 +228,7 @@ export class ModelService {
    * @returns {string}
    */
   getStoreableData(data:IData = null):string {
-    const dataToStore = Object.assign(this.setTimestamp(_.cloneDeep(data||this.getData())), {type:'data'})
+    const dataToStore = Object.assign(setTimestamp(_.cloneDeep(data||this.getData())), {type:'data'})
     //
     // delete properties to prevent circular references in json (non-enumerability does not work due to template references)
     dataToStore.clients.forEach(client=>client.projects.forEach(project=>{
@@ -445,16 +452,6 @@ export class ModelService {
       }
     })
     return highest
-  }
-
-  /**
-   * Adds a timestamp to an object
-   * @param {object} o
-   * @returns {any}
-   */
-  private setTimestamp(o:any):any {
-    o.timestamp = Date.now()
-    return o
   }
 
 }

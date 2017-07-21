@@ -6,7 +6,11 @@
       <dt [appExplain]="'project.client'">client</dt><dd><a routerLink="/client/{{client?.nr}}">{{client?.name}}</a></dd>
       <dt [appExplain]="'project.description'">description</dt><dd><input [(ngModel)]="project.description" (ngModelChange)="onNgModelChanged()" /></dd>
       <dt [appExplain]="'project.invoiceNr'">invoice number</dt><dd>{{project?.invoiceNr}}</dd>
-      <dt [appExplain]="'project.hourlyRate'">hourly rate</dt><dd><input [(ngModel)]="project.hourlyRate" (ngModelChange)="onNgModelChanged()" type="number" /></dd>
+      <dt [appExplain]="'project.hourlyRate'">hourly rate</dt>
+        <dd class="hourly-rate">
+          <app-currency [amount]="project?.hourlyRateCalculated"></app-currency>
+          <input [(ngModel)]="project.hourlyRate" (ngModelChange)="onNgModelChanged()" type="number" />
+        </dd>
       <dt [appExplain]="'project.discount'">discount</dt><dd><input [(ngModel)]="project.discount" (ngModelChange)="onNgModelChanged()" type="number" /></dd>
       <dt [appExplain]="'project.discountRate'">discounted rate</dt><dd>{{project.hourlyRate - project.hourlyRate*project.discount*0.01 | number : '1.2-2'}}</dd>
       <dt [appExplain]="'project.paid'">paid</dt><dd><label class="checkbox"><input [(ngModel)]="project.paid" type="checkbox" (ngModelChange)="onNgModelChanged()" /><span></span></label></dd>

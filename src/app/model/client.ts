@@ -4,6 +4,9 @@ import {dontEnumerateAccessors} from '../mixins'
 import {Project} from './project'
 import {projectSort} from '../util/project'
 
+/**
+ * Client class
+ */
 export class Client implements IClient {
 
   address = ''
@@ -18,6 +21,10 @@ export class Client implements IClient {
   zipcode = ''
   zippost = ''
 
+  /**
+   * Constructor
+   * @param {IClient} model
+   */
   constructor(model:IClient) {
     dontEnumerateAccessors(this)
     for (let name in model) {
@@ -27,18 +34,21 @@ export class Client implements IClient {
     }
   }
 
+  /**
+   * Clone the current client
+   * @returns {Client}
+   */
   clone(){
     return new Client(this)
   }
 
-  get lastInvoiceNr():number {
-    return this.projects.filter(project=>project.invoices.length>0).length
-  }
-
+  /**
+   * Get the date of the most recent project for this client
+   * @returns {Date}
+   */
   get lastProjectDate():Date {
     let date = new Date(0)
     this.projects.map((project:Project)=>project.date).forEach(projectDate=>{
-      // if (projectDate.getTime()>date.getTime()) {
       if (projectDate>date) {
         date = projectDate
       }
@@ -46,11 +56,18 @@ export class Client implements IClient {
     return date
   }
 
+  /**
+   * Getter for the url of this client
+   * @returns {string}
+   */
   get uri():string {
     return '/client/'+this.nr
   }
 
-
+  /**
+   * Sort projects by date
+   * @returns {IProject[]}
+   */
   sortProjects():IProject[] {
     return this.projects.sort(projectSort)
   }

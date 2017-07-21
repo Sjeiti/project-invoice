@@ -75,7 +75,7 @@
         </tr>
         </tbody>
         <!--total no interest-->
-        <tbody *ngIf="!invoice.interest">
+        <tbody *ngIf="invoice&&!invoice.interest">
         <tr class="separate add">
           <td colspan="3"></td>
         </tr>
@@ -85,7 +85,7 @@
         </tr>
         </tbody>
         <!--total interest-->
-        <tbody *ngIf="invoice.interest">
+        <tbody *ngIf="invoice&&invoice.interest">
         <tr>
           <td>{{__('administrationCosts')}}</td>
           <td><app-currency [amount]="personal.administrationCosts"></app-currency></td>

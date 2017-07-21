@@ -95,10 +95,10 @@ I, Spongebob Squarepants, hereby solemly swear to make one gazillion Krabby Patt
     email: 'spongebob@squarepants.org',
     website: 'http://squarepants.org',
     blog: '',
-    hourrateMin: '65',
-    hourrateMax: '90',
-    hoursMin: '32',
-    hoursMax: '256'
+    hourrateMin: 65,
+    hourrateMax: 90,
+    hoursMin: 32,
+    hoursMax: 256
   },
   copy: {
     sender: {

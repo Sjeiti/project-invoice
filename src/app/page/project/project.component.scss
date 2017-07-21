@@ -10,3 +10,13 @@ thead th {
     width: 30%;
   }
 }
+.hourly-rate {
+  app-currency {
+    width: 60px;
+    margin-right: 20px;
+  }
+  input {
+    width: calc(100% - 80px);
+    float: right;
+  }
+}
