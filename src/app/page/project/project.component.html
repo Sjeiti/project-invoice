@@ -33,7 +33,7 @@
         <td><input [(ngModel)]="line.description" (ngModelChange)="onNgModelChanged()" /></td>
         <td><input [(ngModel)]="line.hours" (ngModelChange)="onNgModelChanged()" type="number" /></td>
         <td><small (dblclick)="onClickCalculation(project,line)"><app-currency [amount]="line.hours*project.hourlyRateDiscounted"></app-currency></small></td>
-        <td><input [(ngModel)]="line.amount" (ngModelChange)="onNgModelChanged()" type="number" /></td>
+        <td><input [(ngModel)]="line.amount" (ngModelChange)="onNgModelChanged()" type="number" step="0.01" /></td>
         <td>
           <select [(ngModel)]="line.vat" (ngModelChange)="onNgModelChanged()">
             <option *ngFor="let vat of vatAmounts" [value]="vat">{{vat}}</option>

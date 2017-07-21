@@ -1,13 +1,16 @@
-td>app-currency {
-  width: 80px;
-  margin-left: 10px;
+td app-currency {
+  width: 60px;
+  float: right;
 }
 thead th {
   overflow: hidden;
   text-overflow: ellipsis;
   width: 10%;
-  &:nth-child(1), &:nth-child(3) {
+  &:nth-child(1) {
     width: 30%;
+  }
+  &:nth-child(3), &:last-child {
+    width: 1%;
   }
 }
 .hourly-rate {
