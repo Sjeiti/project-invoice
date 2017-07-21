@@ -37,70 +37,70 @@
       <h3 class="payment">{{__('payment')}}</h3>
       <table cellspacing="0" cellpadding="0">
         <thead>
-        <tr>
-          <th></th>
-          <th>{{__('amount')}}</th>
-          <th>{{__('vat')}}</th>
-        </tr>
+          <tr>
+            <th></th>
+            <th>{{__('amount')}}</th>
+            <th>{{__('vat')}}</th>
+          </tr>
         </thead>
         <!--lines-->
         <tbody>
-        <tr *ngFor="let line of project.lines">
-          <td>{{line.description}}</td>
-          <td><app-currency [amount]="line.amount"></app-currency></td>
-          <td><app-currency [amount]="line.amount*line.vat/100"></app-currency></td>
-        </tr>
+          <tr *ngFor="let line of project.lines">
+            <td>{{line.description}}</td>
+            <td><app-currency [amount]="line.amount"></app-currency></td>
+            <td><app-currency [amount]="line.amount*line.vat/100"></app-currency></td>
+          </tr>
         </tbody>
         <!--subtotal discount-->
         <tbody *ngIf="project.discount!==0">
-        <tr class="separate add"><td colspan="3"></td></tr>
-        <tr>
-          <td>{{__('subtotal')}}</td>
-          <td><app-currency [amount]="project.total"></app-currency></td>
-          <td><app-currency [amount]="project.totalVat"></app-currency></td>
-        </tr>
-        <tr>
-          <td>{{__('discount')}} {{project.discount}}%<!-- | number:2--></td>
-          <td><app-currency [amount]="project.totalDiscount"></app-currency></td>
-          <td><app-currency [amount]="project.totalVatDiscount"></app-currency></td>
-        </tr>
+          <tr class="separate add"><td colspan="3"></td></tr>
+          <tr>
+            <td>{{__('subtotal')}}</td>
+            <td><app-currency [amount]="project.total"></app-currency></td>
+            <td><app-currency [amount]="project.totalVat"></app-currency></td>
+          </tr>
+          <tr>
+            <td>{{__('discount')}} {{project.discount}}%<!-- | number:2--></td>
+            <td><app-currency [amount]="project.totalDiscount"></app-currency></td>
+            <td><app-currency [amount]="project.totalVatDiscount"></app-currency></td>
+          </tr>
         </tbody>
         <!--subtotal no discount-->
         <tbody *ngIf="project.discount===0&&project.lines.length>1">
-        <tr class="separate add"><td colspan="3"></td></tr>
-        <tr>
-          <td>{{__('subtotal')}}</td>
-          <td><app-currency [amount]="project.total"></app-currency></td>
-          <td><app-currency [amount]="project.totalVat"></app-currency></td>
-        </tr>
+          <tr class="separate add"><td colspan="3"></td></tr>
+          <tr>
+            <td>{{__('subtotal')}}</td>
+            <td><app-currency [amount]="project.total"></app-currency></td>
+            <td><app-currency [amount]="project.totalVat"></app-currency></td>
+          </tr>
         </tbody>
         <!--total no interest-->
-        <tbody *ngIf="invoice&&!invoice.interest">
-        <tr class="separate add">
-          <td colspan="3"></td>
-        </tr>
-        <tr class="total">
-          <td>{{__('total')}}</td>
-          <td colspan="2"><app-currency [amount]="project.totalIncDiscounted"></app-currency></td>
-        </tr>
+        <tbody *ngIf="!invoice||!invoice.interest">
+          <tr class="separate add">
+            <td colspan="3"></td>
+          </tr>
+          <tr class="total">
+            <td>{{__('total')}}</td>
+            <td colspan="2"><app-currency [amount]="project.totalIncDiscounted"></app-currency></td>
+          </tr>
         </tbody>
         <!--total interest-->
         <tbody *ngIf="invoice&&invoice.interest">
-        <tr>
-          <td>{{__('administrationCosts')}}</td>
-          <td><app-currency [amount]="personal.administrationCosts"></app-currency></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>{{__('legalInterest')}} {{personal.interestAmount}}%</td>
-          <td><app-currency [amount]="project.interest"></app-currency></td>
-          <td></td>
-        </tr>
-        <tr class="separate add"><td colspan="3"></td></tr>
-        <tr class="total">
-          <td>{{__('total')}}</td>
-          <td colspan="2"><app-currency [amount]="project.totalIncDiscountedInterest"></app-currency></td>
-        </tr>
+          <tr>
+            <td>{{__('administrationCosts')}}</td>
+            <td><app-currency [amount]="personal.administrationCosts"></app-currency></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>{{__('legalInterest')}} {{personal.interestAmount}}%</td>
+            <td><app-currency [amount]="project.interest"></app-currency></td>
+            <td></td>
+          </tr>
+          <tr class="separate add"><td colspan="3"></td></tr>
+          <tr class="total">
+            <td>{{__('total')}}</td>
+            <td colspan="2"><app-currency [amount]="project.totalIncDiscountedInterest"></app-currency></td>
+          </tr>
         </tbody>
       </table>
     </div>
