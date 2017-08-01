@@ -3,6 +3,11 @@ import {Pipe, PipeTransform} from '@angular/core'
 @Pipe({
   name: 'arraySort'
 })
+/**
+ * Pipe for sorting arrays
+ * @example
+<tr *ngFor="let project of quarter | arraySort:'date'" class="row-select">
+ */
 export class ArraySortPipe implements PipeTransform {
   transform(array: Array<any>, ...sortBy:Array<string>): Array<any> {
     array.sort((a: any, b: any) => {

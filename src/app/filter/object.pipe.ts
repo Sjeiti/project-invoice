@@ -1,9 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core'
 
-/*
- * Usage:
- *   value | object
-*/
+/**
+ * Pipe to traverse objects as an array
+ * @example
+<dl class="row">
+  <ng-template ngFor let-item [ngForOf]="personal | object">
+    <dt [appExplain]="'data.'+item.key"></dt>
+ */
 @Pipe({name: 'object'})
 export class ObjectPipe implements PipeTransform {
   transform(value: any, enumerable = true): Object[] {

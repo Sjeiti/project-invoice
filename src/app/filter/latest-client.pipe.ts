@@ -5,6 +5,9 @@ import {Project} from '../model/project'
 @Pipe({
   name: 'latestClient'
 })
+/**
+ * Pipe to sort clients to date by their last invoice
+ */
 export class LatestClientPipe implements PipeTransform {
 
   transform(clients: IClient[]): IClient[] {

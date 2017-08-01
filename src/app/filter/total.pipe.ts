@@ -1,9 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core'
 
-/*
+/**
+ * Pipe for calculating totals
  * Usage:
  *   value | object
-*/
+ */
 @Pipe({name: 'total', pure:false})
 export class TotalPipe implements PipeTransform {
   transform(value: any[], property:string):number {

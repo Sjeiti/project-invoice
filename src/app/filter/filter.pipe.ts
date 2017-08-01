@@ -3,6 +3,11 @@ import {Pipe, PipeTransform} from '@angular/core'
 @Pipe({
   name: 'arrayFilter'
 })
+/**
+ * A pipe for array filtering
+ * @example <tr *ngFor="let project of projects | arrayFilter:'!paid':'invoiceNum' | arraySort:'-timestampLatest' ">
+        
+ */
 export class ArrayFilterPipe implements PipeTransform {
   transform(array: Array<any>, ...filters:Array<string>): Array<any> {
     array&&filters.forEach(filter=>{
@@ -20,6 +25,11 @@ export class ArrayFilterPipe implements PipeTransform {
   }
 }
 
+/**
+ * Returns a string as boolean or number if applicable
+ * @param {string} val
+ * @returns {string|number|boolean}
+ */
 function value(val){
   const numberValue = parseFloat(val)
   if (val===numberValue.toString()) {
