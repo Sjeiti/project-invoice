@@ -22,17 +22,17 @@ const data = {
         {
           clientNr: 1,
           description: 'Krabby Patty innovations',
-          hourlyRate: 0,
-          discount: 0,
+          hourlyRate: 33,
+          discount: 5,
           lines: [
             {
-              description: '',
+              description: 'frying fodder',
               hours: 55,
               vat: 21,
               amount: 1234
             },
             {
-              description: '',
+              description: 'gritty greese',
               hours: 14,
               vat: 21,
               amount: 444

@@ -52,7 +52,7 @@ export default {
     top: 0;
     width: 100%;
     padding: $padding/2 0;
-    background-color: #333;
+    background-color: #444;
   }
   .layout {
     display: flex;

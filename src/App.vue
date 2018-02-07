@@ -8,6 +8,7 @@
 
 <style lang="scss">
   @import '/variables';
+  @import url('https://fonts.googleapis.com/css?family=Roboto:400,700|Source+Code+Pro:400,700');
   
   html {
     box-sizing: border-box;
@@ -18,11 +19,13 @@
   }
   
   body {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    /*font-family: 'Avenir', Helvetica, Arial, sans-serif;*/
+    font-family: 'Roboto', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-size: 16px;
     line-height: 130%;
+    background-color: #F8F8F8;
   }
 
   body, h1, h2, h3, h4, h5, h6, p, ol, ul {
@@ -31,12 +34,20 @@
     font-weight: normal;
   }
   
+  h1, h2, h3, h4, h5, h6 {
+    line-height: 140%;
+    /*box-shadow: 0 0 0 999px #EEE inset;*/
+  }
+  h3 { font-size: 22px; }
+  
   ol, ul {
     list-style: none;
   }
   
   section+section {
     margin-top: 40px;
+    padding-top: 20px;
+    box-shadow: 0 1px 0 $colorBorder inset;
   }
   
   img {
@@ -48,12 +59,13 @@
     width: 100%;
   }
   
-  button {
+  button, .btn {
     border: 0;
     box-shadow: 0 0 0 1px darken($colorLink,10%) inset,  0 -2px 8px $colorShade inset;
     background-color: $colorLink;
     color: #FFF;
     border-radius: 3px;
+    text-decoration: none;
     &:hover {
       background-color: lighten($colorLink,10%);
     }
@@ -79,6 +91,7 @@
   textarea {
     width: 100%;
     min-height: 70px;
+    line-height: 130%;
   }
   
   input {
@@ -87,10 +100,21 @@
       width: 16px;
       height: 16px;
     }
-    &[type=number]::-webkit-inner-spin-button {
-      -webkit-appearance: none;
+    &[type=number] {
+      font-family: 'Source Code Pro', monospace;
+      &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+      }
+    }
+    &[readonly] {
+      font-family: 'Source Code Pro', monospace;
+      background: transparent;
     }
   }
+  
+  .mono { font-family: 'Source Code Pro', monospace; }
+  
+  .btn { @extend .input; }
   
   select {
     padding: 4px 4px;
@@ -105,10 +129,11 @@
     flex-wrap: wrap;
   }
   dt {
-    flex: 0 0 30%;
+    flex: 0 0 100%/12*3;
+    //@extend .input;
   }
   dd {
-    flex: 0 0 70%;
+    flex: 0 0 100%/12*9;
     margin: 0;
   }
   
@@ -119,7 +144,7 @@
     >.layout {
       flex: 1;
       >div {
-        padding: 45px 0 $padding;
+        padding: 55px 0 $padding;
       }
     }
   }
@@ -166,6 +191,7 @@
   }
   
   .float-right { float: right; }
+  .text-align-right { text-align: right; }
 </style>
 
 <script>
