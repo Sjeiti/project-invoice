@@ -1,8 +1,0 @@
-<ng-template ngFor let-item [ngForOf]="list">
-  <dt><label for="faq{{item.index}}" [innerHTML]="item.dt | safeHtml"></label></dt>
-  <input name="{{name}}" id="faq{{item.index}}" type="radio" class="visually-hidden"/>
-  <dd [innerHTML]="item.dd | safeHtml"></dd>
-</ng-template>
-<div data-list>
-  <ng-content></ng-content>
-</div>
