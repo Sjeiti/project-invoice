@@ -1,19 +1,28 @@
 <template>
   <div>
-    <button disabled>save</button>
-    <button disabled>revert</button>
-    <button disabled>delete</button>
+    <button v-on:click="onSave" :disabled="!saveable">save</button>
+    <button v-on:click="onRevert" :disabled="!saveable">revert</button>
+    <button v-on:click="onDelete">delete</button>
   </div>
 </template>
 
 <script>
-  import signals from '@/signals'
+  import {saveable, save, revert, deleteModel} from '@/formState'
   export default {
     name: 'SaveableButtons'
-    ,props: ['value']
+    ,data () {
+      return {
+        saveable: false
+      }
+    }
     ,mounted(){
-      console.log('signals',signals); // todo: remove log
-      signals.foo.add(console.log.bind(console,'foo'))
+      saveable.add(console.log.bind(console,'saveable'))
+      saveable.add(isSaveable=>this.saveable = isSaveable)
+    }
+    ,methods: {
+      onSave: save
+      ,onRevert: revert
+      ,onDelete: deleteModel
     }
   }
 </script>

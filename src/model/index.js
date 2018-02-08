@@ -7,9 +7,11 @@ import defaultData from '../data/data'
 
 import { create as createClient } from './client'
 import { create as createCopy } from './copy'
+import { modelSaved } from '@/formState'
 
 const config = getStored('config',defaultConfig)
 const data = getStored('data',defaultData)
+// for (let s in data) console.log('s',s); // todo: remove log
 
 const model = {
   clients: []
@@ -20,6 +22,10 @@ const model = {
     return this.clients.filter(client=>client.nr===nr).pop()
   }
 }
+
+modelSaved.add(()=>{
+  setStored('data', data)
+})
 
 Object.setPrototypeOf(model,{
   get projects() {
@@ -45,6 +51,14 @@ function getStored(name, defaultsTo){
     data = rawData&&JSON.parse(rawData)
   } catch(err){}
 	return rawData&&data||defaultsTo
+}
+
+function setStored(name, data){
+  let stringData;
+  try {
+    stringData = JSON.stringify(data)
+  } catch(err){}
+	return localStorage.setItem(name,stringData)
 }
 
 export default model

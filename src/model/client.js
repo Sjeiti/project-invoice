@@ -16,7 +16,19 @@ import { create as createProject } from './project'
  */
 
 const proto = {
-  get fooClient(){return 'barClient'}
+
+    /**
+     * Returns an exact clone of the project
+     * @returns {client}
+     */
+    clone(){
+        const cloned = JSON.parse(JSON.stringify(this))
+        return create(cloned, this.model)
+    }
+
+    ,get uri(){
+      return `/client/${this.nr}`
+    }
 }
 
 export function create(client, model){

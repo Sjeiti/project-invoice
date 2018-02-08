@@ -26,9 +26,7 @@ const proto = {
      * @returns {Project}
      */
     clone(){
-        // todo: this.invoices and this.lines
         const cloned = JSON.parse(JSON.stringify(this))
-        // cloned.invoices.length = 0
         return create(cloned, this.client, this.model)
     },
 
@@ -202,7 +200,8 @@ const proto = {
      */
     get indexOnClient() {
       return this.client.projects
-          .filter(project=>project.invoices.length>0)
+          .slice(0)
+          // .filter(project=>project.invoices.length>0)
           .sort(projectSort)
           .indexOf(this)
     },
@@ -293,12 +292,12 @@ const proto = {
      * @returns {string}
      */
     get uri(){
-      return `/client/${this.clientNr}/${this.indexOnClient+1}`
+      return `/client/${this.clientNr}/${this.indexOnClient}`
     },
 
     /**
      * Getter for the project client
-     * @returns {Client}
+     * @returns {client}
      */
     get client(){
       return this._client

@@ -81,6 +81,9 @@
         0 -2px 8px $colorShade inset,
         1px 2px 4px rgba(0,0,0,0.4);
     }
+    &[disabled] {
+      background-color: mix($colorButton,#888,10%);
+    }
   }
   
   input, button, select, textarea, .input {

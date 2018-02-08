@@ -3,9 +3,9 @@
     <button v-on:click="clone(project)" class="float-right">clone</button>
     <h1>Project: {{project.description}}</h1>
     <section>
-      <dl class="row">
+      <dl>
         <dt data-appExplain="'project.client'">client</dt>
-        <dd><router-link class="input" v-bind:to="`/client/${client.nr}`">{{client.name}}</router-link></dd>
+        <dd><router-link class="input" v-bind:to="client.uri||''">{{client.name}}</router-link></dd>
         <dt data-appExplain="'project.description'">description</dt>
         <dd><input v-model="project.description"/></dd>
         <dt data-appExplain="'project.invoiceNr'">invoice number</dt>
@@ -56,7 +56,7 @@
         <tr>
           <td>total ex VAT</td>
           <td>
-            <div class="input">{{project.totalHours}}</div>
+            <div class="input mono">{{project.totalHours}}</div>
           </td>
           <td><currency :value="project.totalHours*project.hourlyRateDiscounted"/></td>
           <td><currency :value="project.total"/></td>
@@ -117,6 +117,7 @@
 import model from '@/model'
 import Currency from '@/components/Currency.vue'
 import signals from '@/signals'
+import {track} from '@/formState'
 
 const INVOICE = {VAT_DEFAULT:21} // todo:fix to somewhere
 
@@ -134,30 +135,23 @@ export default {
   }
   ,mounted(){
     this.client = model.getClientByNr(parseInt(this.$route.params.clientNr,10))
-    this.project = this.client.projects[parseInt(this.$route.params.projectIndex,10)]
     //
-    console.log('JSON.stringify',JSON.stringify(this.project)); // todo: remove log
-    console.log('this',this); // todo: remove log
-    this.$el.addEventListener('change', ()=>{
-      console.log('change',23); // todo: remove log
-      signals.foo.dispatch(233)
-    })
+    const project = this.client.projects[parseInt(this.$route.params.projectIndex,10)]
+    const projectClone = project.clone()
+    this.project = projectClone
+    track(this.$el,project,projectClone,this.client.projects,this.client.uri)
   },
   methods: {
     onRemoveLine(line) {
       const lines = this.project.lines,
           i = lines.indexOf(line)
       i!==-1&&lines.splice(i, 1)
-      //this.checkModelDirty()
     },
     onAddLine(){
       this.project.lines.push({amount:0, hours:0, vat:INVOICE.VAT_DEFAULT})
-      //this.checkModelDirty()
     },
     onClickLineCalculation(project, line) {
-      console.log('onClickLineCalculation',project,line); // todo: remove log
       line.amount = line.hours*project.hourlyRateDiscounted
-      //this.checkModelDirty()
     },
     clone(project) {
       console.log('foo'); // todo: remove log

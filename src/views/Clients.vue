@@ -3,7 +3,7 @@
     <h1>Clients</h1>
     <ul>
       <li v-for="client in clients" :key="client.nr">
-        <router-link v-bind:to="'/client/'+client.nr">{{client.name}}</router-link>
+        <router-link v-bind:to="client.uri">{{client.name}}</router-link>
       </li>
     </ul>
   </div>
