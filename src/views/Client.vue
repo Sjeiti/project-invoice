@@ -50,26 +50,17 @@ export default {
     const client = model.getClientByNr(parseInt(this.$route.params.clientNr,10))
     const clientClone = client.clone()
     this.client = clientClone
-    track(this.$el,client,clientClone)
+    track(this.$el,client,clientClone,this.deleteClient)
   },
   methods: {
     onAddProject(){
-      const projectId = Math.max(...this.client.projects.map(p=>p.id)) + 1
-      const project = create({
-        clientNr: this.client.nr
-        ,description: `project ${projectId}`
-        ,id: projectId
-        ,invoices: []
-        ,lines: []
-        ,paid: false
-      },this.client,this.model)
-      const num = this.client.projects.push(project)
-      save()
-        console.log('onAddProject'
-            ,'\n\t',project
-            ,'\n\t',project.uri
-            ,'\n\t',this.client.projects[num-1].uri); // todo: remove log
-//      this.$router.push(project.uri)
+      const project = this.client.createProject()
+      project && save()
+      this.$router.push(project.uri)
+    }
+    ,deleteClient(){
+      const client = model.getClientByNr(parseInt(this.$route.params.clientNr,10))
+      confirm('Delete this client?') && model.deleteClient(client) && (save(),this.$router.push('/clients'))
     }
   }
 }

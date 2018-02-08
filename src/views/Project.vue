@@ -117,7 +117,7 @@
 import model from '@/model'
 import Currency from '@/components/Currency.vue'
 import signals from '@/signals'
-import {track} from '@/formState'
+import {track,save} from '@/formState'
 
 const INVOICE = {VAT_DEFAULT:21} // todo:fix to somewhere
 
@@ -139,7 +139,7 @@ export default {
     const project = this.client.projects[parseInt(this.$route.params.projectIndex,10)]
     const projectClone = project.clone()
     this.project = projectClone
-    track(this.$el,project,projectClone,this.client.projects,this.client.uri)
+    track(this.$el,project,projectClone,this.deleteProject)
   },
   methods: {
     onRemoveLine(line) {
@@ -148,16 +148,19 @@ export default {
       i!==-1&&lines.splice(i, 1)
     },
     onAddLine(){
-      this.project.lines.push({amount:0, hours:0, vat:INVOICE.VAT_DEFAULT})
+      this.project.addLine()
     },
     onClickLineCalculation(project, line) {
       line.amount = line.hours*project.hourlyRateDiscounted
     },
     clone(project) {
-      console.log('foo'); // todo: remove log
       console.log('clonedProject',JSON.parse(JSON.stringify(project))); // todo: remove log
       //const clonedProject = this.modelService.cloneProject(project)
       //this.router.navigate([clonedProject.uri])
+    },
+    deleteProject() {
+      const project = this.client.projects[parseInt(this.$route.params.projectIndex,10)]
+      confirm('Delete this project?') && this.client.deleteProject(project) && (save(),this.$router.push(this.client.uri))
     }
   }
 }

@@ -20,12 +20,6 @@ import model from '@/model'
 
 export default {
   name: 'about'
-  ,data () {
-    return model
-  }
-  ,mounted(){
-    console.log('mounted',this.model); // todo: remove log
-  }
 }
 </script>
 

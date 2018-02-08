@@ -11,15 +11,31 @@ import { modelSaved } from '@/formState'
 
 const config = getStored('config',defaultConfig)
 const data = getStored('data',defaultData)
-// for (let s in data) console.log('s',s); // todo: remove log
 
 const model = {
-  clients: []
+  clients: data.clients
   ,config: {}
   ,copy: {}
   ,personal: {}
   ,getClientByNr(nr){
     return this.clients.filter(client=>client.nr===nr).pop()
+  }
+  ,addClient(){
+    const clientNr = Math.max(...this.clients.map(o=>o.nr)) + 1
+    const client = createClient({
+      name: `new client ${clientNr}`
+      ,nr: clientNr
+      ,projects: []
+    }, this)
+    this.clients.push(client)
+    setStored('data', data)
+    return client
+  }
+  ,deleteClient(client){
+    const index = this.clients.indexOf(client)
+    const valid = index!==-1
+    valid&&this.clients.splice(index,1)
+    return valid
   }
 }
 
@@ -37,7 +53,7 @@ Object.setPrototypeOf(model,{
   }
 });
 
-model.clients.push(...data.clients.map(client=>createClient(client, model)))
+model.clients.forEach(client=>createClient(client, model))
 for (let key in data.copy) {
     model.copy[key] = createCopy(data.copy[key])
 }

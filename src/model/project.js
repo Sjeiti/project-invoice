@@ -39,6 +39,10 @@ const proto = {
         return (new Function('project','client','return `'+this.model.config.projectNumberTemplate+'`'))(this, this.client)
     },
 
+    addLine(vat=21){
+      this.lines.push({amount:0, hours:0, vat})
+    },
+
     /**
      * A getter for the invoice number
      * @returns {string}

@@ -1,5 +1,48 @@
 <template>
   <div>
+    <section data-ngIf="config.homeMessage" class="jumbotron">
+      <p>This invoicing application stores all your data on your local machine.<br/>
+      <em><small>Because all your data are belongs to you.</small></em></p>
+      <button class="btn btn-sm btn-link float-right" data-click="onHideWelcome()">hide message</button>
+    </section>
+    <div class="row">
+      <section class="col-12 col-md-7">
+        <h2>Open invoices</h2>
+        <p data-ngIf="projects.length===0"><em>You currently have no open invoices... yay!</em></p>
+        <table data-ngIf="projects.length>0">
+          <thead><tr>
+            <th data-order-key="paid" width="10%">paid</th>
+            <th data-order-key="client" width="60%">client</th>
+            <th data-order-key="totalIncDiscounted" width="20%">amount</th>
+            <th width="20%">actions</th>
+          </tr></thead>
+          <tbody>
+            <tr
+                data-for="let project of projects | arrayFilter:'!paid':'invoiceNum' | arraySort:'-timestampLatest' "
+                class="row-select ng-scope"
+                data-ngClass="{'row-select':true,'alert-paid':project.paid,'alert-late':project.isLate,'alert-pending':project.isPending}"
+                title="{-{project.invoiceNr}} {-{project.date | date:dateFormat}} {-{project.description}}"
+            >
+              <td>
+                <label class="checkbox">
+                  <input data-ngModel="project.paid" data-change="onPaidChange()" type="checkbox" /><span></span>
+                </label>
+              </td>
+              <td><a routerLink="{-{project.uri}}">{-{project.client.name}}</a></td>
+              <td class="text-right">{-{project.totalIncDiscounted | currency:'EUR':true}}</td>
+              <td><button data-ngIf="project.overdue" data-click="onAddReminder(project)" class="btn btn-sm btn-primary">Add reminder</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <section class="col-12 col-md-5">
+        <p>What do you want to do:</p>
+        <p><button data-click="onAddClient()" class="btn btn-primary">Create a new client</button></p>
+        <p><button data-click="onAddProjectForLatestClient()" data-ngIf="latestClient" class="btn btn-primary">Create project for {-{latestClient.name}}</button></p>
+        <p><button data-click="onCloneLatestProject()" data-ngIf="latestProject" class="btn btn-primary">Clone project {-{latestProject.description}}</button></p>
+        <p><a routerLink="/overview/quarter" class="btn btn-primary">See current quarter</a></p>
+      </section>
+    </div>
   </div>
 </template>
 

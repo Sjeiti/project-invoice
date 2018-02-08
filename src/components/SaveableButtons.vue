@@ -16,7 +16,6 @@
       }
     }
     ,mounted(){
-      saveable.add(console.log.bind(console,'saveable'))
       saveable.add(isSaveable=>this.saveable = isSaveable)
     }
     ,methods: {

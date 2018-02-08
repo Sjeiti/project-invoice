@@ -1,15 +1,14 @@
 import signals from 'signals'
 
-let model, clone, container, redir
+let model, clone, ddeleteModel, redir
 
 export const modelSaved = new signals.Signal()
 export const saveable = new signals.Signal()
 
-export function track(element, _model, _clone, _container, _redir) {
+export function track(element, _model, _clone, _delete) {
   model = _model
   clone = _clone
-  container = _container
-  redir = _redir
+  ddeleteModel = _delete
 
   element.addEventListener('change', onModelChange)
   element.addEventListener('click', onModelChange)
@@ -45,7 +44,5 @@ export function revert() {
 }
 
 export function deleteModel() {
-  const index = container.indexOf(model)
-  index>=0&&container.splice(index,1)
-  console.log('_redir',redir); // todo: remove log
+  ddeleteModel()
 }
