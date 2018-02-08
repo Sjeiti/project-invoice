@@ -8,7 +8,7 @@
 
 <style lang="scss">
   @import '/variables';
-  @import url('https://fonts.googleapis.com/css?family=Roboto:400,700|Source+Code+Pro:400,700');
+  @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700|Source+Code+Pro:400,700');
   
   html {
     box-sizing: border-box;
@@ -20,12 +20,12 @@
   
   body {
     /*font-family: 'Avenir', Helvetica, Arial, sans-serif;*/
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Open Sans', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-size: 16px;
     line-height: 130%;
-    background-color: #F8F8F8;
+    background-color: $colorBackground;
   }
 
   body, h1, h2, h3, h4, h5, h6, p, ol, ul {
@@ -46,7 +46,7 @@
   
   section+section {
     margin-top: 40px;
-    padding-top: 20px;
+    padding-top: 40px;
     box-shadow: 0 1px 0 $colorBorder inset;
   }
   
@@ -55,36 +55,52 @@
     height: auto;
   }
   
-  table {
-    width: 100%;
+  button, .btn, input, button, select, textarea, .input {
+    margin: 0 2px 4px 0;
+    padding: 4px 8px;
+    border: 0;
+    line-height: 22px;
+    &:last-child, &.float-right:first-child {
+      margin-right: 0;
+    }
   }
   
   button, .btn {
-    border: 0;
-    box-shadow: 0 0 0 1px darken($colorLink,10%) inset,  0 -2px 8px $colorShade inset;
-    background-color: $colorLink;
+    box-shadow: 0 0 0 1px darken($colorButton,10%) inset,
+      1px 1px 0 1px lighten($colorButton,10%) inset,
+      0 -2px 8px $colorShade inset;
+    background-color: $colorButton;
     color: #FFF;
-    border-radius: 3px;
     text-decoration: none;
     &:hover {
-      background-color: lighten($colorLink,10%);
+      background-color: lighten($colorButton,10%);
+    }
+    &:focus {
+      box-shadow: 0 0 0 1px darken($colorButton,10%) inset,
+        1px 1px 0 1px lighten($colorButton,40%) inset,
+        0 -2px 8px $colorShade inset,
+        1px 2px 4px rgba(0,0,0,0.4);
     }
   }
   
   input, button, select, textarea, .input {
-    margin: 0 0 4px 0;
-    padding: 6px 8px;
     font-family: inherit;
     font-size: inherit;
-    line-height: 100%;
+    border-radius: 3px;
+    &:focus {
+      outline: none;
+    }
   }
   
   input, textarea {
     border: 0;
     margin-bottom: 4px;
-    box-shadow: 0 0 0 1px $colorBorder,  0 4px 16px $colorShade inset;
+    box-shadow: 0 0 0 1px $colorBorder inset,  0 4px 16px $colorShade inset;
     &[readonly] {
       box-shadow: 0 0 0 1px lighten($colorBorder,20%);
+    }
+    &:focus {
+      box-shadow: 0 0 0 1px $colorButton inset,  0 4px 16px $colorShade inset;
     }
   }
   
@@ -117,11 +133,42 @@
   .btn { @extend .input; }
   
   select {
-    padding: 4px 4px;
+    padding: 3px 6px;
+    border: 1px solid $colorBorder;
+    &:focus {
+      border: 1px solid $colorButton;
+    }
   }
   
   a {
-    color: #46D;
+    color: $colorLink;
+  }
+  
+  table {
+    width: 100%;
+    border-top: 1px solid $colorBorder;
+    border-bottom: 1px solid $colorBorder;
+  }
+  thead,tfoot { background-color: $colorTable; }
+  table, tbody, tfoot, tr, td, th {
+    margin:0;
+    padding:0;
+    border-collapse:collapse;
+    border-spacing:0;
+  }
+  tbody {
+    border-top: 2px solid $colorBackground;
+  }
+  th {
+    font-size: 1.1em;
+    line-height: 180%;
+    font-weight: normal;
+    text-align: left;
+  }
+  td, th {
+    padding: 0 1px;
+    &:first-child { padding-left: 0; }
+    &:last-child { padding-right: 0; }
   }
   
   dl {
@@ -191,12 +238,13 @@
   }
   
   .float-right { float: right; }
+  .text-align-left { text-align: left; }
   .text-align-right { text-align: right; }
 </style>
 
 <script>
-  import AppHeader from './components/Header.vue'
-  import AppFooter from './components/Footer.vue'
+  import AppHeader from '@/components/Header.vue'
+  import AppFooter from '@/components/Footer.vue'
   
   export default {
     name: 'app'

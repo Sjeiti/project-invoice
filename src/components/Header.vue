@@ -30,17 +30,18 @@
           </li>
         </ul>
       </nav>
-      <div data-saveable-buttons class="float-right">
-        <button class="btn-primary" disabled>save</button>
-        <button class="btn-primary" disabled>revert</button>
-      </div>
+      <saveable-buttons class="float-right"></saveable-buttons>
     </div>
   </header>
 </template>
 
 <script>
+import SaveableButtons from '@/components/SaveableButtons.vue'
 export default {
   name: 'AppHeader'
+  ,components: {
+    SaveableButtons
+  }
 }
 </script>
 
