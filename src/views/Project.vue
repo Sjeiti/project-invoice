@@ -119,8 +119,6 @@ import Currency from '@/components/Currency.vue'
 import signals from '@/signals'
 import {track,save} from '@/formState'
 
-const INVOICE = {VAT_DEFAULT:21} // todo:fix to somewhere
-
 export default {
   name: 'project'
   ,data () {

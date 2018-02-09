@@ -6,9 +6,15 @@
  */
 
 const proto = {
-  get fooInvoice(){return 'barInvoice'}
+  // get fooInvoice(){return 'barInvoice'}
+	get invoiceIndex(){
+	  return this.project.invoices.indexOf(this.invoice)
+	}
 }
 
-export function create(invoice){
-    return Object.setPrototypeOf(invoice, proto);
+export function create(invoice, project){
+  // create non-enumerable properties
+  Object.defineProperty(invoice, 'project', { value: project, enumerable: false })
+  //
+  return Object.setPrototypeOf(invoice, proto);
 }

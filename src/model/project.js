@@ -351,7 +351,7 @@ export function create(project, client, model){
     project.lines.forEach((line,i,a)=>(a[i] = createProjectLine(line)))
     //
     // create project invoices
-    project.invoices.forEach((line,i,a)=>(a[i] = createInvoice(line)))
+    project.invoices.forEach((invoice,i,a)=>(a[i] = createInvoice(invoice,project)))
     //
     // project.quotationDate = new Date(project.quotationDate)
     // project.quotationStartDate = new Date(project.quotationStartDate)

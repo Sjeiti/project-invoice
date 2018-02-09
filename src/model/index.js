@@ -12,11 +12,13 @@ import { modelSaved } from '@/formState'
 const config = getStored('config',defaultConfig)
 const data = getStored('data',defaultData)
 
+console.log('data',data); // todo: remove log
+
 const model = {
   clients: data.clients
-  ,config: {}
-  ,copy: {}
-  ,personal: {}
+  ,config: config
+  ,copy: data.copy
+  ,personal: data.personal
   ,getClientByNr(nr){
     return this.clients.filter(client=>client.nr===nr).pop()
   }
