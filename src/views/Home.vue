@@ -13,10 +13,10 @@
       </section>
       <section class="col-12 col-md-5">
         <p>What do you want to do:</p>
-        <p><button v-on:click="onAddClient" class="btn btn-primary">Create a new client</button></p>
-        <p><button v-on:click="onAddProjectForLatestClient" v-if="latestClient" class="btn btn-primary">Create project for '{{latestClient.name}}'</button></p>
-        <p><button v-on:click="onCloneLatestProject" v-if="latestProject" class="btn btn-primary">Clone project '{{latestProject.description}}'</button></p>
-        <!--<p><router-link v-to="'/overview/quarter'" class="btn btn-primary">See current quarter</router-link></p>-->
+        <p><button v-on:click="onAddClient">Create a new client</button></p>
+        <p><button v-on:click="onAddProjectForLatestClient" v-if="latestClient">Create project for '{{latestClient.name}}'</button></p>
+        <p><button v-on:click="onCloneLatestProject" v-if="latestProject">Clone project '{{latestProject.description}}'</button></p>
+        <p><router-link to="/overview/quarter" class="btn">See current quarter</router-link></p>
       </section>
       <section class="col-12 col-md-7">
         <h2>Draft projects</h2>

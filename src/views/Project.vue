@@ -82,9 +82,9 @@
       </header>
       <ul class="list-unstyled">
         <li v-for="(invoice, i) in project.invoices" v-bind:key="i" class="row">
-          <div class="col-3"></div>
+          <div class="col-3">{{project.uri}}</div>
           <div class="col-3 col-md-2">
-            <a v-bind:href="`${project.uri}/${invoice.type}${i!==0?'/'+i:''}`" class="btn">{{invoice.type}}{{i!==0?'&nbsp;' + i:''}}</a>
+            <router-link v-bind:to="`${project.uri}/${invoice.type}${i!==0?'/'+i:''}`" class="btn">{{invoice.type}}{{i!==0?'&nbsp;' + i:''}}</router-link>
           </div>
           <div class="col-2 col-md-3"><input v-model="invoice.date" type="date"/></div>
           <div class="col-2 col-md-2 text-align-right">

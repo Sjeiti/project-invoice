@@ -213,11 +213,19 @@ const proto = {
    * @returns {number}
    */
   get indexOnClient() {
-    return this.client.projects
+    let index = -1
+    this.client.projects
         .slice(0)
-        // .filter(project=>project.invoices.length>0)
         .sort(projectSort)
-        .indexOf(this)
+        .forEach((p,i)=>{
+          if (p.id===this.id) index = i
+        })
+    return index
+    // return this.client.projects
+    //     .slice(0)
+    //     // .filter(project=>project.invoices.length>0)
+    //     .sort(projectSort)
+    //     .indexOf(this)
   },
 
   /**
