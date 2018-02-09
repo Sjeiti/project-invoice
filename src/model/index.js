@@ -37,7 +37,15 @@ const model = {
     valid&&this.clients.splice(index,1)
     return valid
   }
+  ,get projects(){
+    return this.clients
+        .map(client=>client.projects)
+        .reduce((a,b)=>(a.push(...b),a),[])
+  }
 }
+
+data.clients.forEach(client=>createClient(client, model))
+console.log('model',model); // todo: remove log
 
 modelSaved.add(()=>{
   setStored('data', data)
@@ -53,7 +61,6 @@ Object.setPrototypeOf(model,{
   }
 });
 
-model.clients.forEach(client=>createClient(client, model))
 for (let key in data.copy) {
     model.copy[key] = createCopy(data.copy[key])
 }

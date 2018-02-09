@@ -23,7 +23,10 @@
         <td v-if="col.client" class="ellipsis" :title="project.client.name"><span>{{project.client.name}}</span></td>
         <td v-if="col.description" class="ellipsis" :title="project.description"><span>{{project.description}}</span></td>
         <td v-if="col.amount" class="text-right"><currency :value="project.totalIncDiscounted" /></td>
-        <td v-if="col.actions"><button v-if="project.overdue" v-on:click="onAddReminder(project)">Add reminder</button></td>
+        <td v-if="col.actions">
+          <button v-if="project.overdue" v-on:click="onAddReminder(project)">Add reminder</button>
+          <button v-if="project.invoices.length===0" v-on:click="onAddInvoice(project)">Add invoice</button>
+        </td>
       </tr>
     </tbody>
   </table>
@@ -61,6 +64,9 @@ export default {
     ,onAddReminder(project){
       console.log('onAddReminder',project); // todo: remove log
     }
+    ,onAddInvoice(project){
+      console.log('onAddInvoice',project); // todo: remove log
+    }
     ,onRowClick(project){
       this.$router.push(project.uri)
     }
@@ -68,12 +74,15 @@ export default {
 }
 </script>
 
-<style lang="scss" scopaed>
+<style lang="scss" SCOSPED>
 @import '/../variables';
 .alert {
   &-paid { &, * { color: #AAA; }}
   &-late { &, * { color: red; }}
   &-pending { &, * { color: green; }}
   &-select { &, * { background-color: darken($colorBackground,5%); }}
+}
+table button {
+  white-space: nowrap;
 }
 </style>

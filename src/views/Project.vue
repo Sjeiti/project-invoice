@@ -140,6 +140,7 @@ export default {
     const projectClone = project.clone()
     this.project = projectClone
     track(this.$el,project,projectClone,this.deleteProject)
+//    console.log('project',project,project.prototype); // todo: remove log
   }
   ,methods: {
     onRemoveLine(line) {

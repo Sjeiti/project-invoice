@@ -8,6 +8,7 @@
 
 <style lang="scss">
   @import '/variables';
+  @import '/_grid';
   @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700|Source+Code+Pro:400,700');
   
   html {
