@@ -7,7 +7,7 @@ import { create as createProject } from './project'
  * @property {string} contact
  * @property {string} name
  * @property {number} nr
- * @property {string} paymentterm
+ * @property {string} paymentterm // todo convert to number (days)
  * @property {string} phone
  * @property {string} postbox
  * @property {project[]} projects
@@ -52,6 +52,10 @@ const proto = {
     const valid = index!==-1
     valid&&this.projects.splice(index,1)
     return valid
+  }
+
+  ,toString(){
+    return `[object client '${this.name}']`
   }
 }
 

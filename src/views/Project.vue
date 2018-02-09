@@ -59,7 +59,7 @@
             <div class="input mono">{{project.totalHours}}</div>
           </td>
           <td><currency :value="project.totalHours*project.hourlyRateDiscounted"/></td>
-          <td><currency :value="project.total"/></td>
+          <td><currency class="float-right" :value="project.total"/></td>
           <td></td>
           <td></td>
         </tr>
@@ -67,7 +67,7 @@
           <td>total inc VAT</td>
           <td></td>
           <td></td>
-          <td><currency :value="project.totalIncDiscounted"/></td>
+          <td><currency class="float-right" :value="project.totalIncDiscounted"/></td>
           <td></td>
           <td></td>
         </tr>
@@ -140,8 +140,8 @@ export default {
     const projectClone = project.clone()
     this.project = projectClone
     track(this.$el,project,projectClone,this.deleteProject)
-  },
-  methods: {
+  }
+  ,methods: {
     onRemoveLine(line) {
       const lines = this.project.lines,
           i = lines.indexOf(line)

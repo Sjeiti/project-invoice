@@ -21,15 +21,7 @@
         <button v-on:click="onAddProject()" class="float-right">add project</button>
         <h3>Projects</h3>
       </header>
-      <ul>
-        <li v-for="(project, index) in client.projects" :key="index">
-          <router-link v-bind:to="project.uri">
-            <span class="mono">{{project.invoiceNr}}</span>
-            {{project.id}}
-            {{project.description}}
-          </router-link>
-        </li>
-      </ul>
+      <project-list :projects="client.projects"></project-list>
     </section>
   </div>
 </template>
@@ -38,6 +30,7 @@
 import model from '@/model'
 import {track,save} from '@/formState'
 import {create} from '@/model/project'
+import ProjectList from '../components/ProjectList'
 
 export default {
   name: 'client'
@@ -51,8 +44,9 @@ export default {
     const clientClone = client.clone()
     this.client = clientClone
     track(this.$el,client,clientClone,this.deleteClient)
-  },
-  methods: {
+  }
+  ,components: {ProjectList}
+  ,methods: {
     onAddProject(){
       const project = this.client.createProject()
       project && save()

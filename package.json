@@ -19,6 +19,7 @@
     "@vue/cli-plugin-eslint": "^3.0.0-alpha.8",
     "@vue/cli-plugin-pwa": "^3.0.0-alpha.8",
     "@vue/cli-service": "^3.0.0-alpha.8",
+    "cypress": "^1.4.2",
     "eslint-plugin-html": "^4.0.2",
     "lint-staged": "^6.0.0",
     "node-sass": "^4.7.2",

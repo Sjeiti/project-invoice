@@ -199,6 +199,10 @@
     }
   }
   
+  .small, small {
+    font-size: 12px;
+  }
+  
   .layout {
     width: 100%;
     max-width: 1024px;
@@ -243,6 +247,24 @@
   .float-right { float: right; }
   .text-align-left { text-align: left; }
   .text-align-right { text-align: right; }
+  .nowrap { white-space: nowrap; }
+  .overflow-hidden { overflow: hidden; }
+
+  .ellipsis {
+    position: relative;
+    &:before {
+      content: '&nbsp;';
+      visibility: hidden;
+    }
+    > span {
+      position: absolute;
+      left: 0;
+      right: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
 </style>
 
 <script>

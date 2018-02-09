@@ -52,8 +52,10 @@ export default {
     left: 0;
     top: 0;
     width: 100%;
+    z-index: 1;
     padding: $padding/2 0;
-    background-color: #444;
+    background-color: $colorHeader;
+    box-shadow: 0 0 16px $colorHeader;
   }
   .layout {
     display: flex;

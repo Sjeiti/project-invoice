@@ -314,7 +314,8 @@ const proto = {
     get overdue(){
       const dateDiff = +new Date() - +this.dateLatest
       const dateDiffDays = dateDiff/(1000*60*60*24)
-      return dateDiffDays>this.data.personal.reminderPeriod
+      return dateDiffDays>this.client.paymentterm
+      // return dateDiffDays>this.data.personal.reminderPeriod // todo:
     }
     //////////////////////////////////////////////////
 

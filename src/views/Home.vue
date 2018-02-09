@@ -8,32 +8,8 @@
     <div class="row">
       <section class="col-12 col-md-7">
         <h2>Open invoices</h2>
-        <p data-ngIf="projects.length===0"><em>You currently have no open invoices... yay!</em></p>
-        <table data-ngIf="projects.length>0">
-          <thead><tr>
-            <th data-order-key="paid" width="10%">paid</th>
-            <th data-order-key="client" width="60%">client</th>
-            <th data-order-key="totalIncDiscounted" width="20%">amount</th>
-            <th width="20%">actions</th>
-          </tr></thead>
-          <tbody>
-            <tr
-                data-for="let project of projects | arrayFilter:'!paid':'invoiceNum' | arraySort:'-timestampLatest' "
-                class="row-select ng-scope"
-                data-ngClass="{'row-select':true,'alert-paid':project.paid,'alert-late':project.isLate,'alert-pending':project.isPending}"
-                title="{-{project.invoiceNr}} {-{project.date | date:dateFormat}} {-{project.description}}"
-            >
-              <td>
-                <label class="checkbox">
-                  <input data-ngModel="project.paid" data-change="onPaidChange()" type="checkbox" /><span></span>
-                </label>
-              </td>
-              <td><a routerLink="{-{project.uri}}">{-{project.client.name}}</a></td>
-              <td class="text-right">{-{project.totalIncDiscounted | currency:'EUR':true}}</td>
-              <td><button data-ngIf="project.overdue" data-click="onAddReminder(project)" class="btn btn-sm btn-primary">Add reminder</button></td>
-            </tr>
-          </tbody>
-        </table>
+        <p v-if="invoices.length===0"><em>You currently have no open invoices... yay!</em></p>
+        <project-list v-if="invoices.length>0" :projects="invoices" :cols="'paid client	amount actions'"></project-list>
       </section>
       <section class="col-12 col-md-5">
         <p>What do you want to do:</p>
@@ -47,7 +23,21 @@
 </template>
 
 <script>
+import model from '@/model'
+import ProjectList from '../components/ProjectList'
 export default {
   name: 'home'
+  ,components: {ProjectList}
+  ,data () {
+    return {
+      invoices: []
+    }
+  }
+  ,mounted(){
+    this.invoices = model.clients
+        .map(client=>client.projects)
+        .reduce((a,b)=>(a.push(...b),a),[])
+        .filter(p=>!p.paid)
+  }
 }
 </script>
