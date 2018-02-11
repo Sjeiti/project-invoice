@@ -1,8 +1,9 @@
 /**
  * @typedef {object} invoice
  * @property {string} date
- * @property {boolean} interest
  * @property {string} type
+ * @property {boolean} interest
+ * @property {boolean} exhortation todo:??
  */
 
 const proto = {

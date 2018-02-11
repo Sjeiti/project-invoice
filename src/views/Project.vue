@@ -77,12 +77,12 @@
     
     <section>
       <header class="clearfix">
-        <button data-ngClick="onAddInvoice()" class="float-right">add invoice</button>
+        <button v-on:click="onAddInvoice()" class="float-right">add invoice</button>
         <h3>invoices</h3>
       </header>
       <ul class="list-unstyled">
         <li v-for="(invoice, i) in project.invoices" v-bind:key="i" class="row">
-          <div class="col-3">{{project.uri}}</div>
+          <div class="col-3"></div>
           <div class="col-3 col-md-2">
             <router-link v-bind:to="`${project.uri}/${invoice.type}${i!==0?'/'+i:''}`" class="btn">{{invoice.type}}{{i!==0?'&nbsp;' + i:''}}</router-link>
           </div>
@@ -92,7 +92,7 @@
             <label v-if="i>1" class="checkbox"><input v-model="invoice.exhortation" type="checkbox"/><span title="exhortation"></span></label>
           </div>
           <div class="col-2 col-md-5 text-align-right">
-            <button data-ngClick="onRemoveInvoice(invoice)">&#10006;</button>
+            <button v-on:click="onRemoveInvoice(invoice)">&#10006;</button>
           </div>
         </li>
       </ul>
@@ -117,7 +117,9 @@
 import model from '@/model'
 import Currency from '@/components/Currency.vue'
 import signals from '@/signals'
+import {create as createInvoice} from '@/model/invoice'
 import {track,save} from '@/formState'
+import moment from 'moment'
 
 export default {
   name: 'project'
@@ -145,21 +147,40 @@ export default {
       const lines = this.project.lines,
           i = lines.indexOf(line)
       i!==-1&&lines.splice(i, 1)
-    },
-    onAddLine(){
+    }
+    ,onAddLine(){
       this.project.addLine()
-    },
-    onClickLineCalculation(project, line) {
+    }
+    ,onClickLineCalculation(project, line) {
       line.amount = line.hours*project.hourlyRateDiscounted
-    },
-    clone(project) {
+    }
+    ,clone(project) {
       console.log('clonedProject',JSON.parse(JSON.stringify(project))); // todo: remove log
       //const clonedProject = this.modelService.cloneProject(project)
       //this.router.navigate([clonedProject.uri])
-    },
-    deleteProject() {
+    }
+    ,deleteProject() {
       const project = this.client.projects[parseInt(this.$route.params.projectIndex,10)]
       confirm('Delete this project?') && this.client.deleteProject(project) && (save(),this.$router.push(this.client.uri))
+    }
+    ,onAddInvoice(){
+      const {project} = this
+      const {invoices} = project
+      invoices.push(createInvoice({
+        date: moment().format('YYYY-MM-DD'),
+        type: invoices.length===0?'invoice':'reminder', // todo: from const
+        interest: false,
+        exhortation: false
+      }))
+      save()
+    }
+    ,onRemoveInvoice(invoice){
+      if (confirm('Remove this invoice?')) {
+        const {project} = this
+        const {invoices} = project
+        const index = invoices.indexOf(invoice)
+        index!==-1&&invoices.splice(index,1)
+      }
     }
   }
 }

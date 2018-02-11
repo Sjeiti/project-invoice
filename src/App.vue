@@ -201,7 +201,7 @@
   }
   
   .small, small {
-    font-size: 12px;
+    font-size: 80%;
   }
   
   .layout {
