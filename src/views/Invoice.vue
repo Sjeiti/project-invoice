@@ -16,10 +16,7 @@
       <lang class="float-right"></lang>
     </section>
     <section>
-      <div class="invoice-shade">
-        <div></div>
-      </div>
-      <print-invoice class="print-invoice" :client="client" :project="project" :invoice="invoice" />
+      <print-invoice :client="client" :project="project" :invoice="invoice" />
     </section>
     <iframe class="visually-hidden"></iframe>
   </div>
@@ -126,60 +123,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scosped>
-@import '/../variables';
-.print-invoice {
-  display: block;
-  width: 210mm;
-  min-height: 296.9mm;
-  margin: 0 auto 60px;
-  position: relative;
-  z-index: 1;
-  zoom: .4;
-  font-family: "Istok Web","Helvetica Neue",Helvetica,Arial,sans-serif;
-  /*@include media-breakpoint-up(sm) {
-    zoom: .6;
-  }*/
-    zoom: .6;
-}
-.invoice-shade {
-  position: relative;
-  display: block;
-  height: 0;
-  zoom: .399;
-  /*@include media-breakpoint-up(sm) {
-    zoom: .599;
-  }*/
-    zoom: .599;
-  div {
-    position: relative;
-    left: 50%;
-    width: 210mm;
-    min-height: 296.9mm;
-    transform: translateX(-50%);
-    &:before, &:after {
-      content: '';
-      position: absolute;
-      left: 4%;
-      top: 1%;
-      width: 92%;
-      height: 98%;
-      box-shadow: 4px 8px 64px rgba(0, 0, 0, 0.4);
-    }
-    &:before {
-      transform: skewX(3deg);
-    }
-    &:after {
-      transform: skewX(-3deg);
-    }
-  }
-}
-.invoice {
-  position: relative;
-  z-index: 1;
-  width: 210mm;
-  min-height: 296.9mm;
-  font-family: "Istok Web","Helvetica Neue",Helvetica,Arial,sans-serif;
-}
-</style>

@@ -52,7 +52,7 @@ export default {
     left: 0;
     top: 0;
     width: 100%;
-    z-index: 1;
+    z-index: 2;
     padding: $padding/2 0;
     background-color: $colorHeader;
     box-shadow: 0 0 16px $colorHeader;

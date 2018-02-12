@@ -130,6 +130,12 @@
       font-family: 'Source Code Pro', monospace;
       background: transparent;
     }
+    &[type=color] {
+      padding: 0;
+      width: 2rem;
+      display: inline-block;
+      margin-right: 0.5em;
+    }
   }
   
   .mono { font-family: 'Source Code Pro', monospace; }
