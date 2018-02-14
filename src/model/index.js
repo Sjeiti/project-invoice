@@ -7,6 +7,7 @@ import defaultData from '../data/data'
 
 import { create as createClient } from './client'
 import { create as createCopy } from './copy'
+import { create as createConfig } from './config'
 import { modelSaved } from '@/formState'
 
 const config = getStored('config',defaultConfig)
@@ -16,7 +17,7 @@ console.log('data',data); // todo: remove log
 
 const model = {
   clients: data.clients
-  ,config: config
+  ,config: createConfig(config)
   ,copy: data.copy
   ,personal: data.personal
   ,getClientByNr(nr){

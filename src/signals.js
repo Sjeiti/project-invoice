@@ -1,7 +1,6 @@
 import signals from 'signals'
 
-
-
-export default {
-  foo: new signals.Signal()
-}
+export const signal = () => new signals.Signal()
+export const sassChanged = signal()
+export const sassCompiled = signal()
+export const cssVariablesChanged = signal()

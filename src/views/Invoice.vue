@@ -18,7 +18,7 @@
     <section>
       <print-invoice :client="client" :project="project" :invoice="invoice" />
     </section>
-    <iframe class="visually-hidden"></iframe>
+    <iframe class="vvisually-hidden"></iframe>
   </div>
 </template>
 
@@ -29,6 +29,7 @@ import Lang from '@/components/Lang.vue'
 import PrintInvoice from '@/components/PrintInvoice.vue'
 import signals from '@/signals'
 import {track,save} from '@/formState'
+import {sassChanged, sassCompiled, cssVariablesChanged} from '@/signals'
 
 export default {
   name: 'invoice'
@@ -50,9 +51,14 @@ export default {
     this.project = this.client.projects[parseInt(this.$route.params.projectIndex,10)]
     this.invoice = this.project.invoices[0] // todo implement
     //
-    this.populateIframe()
-//        .then(sassCompiled.add.bind(sassCompiled, this.onCssCompiled.bind(this)))
-    //
+    Promise.all([
+        new Promise(resolve=>sassCompiled.addOnce(resolve))
+        ,this.populateIframe()
+    ])
+      .then(([css])=>{
+        this.onCssCompiled(css)
+        sassCompiled.add(this.onCssCompiled.bind(this))
+      })
   }
   ,methods: {
 
@@ -116,6 +122,7 @@ export default {
       const {contentDocument} = this.getIFrameContent()
       if (contentDocument) {
         contentDocument.getElementById('invoiceCSS').textContent = css
+        console.log('onCssCompiled',css); // todo: remove log
       }
       // re-render image after css compilation
       this.renderImage()

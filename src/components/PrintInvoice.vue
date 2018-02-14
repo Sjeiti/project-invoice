@@ -119,10 +119,10 @@
 </template>
 
 <script>
-import Sass from 'sass.js/dist/sass.js'
 import model from '@/model'
 import Currency from '@/components/Currency'
 import {parse} from '@/util/interpolationService'
+import {appendStyle} from '@/model/css'
 export default {
   name: 'PrintInvoice'
   ,props: ['client','project','invoice']
@@ -136,16 +136,7 @@ export default {
   ,mounted(){
     this.isQuotation = /\/client\/\d+\/\d+\/quotation/.test(location.href)
     //
-    const style = document.createElement('style') // todo: invoiceCSS (sass) needs to be compiled
-    style.textContent = this.config.invoiceCSS
-    this.$el.appendChild(style)
-    //
-    //
-    //
-    for (let s in Sass) console.log('s',s); // todo: remove log
-    const sass = '.asdf{.qwer{color:#eee;}.zxcv{color:#fff;}}';
-    this.sass = new Sass('/static/js/sass.worker.js')
-    this.sass.compile(sass||this.config.invoiceCSS, this.onSassCompiled.bind(this))
+    appendStyle(this.$el.querySelector('.invoice'))
   }
   ,components: {
     Currency
@@ -159,9 +150,6 @@ export default {
           ,invoice: this.invoice
           ,data: model.personal
       })
-    }
-    ,onSassCompiled(){
-        console.log('onSassCompiled',arguments); // todo: remove log
     }
   }
 }
