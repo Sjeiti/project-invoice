@@ -9,7 +9,7 @@
             <ul class="list-inline">
               <li><router-link to="/">home</router-link></li>
               <li class="drop">
-                <label for="drop1"><router-link to="/overview" class="active">overview</router-link></label>
+                <label for="drop1"><router-link to="/overview">overview</router-link></label>
                 <input class="visually-hidden" id="drop1" type="checkbox">
                 <ul>
                   <li><router-link to="/overview/quarter">quarter</router-link></li>
@@ -53,7 +53,7 @@ export default {
     top: 0;
     width: 100%;
     z-index: 2;
-    padding: $padding/2 0;
+    //padding: $padding/2 0;
     background-color: $colorHeader;
     box-shadow: 0 0 16px $colorHeader;
   }
@@ -63,11 +63,6 @@ export default {
     nav {
       flex: 1 1 auto;
     }
-  }
-  a {
-    color: #FFF;
-    text-decoration: none;
-    padding: 0 2px;
   }
   /*.drop {
     position: relative;
@@ -80,18 +75,27 @@ export default {
       top: 0;
     }
   }*/
-
-  nav>ul {
-    line-height: $headerHeight;
+  $dropPad: 16px;
+  ul { font-size: 0; }
+  a {
+    display: inline-block;
+    padding: 0 $dropPad;
     min-height: $headerHeight;
-    >li {
-      min-height: 100%;
+    line-height: $headerHeight;
+    font-size: 14px;
+    color: #FFF;
+    text-decoration: none;
+    transition: background-color 200ms linear;
+    &:hover {
+      background-color: lighten($colorHeader,5%);
+      //box-shadow: 40px 0 0 0 lighten($colorHeader,5%);
+    }
+    &.router-link-exact-active, &.router-link-exact-active:hover {
+      background-color: lighten($colorHeader,10%);
     }
   }
-  /*ul {
-    &,*{box-shadow:0 0 0 1px green inset;}
-  }*/
   li.drop {
+    min-height: 100%;
     position: relative;
     label {
       min-height: $headerHeight;
@@ -101,6 +105,7 @@ export default {
     ul {
       display: block;
       min-width: 100%;
+      //padding: 0 $dropPad;
       overflow: hidden;
       background-color: $colorHeader;
       li:first-child {
@@ -113,7 +118,7 @@ export default {
         margin-top: 0;
       }
     }
-    @media (min-width: 768px) {
+    @media (min-width: 1px) {
       ul {
         position: absolute;
         left: 0;

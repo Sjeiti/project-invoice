@@ -33,7 +33,7 @@
       </dd>
       <dt>langs</dt><dd>
         <!--<textarea rows="4" v-model="settings.langs"></textarea>-->
-        <input v-model="settings.langs" />
+        <input v-model="settings.langsJoined" />
       </dd>
       <dt data-ngExplain="'settings.currency'">currency</dt><dd>
         <select v-model="settings.currency">

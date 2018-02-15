@@ -6,6 +6,19 @@
   </div>
 </template>
 
+<script>
+  import AppHeader from '@/components/Header.vue'
+  import AppFooter from '@/components/Footer.vue'
+  
+  export default {
+    name: 'app'
+    ,components: {
+      AppHeader
+      ,AppFooter
+    }
+  }
+</script>
+
 <style lang="scss">
   @import '/variables';
   @import '/_grid';
@@ -73,6 +86,7 @@
     background-color: $colorButton;
     color: #FFF;
     text-decoration: none;
+    transition: background-color 200ms linear;
     &:hover {
       background-color: lighten($colorButton,10%);
     }
@@ -273,16 +287,3 @@
     }
   }
 </style>
-
-<script>
-  import AppHeader from '@/components/Header.vue'
-  import AppFooter from '@/components/Footer.vue'
-  
-  export default {
-    name: 'app'
-    ,components: {
-      AppHeader
-      ,AppFooter
-    }
-  }
-</script>

@@ -1,26 +1,32 @@
 <template>
-  <ul>
-    <li>
-      <!--<button *ngFor="let _lang of config?.langs" (click)="setLang(_lang)" class="{{_lang===config.lang?'btn-secondary':''}} lang-{{_lang}}">{{_lang}}</button>-->
-      <button>en</button>
+  <ul class="list-inline">
+    <li v-for="ng in config.langs">
+      <input v-model="config.lang" v-bind:id="ng" type="radio" name="lang" class="visually-hidden" />
+      <label v-bind:for="ng" class="btn">{{ng}}</label>
     </li>
   </ul>
 </template>
 
 <script>
+import model from '@/model'
 export default {
   name: 'Lang'
+  ,data () {
+    return {
+      config: model.config
+    }
+  }
 }
 </script>
 
-<!--<style lang="scss" scoped>
+<style lang="scss" scoped>
 @import '/../variables';
-footer {
-  margin: 40px 0 0;
-  padding: 4px 0;
-  text-align: center;
-  background-color: $colorHeader;
-  box-shadow: 0 1px 0 1px $colorHeader;
-  color: #fff;
+li {
+  margin-left: $padding;
 }
-</style>-->
+input {
+  &:checked+label.btn, &:checked+label.btn:hover {
+    background-color: lighten($colorButton,15%);
+  }
+}
+</style>

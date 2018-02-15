@@ -23,15 +23,20 @@
  */
 
 const proto = {
-  get fooCopy(){return 'barCopy'}
-
   /**
    * Returns an exact clone of the project
    * @returns {Project}
    */
-  ,clone(){
+  clone(){
       const cloned = JSON.parse(JSON.stringify(this))
       return create(cloned)
+  }
+
+  ,get langsJoined(){
+    return this.langs.join(',')
+  }
+  ,set langsJoined(s){
+    return this.langs = s.split(/,/g)
   }
 }
 

@@ -31,3 +31,7 @@
     }
   }
 </script>
+
+<style lang="scss" scoped>
+  div { margin-top: 4px; }
+</style>
