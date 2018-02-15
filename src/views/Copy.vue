@@ -1,10 +1,10 @@
 <template>
   <div>
     <section>
-      <h1>Copy</h1>
-      <lang class="float-right"></lang>
-    </section>
-    <section>
+      <header>
+        <lang class="float-right"></lang>
+        <h1>Copy</h1>
+      </header>
       <dl>
           <dt><strong>key</strong></dt><dd><strong>value</strong></dd>
       </dl>

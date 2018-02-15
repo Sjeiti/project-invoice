@@ -16,13 +16,17 @@ marked.setOptions({
 export function parse(key, models){
   const keys = Object.keys(models)
   const values = Object.values(models)
-  const lang = 'nl' // todo implement
-  const copy = model.copy[key]
-  const tpl = marked(copy&&(copy[lang]||copy.en).replace(/\n/g,'<br/>')||key)
+  const tpl = marked(__(key).replace(/\n/g,'<br/>'))
   return new Function(
     ...keys
     ,'return `'+tpl+'`'
   )(
     ...values
   )
+}
+
+export function __(key){
+  const lang = model.config.lang
+  const copy = model.copy[key]
+  return copy&&(copy[lang]||copy.en)||key
 }

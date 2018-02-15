@@ -121,7 +121,7 @@
 <script>
 import model from '@/model'
 import Currency from '@/components/Currency'
-import {parse} from '@/util/interpolationService'
+import {parse,__} from '@/util/interpolationService'
 import {appendStyle} from '@/model/css'
 export default {
   name: 'PrintInvoice'
@@ -141,7 +141,7 @@ export default {
     Currency
   }
   ,methods: {
-    __(v){return v}
+    __
     ,parse(key){
       return parse(key,{
           client: this.client

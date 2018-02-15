@@ -1,25 +1,22 @@
 <template>
-  <div>
-    <section>
-      <h1>Invoice</h1>
-    </section>
-    <section class="invoice-options">
-      <router-link v-bind:to="project.uri||''" class="btn">back</router-link>
-      <button v-on:click="onClickPrint()"
-              v-bind:disabled="!pageReady">print</button>
-      <a data-ngClick="onClickDownload($event)"
-         class="btn"
-         data-ngClass="{disabled:!pageReady}"
-         data-href="{-{dataUrl}}"
-         download="{-{invoiceName}}.png">download</a>
-  
-      <lang class="float-right"></lang>
-    </section>
-    <section>
-      <print-invoice :client="client" :project="project" :invoice="invoice" />
-    </section>
-    <iframe class="visually-hidden"></iframe>
-  </div>
+  <section>
+    <header>
+      <h1>Invoice {{project.invoiceNr}}</h1>
+      <div class="invoice-options">
+        <router-link v-bind:to="project.uri||''" class="btn">back</router-link>
+        <button v-on:click="onClickPrint()"
+                v-bind:disabled="!pageReady">print</button>
+        <a data-ngClick="onClickDownload($event)"
+           class="btn"
+           data-ngClass="{disabled:!pageReady}"
+           data-href="{-{dataUrl}}"
+           download="{-{invoiceName}}.png">download</a>
+      </div>
+      <lang></lang>
+    </header>
+    <print-invoice :client="client" :project="project" :invoice="invoice" />
+  <iframe class="visually-hidden"></iframe>
+  </section>
 </template>
 
 <script>
@@ -121,7 +118,6 @@ export default {
       const {contentDocument} = this.getIFrameContent()
       if (contentDocument) {
         contentDocument.getElementById('invoiceCSS').textContent = css
-        console.log('onCssCompiled',css); // todo: remove log
       }
       // re-render image after css compilation
       this.renderImage()
@@ -129,3 +125,18 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+  @import '/../variables';
+  header {
+    display: flex;
+    width: 100%;
+    padding-top: $headerHeight + $padding;
+    padding-bottom: $padding;
+    >* {
+      flex: 1 1 auto;
+      text-align: center;
+      &:first-child, &:last-child { flex: 0 0 auto; }
+    }
+  }
+</style>

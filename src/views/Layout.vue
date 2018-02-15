@@ -1,13 +1,12 @@
 <template>
   <div>
     <section>
-      <div class="clearfix">
-        <h1>Layout</h1>
+      <header class="clearfix">
         <lang class="float-right"></lang>
-      </div>
+        <h1>Layout</h1>
+      </header>
       <print-invoice :client="client" :project="project" :invoice="invoice" :settings="settings"></print-invoice>
     </section>
-    
     <section>
       <dl data-class="row">
         
@@ -112,9 +111,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-  textarea {
-    /*max-width: 50%;*/
-  }
-</style>

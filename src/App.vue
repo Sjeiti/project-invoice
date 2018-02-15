@@ -96,8 +96,10 @@
         0 -2px 8px $colorShade inset,
         1px 2px 4px rgba(0,0,0,0.4);
     }
-    &[disabled] {
-      background-color: mix($colorButton,#888,10%);
+    &[disabled], &[disabled]:hover {
+      opacity: 0.3;
+      background-color: $colorButton;
+      //background-color: mix($colorButton,#888,10%);
     }
   }
   
@@ -215,7 +217,8 @@
     >.layout {
       flex: 1;
       >div {
-        padding: 55px 0 $padding;
+        padding-top: $headerHeight + $padding;
+        padding-bottom: $padding;
       }
     }
   }
@@ -231,7 +234,7 @@
     padding: 0 $padding;
   }
   
-  .row { display: flex; }
+  /*.row { display: flex; }
   .col {
     &-1 { flex-basis: 100%/12*1; }
     &-2 { flex-basis: 100%/12*2; }
@@ -245,7 +248,7 @@
     &-10 { flex-basis: 100%/12*10; }
     &-11 { flex-basis: 100%/12*11; }
     &-12 { flex-basis: 100%/12*12; }
-  }
+  }*/
   
   .visually-hidden {
     position: absolute;

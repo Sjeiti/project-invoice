@@ -14,7 +14,7 @@
       return {
         saveable: false
         ,deletable: false
-        ,tracked: true
+        ,tracked: false
       }
     }
     ,mounted(){

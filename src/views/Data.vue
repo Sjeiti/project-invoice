@@ -2,8 +2,6 @@
   <div>
     <section>
       <h1>Data</h1>
-    </section>
-    <section>
       <dl>
           <dt><strong>key</strong></dt><dd><strong>value</strong></dd>
       </dl>
