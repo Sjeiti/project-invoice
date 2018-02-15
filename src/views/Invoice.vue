@@ -18,7 +18,7 @@
     <section>
       <print-invoice :client="client" :project="project" :invoice="invoice" />
     </section>
-    <iframe class="vvisually-hidden"></iframe>
+    <iframe class="visually-hidden"></iframe>
   </div>
 </template>
 
@@ -29,7 +29,7 @@ import Lang from '@/components/Lang.vue'
 import PrintInvoice from '@/components/PrintInvoice.vue'
 import signals from '@/signals'
 import {track,save} from '@/formState'
-import {sassChanged, sassCompiled, cssVariablesChanged} from '@/signals'
+import {cssCompiled} from '@/model/css'
 
 export default {
   name: 'invoice'
@@ -52,12 +52,12 @@ export default {
     this.invoice = this.project.invoices[0] // todo implement
     //
     Promise.all([
-        new Promise(resolve=>sassCompiled.addOnce(resolve))
+        new Promise(resolve=>cssCompiled.addOnce(resolve))
         ,this.populateIframe()
     ])
       .then(([css])=>{
         this.onCssCompiled(css)
-        sassCompiled.add(this.onCssCompiled.bind(this))
+        cssCompiled.add(this.onCssCompiled.bind(this))
       })
   }
   ,methods: {

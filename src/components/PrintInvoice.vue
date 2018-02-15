@@ -135,7 +135,6 @@ export default {
   }
   ,mounted(){
     this.isQuotation = /\/client\/\d+\/\d+\/quotation/.test(location.href)
-    //
     appendStyle(this.$el.querySelector('.invoice'))
   }
   ,components: {

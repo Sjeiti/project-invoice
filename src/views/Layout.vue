@@ -43,8 +43,8 @@ import PrintInvoice from '@/components/PrintInvoice.vue'
 import model from '@/model'
 import defaultData from '@/data/data'
 import {create as createClient} from '@/model/client'
-import {track,save} from '@/formState'
-import {sassChanged, cssVariablesChanged} from '@/signals'
+import {track,save,saveable} from '@/formState'
+import {sassChanged, cssVariablesChanged} from '@/model/css'
 
 export default {
   name: 'layout'
@@ -67,7 +67,8 @@ export default {
     this.settings = settingsClone
     track(this.$el,settings,settingsClone)
     //
-    //this.$el.querySelector('[accept]').addEventListener('change',console.log.bind(console,'asdf'))
+    cssVariablesChanged.dispatch(this.settings)
+    saveable.add(()=>cssVariablesChanged.dispatch(this.settings)) // todo this is a hack because reverted config doesn't trigger change
   }
   ,components: {
     Lang
@@ -77,11 +78,8 @@ export default {
     
     /////////////////////////////////////////
     
-    onChangeVariables(e){
-      console.log('onChangeVariables',e); // todo: remove log
-      // todo: check why this.settings takes one tick to update ngmodel
+    onChangeVariables(){
       cssVariablesChanged.dispatch(this.settings)
-//      setTimeout(cssVariablesChanged.dispatch.bind(cssVariablesChanged, this.settings))
     }
   
     ,onChangeSass(sass){
@@ -114,7 +112,6 @@ export default {
           background: url(${result}) no-repeat;
       }`:''
       cssVariablesChanged.dispatch(this.settings)
-      //this.onNgModelChanged()
     }
     
     /////////////////////////////////////////

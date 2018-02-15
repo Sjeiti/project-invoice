@@ -52,6 +52,7 @@ console.log('model',model); // todo: remove log
 
 modelSaved.add(()=>{
   setStored('data', data)
+  setStored('config', config)
 })
 
 Object.setPrototypeOf(model,{
