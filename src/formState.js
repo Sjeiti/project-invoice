@@ -25,6 +25,7 @@ function addEventListener(eventTarget, event, listener, options) {
  */
 function removeEventListeners(){
 	 boundListeners.forEach(({ eventTarget, event, listener }) => eventTarget.removeEventListener(event, listener));
+	 boundListeners.length = 0
 }
 
 /**
@@ -35,7 +36,6 @@ function removeEventListeners(){
  * @param {Function} _delete
  */
 export function track(element, _model, _clone, _delete) {
-  console.log('track'); // todo: remove log
   model = _model
   clone = _clone
   deleteCallback = _delete
@@ -60,7 +60,6 @@ export function track(element, _model, _clone, _delete) {
  * Apply the clone to the model and dispatch a save signal
  */
 export function untrack() {
-  console.log('untrack'); // todo: remove log
   removeEventListeners()
   tracked.dispatch(false)
 }

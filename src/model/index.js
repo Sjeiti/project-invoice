@@ -13,14 +13,8 @@ import { modelSaved } from '@/formState'
 const config = getStored('config',defaultConfig)
 const data = getStored('data',defaultData)
 
-console.log('data',data); // todo: remove log
-
 const model = {
-  clients: data.clients
-  ,config: createConfig(config)
-  ,copy: data.copy
-  ,personal: data.personal
-  ,getClientByNr(nr){
+  getClientByNr(nr){
     return this.clients.filter(client=>client.nr===nr).pop()
   }
   ,addClient(){
@@ -45,9 +39,30 @@ const model = {
         .map(client=>client.projects)
         .reduce((a,b)=>(a.push(...b),a),[])
   }
+  ,get data(){
+    return data
+  }
+  ,set data(newData){
+    Object.assign(data, newData||defaultData)
+    data.clients.forEach(client=>createClient(client, model))
+    setStored('data', data)
+  }
+  ,get config(){
+    return config
+  }
+  ,set config(newConfig){
+    Object.assign(config, createConfig(newConfig||defaultConfig))
+    setStored('config', config)
+  }
+  ,get clients(){ return this.data.clients }
+  ,get copy(){ return this.data.copy }
+  ,get personal(){ return this.data.personal }
 }
 
-data.clients.forEach(client=>createClient(client, model))
+model.config = config
+model.data = data
+
+// data.clients.forEach(client=>createClient(client, model))
 console.log('model',model); // todo: remove log
 
 modelSaved.add(()=>{

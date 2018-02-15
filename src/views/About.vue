@@ -1,7 +1,56 @@
 <template>
-  <section>
-    <h1>About</h1>
-  </section>
+  <div>
+    <section>
+      <h1>Project Invoice</h1>
+      <p>This invoicing application stores all your data on your local machine.</p>
+      <p>Your data is not shared between different browsers or computers.</p>
+    </section>
+    <section>
+      <h2 id="gettingstarted">Getting Started</h2>
+      <p>You can head to <a href="https://sjeiti.github.io/project-invoice">https://sjeiti.github.io/project-invoice</a> and start creating invoices.
+      Or you can make a local installation.</p>
+      <h3 id="runningonlocalhost">Running on localhost</h3>
+      <p>To get the application running you only need NodeJS, npm and GIT. If you don't know what those are you might be better off simply using the <a href="https://sjeiti.github.io/project-invoice">online version</a>, your data will be just as safe.</p>
+      <p><code>git clone https://github.com/Sjeiti/project-invoice.git</code></p>
+      <p><code>npm i</code></p>
+      <p><code>npm run start</code></p>
+    </section>
+    
+    <section>
+      <h2>faq</h2>
+      <dl app-foldable-definition>
+        <dt>Wait, this app is online in a browser. How is my private data not online?</dt>
+        <dd>Every site can access something called LocalStorage which resides on your local machine. This is where your data is stored. Websites can never access the LocalStorage of another website. Never will data be sent from your computer to the server. The only network communication is the application logic being sent from the server to your computer. All your private data remains on your own computer.</dd>
+        
+        <dt>Is this safe?</dt>
+        <dd>Storing your data on your local machine is safer than sending and receiving it over the internet. And since LocalStorage is so called origin-specific, only this website can read this websites LocalStorage. But you can also run this on localhost if your tech savvy enough. It is as safe as you treat your computers security.</dd>
+        
+        <dt>Don't I have to login with a username and password?</dt>
+        <dd>Logins are useful for server authentication. But since your data is stored on your local machine and not on a server, no authentication is needed.</dd>
+        
+        <dt>How can I access my data from different machines?</dt>
+        <dd>Since the data is stored locally you can only access it from one computer. However you can save and/or import the data from the <a href="/settings">settings page</a>. You could save it on a usb stick to transfer the data to a different computer.</dd>
+        
+        <dt>How do I remove all my data?</dt>
+        <dd>Just clear the localStorage, or push the button on the <a href="/settings">settings page</a>.</dd>
+        
+        <dt>Why?</dt>
+        <dd>
+          <p>Being self-employed all my life means I've been sending invoices for quite a while. I've seen a lot of invoicing software/services but was never really satisfied.
+          So I created my own:</p>
+          <ul>
+          <li>no cloud based data, everything is saved on your local machine, nothing is sent to a server</li>
+          <li>invoices are well designed and customizable</li>
+          <li>its easy to use</li>
+          <li>its open-source</li>
+          <li>its free</li>
+          <li>you can use the online version or run a local copy</li>
+          </ul>
+          <p>I cleaned it up a bit because I thought you might like it.</p>
+        </dd>
+      </dl>
+    </section>
+  </div>
 </template>
 
 <script>
