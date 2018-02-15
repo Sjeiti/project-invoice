@@ -118,7 +118,7 @@ import model from '@/model'
 import Currency from '@/components/Currency.vue'
 import signals from '@/signals'
 import {create as createInvoice} from '@/model/invoice'
-import {track,save} from '@/formState'
+import {track,untrack,save} from '@/formState'
 import moment from 'moment'
 
 export default {
@@ -142,6 +142,7 @@ export default {
     track(this.$el,project,projectClone,this.deleteProject)
 //    console.log('project',project,project.prototype); // todo: remove log
   }
+  ,destroyed: untrack
   ,methods: {
     onRemoveLine(line) {
       const lines = this.project.lines,

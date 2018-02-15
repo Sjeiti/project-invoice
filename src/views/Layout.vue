@@ -25,8 +25,8 @@
         </dd>
         
         <dt data-class="name">logo</dt><dd>
-          <label class="btn">add image<input accept="image/gif, image/jpg, image/jpeg, image/png, image/svg, .gif, .jpg, .jpeg, .png, .svg" type="file" v-bind:change="onChangeLogo" class="visually-hidden" /></label>
-          <button class="btn" v-bind:click="onDeleteLogo">delete image</button>
+          <label class="btn">add image<input accept="image/gif, image/jpg, image/jpeg, image/png, image/svg, .gif, .jpg, .jpeg, .png, .svg" type="file" v-on:change="onChangeLogo" class="visually-hidden" /></label>
+          <button class="btn" v-on:click="onDeleteLogo">delete image</button>
         </dd>
         
         <dt data-class="name wide">invoiceCSS</dt><dd>
@@ -43,7 +43,7 @@ import PrintInvoice from '@/components/PrintInvoice.vue'
 import model from '@/model'
 import defaultData from '@/data/data'
 import {create as createClient} from '@/model/client'
-import {track,save,saveable} from '@/formState'
+import {track,untrack,save,saveable} from '@/formState'
 import {sassChanged, cssVariablesChanged} from '@/model/css'
 
 export default {
@@ -68,15 +68,14 @@ export default {
     track(this.$el,settings,settingsClone)
     //
     cssVariablesChanged.dispatch(this.settings)
-    saveable.add(()=>cssVariablesChanged.dispatch(this.settings)) // todo this is a hack because reverted config doesn't trigger change
+    // todo trigger cssVariablesChanged on revert
   }
   ,components: {
     Lang
     ,PrintInvoice
   }
+  ,destroyed: untrack
   ,methods: {
-    
-    /////////////////////////////////////////
     
     onChangeVariables(){
       cssVariablesChanged.dispatch(this.settings)
@@ -87,7 +86,6 @@ export default {
     }
   
     ,onChangeLogo(e){
-      console.log('onChangeLogo',e); // todo: remove log
       const target = e.target // as HTMLInputElement
       const fileReader = new FileReader()
       const file = target.files[0]
@@ -113,8 +111,6 @@ export default {
       }`:''
       cssVariablesChanged.dispatch(this.settings)
     }
-    
-    /////////////////////////////////////////
     
   }
 }

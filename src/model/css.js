@@ -51,6 +51,7 @@ function sassCompile(sassString){
  * @returns {Promise.<string>}
  */
 function updateVariables(settings){
+  console.log('updateVariables'); // todo: remove log
   if (!settings) settings = model.config
 	cssVariables = `html {
     --main-bg-color: ${settings.themeMainBgColor};
@@ -66,6 +67,7 @@ function updateVariables(settings){
  * CSS is set onto the style element
  */
 function setStyle() {
+  console.log('setStyle'); // todo: remove log
   css = `${cssVariables}${sassCompiled}`
   style.textContent = css
   localStorage.setItem('css', css)

@@ -1,18 +1,51 @@
-import signals from 'signals'
+import {signal} from '@/signals'
 
-let model, clone, ddeleteModel, redir
+let model, clone, deleteCallback
 
-export const modelSaved = new signals.Signal()
-export const saveable = new signals.Signal()
+export const modelSaved = signal()
+export const saveable = signal()
+export const tracked = signal()
 
+const boundListeners = [];
+
+/**
+ * Add eventlisteners and store the bindings for later removal
+ * @param {HTMLElement} eventTarget
+ * @param {string} event
+ * @param {Function} listener
+ * @param {boolean|object} options
+ */
+function addEventListener(eventTarget, event, listener, options) {
+    boundListeners.push({ eventTarget, event, listener });
+    eventTarget.addEventListener(event, listener, options);
+}
+
+/**
+ * Remove all stored event listeners
+ */
+function removeEventListeners(){
+	 boundListeners.forEach(({ eventTarget, event, listener }) => eventTarget.removeEventListener(event, listener));
+}
+
+/**
+ * Track change to an element to trigger diff detection between a model and its clone
+ * @param {HTMLElement} element The element the change event is bound to
+ * @param {object} _model
+ * @param {object} _clone
+ * @param {Function} _delete
+ */
 export function track(element, _model, _clone, _delete) {
+  console.log('track'); // todo: remove log
   model = _model
   clone = _clone
-  ddeleteModel = _delete
+  deleteCallback = _delete
 
-  element.addEventListener('change', onModelChange)
-  element.addEventListener('click', onModelChange)
-  element.addEventListener('keyup', onModelChange)
+  removeEventListeners()
+
+  // ['change','click','keyup'].forEach(s=>addEventListener(element, s, onModelChange, true))
+  addEventListener(element, 'change', onModelChange, true)
+  addEventListener(element, 'click', onModelChange, true)
+  addEventListener(element, 'keyup', onModelChange, true)
 
   function onModelChange(){
     const stringModel = JSON.stringify(_model)
@@ -20,8 +53,21 @@ export function track(element, _model, _clone, _delete) {
     const isSaveable = stringModel!==stringClone;
     saveable.dispatch(isSaveable)
   }
+  tracked.dispatch(true,!!deleteCallback)
 }
 
+/**
+ * Apply the clone to the model and dispatch a save signal
+ */
+export function untrack() {
+  console.log('untrack'); // todo: remove log
+  removeEventListeners()
+  tracked.dispatch(false)
+}
+
+/**
+ * Apply the clone to the model and dispatch a save signal
+ */
 export function save() {
   const cloneClone = clone.clone()
   for (let s in cloneClone) {
@@ -33,6 +79,9 @@ export function save() {
   saveable.dispatch(false)
 }
 
+/**
+ * Apply the model to the clone and dispatch the saveable signal
+ */
 export function revert() {
   const modelClone = model.clone()
   for (let s in modelClone) {
@@ -43,6 +92,9 @@ export function revert() {
   saveable.dispatch(false)
 }
 
+/**
+ * Call the delete method
+ */
 export function deleteModel() {
-  ddeleteModel()
+  deleteCallback&&deleteCallback()
 }

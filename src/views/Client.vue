@@ -28,7 +28,7 @@
 
 <script>
 import model from '@/model'
-import {track,save} from '@/formState'
+import {track,untrack,save} from '@/formState'
 import {create} from '@/model/project'
 import ProjectList from '../components/ProjectList'
 
@@ -46,6 +46,7 @@ export default {
     track(this.$el,client,clientClone,this.deleteClient)
   }
   ,components: {ProjectList}
+  ,destroyed: untrack
   ,methods: {
     onAddProject(){
       const project = this.client.createProject()
