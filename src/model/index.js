@@ -8,6 +8,7 @@ import defaultData from '../data/data'
 import { create as createClient } from './client'
 import { create as createCopy } from './copy'
 import { create as createConfig } from './config'
+import { create as createCloneable } from './cloneable'
 import { modelSaved } from '@/formState'
 
 const config = getStored('config',defaultConfig)
@@ -45,6 +46,8 @@ const model = {
   ,set data(newData){
     Object.assign(data, newData||defaultData)
     data.clients.forEach(client=>createClient(client, model))
+    createCloneable(data.copy)
+    createCloneable(data.personal)
     setStored('data', data)
   }
   ,get config(){

@@ -34,10 +34,11 @@ function removeEventListeners(){
  * @param {object} _model
  * @param {object} _clone
  * @param {Function} _delete
+ * @returns {object} The cloned model
  */
 export function track(element, _model, _clone, _delete) {
   model = _model
-  clone = _clone
+  clone = _clone||_model.clone()
   deleteCallback = _delete
 
   removeEventListeners()
@@ -54,6 +55,8 @@ export function track(element, _model, _clone, _delete) {
     saveable.dispatch(isSaveable)
   }
   tracked.dispatch(true,!!deleteCallback)
+
+  return clone
 }
 
 /**
