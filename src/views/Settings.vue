@@ -61,11 +61,7 @@ export default {
     }
   }
   ,mounted(){
-    const settings = model.config
-    const settingsClone = settings.clone()
-    this.settings = settingsClone
-    track(this.$el,settings,settingsClone)
-    //
+    this.settings = track(this.$el,model.config)
     this.currencies = Object.keys(CURRENCY_ISO).map(key=>CURRENCY_ISO[key])
   }
   ,destroyed: untrack

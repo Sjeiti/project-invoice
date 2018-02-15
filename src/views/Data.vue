@@ -38,10 +38,7 @@ export default {
     }
   }
   ,mounted(){
-    const personal = model.personal
-    const personalClone = personal.clone()
-    this.personal = personalClone
-    track(this.$el,personal,personalClone)
+    this.personal = track(this.$el,model.personal)
   }
   ,destroyed: untrack
 }

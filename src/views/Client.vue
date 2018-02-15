@@ -40,10 +40,7 @@ export default {
     }
   }
   ,mounted(){
-    const client = model.getClientByNr(parseInt(this.$route.params.clientNr,10))
-    const clientClone = client.clone()
-    this.client = clientClone
-    track(this.$el,client,clientClone,this.deleteClient)
+    this.client = track(this.$el,model.getClientByNr(parseInt(this.$route.params.clientNr,10)),this.deleteClient)
   }
   ,components: {ProjectList}
   ,destroyed: untrack

@@ -62,10 +62,7 @@ export default {
     this.project = this.client.projects[0]
     this.invoice = this.project.invoices[0]
     //
-    const settings = model.config
-    const settingsClone = settings.clone()
-    this.settings = settingsClone
-    track(this.$el,settings,settingsClone)
+    this.settings = track(this.$el, model.config)
     //
     cssVariablesChanged.dispatch(this.settings)
     // todo trigger cssVariablesChanged on revert

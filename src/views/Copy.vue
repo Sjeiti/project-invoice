@@ -5,7 +5,6 @@
       <lang class="float-right"></lang>
     </section>
     <section>
-      {{config.lang}}
       <dl>
           <dt><strong>key</strong></dt><dd><strong>value</strong></dd>
       </dl>

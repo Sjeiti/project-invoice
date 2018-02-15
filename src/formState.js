@@ -32,13 +32,12 @@ function removeEventListeners(){
  * Track change to an element to trigger diff detection between a model and its clone
  * @param {HTMLElement} element The element the change event is bound to
  * @param {object} _model
- * @param {object} _clone
  * @param {Function} _delete
  * @returns {object} The cloned model
  */
-export function track(element, _model, _clone, _delete) {
+export function track(element, _model, _delete) {
   model = _model
-  clone = _clone||_model.clone()
+  clone = _model.clone()
   deleteCallback = _delete
 
   removeEventListeners()
@@ -49,8 +48,8 @@ export function track(element, _model, _clone, _delete) {
   addEventListener(element, 'keyup', onModelChange, true)
 
   function onModelChange(){
-    const stringModel = JSON.stringify(_model)
-    const stringClone = JSON.stringify(_clone)
+    const stringModel = JSON.stringify(model)
+    const stringClone = JSON.stringify(clone)
     const isSaveable = stringModel!==stringClone;
     saveable.dispatch(isSaveable)
   }
