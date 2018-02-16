@@ -23,7 +23,19 @@
         this.tracked = isTracked
         this.deletable = isDeletable
       })
+      document.addEventListener('keydown', e=>{
+        if ((e.metaKey||e.ctrlKey)&&e.keyCode===83) {
+          e.preventDefault()
+          console.log('this.saveable',this.saveable); // todo: remove log
+          this.saveable&&save()
+        }
+      }, false);
     }
+    /*,watch: {
+      tracked() {
+        console.log('this.tracked',this.tracked); // todo: remove log
+      }
+    }*/
     ,methods: {
       onSave: save
       ,onRevert: revert
