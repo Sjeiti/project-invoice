@@ -66,7 +66,7 @@ export default {
       text-decoration: none;
   }
   
-  @media (max-width: 689px) {
+  @media (max-width: 598px) {
     nav>ul>li {
       float: right;
       text-align: right;
@@ -107,7 +107,7 @@ export default {
       top: 0;
     }
   }
-  @media (min-width: 690px) {
+  @media (min-width: 599px) {
     $dropPad: 16px;
     ul { font-size: 0; }
     a {

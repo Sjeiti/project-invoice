@@ -12,7 +12,9 @@
       <td v-for="col in columns">
         
         <template v-if="col==='paid'">
+          
           <label v-on:click.stop class="checkbox"><input v-model="project.paid" data-change="onPaidChange()" type="checkbox" /><span></span></label>
+          
         </template>
         <template v-else-if="col==='invoiceNr'">
           <router-link class="small" :to="project.uri">{{project.invoiceNr}}</router-link>

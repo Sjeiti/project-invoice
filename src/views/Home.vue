@@ -17,7 +17,7 @@
       <section class="col-12 col-md-7">
         <h2>Open invoices</h2>
         <p v-if="invoices.length===0"><em>You currently have no open invoices... yay!</em></p>
-        <project-list v-if="invoices.length>0" :projects="invoices" :cols="'paid clientName totalIncDiscounted actions'" :totals="false"></project-list>
+        <project-list v-if="invoices.length>0" :projects="invoices" :cols="'paid date description totalIncDiscounted actions'" :totals="false"></project-list>
       </section>
       <section class="col-12 col-md-7">
         <h2>Draft projects</h2>

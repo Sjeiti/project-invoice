@@ -160,6 +160,27 @@ const proto = {
   },
 
   /**
+   * Getter for late state
+   * @returns {boolean}
+   */
+  get isLate(){
+    return !this.paid&&this.daysLate>this.client.paymentterm
+  },
+
+  /**
+   * Getter boolean if the project payment is overdue
+   * @returns {boolean}
+   * @todo invoice is client paymentterm... but first reminder term is a week or so
+   * @todo see method daysLate
+   */
+  get overdue(){
+    const dateDiff = new Date() - this.dateLatest
+    const dateDiffDays = dateDiff/(1000*60*60*24)
+    return !this.paid&&dateDiffDays>this.client.paymentterm
+    // return dateDiffDays>this.data.personal.reminderPeriod // todo:
+  },
+
+  /**
    * Getter for the date
    * @returns {Date}
    */
@@ -330,17 +351,6 @@ const proto = {
    */
   get client(){
     return this._client
-  },
-
-  /**
-   * Getter boolean if the project payment is overdue
-   * @returns {boolean}
-   */
-  get overdue(){
-    const dateDiff = +new Date() - +this.dateLatest
-    const dateDiffDays = dateDiff/(1000*60*60*24)
-    return dateDiffDays>this.client.paymentterm
-    // return dateDiffDays>this.data.personal.reminderPeriod // todo:
   }
   //////////////////////////////////////////////////
 

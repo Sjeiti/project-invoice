@@ -37,7 +37,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-size: 14px;
-    line-height: 130%;
+    line-height: 160%;
     background-color: $colorBackground;
   }
 
@@ -86,7 +86,7 @@
       1px 1px 0 1px lighten($colorButton,10%) inset,
       0 -2px 8px $colorShade inset;
     background-color: $colorButton;
-    color: #FFF;
+    color: #FFF!important;
     text-decoration: none;
     transition: background-color 200ms linear;
     cursor: pointer;
@@ -286,4 +286,42 @@
       text-overflow: ellipsis;
     }
   }
+  
+  
+  label.checkbox {
+    $checkSize: 20px;
+    input {
+      @extend .visually-hidden;
+    }
+    span {
+      position: relative;
+      display: inline-block;
+      width: $checkSize;
+      height: $checkSize;
+      margin: 1px;
+      overflow: hidden;
+      background-color: #E0E0E0;
+      box-shadow: 0 0 0 1px #bcbcbc;
+      border-radius: 2px;
+      &:before, &:after {
+        content: '';
+        position: absolute;
+        display: block;
+        width: 70%;
+        height: 50%;
+      }
+      &:before {
+        transform: translate(4px,3px) scaleX(0.8) rotate(-45deg);
+        background-color: #F8F8F8;
+      }
+      &:after {
+        transform: translate(4px,-3px) scaleX(1.1) rotate(-45deg);
+        background-color: #E0E0E0;
+      }
+    }
+    input:checked+span:before {
+        background-color: $colorButton;
+    }
+  }
+  
 </style>

@@ -7,7 +7,7 @@ import { create as createProject } from './project'
  * @property {string} contact
  * @property {string} name
  * @property {number} nr
- * @property {string} paymentterm // todo convert to number (days)
+ * @property {number} paymentterm // todo convert to number (days)
  * @property {string} phone
  * @property {string} postbox
  * @property {project[]} projects
@@ -60,6 +60,7 @@ const proto = {
 }
 
 export function create(client, model){
+  client.paymentterm = parseInt(client.paymentterm,10) // todo convert to number (days)
   client.projects.forEach((project,i,a)=>{
     a[i] = createProject(project, client, model)
   })
