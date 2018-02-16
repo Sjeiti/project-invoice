@@ -9,10 +9,10 @@
       <section class="col-12 col-md-7">
         <h2>Open invoices</h2>
         <p v-if="invoices.length===0"><em>You currently have no open invoices... yay!</em></p>
-        <project-list v-if="invoices.length>0" :projects="invoices" :cols="'paid client amount actions'"></project-list>
+        <project-list v-if="invoices.length>0" :projects="invoices" :cols="'paid clientName totalIncDiscounted actions'" :totals="false"></project-list>
       </section>
       <section class="col-12 col-md-5">
-        <p>What do you want to do:</p>
+        <h2>What do you want to do:</h2>
         <p><button v-on:click="onAddClient">Create a new client</button></p>
         <p><button v-on:click="onAddProjectForLatestClient" v-if="latestClient">Create project for '{{latestClient.name}}'</button></p>
         <p><button v-on:click="onCloneLatestProject" v-if="latestProject">Clone project '{{latestProject.description}}'</button></p>
@@ -21,7 +21,7 @@
       <section class="col-12 col-md-7">
         <h2>Draft projects</h2>
         <p v-if="drafts.length===0"><em>You currently have no drafts... :-/</em></p>
-        <project-list v-if="drafts.length>0" :projects="drafts" :cols="'client description amount actions'"></project-list>
+        <project-list v-if="drafts.length>0" :projects="drafts" :cols="'clientName description totalIncDiscounted actions'" :totals="false"></project-list>
       </section>
     </div>
   </div>
@@ -65,3 +65,11 @@ export default {
   }
 }
 </script>
+
+<style type="scss" scoped>
+  section+section {
+    margin-top: 0;
+    padding-top: 0;
+    box-shadow: none;
+  }
+</style>

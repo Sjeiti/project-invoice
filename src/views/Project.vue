@@ -115,7 +115,7 @@
 
 <script>
 import model from '@/model'
-import Currency from '@/components/Currency.vue'
+import Currency from '@/components/Currency'
 import signals from '@/signals'
 import {create as createInvoice} from '@/model/invoice'
 import {track,untrack,save} from '@/formState'

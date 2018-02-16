@@ -30,6 +30,13 @@ const proto = {
     return this.model.config
   }
 
+  /**
+   * Client name shortcut
+   * @returns {string}
+   */
+  ,get clientName(){
+    return this.client.name
+  }
 
   /**
    * Returns an exact clone of the project
