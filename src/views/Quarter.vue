@@ -10,66 +10,9 @@
     <section v-for="(quarter, i) in quarters" :key="i">
       <h3 class="float-left">quarter {{i+1}}</h3>
       <button data-ngClick="onClickCsv(quarter)" class="btn btn-secondary btn-sm float-right">copy csv data</button>
-      
       <project-list :projects="quarter" :cols="'invoiceNr date clientName description totalDiscounted totalVatDiscounted totalIncDiscounted'"></project-list>
-      
-      <!--<table>
-        <thead><tr>
-          <th width="10%" data-order-key="invoiceNr">nr</th>
-          <th width="10%" data-order-key="date">date</th>
-          <th width="20%" data-order-key="client">client</th>
-          <th width="33%" data-order-key="description">description</th>
-          <th width="9%" data-order-key="totalDiscounted" class="text-right">ex</th>
-          <th width="9%" data-order-key="totalVatDiscounted" class="text-right">VAT</th>
-          <th width="9%" data-order-key="totalIncDiscounted" class="text-right">total</th>
-        </tr></thead><tbody>
-          <tr v-for="project in quarter" class="row-select">
-            <td><router-link v-bind:to="project.uri">{{project.invoiceNr}}</router-link></td>
-            <td><small>{{project.date}}</small></td>
-            <td class="text-overflow">{{project.client.name}}</td>
-            <td class="text-overflow">{{project.description}}</td>
-            <td class="text-right"><currency :value="project.totalDiscounted"></currency></td>
-            <td class="text-right"><currency :value="project.totalVatDiscounted"></currency></td>
-            <td class="text-right"><currency :value="project.totalIncDiscounted"></currency></td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr class="row-select">
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td class="text-right"><currency :value="getTotalDiscounted(quarter)"></currency></td>
-            <td class="text-right"><currency :value="getTotalVatDiscounted(quarter)"></currency></td>
-            <td class="text-right"><currency :value="getTotalIncDiscounted(quarter)"></currency></td>
-          </tr>
-        </tfoot>
-      </table>-->
+      <textarea class="visually-hidden"></textarea>
     </section>
-    <!--<section>
-      <table>
-        <thead><tr>
-          <th width="10%"></th>
-          <th width="10%"></th>
-          <th width="35%"></th>
-          <th width="40%"></th>
-          <th data-order-key="totalDiscounted" class="text-right" width="10%">ex</th>
-          <th data-order-key="totalVatDiscounted" class="text-right" width="10%">VAT</th>
-          <th data-order-key="totalIncDiscounted" class="text-right" width="10%">total</th>
-        </tr></thead><tbody>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td class="text-right"><app-currency [amount]="getTotalDiscounted()"></app-currency></td>
-            <td class="text-right"><app-currency [amount]="getTotalVatDiscounted()"></app-currency></td>
-            <td class="text-right"><app-currency [amount]="getTotalIncDiscounted()"></app-currency></td>
-          </tr>
-        </tbody>
-      </table>
-    </section>-->
-    <textarea class="visually-hidden"></textarea>
   </div>
 </template>
 
@@ -150,45 +93,6 @@ export default {
           alert('please press Ctrl/Cmd+C to copy')
         }
       }
-    }
-  
-    ,getTotalDiscounted(quarter) {
-      let total = 0
-      if (quarter===undefined) {
-        quarter = this.projects&&this.projects
-          .filter(project=>project.invoices.length&&project.year===this.year)
-      }
-      quarter
-          .forEach((project)=>{
-            total += project.totalDiscounted
-          })
-      return total
-    }
-  
-    ,getTotalVatDiscounted(quarter) {
-      let total = 0
-      if (quarter===undefined) {
-        quarter = this.projects&&this.projects
-          .filter(project=>project.invoices.length&&project.year===this.year)
-      }
-      quarter
-          .forEach((project)=>{
-            total += project.totalVatDiscounted
-          })
-      return total
-    }
-  
-    ,getTotalIncDiscounted(quarter) {
-      let total = 0
-      if (quarter===undefined) {
-        quarter = this.projects&&this.projects
-          .filter(project=>project.invoices.length&&project.year===this.year)
-      }
-      quarter
-          .forEach((project)=>{
-            total += project.totalIncDiscounted
-          })
-      return total
     }
     
     

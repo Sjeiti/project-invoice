@@ -1,7 +1,7 @@
 <template>
   <table>
     <thead><tr>
-      <th v-for="coool in coools" v-on:click="onClickOrder(coool)">{{colName[coool]}}</th>
+      <th v-for="col in columns" v-on:click="onClickOrder(col)">{{colName[col]}}</th>
     </tr></thead>
     <tbody><tr
         v-for="project in projects"
@@ -9,38 +9,38 @@
         v-bind:class="{'row-select':true,'alert-paid':project.paid,'alert-late':project.isLate,'alert-pending':project.isPending}"
         v-on:click="onRowClick(project)"
     >
-      <td v-for="coool in coools">
+      <td v-for="col in columns">
         
-        <template v-if="coool==='paid'">
+        <template v-if="col==='paid'">
           <label v-on:click.stop class="checkbox"><input v-model="project.paid" data-change="onPaidChange()" type="checkbox" /><span></span></label>
         </template>
-        <template v-else-if="coool==='invoiceNr'">
+        <template v-else-if="col==='invoiceNr'">
           <router-link class="small" :to="project.uri">{{project.invoiceNr}}</router-link>
         </template>
-        <template v-else-if="coool==='date'||coool==='dateLatest'">
-          <date class="small nowrap" :value="project[coool]" />
+        <template v-else-if="col==='date'||col==='dateLatest'">
+          <date class="small nowrap" :value="project[col]" />
         </template>
-        <template v-else-if="coool==='totalDiscounted'||coool==='totalVatDiscounted'||coool==='totalIncDiscounted'">
-          <currency :value="project[coool]" />
+        <template v-else-if="col==='totalDiscounted'||col==='totalVatDiscounted'||col==='totalIncDiscounted'">
+          <currency :value="project[col]" />
         </template>
-        <template v-else-if="coool==='actions'">
-          <button v-if="project.invoices.length===0" v-on:click="onAddInvoice(project)">Add invoice</button>
-          <button v-else-if="project.overdue" v-on:click="onAddReminder(project)">Add reminder</button>
+        <template v-else-if="col==='actions'">
+          <button class="btn-sm" v-if="project.invoices.length===0" v-on:click="onAddInvoice(project)">Add invoice</button>
+          <button class="btn-sm" v-else-if="project.overdue" v-on:click="onAddReminder(project)">Add reminder</button>
         </template>
         <template v-else>
-          {{project[coool]}}
+          {{project[col]}}
         </template>
         
       </td>
     </tr></tbody>
     <tfoot v-if="totals"><tr>
-      <th v-for="coool in coools">
+      <th v-for="col in columns">
         
-        <template v-if="coool==='totalDiscounted'||coool==='totalVatDiscounted'||coool==='totalIncDiscounted'">
-          <currency :value="getTotalValue(coool)" />
+        <template v-if="col==='totalDiscounted'||col==='totalVatDiscounted'||col==='totalIncDiscounted'">
+          <currency :value="getTotalValue(col)" />
         </template>
         <template v-else>
-          {{getTotalValue(coool)}}
+          {{getTotalValue(col)}}
         </template>
         
       </th>
@@ -60,7 +60,7 @@ export default {
   }
   ,data () {
     return {
-      coools: ['paid','invoiceNr','date','dateLatest','clientName','description','totalIncDiscounted']
+      columns: ['paid','invoiceNr','date','dateLatest','clientName','description','totalIncDiscounted']
       ,sort: 'paid'
       ,asc: true
       ,colName: {
@@ -79,7 +79,7 @@ export default {
   }
   ,mounted(){
     if (this.cols) {
-      this.coools = this.cols.split(/[\s,]/g)
+      this.columns = this.cols.split(/[\s,]/g)
     }
     if (this.totals===undefined) {
       this.totals = true
@@ -132,8 +132,8 @@ export default {
 }
 table {
   td, th {
-    /*max-width: 20%;*/
-    max-width: 200px;
+    max-width: 20vw;
+    /*max-width: 200px;*/
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;

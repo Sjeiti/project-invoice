@@ -21,11 +21,8 @@ export default {
   name: 'clients'
   ,data () {
     return {
-        clients: []
+        clients: model.clients
     }
-  }
-  ,mounted(){
-    this.clients = model.clients
   }
   ,methods: {
     onAddClient(){
@@ -35,3 +32,10 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+  section {
+    line-height: 160%;
+  }
+  a { text-decoration: none; }
+</style>

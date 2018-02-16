@@ -26,7 +26,6 @@
       document.addEventListener('keydown', e=>{
         if ((e.metaKey||e.ctrlKey)&&e.keyCode===83) {
           e.preventDefault()
-          console.log('this.saveable',this.saveable); // todo: remove log
           this.saveable&&save()
         }
       }, false);
@@ -45,5 +44,6 @@
 </script>
 
 <style lang="scss" scoped>
-  div { margin-top: 4px; }
+  div { margin-top: 5px; }
+  button { margin-bottom: 0; }
 </style>

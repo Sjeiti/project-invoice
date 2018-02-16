@@ -33,11 +33,10 @@
   }
   
   body {
-    /*font-family: 'Avenir', Helvetica, Arial, sans-serif;*/
     font-family: 'Open Sans', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 130%;
     background-color: $colorBackground;
   }
@@ -49,7 +48,8 @@
   }
   
   h1, h2, h3, h4, h5, h6 {
-    line-height: 140%;
+    padding: 10px 0;
+    line-height: 200%;
     /*box-shadow: 0 0 0 999px #EEE inset;*/
   }
   h3 { font-size: 22px; }
@@ -71,15 +71,17 @@
   
   button, .btn, input, button, select, textarea, .input {
     margin: 0 2px 4px 0;
-    padding: 4px 8px;
+    padding: 8px 14px;
     border: 0;
-    line-height: 22px;
+    line-height: 100%;
     &:last-child, &.float-right:first-child {
       margin-right: 0;
     }
   }
   
   button, .btn {
+    display: inline-block;
+    margin-bottom: $padding;
     box-shadow: 0 0 0 1px darken($colorButton,10%) inset,
       1px 1px 0 1px lighten($colorButton,10%) inset,
       0 -2px 8px $colorShade inset;
@@ -87,6 +89,7 @@
     color: #FFF;
     text-decoration: none;
     transition: background-color 200ms linear;
+    cursor: pointer;
     &:hover {
       background-color: lighten($colorButton,10%);
     }
@@ -100,6 +103,16 @@
       opacity: 0.3;
       background-color: $colorButton;
       //background-color: mix($colorButton,#888,10%);
+    }
+    &-sm {
+      font-size: 12px;
+      padding: 6px;
+    }
+    &-link {
+      background-color: transparent;
+      box-shadow: none;
+      text-decoration: underline;
+      &:hover { background-color: transparent; }
     }
   }
   
@@ -233,22 +246,6 @@
     margin: 0 auto;
     padding: 0 $padding;
   }
-  
-  /*.row { display: flex; }
-  .col {
-    &-1 { flex-basis: 100%/12*1; }
-    &-2 { flex-basis: 100%/12*2; }
-    &-3 { flex-basis: 100%/12*3; }
-    &-4 { flex-basis: 100%/12*4; }
-    &-5 { flex-basis: 100%/12*5; }
-    &-6 { flex-basis: 100%/12*6; }
-    &-7 { flex-basis: 100%/12*7; }
-    &-8 { flex-basis: 100%/12*8; }
-    &-9 { flex-basis: 100%/12*9; }
-    &-10 { flex-basis: 100%/12*10; }
-    &-11 { flex-basis: 100%/12*11; }
-    &-12 { flex-basis: 100%/12*12; }
-  }*/
   
   .visually-hidden {
     position: absolute;

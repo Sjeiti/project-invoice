@@ -63,6 +63,9 @@ export function track(element, _model, _delete) {
  */
 export function untrack() {
   removeEventListeners()
+  model = {}
+  clone = {}
+  deleteCallback = null
   tracked.dispatch(false)
 }
 

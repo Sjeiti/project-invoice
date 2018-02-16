@@ -1,22 +1,23 @@
 <template>
   <div>
-    <section data-ngIf="config.homeMessage" class="jumbotron clearfix">
+    <section v-if="config.homeMessage" class="jumbotron clearfix">
       <p>This invoicing application stores all your data on your local machine.<br/>
       <em><small>Because all your data are belongs to you.</small></em></p>
-      <button class="btn btn-sm btn-link float-right" data-click="onHideWelcome()">hide message</button>
+      <button class="btn-link float-right" v-on:click="onHideWelcome">hide message</button>
+      <router-link v-bind:to="'/about'" class="btn btn-link float-right">read more</router-link>
     </section>
     <div class="row">
-      <section class="col-12 col-md-7">
-        <h2>Open invoices</h2>
-        <p v-if="invoices.length===0"><em>You currently have no open invoices... yay!</em></p>
-        <project-list v-if="invoices.length>0" :projects="invoices" :cols="'paid clientName totalIncDiscounted actions'" :totals="false"></project-list>
-      </section>
       <section class="col-12 col-md-5">
         <h2>What do you want to do:</h2>
         <p><button v-on:click="onAddClient">Create a new client</button></p>
         <p><button v-on:click="onAddProjectForLatestClient" v-if="latestClient">Create project for '{{latestClient.name}}'</button></p>
         <p><button v-on:click="onCloneLatestProject" v-if="latestProject">Clone project '{{latestProject.description}}'</button></p>
         <p><router-link to="/overview/quarter" class="btn">See current quarter</router-link></p>
+      </section>
+      <section class="col-12 col-md-7">
+        <h2>Open invoices</h2>
+        <p v-if="invoices.length===0"><em>You currently have no open invoices... yay!</em></p>
+        <project-list v-if="invoices.length>0" :projects="invoices" :cols="'paid clientName totalIncDiscounted actions'" :totals="false"></project-list>
       </section>
       <section class="col-12 col-md-7">
         <h2>Draft projects</h2>
@@ -29,7 +30,7 @@
 
 <script>
 import model from '@/model'
-import {save} from '@/formState'
+import {save,modelSaved} from '@/formState'
 import ProjectList from '../components/ProjectList'
 export default {
   name: 'home'
@@ -37,6 +38,7 @@ export default {
   ,data () {
     return {
       invoices: []
+      ,config: model.config
       ,drafts: []
       ,latestProject: []
       ,latestClient: {}
@@ -62,11 +64,41 @@ export default {
     ,onCloneLatestProject(){
       console.log('onCloneLatestProject'); // todo: remove log
     }
+    ,onHideWelcome() {
+      console.log('onHideWelcome',23); // todo: remove log
+      this.config.homeMessage = false
+      save()
+    }
   }
 }
 </script>
 
-<style type="scss" scoped>
+<style lang="scss" scoped>
+  @import '../variables';
+  $bgcolor: #3f5267;
+  
+  .jumbotron {
+    display: block;
+    position: relative;
+    top: -$padding;
+    margin-bottom: 40px;
+    /*padding-left: 0;*/
+    /*padding-right: 0;*/
+    /*border: 0;*/
+    font-size: 2rem;
+    line-height: 130%;
+    background-color: $bgcolor;
+    box-shadow: 400px 0 0 $bgcolor, -400px 0 0 $bgcolor, 100px 0 0 $bgcolor, -100px 0 0 $bgcolor;
+    &, * { color: white; }
+    p {
+      padding: 40px;
+    }
+    button, a {
+      font-size: 12px;
+      line-height: 130%;
+    }
+  }
+  
   section+section {
     margin-top: 0;
     padding-top: 0;
