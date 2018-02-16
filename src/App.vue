@@ -223,6 +223,15 @@
     margin: 0;
   }
   
+  code {
+    padding: 0.2rem 0.4rem;
+    font-family: 'Source Code Pro', mono;
+    font-size: 90%;
+    color: #bd4147;
+    background-color: #f7f7f9;
+    border-radius: 0.25rem;
+  }
+  
   #app {
     display: flex;
     min-height: 100vh;

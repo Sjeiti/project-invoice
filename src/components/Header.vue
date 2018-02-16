@@ -56,6 +56,8 @@ export default {
     top: 0;
     width: 100%;
     max-width: 100vw;
+    max-height: $headerHeight;
+    overflow: visible;
     z-index: 2;
     background-color: $colorHeader;
     box-shadow: 0 0 16px $colorHeader;
@@ -70,8 +72,9 @@ export default {
     nav>ul>li {
       float: right;
       text-align: right;
+      background-color: $colorHeader;
       a {
-        padding-right: $padding;
+        padding: 0 $padding;
         line-height: 200%;
       }
     }
@@ -88,6 +91,7 @@ export default {
         height: 4px;
         margin: 6px 0;
         background-color: gray;
+        background: linear-gradient(90deg, $colorHeader, gray);
       }
     }
     #hamburger+label+ul {
