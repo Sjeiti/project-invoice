@@ -1,5 +1,6 @@
 
 import model from '@/model'
+import {currency} from '@/util'
 import marked from 'marked'
 
 marked.setOptions({
@@ -14,15 +15,27 @@ marked.setOptions({
 })
 
 export function parse(key, models){
+  // extend models
+  Object.assign(models, {
+    data: model.personal
+    ,currency
+  })
+  //
   const keys = Object.keys(models)
   const values = Object.values(models)
-  const tpl = marked(__(key).replace(/\n/g,'<br/>'))
-  return new Function(
-    ...keys
-    ,'return `'+tpl+'`'
-  )(
-    ...values
-  )
+  let interpolated;
+  try {
+    const tpl = marked(__(key).replace(/\n/g,'<br/>')).replace(/^\s*<p>|<\/p>\s*$/g,'')
+    interpolated = new Function(
+      ...keys
+      ,'return `'+tpl+'`'
+    )(
+      ...values
+    )
+  } catch (err) {
+    interpolated = '[interpolation error]'
+  }
+  return interpolated
 }
 
 export function __(key){

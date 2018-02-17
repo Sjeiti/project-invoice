@@ -11,7 +11,7 @@
       <dl>
         <template v-for="key in sortedCopy">
           <dt>{{key}}</dt>
-          <dd><input v-model="copy[key][config.lang]" /></dd>
+          <dd><InterpolationUI v-model="copy[key][config.lang]"></InterpolationUI></dd>
         </template>
       </dl>
     </section>
@@ -22,6 +22,7 @@
 import model from '@/model'
 import {track,untrack} from '@/formState'
 import Lang from '@/components/Lang.vue'
+import InterpolationUI from '@/components/InterpolationUI'
 export default {
   name: 'copy'
   ,data () {
@@ -41,6 +42,7 @@ export default {
   ,destroyed: untrack
   ,components: {
     Lang
+    ,InterpolationUI
   }
 }
 </script>

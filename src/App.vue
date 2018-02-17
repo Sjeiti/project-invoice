@@ -216,6 +216,8 @@
   }
   dt {
     flex: 0 0 100%/12*3;
+    overflow: hidden;
+    text-overflow: ellipsis;
     //@extend .input;
   }
   dd {
@@ -296,7 +298,6 @@
     }
   }
   
-  
   label.checkbox {
     $checkSize: 20px;
     input {
@@ -320,11 +321,11 @@
         height: 50%;
       }
       &:before {
-        transform: translate(4px,3px) scaleX(0.8) rotate(-45deg);
+        transform: translate(3px,3px) scaleX(0.8) rotate(-45deg);
         background-color: #F8F8F8;
       }
       &:after {
-        transform: translate(4px,-3px) scaleX(1.1) rotate(-45deg);
+        transform: translate(3px,-3px) scaleX(1.1) rotate(-45deg);
         background-color: #E0E0E0;
       }
     }

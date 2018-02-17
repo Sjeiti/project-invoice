@@ -22,15 +22,12 @@
     <section>
       <dl>
         <dt>projectNumberTemplate</dt><dd>
-          <input v-model="settings.projectNumberTemplate" />
-          <!--<div data-app-interpolationui data-ngModel="settings.projectNumberTemplate"></div>-->
+          <InterpolationUI v-model="settings.projectNumberTemplate"></InterpolationUI>
         </dd>
         <dt>csvTemplate</dt><dd>
-          <input v-model="settings.csvTemplate" />
-          <!--<div data-app-interpolationu data-ngModel="settings.csvTemplate"></div>-->
+          <InterpolationUI v-model="settings.csvTemplate"></InterpolationUI>
         </dd>
         <dt>langs</dt><dd>
-          <!--<textarea rows="4" v-model="settings.langs"></textarea>-->
           <input v-model="settings.langsJoined" />
         </dd>
         <dt data-ngExplain="'settings.currency'">currency</dt><dd>
@@ -50,6 +47,8 @@
 import model from '@/model'
 import {track,untrack,revert} from '@/formState'
 import {CURRENCY_ISO} from '@/config/currencyISO'
+import InterpolationUI from '@/components/InterpolationUI'
+
 export default {
   name: 'settings'
   ,data () {
@@ -58,6 +57,7 @@ export default {
       ,currencies: []
     }
   }
+  ,components: { InterpolationUI }
   ,mounted(){
     this.settings = track(this.$el,model.config)
     this.currencies = Object.keys(CURRENCY_ISO).map(key=>CURRENCY_ISO[key])
