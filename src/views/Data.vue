@@ -7,7 +7,7 @@
       </dl>
       <dl>
         <template v-for="(value, key) in personal">
-          <dt v-explain="'data.'+key">{{key}}</dt>
+          <dt v-explain="'data.'+key"></dt>
           <dd><input v-model="personal[key]" /></dd>
           <!--<dt data-appExplain="'data.'+item.key"></dt>
           <dd><input

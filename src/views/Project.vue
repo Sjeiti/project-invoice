@@ -103,7 +103,7 @@
       <h3>quotation</h3>
       <dl>
         <template v-for="qt in quotation">
-          <dt data-appExplain="'project.quotationXXXXXXX'">{{qt.label}}</dt>
+          <dt v-explain="'project.'+qt.property"></dt>
           <dd><input v-model="project[qt.property]" v-bind:type="qt.type"/></dd>
         </template>
       </dl>
@@ -127,12 +127,12 @@ export default {
       ,project:{}
       ,vatAmounts: model.personal.vatAmounts.split(/,/g).map(parseFloat)
       ,quotation: [
-        { label: 'quotation after', property: 'quotationAfter', type: 'text' }
-        ,{ label: 'quotation before', property: 'quotationBefore', type: 'text' }
-        ,{ label: 'quotation date', property: 'quotationDate', type: 'date' }
-        ,{ label: 'quotation duration', property: 'quotationDuration', type: 'text' }
-        ,{ label: 'quotation start date', property: 'quotationStartDate', type: 'date' }
-        ,{ label: 'quotation subject', property: 'quotationSubject', type: 'text' }
+        { property: 'quotationAfter', type: 'text' }
+        ,{ property: 'quotationBefore', type: 'text' }
+        ,{ property: 'quotationDate', type: 'date' }
+        ,{ property: 'quotationDuration', type: 'text' }
+        ,{ property: 'quotationStartDate', type: 'date' }
+        ,{ property: 'quotationSubject', type: 'text' }
       ]
     }
   }

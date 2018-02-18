@@ -3,16 +3,16 @@
     <section>
       <h1>Settings</h1>
       <dl>
-        <dt>Backup</dt>
+        <dt v-explain="'settings.backup'"></dt>
         <dd>
           <a v-on:click="onClickDownload($event,'config')" class="btn btn-secondary btn-sm" href="#">config</a>
           <a v-on:click="onClickDownload($event,'data')" class="btn btn-secondary btn-sm" href="#">data</a>
         </dd>
-        <dt>Restore</dt>
+        <dt v-explain="'settings.restore'"></dt>
         <dd>
           <label class="btn btn-secondary btn-sm" for="restore">restore</label><input accept="application/json, text/json, .json" type="file" id="restore" v-on:change="onChangeRestore" class="visually-hidden" />
         </dd>
-        <dt>Clear</dt>
+        <dt v-explain="'settings.clear'"></dt>
         <dd>
           <button v-on:click="onClickClear('config')" class="btn btn-secondary btn-sm">config</button>
           <button v-on:click="onClickClear('data')" class="btn btn-secondary btn-sm">data</button>
@@ -21,21 +21,21 @@
     </section>
     <section>
       <dl>
-        <dt>projectNumberTemplate</dt><dd>
+        <dt v-explain="'settings.projectNumberTemplate'"></dt><dd>
           <InterpolationUI v-model="settings.projectNumberTemplate"></InterpolationUI>
         </dd>
-        <dt>csvTemplate</dt><dd>
+        <dt v-explain="'settings.csvTemplate'"></dt><dd>
           <InterpolationUI v-model="settings.csvTemplate"></InterpolationUI>
         </dd>
-        <dt>langs</dt><dd>
+        <dt v-explain="'settings.langs'"></dt><dd>
           <input v-model="settings.langsJoined" />
         </dd>
-        <dt data-ngExplain="'settings.currency'">currency</dt><dd>
+        <dt v-explain="'settings.currency'"></dt><dd>
           <select v-model="settings.currency">
             <option v-for="currency in currencies" v-bind:value="currency.code" ngDefaultControl>{{currency.name}} ({{currency.symbol}})</option>
           </select>
         </dd>
-        <dt>welcome message</dt><dd>
+        <dt v-explain="'settings.homeMessage'"></dt><dd>
           <label class="checkbox"><input v-model="settings.homeMessage" type="checkbox" /><span></span></label>
         </dd>
       </dl>

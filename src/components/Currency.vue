@@ -7,7 +7,7 @@ export default {
   name: 'Currency'
   ,props: ['value']
   ,filters: {
-    currency: val => val&&val.toFixed(2)||0
+    currency: val => val&&parseFloat(val).toFixed(2)||0
   }
 }
 </script>

@@ -10,7 +10,7 @@
       </dl>
       <dl>
         <template v-for="key in sortedCopy">
-          <dt>{{key}}</dt>
+          <dt v-explain="'copy.'+key"></dt>
           <dd><InterpolationUI v-model="copy[key][config.lang]"></InterpolationUI></dd>
         </template>
       </dl>

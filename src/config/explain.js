@@ -1,6 +1,3 @@
-/**
- * Created by micro on 18-2-2018.
- */
 let explain = {
   data: {
     name:                  ['name',                 'Your name'],
@@ -33,9 +30,11 @@ let explain = {
     invoiceNr:             ['invoice number'],
     hourlyRate:            ['hourly rate'],
     discountRate:          ['discount rate'],
-    quotationBefore:       ['before quotation', 'text shown before the quote'],
-    quotationAfter:        ['after quotation',  'text shown after the quote'],
-    quotationDate:         ['quotation date']
+    quotationBefore:       ['before quotation',     'text shown before the quote'],
+    quotationAfter:        ['after quotation',      'text shown after the quote'],
+    quotationDuration:     ['estimated duration',   'the estimated number of weeks the project wil take'],
+    quotationDate:         ['quotation date'],
+    quotationStartDate:    ['project start date']
   },
   settings: {
     backup:                ['backup',                    'download all the data or configuration as a json file'],
