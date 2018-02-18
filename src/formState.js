@@ -94,6 +94,7 @@ export function revert() {
     }
   }
   saveable.dispatch(false)
+  return true
 }
 
 /**

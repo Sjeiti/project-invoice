@@ -23,18 +23,23 @@
         this.tracked = isTracked
         this.deletable = isDeletable
       })
+      // CTRL save
       document.addEventListener('keydown', e=>{
         if ((e.metaKey||e.ctrlKey)&&e.keyCode===83) {
           e.preventDefault()
           this.saveable&&save()
         }
-      }, false);
+      }, false)
+      // prevent route change on dirty
+      this.$router.beforeEach((to,from,next)=>{
+        if (this.saveable&&!confirm('Leave unsaved changes')) {
+          next(false)
+        } else {
+          this.saveable&&revert()
+          next()
+        }
+      })
     }
-    /*,watch: {
-      tracked() {
-        console.log('this.tracked',this.tracked); // todo: remove log
-      }
-    }*/
     ,methods: {
       onSave: save
       ,onRevert: revert
