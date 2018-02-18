@@ -1,6 +1,7 @@
 import { create as createProjectLine } from './projectLine'
 import { create as createInvoice } from './invoice'
 import projectSort from '../util/projectSort'
+import moment from 'moment'
 
 /**
  * @typedef {object} project
@@ -333,8 +334,9 @@ const proto = {
    * @returns {string}
    */
   get dateFormatted(){
-    const dateFormat = this.copy.dateFormat[this.model.config.lang]
-    return this.datePipe.transform(this.date, dateFormat)
+    const dateFormat = this.model.copy.dateFormat[this.model.config.lang]
+    // return this.datePipe.transform(this.date, dateFormat)
+    return moment(this.date).format(dateFormat)
   },
 
   /**

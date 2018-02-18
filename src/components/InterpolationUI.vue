@@ -2,12 +2,12 @@
   <div>
     <input v-if="!opened" v-on:focus="onFocus" :value="internalValue"></input>
     <div v-else>
-      <textarea :value="internalValue" @input="onInput"></textarea>
-      <div>{{parse(internalValue)}}</div>
+      <textarea :value="internalValue" @input="onInput" ref="textarea"></textarea>
       <label v-for="model in models">
         ${<!---->{{model.name}}<!---->}
         <select v-bind:name="model.name" v-on:change="onSelectChange"><option v-bind:value="key" v-for="key in model.keys">{{key}}</option></select>
       </label>
+      <div class="input" v-html="parse(internalValue)" ref="div"></div>
     </div>
   </div>
 </template>
@@ -63,9 +63,18 @@
       interpolationOpened.add(this.onInterpolationOpened.bind(this))
     }
     ,methods: {
-      onFocus(){
+      onFocus(e){
+        const {target} = e
         this.opened = true
         interpolationOpened.dispatch(this)
+        setTimeout(()=>{
+          const {selectionStart,selectionEnd} = target
+          const textarea = this.$refs.textarea
+          textarea.focus()
+          textarea.selectionStart = selectionStart
+          textarea.selectionEnd = selectionEnd
+          this.$refs.textarea.style.height = `${this.$refs.div.offsetHeight+16}px`;
+        })
       }
       ,onInterpolationOpened(ui){
         if (ui!==this) {
@@ -73,15 +82,26 @@
         }
       }
       ,onInput(e) {
-        const code = e.target.value
-        // Atttach validation + sanitization here.
-        this.$emit('input', code);
+        this.$emit('input', e.target.value)
       }
       ,onSelectChange(e){
         const {target} = e
         const {name,value} = target
-        this.internalValue = this.internalValue + `$\{${name}.${value}}`
         target.value = null
+        //
+        const textarea = this.$refs.textarea
+        const selectionStart = textarea.selectionStart
+        const selectionEnd = textarea.selectionEnd
+        const valueLength = this.internalValue.length
+        //
+        if (selectionStart===valueLength) {
+          this.internalValue = this.internalValue + `$\{${name}.${value}}`
+        } else if (selectionEnd===0) {
+          this.internalValue = `$\{${name}.${value}}` + this.internalValue
+        } else {
+          this.internalValue = this.internalValue.substring(0,selectionStart) + `$\{${name}.${value}}` + this.internalValue.substr(selectionEnd)
+        }
+        //
       }
       ,parse(key){
         return parse(key,{
@@ -102,12 +122,14 @@
 </script>
 
 <style lang="scss" scoped>
+  @import '../variables';
   label {
     position: relative;
+    top: -5px;
     display: inline-block;
-    margin-bottom: 20px;
     padding-right: 10px;
     background-color: transparent;
+    cursor: pointer;
   }
   select {
     position: absolute;
@@ -116,5 +138,10 @@
     width: 100%;
     height: 100%;
     opacity: 0;
+  }
+  .input {
+    margin-bottom: 20px;
+    box-shadow: 0 0 0 1px $colorBorder inset,  0 4px 16px $colorShade inset;
+    line-height: 140%;
   }
 </style>
