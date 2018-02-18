@@ -1,15 +1,16 @@
 import { create as createProjectLine } from './projectLine'
 import { create as createInvoice } from './invoice'
+import {weakAssign} from '../util'
 import projectSort from '../util/projectSort'
 import moment from 'moment'
 
 /**
  * @typedef {object} project
+ * @property {number} id
  * @property {number} clientNr
  * @property {string} description
  * @property {number} discount
  * @property {number} hourlyRate
- * @property {number} id
  * @property {invoice[]} invoices
  * @property {projectLine[]} lines
  * @property {boolean} paid
@@ -19,9 +20,26 @@ import moment from 'moment'
  * @property {number} quotationDuration
  * @property {string} quotationStartDate
  */
+const base = {
+  id: 0
+  ,clientNr: 0
+  ,description: ''
+  ,discount: 0
+  ,hourlyRate: 0
+  ,invoices: []
+  ,lines: []
+  ,paid: false
+  ,quotationAfter: ''
+  ,quotationBefore: ''
+  ,quotationDate: ''
+  ,quotationDuration: 2
+  ,quotationStartDate: ''
+  ,quotationSubject: ''
+}
+
+console.log('base',base); // todo: rem ove log
 
 const proto = {
-
 
   /**
    * @todo asdlfa;sldkf
@@ -59,6 +77,10 @@ const proto = {
 
   addLine(vat=21){
     this.lines.push({amount:0, hours:0, vat})
+  },
+
+  get vatMax(){
+    return Math.max(...this.lines.map(line=>line.vat))
   },
 
   /**
@@ -359,21 +381,23 @@ const proto = {
 }
 
 export function create(project, client, model){
-    //
-    // create model getter on prototype once
-    !proto.hasOwnProperty('model') && Object.defineProperty(proto, 'model', { get: function(){return model} })
-    //
-    // create non-enumerable properties
-    Object.defineProperty(project, 'client', { value: client, enumerable: false })
-    //
-    // create project lines
-    project.lines.forEach((line,i,a)=>(a[i] = createProjectLine(line)))
-    //
-    // create project invoices
-    project.invoices.forEach((invoice,i,a)=>(a[i] = createInvoice(invoice,project)))
-    //
-    // project.quotationDate = new Date(project.quotationDate)
-    // project.quotationStartDate = new Date(project.quotationStartDate)
-    //
-    return Object.setPrototypeOf(project, proto);
+  //
+  weakAssign(project,base)
+  //
+  // create model getter on prototype once
+  !proto.hasOwnProperty('model') && Object.defineProperty(proto, 'model', { get: function(){return model} })
+  //
+  // create non-enumerable properties
+  Object.defineProperty(project, 'client', { value: client, enumerable: false })
+  //
+  // create project lines
+  project.lines.forEach((line,i,a)=>(a[i] = createProjectLine(line)))
+  //
+  // create project invoices
+  project.invoices.forEach((invoice,i,a)=>(a[i] = createInvoice(invoice,project)))
+  //
+  // project.quotationDate = new Date(project.quotationDate)
+  // project.quotationStartDate = new Date(project.quotationStartDate)
+  //
+  return Object.setPrototypeOf(project, proto);
 }

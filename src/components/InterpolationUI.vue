@@ -5,7 +5,7 @@
       <textarea :value="internalValue" @input="onInput" ref="textarea"></textarea>
       <label v-for="model in models">
         ${<!---->{{model.name}}<!---->}
-        <select v-bind:name="model.name" v-on:change="onSelectChange"><option v-bind:value="key" v-for="key in model.keys">{{key}}</option></select>
+        <select v-bind:name="model.name" v-on:change="onSelectChange" tabindex="-1"><option v-bind:value="key" v-for="key in model.keys">{{key}}</option></select>
       </label>
       <div class="input" v-html="parse(internalValue)" ref="div"></div>
     </div>

@@ -19,6 +19,7 @@ export function parse(key, models){
   Object.assign(models, {
     data: model.personal
     ,currency
+    ,c: val=>currency(val,'€',2,'.',',')
   })
   //
   const keys = Object.keys(models)

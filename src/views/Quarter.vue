@@ -9,9 +9,9 @@
     </header>
     <section v-for="(quarter, i) in quarters" :key="i">
       <h3 class="float-left">quarter {{i+1}}</h3>
-      <button data-ngClick="onClickCsv(quarter)" class="btn btn-secondary btn-sm float-right">copy csv data</button>
+      <button v-on:click="onClickCsv(quarter)" class="btn btn-secondary btn-sm float-right">copy csv data</button>
       <project-list :projects="quarter" :cols="'invoiceNr date clientName description totalDiscounted totalVatDiscounted totalIncDiscounted'"></project-list>
-      <textarea class="visually-hidden"></textarea>
+      <textarea class="visually-hidden" ref="csv"></textarea>
     </section>
   </div>
 </template>
@@ -20,6 +20,8 @@
 import model from '@/model'
 import Currency from '@/components/Currency'
 import ProjectList from '@/components/ProjectList'
+import {currency} from '@/util'
+import {parse} from '@/util/interpolationService'
 export default {
   name: 'quarter'
   ,data () {
@@ -48,6 +50,8 @@ export default {
         .sort()
     
     this.setQuarters()
+    this.elmCsv = this.$refs.csv
+    console.log('this.elmCsv',this.elmCsv); // todo: remove log
   }
   ,watch: {
     '$route'() {
@@ -70,20 +74,17 @@ export default {
   
     ,onClickCsv(quarter) {
       const parsed = quarter.map(project=>{
-        const client = project.client,
-          invoice = project.invoices.slice(0).shift(),
-          currencyPipe = new CurrencyFormat(),
-          data = this.modelService.getData().personal,
-          currency = (...args) => currencyPipe.transform.apply(currencyPipe, args)
-        return this.interpolationService.parse(this.csvTemplate, {
-          project,
-          client,
-          invoice,
-          data,
-          currency
+        const client = project.client
+          ,invoice = project.invoices.slice(0).shift()
+        return parse(this.csvTemplate, {
+          project
+          ,client
+          ,invoice
         })
       })
+      console.log('this.csvTemplate',this.csvTemplate); // todo: remove log
       this.elmCsv.value = parsed.join('\n')
+      console.log('this.elmCsv.value',this.elmCsv.value); // todo: remove log
       if (this.elmCsv && this.elmCsv.select) {
         this.elmCsv.select()
         try {
@@ -101,7 +102,14 @@ export default {
 </script>
 
 <style type="scss">
-  .current { font-weight: bold; }
+  nav a {
+    text-decoration: none;
+    padding-right: 10px;
+  }
+  .current {
+    font-weight: bold;
+    cursor: default;
+  }
   .page-quarter.page-quarter .alert-paid, .page-quarter.page-quarter .alert-paid * { color: inherit; }
   /*.page-quarter.page-quarter.page-quarter .alert {
     &-paid { &, * { color: inherit; }}

@@ -102,12 +102,10 @@
       <a v-bind:href="`${project.uri}/quotation`" class="btn float-right">show quotation</a>
       <h3>quotation</h3>
       <dl>
-        <dt data-appExplain="'project.quotationBefore'">quotation before</dt>
-        <dd><textarea v-model="project.quotationBefore"></textarea></dd>
-        <dt data-appExplain="'project.quotationAfter'">quotation after</dt>
-        <dd><textarea v-model="project.quotationAfter"></textarea></dd>
-        <dt data-appExplain="'project.quotationDate'">quotation date</dt>
-        <dd><input v-model="project.quotationDate" type="date"/></dd>
+        <template v-for="qt in quotation">
+          <dt data-appExplain="'project.quotationXXXXXXX'">{{qt.label}}</dt>
+          <dd><input v-model="project[qt.property]" v-bind:type="qt.type"/></dd>
+        </template>
       </dl>
     </section>
   </div>
@@ -128,6 +126,14 @@ export default {
       client:{}
       ,project:{}
       ,vatAmounts: model.personal.vatAmounts.split(/,/g).map(parseFloat)
+      ,quotation: [
+        { label: 'quotation after', property: 'quotationAfter', type: 'text' }
+        ,{ label: 'quotation before', property: 'quotationBefore', type: 'text' }
+        ,{ label: 'quotation date', property: 'quotationDate', type: 'date' }
+        ,{ label: 'quotation duration', property: 'quotationDuration', type: 'text' }
+        ,{ label: 'quotation start date', property: 'quotationStartDate', type: 'date' }
+        ,{ label: 'quotation subject', property: 'quotationSubject', type: 'text' }
+      ]
     }
   }
   ,components: {
