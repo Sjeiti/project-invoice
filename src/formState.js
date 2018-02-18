@@ -46,6 +46,7 @@ export function track(element, _model, _delete) {
   addEventListener(element, 'change', onModelChange, true)
   addEventListener(element, 'click', onModelChange, true)
   addEventListener(element, 'keyup', onModelChange, true)
+  addEventListener(element, 'input', onModelChange, true)
 
   function onModelChange(){
     const stringModel = JSON.stringify(model)

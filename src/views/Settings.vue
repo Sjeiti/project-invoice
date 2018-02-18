@@ -35,8 +35,8 @@
             <option v-for="currency in currencies" v-bind:value="currency.code" ngDefaultControl>{{currency.name}} ({{currency.symbol}})</option>
           </select>
         </dd>
-        <dt>welcome message</dt><dd>{{settings.homeMessage}}
-          <input v-model="settings.homeMessage" type="checkbox" />
+        <dt>welcome message</dt><dd>
+          <label class="checkbox"><input v-model="settings.homeMessage" type="checkbox" /><span></span></label>
         </dd>
       </dl>
     </section>

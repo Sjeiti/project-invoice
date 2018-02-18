@@ -71,7 +71,9 @@ utils.read(commander.source)
       const parent = heading.parentNode
       parent.innerHTML = ''
       parent.appendChild(heading)
-      const afd = document.createElement('app-foldable-definition')
+      // const afd = document.createElement('app-foldable-definition')
+      const afd = document.createElement('div')
+      afd.setAttribute('data-foldable-definition','data-foldable-definition')
       parent.appendChild(afd)
       list.forEach(sl=>{
         const dt = document.createElement('dt')
@@ -86,5 +88,5 @@ utils.read(commander.source)
         afd.appendChild(dt)
         afd.appendChild(dd)
       })
-      utils.save(commander.target,body.innerHTML)
+      utils.save(commander.target,`<div>${body.innerHTML}</div>`)
     })
