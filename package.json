@@ -10,7 +10,8 @@
     "version:cache": "next-version src/invoice.appcache",
     "version:minor": "npm run version -- --minor",
     "version:major": "npm run version -- --major",
-    "markdown": "node task/parseMarkdown --source=README.md --target=src/views/About.html"
+    "markdown": "node task/parseMarkdown --source=README.md --target=src/views/About.html",
+    "icomoon": "node task/icomoon --source icomoon.zip --target public/fonts/ --targetFile src/style/_icons.scss"
   },
   "dependencies": {
     "marked": "^0.3.12",
@@ -26,6 +27,7 @@
     "@vue/cli-plugin-eslint": "^3.0.0-alpha.8",
     "@vue/cli-plugin-pwa": "^3.0.0-alpha.8",
     "@vue/cli-service": "^3.0.0-alpha.8",
+    "adm-zip": "^0.4.7",
     "commander": "^2.14.1",
     "cypress": "^1.4.2",
     "eslint-plugin-html": "^4.0.2",
@@ -35,7 +37,8 @@
     "node-sass": "^4.7.2",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.20.1",
-    "vue-template-compiler": "^2.5.13"
+    "vue-template-compiler": "^2.5.13",
+    "xml2js": "^0.4.19"
   },
   "babel": {
     "presets": [

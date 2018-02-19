@@ -127,7 +127,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '/../variables';
+  @import '../style/variables';
   header {
     display: flex;
     width: 100%;

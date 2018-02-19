@@ -20,7 +20,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '/../variables';
+@import '../style/variables';
 li {
   margin-left: $padding;
 }

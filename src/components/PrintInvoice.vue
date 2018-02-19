@@ -155,8 +155,8 @@ export default {
 </script>
 
 <style lang="scss" scped>
-@import '../variables';
-@import '../print';
+@import '../style/variables';
+@import '../style/print';
 
 .invoice-shade {
   position: relative;

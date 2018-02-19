@@ -122,7 +122,7 @@
 </script>
 
 <style lang="scss" scoped>
-  @import '../variables';
+  @import '../style/variables';
   label {
     position: relative;
     top: -5px;

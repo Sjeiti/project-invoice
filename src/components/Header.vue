@@ -49,7 +49,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '/../variables';
+  @import '../style/variables';
   header {
     position: fixed;
     left: 0;
@@ -68,7 +68,7 @@ export default {
       text-decoration: none;
   }
   
-  @media (max-width: 598px) {
+  @media #{$breakpointLow} {
     nav>ul>li {
       float: right;
       text-align: right;
@@ -106,12 +106,13 @@ export default {
       max-height: 300px;
     }
     .saveable-buttons{
-      position: absolute;
-      left: $padding;
-      top: 0;
+      /*position: absolute;
+      right: $headerHeight;
+      top: 0;*/
+      float: right;
     }
   }
-  @media (min-width: 599px) {
+  @media #{$breakpointHigh} {
     $dropPad: 16px;
     ul { font-size: 0; }
     a {

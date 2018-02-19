@@ -74,7 +74,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '../variables';
+  @import '../style/variables';
   $bgcolor: #3f5267;
   
   .jumbotron {

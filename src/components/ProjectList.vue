@@ -125,23 +125,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '/../variables';
-.alert {
-  &-paid { &, * { color: #AAA; }}
-  &-late { &, * { color: red; }}
-  &-pending { &, * { color: green; }}
-  &-select { &, * { background-color: darken($colorBackground,5%); }}
-}
-table {
-  td, th {
-    max-width: 20vw;
-    /*max-width: 200px;*/
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
+  @import '../style/variables';
+  .alert {
+    &-paid { &, * { color: #AAA; }}
+    &-late { &, * { color: red; }}
+    &-pending { &, * { color: green; }}
+    &-select { &, * { background-color: darken($colorBackground,5%); }}
   }
-  button {
-    white-space: nowrap;
+  table {
+    td, th {
+      max-width: 20vw;
+      /*max-width: 200px;*/
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+    button {
+      white-space: nowrap;
+    }
   }
-}
 </style>

@@ -9,7 +9,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '/../variables';
+  @import '../style/variables';
 footer {
   margin: 40px 0 0;
   padding: 4px 0;
