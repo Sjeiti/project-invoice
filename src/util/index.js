@@ -38,3 +38,7 @@ export function weakAssign(obj,add){
     }
   }
 }
+
+export function capitalise(s){
+	return s[0].toUpperCase()+s.substr(1)
+}

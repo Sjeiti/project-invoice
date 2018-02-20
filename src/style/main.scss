@@ -62,7 +62,7 @@ button, .btn {
   display: inline-block;
   margin-bottom: $padding;
   box-shadow: 0 0 0 1px darken($colorButton,10%) inset,
-    1px 1px 0 1px lighten($colorButton,10%) inset,
+    1px 1px 0 1px lighten($colorButton,5%) inset,
     0 -2px 8px $colorShade inset;
   background-color: $colorButton;
   color: #FFF!important;

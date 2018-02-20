@@ -1,6 +1,8 @@
 <template>
   <header>
     <nav>
+      <router-link class="home-icon" v-bind:to="'/'"></router-link>
+      <h2 class="page-title hide-high">{{pageTitle}}</h2>
       <ul class="list-unstyled list-inline">
         <li>
           <input v-model="hamburger" class="visually-hidden" id="hamburger" type="checkbox">
@@ -34,22 +36,58 @@
 </template>
 
 <script>
-import SaveableButtons from '@/components/SaveableButtons.vue'
+import SaveableButtons from '@/components/SaveableButtons'
+import {NAME} from '@/config'
 export default {
   name: 'AppHeader'
   ,data () {
     return {
       hamburger: false
+      ,pageTitle: NAME
     }
   }
   ,components: {
     SaveableButtons
+  }
+  ,mounted(){
+    this.$router.beforeEach((to, from, next) => {
+      const title = to.meta.title
+      this.pageTitle = title
+      document.title = title===NAME?NAME:`${title} - ${NAME}`
+      next()
+    })
   }
 }
 </script>
 
 <style lang="scss" scoped>
   @import '../style/variables';
+  
+  
+  .home-icon {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    float: left;
+    height: $headerHeight;
+    width: $headerHeight;
+    padding: 0;
+    background: url(/static/img/logo.svg) no-repeat;
+    background-size: 80%;
+    background-position: center;
+    @media #{$breakpointHigh} { display: none; }
+  }
+  
+  .page-title {
+    position: absolute;
+    left: 48px;
+    top: 0;
+    padding: 0;
+    color: white;
+    line-height: $headerHeight;
+  }
+  
   header {
     position: fixed;
     left: 0;
@@ -69,8 +107,12 @@ export default {
   }
   
   @media #{$breakpointLow} {
+    /*nav>ul {
+      width: $headerHeight;
+    }*/
     nav>ul>li {
       float: right;
+      width: 100vw;
       text-align: right;
       background-color: $colorHeader;
       a {
@@ -80,18 +122,22 @@ export default {
     }
     [for=hamburger] {
       display: block;
-      width: 100%;
+      /*width: 100%;*/
+      /*float:right;*/
+      /*clear: both;*/
+      width: $headerHeight/2;
       height: $headerHeight;
       padding: 1px 0;
       margin: 0;
+      margin-left: calc(100vw - #{$headerHeight/2});
       &:before, &:after, span {
         content: '';
         display: block;
         width: 100%;
         height: 4px;
         margin: 6px 0;
-        background-color: gray;
-        background: linear-gradient(90deg, $colorHeader, gray);
+        background-color: white;
+        /*background: linear-gradient(90deg, $colorHeader, #eee);*/
       }
     }
     #hamburger+label+ul {
@@ -106,10 +152,10 @@ export default {
       max-height: 300px;
     }
     .saveable-buttons{
-      /*position: absolute;
-      right: $headerHeight;
-      top: 0;*/
-      float: right;
+      position: absolute;
+      right: $headerHeight/2 + $padding;
+      top: 0;
+      /*float: right;*/
     }
   }
   @media #{$breakpointHigh} {
