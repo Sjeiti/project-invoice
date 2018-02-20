@@ -1,7 +1,7 @@
 <template>
   <div>
     <section>
-      <h1>Data</h1>
+      <h1 class="hide-low">Data</h1>
       <dl>
           <dt><strong>key</strong></dt><dd><strong>value</strong></dd>
       </dl>

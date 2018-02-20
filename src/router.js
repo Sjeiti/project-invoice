@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import {capitalise} from './util'
+import {NAME} from '@/config'
 
 import pageHome from './views/Home.vue'
 import pageOverview from './views/Overview.vue'
@@ -44,8 +45,7 @@ routes.forEach(route=>{
 })
 
 // console.log('routes',routes); // todo: remove log
-
-export default new Router({
+const router = new Router({
   routes
   ,mode: 'history'
   ,scrollBehavior(to,from,savedPosition) {
@@ -56,3 +56,11 @@ export default new Router({
     }
   }
 })
+
+router.beforeEach((to, from, next)=>{
+  const title = to.meta.title
+  document.title = title===NAME?NAME:`${title} - ${NAME}`
+  next()
+})
+
+export default router

@@ -50,10 +50,9 @@ export default {
     SaveableButtons
   }
   ,mounted(){
+    this.pageTitle = this.$route.meta.title
     this.$router.beforeEach((to, from, next) => {
-      const title = to.meta.title
-      this.pageTitle = title
-      document.title = title===NAME?NAME:`${title} - ${NAME}`
+      this.pageTitle = to.meta.title
       next()
     })
   }

@@ -3,7 +3,7 @@
     <section>
       <header>
         <lang class="float-right"></lang>
-        <h1>Copy</h1>
+        <h1 class="hide-low">Copy</h1>
       </header>
       <dl>
           <dt><strong>key</strong></dt><dd><strong>value</strong></dd>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <section>
-      <h1>Overview</h1>
+      <h1 class="hide-low">Overview</h1>
       <project-list :projects="projects"></project-list>
     </section>
   </div>

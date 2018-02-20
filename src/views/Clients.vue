@@ -3,7 +3,7 @@
     <section>
       <header class="clearfix">
         <button v-on:click="onAddClient()" class="float-right">add client</button>
-        <h1>Clients</h1>
+        <h1 class="hide-low">Clients</h1>
       </header>
       <ul>
         <li v-for="client in clients" :key="client.nr">

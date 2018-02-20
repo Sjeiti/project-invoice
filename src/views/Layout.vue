@@ -3,7 +3,7 @@
     <section>
       <header class="clearfix">
         <lang class="float-right"></lang>
-        <h1>Layout</h1>
+        <h1 class="hide-low">Layout</h1>
       </header>
       <print-invoice :client="client" :project="project" :invoice="invoice" :settings="settings"></print-invoice>
     </section>

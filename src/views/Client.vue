@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Client: {{client.name}}</h1>
+    <h1><span class="hide-low">Client: </span>{{client.name}}</h1>
     <section>
       <dl>
         <dt>name</dt><dd><input v-model="client.name"/></dd>

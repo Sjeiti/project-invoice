@@ -1,7 +1,7 @@
 <template>
   <section>
     <header>
-      <h1>Invoice {{project.invoiceNr}}</h1>
+      <h1><span class="hide-low">Invoice </span>{{project.invoiceNr}}</h1>
       <div class="invoice-options">
         <router-link v-bind:to="project.uri||''" class="btn">back</router-link>
         <button v-on:click="onClickPrint()"

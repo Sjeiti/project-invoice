@@ -1,7 +1,7 @@
 <template>
   <div>
     <button v-on:click="clone(project)" class="float-right">clone</button>
-    <h1>Project: {{project.description}}</h1>
+    <h1><span class="hide-low">Project: </span>{{project.description}}</h1>
     <section>
       <dl>
         <dt data-appExplain="'project.client'">client</dt>

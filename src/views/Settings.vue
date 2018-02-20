@@ -1,7 +1,7 @@
 <template>
   <div>
     <section>
-      <h1>Settings</h1>
+      <h1 class="hide-low">Settings</h1>
       <dl>
         <dt v-explain="'settings.backup'"></dt>
         <dd>
