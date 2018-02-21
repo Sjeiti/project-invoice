@@ -6,7 +6,7 @@
       <button class="btn-link float-right" v-on:click="onHideWelcome">hide message</button>
       <router-link v-bind:to="'/about'" class="btn btn-link float-right">read more</router-link>
     </section>
-    <div class="row">
+    <div class="row no-gutters">
       <section class="col-12 col-md-5">
         <h2>What do you want to do:</h2>
         <p><button v-on:click="onAddClient">Create a new client</button></p>

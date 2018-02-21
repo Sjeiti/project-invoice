@@ -1,4 +1,5 @@
 <template>
+  <div class="project-list">
   <table>
     <thead><tr>
       <th v-for="col in columns" v-on:click="onClickOrder(col)">{{colName[col]}}</th>
@@ -48,6 +49,7 @@
       </th>
     </tr></tfoot>
   </table>
+  </div>
 </template>
 
 <script>
@@ -131,6 +133,11 @@ export default {
     &-late { &, * { color: red; }}
     &-pending { &, * { color: green; }}
     &-select { &, * { background-color: darken($colorBackground,5%); }}
+  }
+  .project-list {
+    max-width: 100vw;
+    overflow-x: auto;
+    overflow-y: hidden;
   }
   table {
     td, th {

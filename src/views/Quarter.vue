@@ -8,8 +8,10 @@
       </nav>
     </header>
     <section v-for="(quarter, i) in quarters" :key="i">
-      <h3 class="float-left">quarter {{i+1}}</h3>
-      <button v-on:click="onClickCsv(quarter)" class="btn btn-secondary btn-sm float-right">copy csv data</button>
+      <header>
+        <h3>quarter {{i + 1}}</h3>
+        <button v-on:click="onClickCsv(quarter)">copy csv data</button>
+      </header>
       <project-list :projects="quarter" :cols="'invoiceNr date clientName description totalDiscounted totalVatDiscounted totalIncDiscounted'"></project-list>
       <textarea class="visually-hidden" ref="csv"></textarea>
     </section>
@@ -101,10 +103,18 @@ export default {
 }
 </script>
 
-<style type="scss">
+<style lang="scss" scoped>
   nav a {
     text-decoration: none;
     padding-right: 10px;
+  }
+  header {
+    position: relative;
+    button {
+      position: absolute;
+      right: 0;
+      top: 20px;
+    }
   }
   .current {
     font-weight: bold;

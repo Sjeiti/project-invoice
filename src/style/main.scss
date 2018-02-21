@@ -56,6 +56,9 @@ button, .btn, input, button, select, textarea, .input {
   &:last-child, &.float-right:first-child {
     margin-right: 0;
   }
+  @media #{$breakpointLow} {
+    padding: 6px 8px;
+  }
 }
 
 button, .btn {
@@ -92,6 +95,14 @@ button, .btn {
     box-shadow: none;
     text-decoration: underline;
     &:hover { background-color: transparent; }
+  }
+}
+
+.col {
+  .btn, button {
+    &:first-child, &:last-child {
+      margin-left: 0;
+    }
   }
 }
 
@@ -143,6 +154,17 @@ input {
     width: 2rem;
     display: inline-block;
     margin-right: 0.5em;
+  }
+  &[type=date] {
+    @media #{$breakpointLow} {
+      max-width: 100px;
+      &::-webkit-clear-button,
+      &::-webkit-inner-spin-button,
+      &::-webkit-calendar-picker-indicator {
+        display: none;
+        -webkit-appearance: none;
+      }
+    }
   }
 }
 

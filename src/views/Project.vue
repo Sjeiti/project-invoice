@@ -31,8 +31,8 @@
         <thead>
         <tr>
           <th width="60%">description</th>
-          <th width="5%"><span class="hidden-xs-down">hours</span></th>
-          <th></th>
+          <th width="5%" class="hide-low">hours</th>
+          <th class="hide-low"></th>
           <th>amount</th>
           <th>VAT</th>
           <th></th>
@@ -41,8 +41,8 @@
         <tbody>
         <tr v-for="(line, index) in project.lines" :key="index">
           <td><input v-model="line.description"/></td>
-          <td><input v-model.number="line.hours" type="number"/></td>
-          <td><currency @click.native="onClickLineCalculation(project,line)" :value="line.hours*project.hourlyRateDiscounted"/></td>
+          <td class="hide-low"><input v-model.number="line.hours" type="number"/></td>
+          <td class="hide-low"><currency @click.native="onClickLineCalculation(project,line)" :value="line.hours*project.hourlyRateDiscounted"/></td>
           <td><input v-model.number="line.amount" type="number" step="0.01"/></td>
           <td>
             <select v-model="line.vat" class="mono">
@@ -55,18 +55,16 @@
         <tfoot>
         <tr>
           <td>total ex VAT</td>
-          <td>
-            <div class="input mono">{{project.totalHours}}</div>
-          </td>
-          <td><currency :value="project.totalHours*project.hourlyRateDiscounted"/></td>
+          <td class="hide-low"><div class="input mono">{{project.totalHours}}</div></td>
+          <td class="hide-low"><currency :value="project.totalHours*project.hourlyRateDiscounted"/></td>
           <td><currency class="float-right" :value="project.total"/></td>
           <td></td>
           <td></td>
         </tr>
         <tr>
           <td>total inc VAT</td>
-          <td></td>
-          <td></td>
+          <td class="hide-low"></td>
+          <td class="hide-low"></td>
           <td><currency class="float-right" :value="project.totalIncDiscounted"/></td>
           <td></td>
           <td></td>
@@ -81,17 +79,17 @@
         <h3>invoices</h3>
       </header>
       <ul class="list-unstyled">
-        <li v-for="(invoice, i) in project.invoices" v-bind:key="i" class="row">
-          <div class="col-3"></div>
-          <div class="col-3 col-md-2">
+        <li v-for="(invoice, i) in project.invoices" v-bind:key="i" class="row no-gutters">
+          <div class="col hide-low"></div>
+          <div class="col">
             <router-link v-bind:to="`${project.uri}/${invoice.type}${i!==0?'/'+i:''}`" class="btn">{{invoice.type}}{{i!==0?'&nbsp;' + i:''}}</router-link>
           </div>
-          <div class="col-2 col-md-3"><input v-model="invoice.date" type="date"/></div>
-          <div class="col-2 col-md-2 text-align-right">
+          <div class="col"><input v-model="invoice.date" type="date" /></div>
+          <div class="col text-align-right">
             <label v-if="i>0" class="checkbox"><input v-model="invoice.interest" type="checkbox"/><span title="add interest"></span></label>
             <label v-if="i>1" class="checkbox"><input v-model="invoice.exhortation" type="checkbox"/><span title="exhortation"></span></label>
           </div>
-          <div class="col-2 col-md-5 text-align-right">
+          <div class="col text-align-right">
             <button v-on:click="onRemoveInvoice(invoice)">&#10006;</button>
           </div>
         </li>

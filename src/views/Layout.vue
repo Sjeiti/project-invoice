@@ -8,7 +8,7 @@
       <print-invoice :client="client" :project="project" :invoice="invoice" :settings="settings"></print-invoice>
     </section>
     <section>
-      <dl data-class="row">
+      <dl data-class="row no-gutters">
         
         <dt data-class="name">Theme</dt><dd>
           <select v-model="settings.theme">
