@@ -53,7 +53,6 @@ export default {
     
     this.setQuarters()
     this.elmCsv = this.$refs.csv
-    console.log('this.elmCsv',this.elmCsv); // todo: remove log
   }
   ,watch: {
     '$route'() {
