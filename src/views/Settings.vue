@@ -5,8 +5,8 @@
       <dl>
         <dt v-explain="'settings.backup'"></dt>
         <dd>
-          <a v-on:click="onClickDownload($event,'config')" class="btn btn-secondary btn-sm" href="#">config</a>
-          <a v-on:click="onClickDownload($event,'data')" class="btn btn-secondary btn-sm" href="#">data</a>
+          <button v-on:click="onClickDownload($event,'config')">config</button>
+          <button v-on:click="onClickDownload($event,'data')">data</button>
         </dd>
         <dt v-explain="'settings.restore'"></dt>
         <dd>
@@ -14,8 +14,8 @@
         </dd>
         <dt v-explain="'settings.clear'"></dt>
         <dd>
-          <button v-on:click="onClickClear('config')" class="btn btn-secondary btn-sm">config</button>
-          <button v-on:click="onClickClear('data')" class="btn btn-secondary btn-sm">data</button>
+          <button v-on:click="onClickClear('config')">config</button>
+          <button v-on:click="onClickClear('data')">data</button>
         </dd>
       </dl>
     </section>

@@ -27,8 +27,8 @@
           <currency :value="project[col]" />
         </template>
         <template v-else-if="col==='actions'">
-          <button class="btn-sm" v-if="project.invoices.length===0" v-on:click="onAddInvoice(project)">Add invoice</button>
-          <button class="btn-sm" v-else-if="project.overdue" v-on:click="onAddReminder(project)">Add reminder</button>
+          <button v-if="project.invoices.length===0" v-on:click="onAddInvoice(project)">Add invoice</button>
+          <button v-else-if="project.overdue" v-on:click="onAddReminder(project)">Add reminder</button>
         </template>
         <template v-else>
           {{project[col]}}

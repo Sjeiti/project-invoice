@@ -13,8 +13,8 @@
         <button v-on:click="onClickCsv(quarter)">copy csv data</button>
       </header>
       <project-list :projects="quarter" :cols="'invoiceNr date clientName description totalDiscounted totalVatDiscounted totalIncDiscounted'"></project-list>
-      <textarea class="visually-hidden" ref="csv"></textarea>
     </section>
+    <textarea class="visually-hidden" ref="csv"></textarea>
   </div>
 </template>
 
@@ -84,9 +84,7 @@ export default {
           ,invoice
         })
       })
-      console.log('this.csvTemplate',this.csvTemplate); // todo: remove log
       this.elmCsv.value = parsed.join('\n')
-      console.log('this.elmCsv.value',this.elmCsv.value); // todo: remove log
       if (this.elmCsv && this.elmCsv.select) {
         this.elmCsv.select()
         try {
