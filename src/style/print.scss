@@ -5,7 +5,12 @@ html {
   --main-fg-color: black;
   --secondary-bg-color: #AAA;
   --secondary-fg-color: white;
+  --font-main: "Istok Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-currency: 'Droid Sans Mono', monospace;
+  --base-font-size: 14px;
 }
+
+//@import url(https://fonts.googleapis.com/css?family=var(--font-main)|var(--font-currency));
 
 @page {
   size: A4;
@@ -48,7 +53,9 @@ body {
   background-color: var(--main-bg-color);
   overflow: hidden;
   margin: 0 auto;
-  font-family: "Istok Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  //font-family: "Istok Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: var(--font-main)!important;
+  font-size: var(--base-font-size);
   -webkit-print-color-adjust: exact;
   &.quotation {
     display: block;
@@ -242,10 +249,11 @@ body {
     position: relative;
     /*border: 1px solid rgba(0,0,0,0.01);*/
   }
-  app-currency {
+  app-currency, .mono {  // todo: is .mono correct here?
     width: 80%;
     float: right;
-    font-family: 'Droid Sans Mono', monospace;
+    //font-family: 'Droid Sans Mono', monospace;
+    font-family: var(--font-currency)!important;
   }
   .total {
     height: 40pt;

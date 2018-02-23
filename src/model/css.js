@@ -57,6 +57,9 @@ function updateVariables(settings){
     --main-fg-color: ${settings.themeMainFgColor};
     --secondary-bg-color: ${settings.themeSecondaryBgColor};
     --secondary-fg-color: ${settings.themeSecondaryFgColor};
+    --font-main: "${settings.themeFontMain}", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --font-currency: "${settings.themeFontCurrency}", monospace;
+    --base-font-size: ${settings.themeFontSize}px;
   }
   ${settings.themeLogoCSS||''}`
   return Promise.resolve(cssVariables)

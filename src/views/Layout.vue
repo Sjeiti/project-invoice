@@ -16,16 +16,32 @@
           </select>
         </dd>
         
+        <dt data-class="name">logo</dt><dd>
+          <label class="btn">add image<input accept="image/gif, image/jpg, image/jpeg, image/png, image/svg, .gif, .jpg, .jpeg, .png, .svg" type="file" v-on:change="onChangeLogo" class="visually-hidden" /></label>
+          <button v-on:click="onDeleteLogo">delete image</button>
+        </dd>
+        
         <dt data-class="name colors">Colors</dt><dd>
           <label><input type="color" v-on:change="onChangeVariables" v-model="settings.themeMainBgColor"/>main background</label><br/>
           <label><input type="color" v-on:change="onChangeVariables" v-model="settings.themeMainFgColor"/>main foreground</label><br/>
           <label><input type="color" v-on:change="onChangeVariables" v-model="settings.themeSecondaryBgColor"/>secondary background</label><br/>
           <label><input type="color" v-on:change="onChangeVariables" v-model="settings.themeSecondaryFgColor"/>secondary foreground</label><br/>
         </dd>
+    
+        <dt class="name font-size"><label for="font-size">base font size</label></dt><dd>
+            <input class="form-control" id="font-size" type="range" min="5" max="30" step="0.2" v-model="settings.themeFontSize" v-bind:data-reflect="settings.themeFontSize" v-on:change="onChangeVariables" />
+        </dd>
         
-        <dt data-class="name">logo</dt><dd>
-          <label class="btn">add image<input accept="image/gif, image/jpg, image/jpeg, image/png, image/svg, .gif, .jpg, .jpeg, .png, .svg" type="file" v-on:change="onChangeLogo" class="visually-hidden" /></label>
-          <button class="btn" v-on:click="onDeleteLogo">delete image</button>
+        <dt class="name"><label for="font-main">main font</label></dt><dd>
+          <select v-model="settings.themeFontMain" v-on:change="onChangeVariables">
+            <option v-for="font in fonts" v-bind:value="font.family">{{font.family}}</option>
+          </select>
+        </dd>
+        
+        <dt class="name"><label for="font-currency">currency font</label></dt><dd>
+          <select v-model="settings.themeFontCurrency" v-on:change="onChangeVariables">
+            <option v-for="font of fonts" data-array-filter=" | arrayFilter:'category=monospace'" v-bind:value="font.family">{{font.family}}</option>
+          </select>
         </dd>
         
         <dt data-class="name wide">invoiceCSS</dt><dd>
@@ -54,6 +70,7 @@ export default {
       ,invoice:{}
       ,settings:{}
       ,pageReady:false
+      ,fonts:[]
     }
   }
   ,mounted(){
@@ -65,6 +82,8 @@ export default {
     //
     cssVariablesChanged.dispatch(this.settings)
     // todo trigger cssVariablesChanged on revert
+    //
+    this.getFonts()
   }
   ,components: {
     Lang
@@ -106,6 +125,19 @@ export default {
           background: url(${result}) no-repeat;
       }`:''
       cssVariablesChanged.dispatch(this.settings)
+    }
+    
+    ,getFonts(){
+      fetch(`https://www.googleapis.com/webfonts/v1/webfonts?key=${this.settings.googleFontsAPIKey}`)
+          .then(response=>response.json())
+          .then(result=>{
+            this.fonts = result.items
+          })
+      /*this.restService.load(`https://www.googleapis.com/webfonts/v1/webfonts?key=${this.settings.googleFontsAPIKey}`)
+          .then(result=>{
+            console.log('resultfonts',result)
+            this.fonts = result.items
+          })*/
     }
     
   }

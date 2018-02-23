@@ -166,6 +166,19 @@ input {
       }
     }
   }
+  &[type=range] {
+    position: relative;
+    box-shadow: none;
+    width: 90%;
+    &:after {
+      content: attr(data-reflect);
+      position: absolute;
+      right: -10%;
+      top: 8px;
+      color: #333;
+      font-family: 'Source Code Pro', monospace;
+    }
+  }
 }
 
 .mono { font-family: 'Source Code Pro', monospace; }

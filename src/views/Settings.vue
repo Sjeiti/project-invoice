@@ -10,7 +10,8 @@
         </dd>
         <dt v-explain="'settings.restore'"></dt>
         <dd>
-          <label class="btn btn-secondary btn-sm" for="restore">restore</label><input accept="application/json, text/json, .json" type="file" id="restore" v-on:change="onChangeRestore" class="visually-hidden" />
+          <label class="btn" for="restore">restore</label>
+          <input accept="application/json, text/json, .json" type="file" id="restore" v-on:change="onChangeRestore" class="visually-hidden" />
         </dd>
         <dt v-explain="'settings.clear'"></dt>
         <dd>

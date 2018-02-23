@@ -2,8 +2,10 @@
   <div>
     <div class="invoice-shade"><div></div></div>
     <div class="invoice print-invoice" :class="config.theme||''">
-      <link href='https://fonts.googleapis.com/css?family=Droid+Sans+Mono|Istok+Web:400,400italic,700,700italic' rel='stylesheet' type='text/css'/>
+      <!--<link href='https://fonts.googleapis.com/css?family=Droid+Sans+Mono|Istok+Web:400,400italic,700,700italic' rel='stylesheet' type='text/css'/>-->
       <!--<style>{{config.invoiceCSS}}</style>-->
+      <link v-bind:href="fontsURI" rel='stylesheet' type='text/css'/>
+      <!--############################################################-->
       <header>
         <div class="page">
           <div class="wrapper block clearfix">
@@ -122,7 +124,8 @@
 import model from '@/model'
 import Currency from '@/components/Currency'
 import {parse,__} from '@/util/interpolationService'
-import {appendStyle} from '@/model/css'
+import {appendStyle, cssVariablesChanged} from '@/model/css'
+
 export default {
   name: 'PrintInvoice'
   ,props: ['client','project','invoice']
@@ -136,6 +139,7 @@ export default {
   ,mounted(){
     this.isQuotation = /\/client\/\d+\/\d+\/quotation/.test(location.href)
     appendStyle(this.$el.querySelector('.invoice'))
+    cssVariablesChanged.add(settings=>this.config=settings||model.config)
   }
   ,components: {
     Currency
@@ -149,6 +153,11 @@ export default {
           ,invoice: this.invoice
           ,data: model.personal
       })
+    }
+  }
+  ,computed: {
+    fontsURI(){
+      return `https://fonts.googleapis.com/css?family=${this.config.themeFontMain}|${this.config.themeFontCurrency}`
     }
   }
 }
