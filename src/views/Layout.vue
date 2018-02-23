@@ -5,9 +5,8 @@
         <lang class="float-right"></lang>
         <h1 class="hide-low">Layout</h1>
       </header>
-      <print-invoice :client="client" :project="project" :invoice="invoice" :settings="settings"></print-invoice>
-    </section>
-    <section>
+      <print-invoice class="example" :client="client" :project="project" :invoice="invoice" :settings="settings"></print-invoice>
+
       <dl data-class="row no-gutters">
         
         <dt data-class="name">Theme</dt><dd>
@@ -120,11 +119,12 @@ export default {
   
     ,onLogoLoad(result, img){
       this.settings.themeLogoCSS = result?`.invoice #logo {
-          width: ${img.naturalWidth}px;
-          height: ${img.naturalHeight}px;
-          background: url(${result}) no-repeat;
+          width: ${img.naturalWidth}px!important;
+          height: ${img.naturalHeight}px!important;
+          background: url(${result}) no-repeat!important;
       }`:''
-      cssVariablesChanged.dispatch(this.settings)
+      console.log('onLogoLoad',this.settings.themeLogoCSS) // todo remove
+      this.onChangeVariables()
     }
     
     ,getFonts(){
@@ -133,13 +133,18 @@ export default {
           .then(result=>{
             this.fonts = result.items
           })
-      /*this.restService.load(`https://www.googleapis.com/webfonts/v1/webfonts?key=${this.settings.googleFontsAPIKey}`)
-          .then(result=>{
-            console.log('resultfonts',result)
-            this.fonts = result.items
-          })*/
     }
     
   }
 }
 </script>
+
+<style lang="scss" scoped>
+  @import '../style/variables';
+  @media #{$breakpointHigh} {
+    .example {
+      float: right;
+      margin-left: $padding;
+    }
+  }
+</style>

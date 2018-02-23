@@ -172,10 +172,7 @@ export default {
   display: block;
   height: 0;
   zoom: .399;
-  /*@include media-breakpoint-up(sm) {
-    zoom: .599;
-  }*/
-    zoom: .599;
+  @media #{$breakpointHigh} { zoom: .599; }
   div {
     position: relative;
     left: 50%;
@@ -208,10 +205,7 @@ export default {
   z-index: 1;
   zoom: .4;
   font-family: "Istok Web","Helvetica Neue",Helvetica,Arial,sans-serif;
-  /*@include media-breakpoint-up(sm) {
-    zoom: .6;
-  }*/
-    zoom: .6;
+  @media #{$breakpointHigh} { zoom: .6; }
 }
 .invoice {
   position: relative;
