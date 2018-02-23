@@ -157,9 +157,17 @@ export default {
       line.amount = line.hours*project.hourlyRateDiscounted
     }
     ,clone(project) {
-      console.log('clonedProject',JSON.parse(JSON.stringify(project))); // todo: remove log
-      //const clonedProject = this.modelService.cloneProject(project)
-      //this.router.navigate([clonedProject.uri])
+      const id = Math.max(...model.projects.map(p=>p.id))+1
+      const clone = Object.assign(project.clone(),{
+        id
+        ,description: project.description.match(/\s\(clone\s\d*\)/)?project.description.replace(/\d*\)/,`${id})`):`${project.description} (clone ${id})`
+        ,invoices: []
+        ,paid: false
+      })
+      clone.client.projects.push(clone)
+      this.$router.push(clone.uri)
+      this.project = track(this.$el,clone,this.deleteProject)
+      save()
     }
     ,deleteProject() {
       const project = this.client.projects[parseInt(this.$route.params.projectIndex,10)]
