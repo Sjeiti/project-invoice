@@ -1,6 +1,6 @@
 {
   "name": "ProjectInvoice",
-  "version": "1.4.32",
+  "version": "1.4.33",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -11,7 +11,8 @@
     "version:minor": "npm run version -- --minor",
     "version:major": "npm run version -- --major",
     "markdown": "node task/parseMarkdown --source=README.md --target=src/views/About.html",
-    "icomoon": "node task/icomoon --source icomoon.zip --target public/fonts/ --targetFile src/style/_icons.scss"
+    "icomoon": "node task/icomoon --source icomoon.zip --target public/fonts/ --targetFile src/style/_icons.scss",
+    "faker": "node task/fakeData"
   },
   "dependencies": {
     "marked": "^0.3.12",

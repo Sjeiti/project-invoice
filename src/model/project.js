@@ -216,7 +216,7 @@ const proto = {
    * @returns {number}
    */
   get dateLatest(){
-    let latestDate = new Date(this.quotationDate)
+    let latestDate = new Date(this.quotationDate||0)
     this.invoices.forEach(invoice=> {
       let invoiceDate = new Date(invoice.date)
       if (invoiceDate>latestDate) {
