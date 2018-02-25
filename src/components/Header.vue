@@ -112,6 +112,7 @@ export default {
     nav>ul>li {
       float: right;
       width: 100vw;
+      height: $headerHeight;
       text-align: right;
       background-color: $colorHeader;
       a {
@@ -140,15 +141,24 @@ export default {
       }
     }
     #hamburger+label+ul {
-      max-height: 0;
+      position: absolute;
+      right: 0;
+      height: 100vh;
+      background: #444 linear-gradient(to right, lighten($colorHeader,5%), $colorHeader);
       overflow: hidden;
-      transition: max-height 300ms ease;
+      /*max-height: 0;*/
+      /*transition: max-height 300ms ease;*/
+      transform: translateX(100%);
+      transition: transform 300ms ease;
+      box-shadow: 0 0 16px $colorHeader;
       li {
         display: block;
       }
+      a { padding-left: 1rem; }
     }
     #hamburger:checked+label+ul {
-      max-height: 300px;
+      transform: translateX(0);
+      /*max-height: 300px;*/
     }
     .saveable-buttons{
       position: absolute;

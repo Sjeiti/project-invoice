@@ -82,13 +82,14 @@ export default {
     position: relative;
     top: -$padding;
     margin-bottom: 40px;
-    /*padding-left: 0;*/
-    /*padding-right: 0;*/
-    /*border: 0;*/
     font-size: 2rem;
     line-height: 130%;
     background-color: $bgcolor;
-    box-shadow: 400px 0 0 $bgcolor, -400px 0 0 $bgcolor, 100px 0 0 $bgcolor, -100px 0 0 $bgcolor;
+    box-shadow:
+        1000px 0 0 $bgcolor,
+        -1000px 0 0 $bgcolor,
+        200px 0 0 $bgcolor,
+        -200px 0 0 $bgcolor;
     &, * { color: white; }
     p {
       padding: 40px;
