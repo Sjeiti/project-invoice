@@ -140,7 +140,8 @@ export default {
   ,mounted(){
     this.client = model.getClientByNr(parseInt(this.$route.params.clientNr,10))
     //
-    this.project = track(this.$el,this.client.projects[parseInt(this.$route.params.projectIndex,10)],this.deleteProject)
+//    this.project = track(this.$el,this.client.projects[parseInt(this.$route.params.projectIndex,10)],this.deleteProject)
+    this.project = track(this.$el,this.client.getProject(parseInt(this.$route.params.projectIndex,10)),this.deleteProject)
 //    console.log('project',project,project.prototype); // todo: remove log
   }
   ,destroyed: untrack

@@ -3,9 +3,11 @@ const moment = require('moment')
 const utils = require(__dirname+'/util/utils')
 const {save} = utils
 
-const numClients = 22
+const numClients = 33
 const numProjects = numClients*7
-const years = 4
+const years = 5
+
+faker.seed(800)
 
 // console.log(
 //     '\n',faker.name.findName()

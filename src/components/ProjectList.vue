@@ -31,7 +31,8 @@
           <button v-else-if="project.overdue" v-on:click="onAddReminder(project)">Add reminder</button>
         </template>
         <template v-else>
-          {{project[col]}}
+          <router-link cdlass="small" :to="project.uri">{{project[col]}}</router-link>
+          
         </template>
         
       </td>
@@ -140,6 +141,19 @@ export default {
     overflow-y: hidden;
   }
   table {
+    tbody tr {
+      transition: background-color 200ms linear, box-shadow 200ms linear;
+      box-shadow: 0 1px 0 0 transparent inset, 0 -1px 0 0 transparent inset;
+      &:nth-child(even) {
+        background-color: #f0f0f0;
+      }
+      @media #{$breakpointHigh} {
+        &:hover {
+          background-color: lighten($colorButton,54%);
+          box-shadow: 0 1px 0 0 lighten($colorButton,30%) inset, 0 -1px 0 0 lighten($colorButton,30%) inset;
+        }
+      }
+    }
     td, th {
       max-width: 20vw;
       /*max-width: 200px;*/
@@ -147,8 +161,16 @@ export default {
       text-overflow: ellipsis;
       overflow: hidden;
     }
-    button {
+    label.checkbox span {
+      transform: translateY(3px);
+    }
+    label.checkbox span, button {
+      margin-bottom: 0;
       white-space: nowrap;
     }
+  }
+  a {
+    text-decoration: none;
+    color: inherit;
   }
 </style>

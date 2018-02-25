@@ -267,7 +267,7 @@ const proto = {
     let index = -1
     this.client.projects
         .slice(0)
-        .sort(projectSort)
+        // .sort(projectSort)
         .forEach((p,i)=>{
           if (p.id===this.id) index = i
         })

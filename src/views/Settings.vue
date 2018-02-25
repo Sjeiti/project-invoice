@@ -74,7 +74,8 @@ export default {
       currentTarget.setAttribute('download', `${type}.json`)
     }
   
-    ,onChangeRestore(e, type){
+    ,onChangeRestore(e){
+      console.log('onChangeRestore',e); // todo: remove log
       const target = e.target
       const fileReader = new FileReader()
       const file = target.files[0]
@@ -82,10 +83,9 @@ export default {
       fileReader.addEventListener('load', ()=>{
         const result = fileReader.result
             ,resultData = JSON.parse(result)
-            ,{type} = resultData
-        if (type==='data') {
+        if (resultData.hasOwnProperty('clients')&&resultData.hasOwnProperty('copy')&&resultData.hasOwnProperty('personal')) {
           model.data = resultData
-        } else if (type==='config') {
+        } else if (resultData.hasOwnProperty('theme')) {
           model.config = resultData
           revert()
         }

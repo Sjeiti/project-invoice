@@ -168,6 +168,7 @@ export default {
       transition: background-color 200ms linear;
       &:hover {
         background-color: lighten($colorHeader,5%);
+        box-shadow: 100px 0 0 lighten($colorHeader,5%) inset;
       }
       &.router-link-exact-active, &.router-link-exact-active:hover {
         background-color: lighten($colorHeader,10%);

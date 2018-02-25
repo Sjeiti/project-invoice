@@ -47,6 +47,18 @@ const proto = {
     return project
   }
 
+  /**
+   * Get project by index
+   * @param {number} index
+   * @returns {project}
+   * @see project.indexOnClient
+   */
+  ,getProject(index){
+    let project
+    this.projects.forEach(p=>p.indexOnClient===index&&(project = p))
+    return project
+  }
+
   ,deleteProject(project){
     const index = this.projects.indexOf(project)
     const valid = index!==-1
