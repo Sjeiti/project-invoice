@@ -89,6 +89,7 @@ export default {
     if (this.totals===undefined) {
       this.totals = true
     }
+    this.projects.sort((a,b)=>a.date>b.date?-1:1)
   }
   ,components: {
     Currency
