@@ -1,6 +1,6 @@
 {
   "name": "ProjectInvoice",
-  "version": "1.4.35",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -10,6 +10,8 @@
     "version:cache": "next-version src/invoice.appcache",
     "version:minor": "npm run version -- --minor",
     "version:major": "npm run version -- --major",
+    "icons": "node task/icons --source public/static/img/logo.svg --target public/static/img --sizes 16,320x460,48,57,72,96,114,144,168,128,192,196,512",
+    "favicon": "svg2png public/static/img/logo.svg --output=public/static/img/favicon.png --width=16 --height=16 --overwrite",
     "markdown": "node task/parseMarkdown --source=README.md --target=src/views/About.html",
     "icomoon": "node task/icomoon --source icomoon.zip --target public/fonts/ --targetFile src/style/_icons.scss",
     "faker": "node task/fakeData"
