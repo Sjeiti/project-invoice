@@ -1,18 +1,38 @@
 CACHE MANIFEST
 
-# v1.3.3
+# v2.0.2
 
+#files_start
+css/app.79ef9d59.css
+fonts/icomoon.eot
+fonts/icomoon.svg
+fonts/icomoon.ttf
+fonts/icomoon.woff
+index.html
+js/app.369ce69e.js
+js/app.369ce69e.js.map
+js/manifest.b147f377.js.map
+js/vendor.8423e8d4.js
+js/vendor.8423e8d4.js.map
+manifest.json
+service-worker.js
+static/img/favicon.png
+static/img/icon-114x114.png
+static/img/icon-128x128.png
+static/img/icon-144x144.png
+static/img/icon-168x168.png
+static/img/icon-16x16.png
+static/img/icon-192x192.png
+static/img/icon-196x196.png
+static/img/icon-320x460.png
+static/img/icon-48x48.png
+static/img/icon-512x512.png
+static/img/icon-57x57.png
+static/img/icon-72x72.png
+static/img/icon-96x96.png
 static/img/logo.svg
 static/js/sass.worker.js
-favicon.ico
-index.html
-
-inline.bundle.js
-main.bundle.js
-polyfills.bundle.js
-scripts.bundle.js
-styles.bundle.css
-vendor.bundle
+#files_end
 
 NETWORK:
 *
