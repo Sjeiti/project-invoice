@@ -44,10 +44,17 @@ export default {
     return {
       hamburger: false
       ,pageTitle: NAME
+      ,boundClick: null
     }
   }
   ,components: {
     SaveableButtons
+  }
+  ,watch: {
+    hamburger(opened){
+      if (opened) document.addEventListener('click', this.boundClick, true)
+      else document.removeEventListener('click', this.boundClick, true)
+    }
   }
   ,mounted(){
     this.pageTitle = this.$route.meta.title
@@ -55,6 +62,12 @@ export default {
       this.pageTitle = to.meta.title
       next()
     })
+    this.boundClick = this.onDocumentClick.bind(this)
+  }
+  ,methods: {
+    onDocumentClick(){
+      setTimeout(()=>this.hamburger = false, 40)
+    }
   }
 }
 </script>
@@ -117,7 +130,7 @@ export default {
       background-color: $colorHeader;
       a {
         padding: 0 $padding;
-        line-height: 200%;
+        line-height: 300%;
       }
     }
     [for=hamburger] {
@@ -154,7 +167,9 @@ export default {
       li {
         display: block;
       }
-      a { padding-left: 1rem; }
+      a {
+        padding-left: 1rem;
+      }
     }
     #hamburger:checked+label+ul {
       transform: translateX(0);
