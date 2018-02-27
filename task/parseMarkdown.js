@@ -49,9 +49,19 @@ utils.read(commander.source)
       // anchor targets
 
       Array.from(body.querySelectorAll('a')).forEach(a=>{
-        const href = a.getAttribute('href')
-            ,isExternal = /^http/.test(href)
-        isExternal&&a.setAttribute('target','_blank')
+        const {parentNode, textContent} = a
+        const href = a.getAttribute('href').replace('http://invoice.ronvalstar.nl','')
+        const isExternal = /^http/.test(href)
+        if (isExternal) {
+          a.setAttribute('target','_blank')
+        } else {
+          const link = document.createElement('router-link')
+          link.textContent = textContent
+          link.setAttribute('to', href)
+          parentNode.insertBefore(link,a)
+          parentNode.removeChild(a)
+        }
+
       })
 
       // faq
@@ -72,8 +82,8 @@ utils.read(commander.source)
       parent.innerHTML = ''
       parent.appendChild(heading)
       // const afd = document.createElement('app-foldable-definition')
-      const afd = document.createElement('div')
-      afd.setAttribute('data-foldable-definition','data-foldable-definition')
+      const afd = document.createElement('foldable-definition')
+      // afd.setAttribute('data-foldable-definition','foldable-definition')
       parent.appendChild(afd)
       list.forEach(sl=>{
         const dt = document.createElement('dt')

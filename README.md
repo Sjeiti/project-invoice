@@ -13,12 +13,12 @@ Or you can make a local installation.
 
 ### Using the app
 
-The basis is easy: you have clients, clients have projects, projects have invoices (and an optional quotation).
-You can tweak what your invoice will look like. You can print it to pdf or png format.
-On the home or overview page you can check outstanding invoices, or mark them as paid.
+The basis is easy: you have [clients](http://invoice.ronvalstar.nl/clients), clients have projects, projects have invoices (and an optional quotation).
+You can [tweak](http://invoice.ronvalstar.nl/layout) what your invoice will look like. You can print it to pdf or png format.
+On the home or [overview page](http://invoice.ronvalstar.nl/overview) you can check outstanding invoices, or mark them as paid.
 
-Everything you save is done so on the machine or device you are working on. To get your data from (say) your phone to your desktop you can export the data to json, and import that file on a different device.
-Clearing your browser's data may *delete all your local documents!*. Backup your data regularly!
+Everything you save is done so on the machine or device you are working on. To get your data from (say) your phone to your desktop you can [export](http://invoice.ronvalstar.nl/settings) the data to json, and import that file on a different device.
+Clearing your browser's data may *delete all your local data*. Backup your data regularly!
 
 ### Running on localhost
 

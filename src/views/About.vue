@@ -1,8 +1,10 @@
 <template src="./About.html"></template>
 
 <script>
+import FoldableDefinition from '@/components/FoldableDefinition'
 export default {
   name: 'about'
+  ,components: {FoldableDefinition}
 }
 </script>
 
