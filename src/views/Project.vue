@@ -158,13 +158,7 @@ export default {
       line.amount = line.hours*project.hourlyRateDiscounted
     }
     ,clone(project) {
-      const id = Math.max(...model.projects.map(p=>p.id))+1
-      const clone = Object.assign(project.clone(),{
-        id
-        ,description: project.description.match(/\s\(clone\s\d*\)/)?project.description.replace(/\d*\)/,`${id})`):`${project.description} (clone ${id})`
-        ,invoices: []
-        ,paid: false
-      })
+      const clone = project.cloneNew();
       clone.client.projects.push(clone)
       this.$router.push(clone.uri)
       this.project = track(this.$el,clone,this.deleteProject)

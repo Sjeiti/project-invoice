@@ -21,7 +21,7 @@
         <button v-on:click="onAddProject()" class="float-right">add project</button>
         <h3>Projects</h3>
       </header>
-      <project-list :projects="client.projects" :cols="'paid nr date dateLatest description totalIncDiscounted'"></project-list>
+      <project-list :projects="client.projects||[]" :cols="'paid nr date dateLatest description totalIncDiscounted'"></project-list>
     </section>
   </div>
 </template>

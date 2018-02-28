@@ -37,8 +37,6 @@ const base = {
   ,quotationSubject: ''
 }
 
-console.log('base',base); // todo: rem ove log
-
 const proto = {
 
   /**
@@ -62,8 +60,22 @@ const proto = {
    * @returns {Project}
    */
   ,clone(){
-      const cloned = JSON.parse(JSON.stringify(this))
-      return create(cloned, this.client, this.model)
+    const cloned = JSON.parse(JSON.stringify(this))
+    return create(cloned, this.client, this.model)
+  }
+
+  /**
+   * Returns an exact clone of the project
+   * @returns {Project}
+   */
+  ,cloneNew(){
+    const id = Math.max(...this.model.projects.map(p=>p.id))+1
+    return Object.assign(this.clone(),{
+      id
+      ,description: this.description.match(/\s\(clone\s\d*\)/)?this.description.replace(/\d*\)/,`${id})`):`${this.description} (clone ${id})`
+      ,invoices: []
+      ,paid: false
+    })
   },
 
   /**

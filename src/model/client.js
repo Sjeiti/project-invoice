@@ -31,7 +31,7 @@ const proto = {
   }
 
   ,createProject(){
-    const projectId = Math.max(...this.projects.map(p=>p.id)) + 1
+    const projectId = Math.max(...this.projects.map(p=>p.id),0) + 1
     const project = createProject({
       clientNr: this.nr
       ,description: `project ${projectId}`

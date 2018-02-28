@@ -74,10 +74,12 @@ export function untrack() {
  * Apply the clone to the model and dispatch a save signal
  */
 export function save() {
-  const cloneClone = clone.clone()
-  for (let s in cloneClone) {
-    if (model.hasOwnProperty(s)) {
-      model[s] = cloneClone[s]
+  if (clone&&clone.clone) {
+    const cloneClone = clone.clone()
+    for (let s in cloneClone) {
+      if (model.hasOwnProperty(s)) {
+        model[s] = cloneClone[s]
+      }
     }
   }
   modelSaved.dispatch()

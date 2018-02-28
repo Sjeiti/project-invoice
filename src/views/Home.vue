@@ -49,7 +49,6 @@ export default {
     this.drafts = model.projects.filter(p=>p.invoices.length===0)
     this.latestProject = model.projects.sort((a,b)=>new Date(a.dateLatest)>new Date(b.dateLatest)?1:-1).pop()
     this.latestClient = model.getClientByNr(this.latestProject.clientNr)
-    console.log('this.latestProject',this.latestProject,this.latestProject.dateLatest); // todo: remove log
   }
   ,methods: {
     onAddClient(){
@@ -62,10 +61,12 @@ export default {
       this.$router.push(project.uri)
     }
     ,onCloneLatestProject(){
-      console.log('onCloneLatestProject'); // todo: remove log
+      const project = this.latestProject.cloneNew()
+      this.latestProject.client.projects.push(project)
+      project && save()
+      this.$router.push(project.uri)
     }
     ,onHideWelcome() {
-      console.log('onHideWelcome',23); // todo: remove log
       this.config.homeMessage = false
       save()
     }
