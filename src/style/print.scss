@@ -252,6 +252,7 @@ body {
     float: right;
     //font-family: 'Droid Sans Mono', monospace;
     font-family: var(--font-currency)!important;
+    padding-right: 0;
   }
   .total {
     height: 40pt;
@@ -280,6 +281,13 @@ body {
       margin-left: 5%;
       border: 1px solid var(--secondary-bg-color);
       border-top: 0;
+    }
+    .input.mono {
+      font-size: 20pt;
+      width: 50%;
+      max-width: none;
+      margin: 0 auto;
+      transform: translate(-40%, -20%);
     }
   }
 
