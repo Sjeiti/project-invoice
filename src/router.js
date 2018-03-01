@@ -44,7 +44,6 @@ routes.forEach(route=>{
   !meta.title&&(meta.title = capitalise(route.component.name))
 })
 
-// console.log('routes',routes); // todo: remove log
 const router = new Router({
   routes
   ,mode: 'history'

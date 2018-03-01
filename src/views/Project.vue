@@ -75,13 +75,13 @@
     
     <section>
       <header class="clearfix">
-        <button v-on:click="onAddInvoice()" class="float-right">add invoice</button>
+        <button v-on:click="onAddInvoice()" class="float-right" v-html="`add ${project.invoices&&project.invoices.length?'reminder':'invoice'}`">add invoice</button>
         <h3>invoices</h3>
       </header>
       <ul class="list-unstyled">
         <li v-for="(invoice, i) in project.invoices" v-bind:key="i" class="row no-gutters">
           <div class="col hide-low"></div>
-          <div class="col">
+          <div class="col invoice-link">
             <router-link v-bind:to="`${project.uri}/${invoice.type}${i!==0?'/'+i:''}`" class="btn">{{invoice.type}}{{i!==0?'&nbsp;' + i:''}}</router-link>
           </div>
           <div class="col"><input v-model="invoice.date" type="date" /></div>
@@ -191,3 +191,8 @@ export default {
 }
 </script>
 
+<style lang="scss" scoped>
+  .invoice-link {
+    flex: 0 0 110px;
+  }
+</style>

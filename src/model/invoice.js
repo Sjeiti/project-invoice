@@ -7,9 +7,8 @@
  */
 
 const proto = {
-  // get fooInvoice(){return 'barInvoice'}
 	get invoiceIndex(){
-	  return this.project.invoices.indexOf(this.invoice)
+	  return this.project.invoices.indexOf(this)
 	}
 }
 

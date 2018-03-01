@@ -2,7 +2,7 @@
   <div class="project-list">
   <table>
     <thead><tr>
-      <th v-for="col in columns" v-on:click="onClickOrder(col)">{{colName[col]}}</th>
+      <th v-for="col in columns" v-on:click="onClickOrder(col)" v-bind:class="'th-'+col">{{colName[col]}}</th>
     </tr></thead>
     <tbody><tr
         v-for="project in projects"
@@ -27,12 +27,11 @@
           <currency :value="project[col]" />
         </template>
         <template v-else-if="col==='actions'">
-          <button v-if="project.invoices.length===0" v-on:click="onAddInvoice(project)">Add invoice</button>
-          <button v-else-if="project.overdue" v-on:click="onAddReminder(project)">Add reminder</button>
+          <button v-if="project.invoices.length===0" v-on:click="onAddInvoice(project)"><span class="hide-low">Add invoice</span><span class="icon-file icon-add-round hide-high"></span></button>
+          <button v-else-if="project.overdue" v-on:click="onAddReminder(project)"><span class="hide-low">Add reminder</span><span class="icon-file icon-add-round hide-high"></span></button>
         </template>
         <template v-else>
           <router-link cdlass="small" :to="project.uri">{{project[col]}}</router-link>
-          
         </template>
         
       </td>
@@ -136,6 +135,14 @@ export default {
     &-pending { &, * { color: green; }}
     &-select { &, * { background-color: darken($colorBackground,5%); }}
   }
+  .alert {
+    &-paid, &-late, &-pending, &-select {
+      button { &, * { color: white; } }
+    }
+  }
+  /*button, button [class*=icon-]:before {
+    color: white;
+  }*/
   .project-list {
     max-width: 100vw;
     overflow-x: auto;
@@ -162,6 +169,17 @@ export default {
       text-overflow: ellipsis;
       overflow: hidden;
     }
+    th {
+      &:last-child { text-align: right; }
+      &.th- {
+        &paid, &actions {
+          @media #{$breakpointLow} {
+            font-size: 0;
+          }
+        }
+        &totalDiscounted, &totalVatDiscounted, &totalIncDiscounted { text-align: right; }
+      }
+    }
     label.checkbox span {
       transform: translateY(3px);
     }
@@ -174,4 +192,5 @@ export default {
     text-decoration: none;
     color: inherit;
   }
+  button { float: right; }
 </style>

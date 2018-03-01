@@ -163,7 +163,7 @@ export default {
       /*transition: max-height 300ms ease;*/
       transform: translateX(100%);
       transition: transform 300ms ease;
-      box-shadow: 0 0 16px $colorHeader;
+      box-shadow: 0 0 0 $colorHeader;
       li {
         display: block;
       }
@@ -173,6 +173,7 @@ export default {
     }
     #hamburger:checked+label+ul {
       transform: translateX(0);
+      box-shadow: 0 0 16px $colorHeader;
       /*max-height: 300px;*/
     }
     .saveable-buttons{
