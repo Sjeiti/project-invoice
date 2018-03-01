@@ -75,7 +75,7 @@ export default {
           contentDocument.title = this.invoiceName
           //
           const html = this.$el.querySelector('.invoice').outerHTML.replace(/print\-invoice/,'')
-          const styles = Array.from(document.querySelectorAll('style')).map(style=>style.outerHTML).join('')
+          const styles = Array.from(document.querySelectorAll('style,link[rel=stylesheet]')).map(style=>style.outerHTML).join('')
           //
           contentBody.innerHTML = styles + html
           //
@@ -94,21 +94,21 @@ export default {
       return {contentWindow, contentDocument}
     }
 
-    /**
-     * Create and download an image from the iframe if the page is ready
-     */
-    ,renderImage(){
-      const {contentDocument} = this.getIFrameContent()
-      /*contentDocument&&html2canvas(contentDocument.body, {
-        // width: .2*210,
-        // height: .2*297,
-        // logging: true
-      })
-          .then(canvas=>{
-            this.canvas = canvas
-            this.dataUrl = this.canvas.toDataURL()
-          })*/
-    }
+//    /**
+//     * Create and download an image from the iframe if the page is ready
+//     */
+//    ,renderImage(){
+//      const {contentDocument} = this.getIFrameContent()
+//      /*contentDocument&&html2canvas(contentDocument.body, {
+//        // width: .2*210,
+//        // height: .2*297,
+//        // logging: true
+//      })
+//          .then(canvas=>{
+//            this.canvas = canvas
+//            this.dataUrl = this.canvas.toDataURL()
+//          })*/
+//    }
 
     /**
      * Inject custom CSS into iframe when sass has compiled
