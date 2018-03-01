@@ -3,14 +3,14 @@
     <header>
       <h1><span class="hide-low">Invoice </span>{{project.invoiceNr}}</h1>
       <div class="invoice-options">
-        <router-link v-bind:to="project.uri||''" class="btn">back</router-link>
+        <!--<router-link v-bind:to="project.uri||''" class="btn">back</router-link>-->
         <button v-on:click="onClickPrint()"
                 v-bind:disabled="!pageReady">print</button>
-        <a data-ngClick="onClickDownload($event)"
+        <!--<a data-ngClick="onClickDownload($event)"
            class="btn"
            data-ngClass="{disabled:!pageReady}"
            data-href="{-{dataUrl}}"
-           download="{-{invoiceName}}.png">download</a>
+           download="{-{invoiceName}}.png">download</a>-->
       </div>
       <lang></lang>
     </header>
@@ -137,6 +137,11 @@ export default {
       flex: 1 1 auto;
       text-align: center;
       &:first-child, &:last-child { flex: 0 0 auto; }
+    }
+    .invoice-options {
+      &, &+* {
+        padding-top: 18px;
+      }
     }
   }
 </style>
