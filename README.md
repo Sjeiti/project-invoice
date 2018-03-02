@@ -8,21 +8,21 @@ Project Invoice is accessible offline after the application has been loaded for 
 
 ## Getting Started
 
-You can head to [Project Invoice](http://invoice.ronvalstar.nl) and start creating invoices.
+You can head to [Project Invoice](http://pi.ronvalstar.nl) and start creating invoices.
 Or you can make a local installation.
 
 ### Using the app
 
-The basis is easy: you have [clients](http://invoice.ronvalstar.nl/clients), clients have projects, projects have invoices (and an optional quotation).
-You can [tweak](http://invoice.ronvalstar.nl/layout) what your invoice will look like. You can print it to pdf or png format.
-On the home or [overview page](http://invoice.ronvalstar.nl/overview) you can check outstanding invoices, or mark them as paid.
+The basis is easy: you have [clients](http://pi.ronvalstar.nl/clients), clients have projects, projects have invoices (and an optional quotation).
+You can [tweak](http://pi.ronvalstar.nl/layout) what your invoice will look like. You can print it to pdf <delete>or png~~ format.
+On the home or [overview page](http://pi.ronvalstar.nl/overview) you can check outstanding invoices, or mark them as paid.
 
-Everything you save is done so on the machine or device you are working on. To get your data from (say) your phone to your desktop you can [export](http://invoice.ronvalstar.nl/settings) the data to json, and import that file on a different device.
+Everything you save is done so on the machine or device you are working on. To get your data from (say) your phone to your desktop you can [export](http://pi.ronvalstar.nl/settings) the data to json, and import that file on a different device.
 Clearing your browser's data may *delete all your local data*. Backup your data regularly!
 
 ### Running on localhost
 
-To get the application running locally you only need NodeJS, npm and GIT. If you don't know what those are you might be better off simply using the [online version](http://invoice.ronvalstar.nl), your data will be just as safe.
+To get the application running locally you only need NodeJS, npm and GIT. If you don't know what those are you might be better off simply using the [online version](http://pi.ronvalstar.nl), your data will be just as safe.
 
 `git clone https://github.com/Sjeiti/project-invoice.git`
 
@@ -58,7 +58,7 @@ Since the data is stored locally you can only access it from one computer. Howev
 
 ### I want to clear my LocalStorage to wipe all my data.
 
-There is a button for that on the [settings page](http://invoice.ronvalstar.nl/settings).
+There is a button for that on the [settings page](http://pi.ronvalstar.nl/settings).
 
 ### Why?
 

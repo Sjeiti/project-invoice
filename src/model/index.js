@@ -84,7 +84,7 @@ Object.setPrototypeOf(model,{
 });
 
 for (let key in data.copy) {
-    model.copy[key] = createCopy(data.copy[key])
+    model.copy[key] = createCopy(data.copy[key],model.config)
 }
 Object.assign(model.personal, data.personal)
 Object.assign(model.config, config)

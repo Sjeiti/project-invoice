@@ -14,10 +14,12 @@ marked.setOptions({
   smartypants: false
 })
 
-export function parse(key, models){
+export function parse(key, models, doubled){
+  key = key.toString()
   // extend models
-  Object.assign(models, {
+  !doubled && Object.assign(models, {
     data: model.personal
+    ,copy: model.copy
     ,currency
     ,c: val=>currency(val,'€',2,'.',',')
   })
@@ -35,8 +37,10 @@ export function parse(key, models){
     )
   } catch (err) {
     interpolated = '[interpolation error]'
+    console.warn('Interpolation error',{key, models});
   }
-  return interpolated
+  // todo only do double interpolation if applicable
+  return doubled?interpolated:parse(interpolated, models, true)
 }
 
 export function __(key){

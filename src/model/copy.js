@@ -6,9 +6,12 @@
  */
 
 const proto = {
-  get fooCopy(){return 'barCopy'}
+  toString(){
+    return this[this.lang]
+  }
 }
 
-export function create(copy){
-    return Object.setPrototypeOf(copy, proto);
+export function create(copy,config){
+  !proto.hasOwnProperty('lang') && Object.defineProperty(proto, 'lang', { get: function(){return config.lang} })
+  return Object.setPrototypeOf(copy, proto);
 }

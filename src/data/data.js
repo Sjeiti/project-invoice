@@ -97,10 +97,10 @@ I, Spongebob Squarepants, hereby solemly swear to make one gazillion Krabby Patt
     email: 'spongebob@squarepants.org',
     website: 'http://squarepants.org',
     blog: '',
-    hourrateMin: 65,
-    hourrateMax: 90,
+    hourrateMin: 2,
+    hourrateMax: 16,
     hoursMin: 32,
-    hoursMax: 256
+    hoursMax: 2048
   },
   copy: {
     sender: {
@@ -144,8 +144,8 @@ I, Spongebob Squarepants, hereby solemly swear to make one gazillion Krabby Patt
       en: 'We\'ve noticed that invoice **${project.invoiceNr}** from *${project.dateFormatted}* should have been paid **${project.daysLate}** days ago. **Payment must be fullfilled within **${client.paymentterm}** days after this writing.** If this term is exceeded a debt-collection agency will be called in; the client is liable for any associated costs.'
     },
     dateFormat: {
-      nl: 'dd-MM-yyyy',
-      en: 'MM/dd/yyyy'
+      nl: 'DD-MM-YYYY',
+      en: 'MM/DD/YYYY'
     },
     amount: {
       nl: 'bedrag',
@@ -192,7 +192,7 @@ I, Spongebob Squarepants, hereby solemly swear to make one gazillion Krabby Patt
       en: '<div class=\'page-break\'></div>'
     },
     planning: {
-      nl: `Bij acceptatie van de offerte kan vanaf %startdatum% worden gestart met de uitvoer. De looptijd bedraagt ongeveer %looptijd% weken.
+      nl: `Bij acceptatie van de offerte kan vanaf $\{project.quotationStartDate} worden gestart met de uitvoer. De looptijd bedraagt ongeveer $\{project.quotationDuration} weken.
 Voor oplevering worden de onderdelen getest op gebruiksvriendelijkheid en technisch correct functioneren. Eventuele punten van verbetering (binnen redelijke grenzen) worden verwerkt in het eindproduct.`,
       en: 'Before delivery, the components are tested on usability and technical functioning. Possible areas for improvement (within reasonable limits) are processed into the final product.'
     },

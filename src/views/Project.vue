@@ -102,7 +102,9 @@
       <dl>
         <template v-for="qt in quotation">
           <dt v-explain="'project.'+qt.property"></dt>
-          <dd><input v-model="project[qt.property]" v-bind:type="qt.type"/></dd>
+          <!--<strong>{{qt.property}}</strong>-->
+          <dd v-if="qt.type==='textarea'"><textarea v-model="project[qt.property]" /></dd>
+          <dd v-else><input v-model="project[qt.property]" v-bind:type="qt.type" /></dd>
         </template>
       </dl>
     </section>
@@ -125,8 +127,8 @@ export default {
       ,project:{}
       ,vatAmounts: model.personal.vatAmounts.split(/,/g).map(parseFloat)
       ,quotation: [
-        { property: 'quotationAfter', type: 'text' }
-        ,{ property: 'quotationBefore', type: 'text' }
+        { property: 'quotationAfter', type: 'textarea' }
+        ,{ property: 'quotationBefore', type: 'textarea' }
         ,{ property: 'quotationDate', type: 'date' }
         ,{ property: 'quotationDuration', type: 'text' }
         ,{ property: 'quotationStartDate', type: 'date' }

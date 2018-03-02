@@ -151,7 +151,6 @@ export default {
           client: this.client
           ,project: this.project
           ,invoice: this.invoice
-          ,data: model.personal
       })
     }
   }

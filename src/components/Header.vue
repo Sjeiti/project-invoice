@@ -122,6 +122,7 @@ export default {
     /*nav>ul {
       width: $headerHeight;
     }*/
+    
     nav>ul>li {
       float: right;
       width: 100vw;
