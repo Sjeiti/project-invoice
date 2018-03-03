@@ -21,7 +21,7 @@ Promise.all([
   sassCompile()
   ,updateVariables()
 ])
-    .finally(()=>{
+    .then(()=>{
       setStyle()
       sassChanged.add(s=>sassCompile(s).then(setStyle))
       cssVariablesChanged.add(s=>updateVariables(s).then(setStyle))

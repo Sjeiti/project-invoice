@@ -1,5 +1,5 @@
 <template>
-  <footer><small class="small">v2.1.1</small></footer>
+  <footer><small class="small">v2.1.2</small></footer>
 </template>
 
 <script>
