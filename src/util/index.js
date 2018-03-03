@@ -1,3 +1,8 @@
+/**
+ * Promise all watch several properties
+ * @param {object} vm
+ * @param {string[]} props
+ */
 export function watchAll(vm,...props){
 	return Promise.all(props.map(key=>new Promise(resolve=>{
          const unwatch = vm.$watch(key,()=>{
@@ -31,6 +36,11 @@ export function currency(
   return currencySign + (decimalDelimiter ? num.replace('.', decimalDelimiter) : num).replace(new RegExp(result, 'g'), '$&' + chunkDelimiter)
 }
 
+/**
+ * Object assign but only when key does not yet exist
+ * @param {object} obj
+ * @param {object} add
+ */
 export function weakAssign(obj,add){
   for (let key in add) {
     if (!obj.hasOwnProperty(key)) {
@@ -39,6 +49,11 @@ export function weakAssign(obj,add){
   }
 }
 
+/**
+ * Returns the string with the first character to uppercase
+ * @param {string} s
+ * @returns {string}
+ */
 export function capitalise(s){
 	return s[0].toUpperCase()+s.substr(1)
 }

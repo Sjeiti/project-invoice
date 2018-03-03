@@ -1,4 +1,3 @@
-
 import model from '@/model'
 import {currency} from '@/util'
 import marked from 'marked'
@@ -14,6 +13,14 @@ marked.setOptions({
   smartypants: false
 })
 
+/**
+ * Parse a string by interpolation
+ * @param {string} key
+ * @param {object} models
+ * @param {boolean} doubled
+ * @returns {string}
+ * @todo only do double interpolation if applicable
+ */
 export function parse(key, models, doubled){
   key = key.toString()
   // extend models
@@ -39,10 +46,15 @@ export function parse(key, models, doubled){
     interpolated = '[interpolation error]'
     console.warn('Interpolation error',{key, models});
   }
-  // todo only do double interpolation if applicable
   return doubled?interpolated:parse(interpolated, models, true)
 }
 
+/**
+ * Internationalisation parser
+ * @param {string} key
+ * @returns {string}
+ * @private
+ */
 export function __(key){
   const lang = model.config.lang
   const copy = model.copy[key]
