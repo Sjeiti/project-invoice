@@ -15,7 +15,8 @@
     "markdown": "node task/parseMarkdown --source=README.md --target=src/views/About.html",
     "icomoon": "node task/icomoon --source icomoon.zip --target public/fonts/ --targetFile src/style/_icons.scss",
     "faker": "node task/fakeData",
-    "appcache": "node task/appcache"
+    "appcache": "node task/appcache",
+    "cypress": "cypress open"
   },
   "dependencies": {
     "marked": "^0.3.12",
