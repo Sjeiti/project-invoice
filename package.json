@@ -6,6 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
+    "test": "cypress run --spec cypress/integration/pi.js",
     "version": "next-version package.json src/components/Footer.vue public/static/invoice.appcache",
     "version:cache": "next-version src/invoice.appcache",
     "version:minor": "npm run version -- --minor",
