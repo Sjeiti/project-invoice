@@ -8,7 +8,7 @@ describe('Project page',()=>{
   beforeEach(toPage.bind(null,'/client/22/1'))
   context('Basics',basics.bind(null,getTitle('Project'),'Project: Unbranded Metal Keyboard',true))
 
-  xcontext('Main properties',()=>{
+  context('Main properties',()=>{
 
     it('should navigate to project',()=>{
       cy.title().should('include','Project')
