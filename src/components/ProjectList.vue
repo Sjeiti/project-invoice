@@ -14,7 +14,7 @@
         
         <template v-if="col==='paid'">
           
-          <label v-on:click.stop class="checkbox"><input v-model="project.paid" data-change="onPaidChange()" type="checkbox" /><span></span></label>
+          <label v-on:click.stop class="checkbox"><input v-model="project.paid" v-on:change="onPaidChange" type="checkbox" /><span></span></label>
           
         </template>
         <template v-else-if="col==='invoiceNr'">
@@ -27,8 +27,8 @@
           <currency :value="project[col]" />
         </template>
         <template v-else-if="col==='actions'">
-          <button v-if="project.invoices.length===0" v-on:click="onAddInvoice(project)"><span class="hide-low">Add invoice</span><span class="icon-file icon-add-round hide-high"></span></button>
-          <button v-else-if="project.overdue" v-on:click="onAddReminder(project)"><span class="hide-low">Add reminder</span><span class="icon-file icon-add-round hide-high"></span></button>
+          <button v-on:click.stop v-if="project.invoices.length===0" v-on:click="onAddInvoice(project)"><span class="hide-low">Add invoice</span><span class="icon-file icon-add-round hide-high"></span></button>
+          <button v-on:click.stop v-else-if="project.overdue" v-on:click="onAddReminder(project)"><span class="hide-low">Add reminder</span><span class="icon-file icon-add-round hide-high"></span></button>
         </template>
         <template v-else>
           <router-link cdlass="small" :to="project.uri">{{project[col]}}</router-link>
@@ -55,6 +55,7 @@
 <script>
 import Currency from '@/components/Currency'
 import Date from '@/components/Date'
+import {save} from '@/formState'
 export default {
   name: 'ProjectList'
   ,props: {
@@ -103,12 +104,20 @@ export default {
       this.projects.sort((a,b)=>a[key]>b[key]?gt:lt)
     }
     ,onAddReminder(project){
-      console.log('onAddReminder',project); // todo: remove log
+      this.addInvoice(project)
     }
     ,onAddInvoice(project){
-      console.log('onAddInvoice',project); // todo: remove log
+      this.addInvoice(project)
     }
     ,onRowClick(project){
+      this.$router.push(project.uri)
+    }
+    ,onPaidChange(){
+      save()
+    }
+    ,addInvoice(project){
+      project.addInvoice()
+      save()
       this.$router.push(project.uri)
     }
     ,getTotalValue(property){

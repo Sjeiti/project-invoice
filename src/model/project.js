@@ -91,6 +91,16 @@ const proto = {
     this.lines.push({amount:0, hours:0, vat})
   },
 
+  addInvoice(){
+    const {invoices} = this
+    invoices.push(createInvoice({
+      date: moment().format('YYYY-MM-DD'),
+      type: invoices.length===0?'invoice':'reminder', // todo: from const
+      interest: false,
+      exhortation: false
+    }))
+  },
+
   get vatMax(){
     return Math.max(...this.lines.map(line=>line.vat))
   },

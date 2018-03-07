@@ -171,14 +171,7 @@ export default {
       confirm('Delete this project?') && this.client.deleteProject(project) && (save(),this.$router.push(this.client.uri))
     }
     ,onAddInvoice(){
-      const {project} = this
-      const {invoices} = project
-      invoices.push(createInvoice({
-        date: moment().format('YYYY-MM-DD'),
-        type: invoices.length===0?'invoice':'reminder', // todo: from const
-        interest: false,
-        exhortation: false
-      }))
+      this.project.addInvoice()
       save()
     }
     ,onRemoveInvoice(invoice){
