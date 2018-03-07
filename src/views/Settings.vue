@@ -5,8 +5,8 @@
       <dl>
         <dt v-explain="'settings.backup'"></dt>
         <dd>
-          <button v-on:click="onClickDownload($event,'config')">config</button>
-          <button v-on:click="onClickDownload($event,'data')">data</button>
+          <a class="btn" v-on:click="onClickDownload($event,'config')">config</a>
+          <a class="btn" v-on:click="onClickDownload($event,'data')">data</a>
         </dd>
         <dt v-explain="'settings.restore'"></dt>
         <dd>
