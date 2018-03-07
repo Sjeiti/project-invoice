@@ -50,7 +50,7 @@ utils.read(commander.source)
 
       Array.from(body.querySelectorAll('a')).forEach(a=>{
         const {parentNode, textContent} = a
-        const href = a.getAttribute('href').replace('http://invoice.ronvalstar.nl','')
+        const href = a.getAttribute('href').replace('https://projectinvoice.nl','')
         const isExternal = /^http/.test(href)
         if (isExternal) {
           a.setAttribute('target','_blank')
