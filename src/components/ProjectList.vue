@@ -202,4 +202,8 @@ export default {
     color: inherit;
   }
   button { float: right; }
+  .input.mono {
+    float: right;
+    padding-right: 0;
+  }
 </style>

@@ -1,11 +1,17 @@
 <template>
-  <div class="input mono" :inner-html.prop="value|currency"></div>
+  <div class="input mono" :inner-html.prop="value|currency" v-bind:symbol="symbol"></div>
 </template>
 
 <script>
+import model from '@/model'
 export default {
   name: 'Currency'
   ,props: ['value']
+  ,data () {
+    return {
+      symbol: model.config.currencySymbol
+    }
+  }
   ,filters: {
     currency: val => {
       let dotValue = parseFloat(val||0).toFixed(2)
@@ -25,7 +31,7 @@ export default {
     text-align: right;
     padding-left: 20px;
     &:before {
-      content: '€ ';
+      content: attr(symbol)' ';
       position: absolute;
       left: 0;
     }

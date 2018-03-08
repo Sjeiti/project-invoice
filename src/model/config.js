@@ -1,3 +1,4 @@
+import {CURRENCY_ISO} from '@/config/currencyISO'
 /**
  * @typedef {object} config
  * @property {number} timestamp
@@ -37,6 +38,10 @@ const proto = {
   }
   ,set langsJoined(s){
     return this.langs = s.split(/,/g)
+  }
+
+  ,get currencySymbol(){
+    return CURRENCY_ISO[this.currency].symbol
   }
 }
 

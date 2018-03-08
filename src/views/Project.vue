@@ -12,13 +12,14 @@
         <dd><div class="input mono">{{project.invoiceNr}}</div></dd>
         <dt data-appExplain="'project.hourlyRate'">hourly rate</dt>
         <dd class="hourly-rate">
-          <currency :value="project.hourlyRateCalculated" class="text-align-left"/>
-          <input v-model.number="project.hourlyRate" type="number"/>
+          <currency :value="project.hourlyRateCalculated" />
+          <div v-bind:input-unit="currencySymbol"><input v-model.number="project.hourlyRate" type="number"/></div>
         </dd>
         <dt data-appExplain="'project.discount'">discount</dt>
-        <dd><input v-model="project.discount" type="number"/></dd>
-        <dt data-appExplain="'project.discountRate'">discounted rate</dt>
-        <dd><currency :value="project.hourlyRate - project.hourlyRate*project.discount*0.01" class="text-align-left"/></dd>
+        <dd class="discount">
+          <div input-unit="%"><input v-model="project.discount" type="number" /></div>
+          <currency :value="project.hourlyRate - project.hourlyRate*project.discount*0.01" class="text-align-left" />
+        </dd>
         <dt data-appExplain="'project.paid'">paid</dt>
         <dd><label class="checkbox"><input v-model="project.paid" type="checkbox"/><span></span></label></dd>
       </dl>
@@ -134,6 +135,7 @@ export default {
         ,{ property: 'quotationStartDate', type: 'date' }
         ,{ property: 'quotationSubject', type: 'text' }
       ]
+      ,currencySymbol: model.config.currencySymbol
     }
   }
   ,components: {
@@ -189,5 +191,15 @@ export default {
 <style lang="scss" scoped>
   .invoice-link {
     flex: 0 0 110px;
+  }
+  .hourly-rate, .discount {
+    display: flex;
+    *:first-child {
+      flex: 0 0 75px;
+      margin-right: 10px;
+    }
+    *:last-child {
+      flex: 1 1 auto;
+    }
   }
 </style>

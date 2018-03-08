@@ -50,14 +50,14 @@ img {
 
 button, .btn, input, button, select, textarea, .input {
   margin: 0 2px 4px 0;
-  padding: 8px 14px;
+  padding: 8px $inputPaddingHorizontalHigh;
   border: 0;
   line-height: 100%;
   &:last-child, &.float-right:first-child {
     margin-right: 0;
   }
   @media #{$breakpointLow} {
-    padding: 6px 8px;
+    padding: 6px $inputPaddingHorizontalLow;
   }
 }
 
@@ -183,6 +183,42 @@ input {
 
 .mono { font-family: 'Source Code Pro', monospace; }
 
+[input-unit] {
+  position: relative;
+  input {
+    padding-left: 2*$inputPaddingHorizontalHigh;
+    @media #{$breakpointLow} {
+      padding-left: 2.4*$inputPaddingHorizontalLow;
+    }
+  }
+  &:after {
+    content: attr(input-unit);
+    position: absolute;
+    top: 45%;
+    left: $inputPaddingHorizontalHigh;
+    transform: translateY(-50%);
+    @extend .mono;
+    line-height: 100%;
+    @media #{$breakpointLow} {
+      left: $inputPaddingHorizontalLow;
+    }
+  }
+  &[input-unit="%"] {
+    &:after {
+      content: '%';
+      left: auto;
+      right: $inputPaddingHorizontalHigh;
+      @media #{$breakpointLow} { left: auto; }
+    }
+    input {
+      padding-left: $inputPaddingHorizontalHigh;
+      @media #{$breakpointLow} {
+        padding-left: $inputPaddingHorizontalLow;
+      }
+    }
+  }
+}
+
 .btn { @extend .input; }
 
 select {
@@ -296,6 +332,7 @@ code {
 .text-align-right { text-align: right; }
 .nowrap { white-space: nowrap; }
 .overflow-hidden { overflow: hidden; }
+.display-flex { display: flex; }
 
 .ellipsis {
   position: relative;
@@ -315,6 +352,7 @@ code {
 
 label.checkbox {
   $checkSize: 20px;
+  cursor: pointer;
   input {
     @extend .visually-hidden;
   }
