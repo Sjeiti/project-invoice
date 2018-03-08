@@ -1,9 +1,9 @@
 @font-face {
   font-family: 'icomoon';
   src:
-    url('/fonts/icomoon.ttf?6bif8j') format('truetype'),
-    url('/fonts/icomoon.woff?6bif8j') format('woff'),
-    url('/fonts/icomoon.svg?6bif8j#icomoon') format('svg');
+    url('/fonts/icomoon.ttf?xoa332') format('truetype'),
+    url('/fonts/icomoon.woff?xoa332') format('woff'),
+    url('/fonts/icomoon.svg?xoa332#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -33,6 +33,12 @@ $icon-delete: "\e902";
 $icon-file: "\e903";
 $icon-duplicate: "\e904";
 $icon-add: "\e905";
+$icon-time: "\e906";
+$icon-mark: "\e907";
+$icon-github: "\e908";
+$icon-brand: "\e908";
+$icon-octacat: "\e908";
+$icon-social: "\e908";
 
 
 // rules
@@ -43,6 +49,12 @@ $icon-add: "\e905";
 .icon-file:before { content: $icon-file; }
 .icon-duplicate:before { content: $icon-duplicate; }
 .icon-add:before { content: $icon-add; }
+.icon-time:before { content: $icon-time; }
+.icon-mark:before { content: $icon-mark; }
+.icon-github:before { content: $icon-github; }
+.icon-brand:before { content: $icon-brand; }
+.icon-octacat:before { content: $icon-octacat; }
+.icon-social:before { content: $icon-social; }
 
 
 // mixins
@@ -67,6 +79,12 @@ $icon-add: "\e905";
 @mixin icon-file(){&:before{@include icon-icon();content: $icon-file;}}
 @mixin icon-duplicate(){&:before{@include icon-icon();content: $icon-duplicate;}}
 @mixin icon-add(){&:before{@include icon-icon();content: $icon-add;}}
+@mixin icon-time(){&:before{@include icon-icon();content: $icon-time;}}
+@mixin icon-mark(){&:before{@include icon-icon();content: $icon-mark;}}
+@mixin icon-github(){&:before{@include icon-icon();content: $icon-github;}}
+@mixin icon-brand(){&:before{@include icon-icon();content: $icon-brand;}}
+@mixin icon-octacat(){&:before{@include icon-icon();content: $icon-octacat;}}
+@mixin icon-social(){&:before{@include icon-icon();content: $icon-social;}}
 
 
 // scss svg mixins missing

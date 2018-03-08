@@ -1,5 +1,9 @@
 <template>
-  <footer><small class="small">v2.1.8</small></footer>
+  <footer>
+    <a href="http://ronvalstar">Made with &#9829;</a>
+    <span>Project Invoice v2.1.9</span>
+    <a href="https://github.com/Sjeiti/project-invoice">Fork on <span class="icon-github"></span></a>
+  </footer>
 </template>
 
 <script>
@@ -10,13 +14,23 @@ export default {
 
 <style lang="scss" scoped>
   @import '../style/variables';
-footer {
-  margin: 40px 0 0;
-  padding: 4px 0;
-  font-size: 10px;
-  text-align: center;
-  background-color: $colorHeader;
-  box-shadow: 0 1px 0 1px $colorHeader;
-  color: #888;
-}
+  footer {
+    display: flex;
+    justify-content: space-between;
+    margin: 40px 0 0;
+    padding: 4px 8px;
+    font-size: 10px;
+    text-align: center;
+    background-color: $colorHeader;
+    box-shadow: 0 1px 0 1px $colorHeader;
+    color: #888;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .icon-github {
+    display: inline-block;
+    transform: translateY(3px);
+  }
 </style>

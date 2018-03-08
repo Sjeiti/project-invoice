@@ -366,24 +366,16 @@ label.checkbox {
     background-color: #E0E0E0;
     box-shadow: 0 0 0 1px #bcbcbc;
     border-radius: 2px;
-    &:before, &:after {
-      content: '';
-      position: absolute;
-      display: block;
-      width: 70%;
-      height: 50%;
-    }
-    &:before {
-      transform: translate(3px,3px) scaleX(0.8) rotate(-45deg);
-      background-color: #F8F8F8;
-    }
-    &:after {
-      transform: translate(3px,-3px) scaleX(1.1) rotate(-45deg);
-      background-color: #E0E0E0;
-    }
+    text-align: center;
+    @include icon-mark;
+  }
+  input+span:before {
+    font-size: 16px;
+    line-height: $checkSize;
+    color: #F8F8F8;
   }
   input:checked+span:before {
-      background-color: $colorButton;
+      color: $colorButton;
   }
 }
 
