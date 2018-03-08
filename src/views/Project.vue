@@ -22,6 +22,8 @@
         </dd>
         <dt data-appExplain="'project.paid'">paid</dt>
         <dd><label class="checkbox"><input v-model="project.paid" type="checkbox"/><span></span></label></dd>
+        <dt data-appExplain="'project.ignore'">ignore</dt>
+        <dd><label class="checkbox"><input v-model="project.ignore" type="checkbox"/><span></span></label></dd>
       </dl>
     </section>
     

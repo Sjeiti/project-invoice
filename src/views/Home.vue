@@ -45,8 +45,8 @@ export default {
     }
   }
   ,mounted(){
-    this.invoices = model.projects.filter(p=>!p.paid&&p.invoices.length)
-    this.drafts = model.projects.filter(p=>p.invoices.length===0)
+    this.invoices = model.projects.filter(p=>!p.paid&&!p.ignore&&p.invoices.length)
+    this.drafts = model.projects.filter(p=>!p.ignore&&p.invoices.length===0)
     this.latestProject = model.projects.sort((a,b)=>new Date(a.dateLatest)>new Date(b.dateLatest)?1:-1).pop()
     this.latestClient = model.getClientByNr(this.latestProject.clientNr)
   }

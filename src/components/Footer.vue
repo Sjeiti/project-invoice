@@ -1,7 +1,7 @@
 <template>
   <footer>
     <a href="http://ronvalstar">Made with <span class="love">&#9829;</span></a>
-    <span>Project Invoice v2.1.12</span>
+    <span>Project Invoice v2.1.13</span>
     <a href="https://github.com/Sjeiti/project-invoice">Fork on <span class="icon-github"></span></a>
   </footer>
 </template>

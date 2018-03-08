@@ -14,6 +14,7 @@ import moment from 'moment'
  * @property {invoice[]} invoices
  * @property {projectLine[]} lines
  * @property {boolean} paid
+ * @property {boolean} ignore
  * @property {string} quotationAfter
  * @property {string} quotationBefore
  * @property {string} quotationDate
@@ -29,6 +30,7 @@ const base = {
   ,invoices: []
   ,lines: []
   ,paid: false
+  ,ignore: false
   ,quotationAfter: ''
   ,quotationBefore: ''
   ,quotationDate: ''
