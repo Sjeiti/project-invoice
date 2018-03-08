@@ -2,8 +2,6 @@
 
 import { register } from 'register-service-worker'
 
-console.log('rgstr', process.env, process.env.NODE_ENV); // todo: remove log
-
 if (process.env.NODE_ENV === 'production') {
   register(`${process.env.BASE_URL}service-worker.js`, {
     ready () {
