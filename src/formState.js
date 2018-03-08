@@ -1,6 +1,6 @@
 import {signal} from '@/signals'
 
-let model, clone, deleteCallback
+let model, clone, deleteCallback, modelChangeTime
 
 export const modelSaved = signal()
 export const saveable = signal()
@@ -42,17 +42,20 @@ export function track(element, _model, _delete) {
 
   removeEventListeners()
 
-  // ['change','click','keyup'].forEach(s=>addEventListener(element, s, onModelChange, true))
-  addEventListener(element, 'change', onModelChange, true)
-  addEventListener(element, 'click', onModelChange, true)
-  addEventListener(element, 'keyup', onModelChange, true)
-  addEventListener(element, 'input', onModelChange, true)
+  ;['change','input','mouseup','keyup']
+      .forEach(s=>addEventListener(element, s, onModelChange, true))
 
+  /**
+   * Check dirty state of model by comparing stringified versions of model and clone
+   */
   function onModelChange(){
-    const stringModel = JSON.stringify(model)
-    const stringClone = JSON.stringify(clone)
-    const isSaveable = stringModel!==stringClone;
-    saveable.dispatch(isSaveable)
+    clearTimeout(modelChangeTime)
+    modelChangeTime = setTimeout(()=>{
+      const stringModel = JSON.stringify(model)
+      const stringClone = JSON.stringify(clone)
+      const isSaveable = stringModel!==stringClone;
+      saveable.dispatch(isSaveable)
+    },100)
   }
   tracked.dispatch(true,!!deleteCallback)
 
