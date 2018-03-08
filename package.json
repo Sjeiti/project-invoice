@@ -1,14 +1,13 @@
 {
   "name": "ProjectInvoice",
-  "version": "2.1.11",
+  "version": "2.1.12",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "test": "cypress run",
-    "version": "next-version package.json src/components/Footer.vue public/static/invoice.appcache",
-    "version:cache": "next-version src/invoice.appcache",
+    "version": "next-version package.json src/components/Footer.vue",
     "version:minor": "npm run version -- --minor",
     "version:major": "npm run version -- --major",
     "icons": "node task/icons --source public/static/img/logo.svg --target public/static/img --sizes 16,320x460,48,57,72,96,114,144,168,128,192,196,512",
@@ -16,7 +15,6 @@
     "markdown": "node task/parseMarkdown --source=README.md --target=src/views/About.html",
     "icomoon": "node task/icomoon --source icomoon.zip --target public/fonts/ --targetFile src/style/_icons.scss",
     "faker": "node task/fakeData",
-    "appcache": "node task/appcache",
     "cypress": "cypress open",
     "svg": "svgo -f design"
   },
