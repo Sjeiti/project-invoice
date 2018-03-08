@@ -1,7 +1,7 @@
 <template>
   <div v-if="tracked">
     <button v-on:click="onSave" :disabled="!saveable"><span class="icon-save hide-high"></span><span class="hide-low">save</span></button>
-    <button v-on:click="onRevert" :disabled="!saveable"><span class="icon-undo hide-high"></span><span class="hide-low">revert</span></button>
+    <button v-on:click="onRevert" :disabled="!saveable"><span class="icon-revert hide-high"></span><span class="hide-low">revert</span></button>
     <button v-on:click="onDelete" v-if="deletable"><span class="icon-delete hide-high"></span><span class="hide-low">delete</span></button>
   </div>
 </template>

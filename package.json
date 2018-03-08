@@ -1,6 +1,6 @@
 {
   "name": "ProjectInvoice",
-  "version": "2.1.6",
+  "version": "2.1.8",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -17,7 +17,8 @@
     "icomoon": "node task/icomoon --source icomoon.zip --target public/fonts/ --targetFile src/style/_icons.scss",
     "faker": "node task/fakeData",
     "appcache": "node task/appcache",
-    "cypress": "cypress open"
+    "cypress": "cypress open",
+    "svg": "svgo -f design"
   },
   "dependencies": {
     "marked": "^0.3.12",

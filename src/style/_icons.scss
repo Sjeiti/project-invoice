@@ -1,10 +1,9 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('/fonts/icomoon.eot?q0t6gt');
-  src:  url('/fonts/icomoon.eot?q0t6gt#iefix') format('embedded-opentype'),
-    url('/fonts/icomoon.ttf?q0t6gt') format('truetype'),
-    url('/fonts/icomoon.woff?q0t6gt') format('woff'),
-    url('/fonts/icomoon.svg?q0t6gt#icomoon') format('svg');
+  src:
+    url('/fonts/icomoon.ttf?6bif8j') format('truetype'),
+    url('/fonts/icomoon.woff?6bif8j') format('woff'),
+    url('/fonts/icomoon.svg?6bif8j#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -28,38 +27,22 @@
 
 // variables
 
-$icon-plus: "\e903";
-$icon-add: "\e903";
-$icon-document-alt-fill: "\e904";
-$icon-file: "\e904";
-$icon-undo: "\e900";
-$icon-left: "\e900";
-$icon-arrow-left: "\e900";
-$icon-bin: "\e901";
-$icon-trashcan: "\e901";
-$icon-remove: "\e901";
-$icon-delete: "\e901";
-$icon-recycle: "\e901";
-$icon-dispose: "\e901";
-$icon-save: "\e902";
+$icon-save: "\e900";
+$icon-revert: "\e901";
+$icon-delete: "\e902";
+$icon-file: "\e903";
+$icon-duplicate: "\e904";
+$icon-add: "\e905";
 
 
 // rules
 
-.icon-plus:before { content: $icon-plus; }
-.icon-add:before { content: $icon-add; }
-.icon-document-alt-fill:before { content: $icon-document-alt-fill; }
-.icon-file:before { content: $icon-file; }
-.icon-undo:before { content: $icon-undo; }
-.icon-left:before { content: $icon-left; }
-.icon-arrow-left:before { content: $icon-arrow-left; }
-.icon-bin:before { content: $icon-bin; }
-.icon-trashcan:before { content: $icon-trashcan; }
-.icon-remove:before { content: $icon-remove; }
-.icon-delete:before { content: $icon-delete; }
-.icon-recycle:before { content: $icon-recycle; }
-.icon-dispose:before { content: $icon-dispose; }
 .icon-save:before { content: $icon-save; }
+.icon-revert:before { content: $icon-revert; }
+.icon-delete:before { content: $icon-delete; }
+.icon-file:before { content: $icon-file; }
+.icon-duplicate:before { content: $icon-duplicate; }
+.icon-add:before { content: $icon-add; }
 
 
 // mixins
@@ -78,20 +61,12 @@ $icon-save: "\e902";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-@mixin icon-plus(){&:before{@include icon-icon();content: $icon-plus;}}
-@mixin icon-add(){&:before{@include icon-icon();content: $icon-add;}}
-@mixin icon-document-alt-fill(){&:before{@include icon-icon();content: $icon-document-alt-fill;}}
-@mixin icon-file(){&:before{@include icon-icon();content: $icon-file;}}
-@mixin icon-undo(){&:before{@include icon-icon();content: $icon-undo;}}
-@mixin icon-left(){&:before{@include icon-icon();content: $icon-left;}}
-@mixin icon-arrow-left(){&:before{@include icon-icon();content: $icon-arrow-left;}}
-@mixin icon-bin(){&:before{@include icon-icon();content: $icon-bin;}}
-@mixin icon-trashcan(){&:before{@include icon-icon();content: $icon-trashcan;}}
-@mixin icon-remove(){&:before{@include icon-icon();content: $icon-remove;}}
-@mixin icon-delete(){&:before{@include icon-icon();content: $icon-delete;}}
-@mixin icon-recycle(){&:before{@include icon-icon();content: $icon-recycle;}}
-@mixin icon-dispose(){&:before{@include icon-icon();content: $icon-dispose;}}
 @mixin icon-save(){&:before{@include icon-icon();content: $icon-save;}}
+@mixin icon-revert(){&:before{@include icon-icon();content: $icon-revert;}}
+@mixin icon-delete(){&:before{@include icon-icon();content: $icon-delete;}}
+@mixin icon-file(){&:before{@include icon-icon();content: $icon-file;}}
+@mixin icon-duplicate(){&:before{@include icon-icon();content: $icon-duplicate;}}
+@mixin icon-add(){&:before{@include icon-icon();content: $icon-add;}}
 
 
 // scss svg mixins missing

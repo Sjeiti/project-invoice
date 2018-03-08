@@ -390,6 +390,8 @@ label.checkbox {
 @media #{$breakpointLow} { .hide-low { display: none; }}
 @media #{$breakpointHigh} { .hide-high { display: none; }}
 
+[class^="icon-"], [class*=" icon-"] { font-size: 16px; }
+
 .icon-add-round {
   position: relative;
   &:after {
