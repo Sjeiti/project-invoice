@@ -75,7 +75,6 @@ export default {
     }
   
     ,onChangeRestore(e){
-      console.log('onChangeRestore',e); // todo: remove log
       const target = e.target
       const fileReader = new FileReader()
       const file = target.files[0]

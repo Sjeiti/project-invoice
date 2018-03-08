@@ -123,7 +123,6 @@ export default {
           height: ${img.naturalHeight}px!important;
           background: url(${result}) no-repeat!important;
       }`:''
-      console.log('onLogoLoad',this.settings.themeLogoCSS) // todo remove
       this.onChangeVariables()
     }
     

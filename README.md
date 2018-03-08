@@ -14,7 +14,7 @@ Or you can make a local installation.
 ### Using the app
 
 The basis is easy: you have [clients](https://projectinvoice.nl/clients), clients have projects, projects have invoices (and an optional quotation).
-You can [tweak](https://projectinvoice.nl/layout) what your invoice will look like. You can print it to pdf <delete>or png~~ format.
+You can [tweak](https://projectinvoice.nl/layout) what your invoice will look like. You can print it to pdf ~~or png~~ format.
 On the home or [overview page](https://projectinvoice.nl/overview) you can check outstanding invoices, or mark them as paid.
 
 Everything you save is done so on the machine or device you are working on. To get your data from (say) your phone to your desktop you can [export](https://projectinvoice.nl/settings) the data to json, and import that file on a different device.
@@ -59,6 +59,12 @@ Since the data is stored locally you can only access it from one computer. Howev
 ### I want to clear my LocalStorage to wipe all my data.
 
 There is a button for that on the [settings page](https://projectinvoice.nl/settings).
+
+### Is there an Android or IOS app for this?
+
+Yes and no. No this is not in an App- or Play Store. Because yes: you can simply add this web application to your device desktop.
+On Android navigate to the site, press the three vertical dots in the upper right corner and choose 'Add to home screen'.
+On IOS Safari open the site, click the exit icon on the bottom and choose the 'Add to home screen' button.
 
 ### Why?
 

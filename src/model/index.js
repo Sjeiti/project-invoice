@@ -1,5 +1,3 @@
-// import Signal from 'signals'
-// import util from './util'
 import projectSort from '../util/projectSort'
 
 import defaultConfig from '../data/config'
@@ -64,9 +62,6 @@ const model = {
 
 model.config = config
 model.data = data
-
-// data.clients.forEach(client=>createClient(client, model))
-console.log('model',model); // todo: remove log
 
 modelSaved.add(()=>{
   setStored('data', data)

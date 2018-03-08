@@ -1,7 +1,7 @@
 <template>
   <footer>
-    <a href="http://ronvalstar">Made with &#9829;</a>
-    <span>Project Invoice v2.1.9</span>
+    <a href="http://ronvalstar">Made with <span class="love">&#9829;</span></a>
+    <span>Project Invoice v2.1.10</span>
     <a href="https://github.com/Sjeiti/project-invoice">Fork on <span class="icon-github"></span></a>
   </footer>
 </template>
@@ -32,5 +32,17 @@ export default {
   .icon-github {
     display: inline-block;
     transform: translateY(3px);
+  }
+  .love {
+    display: inline-block;
+    padding-left: 2px;
+    color: $colorRed;
+    animation-duration: 500ms;
+    animation-name: heartbeat;
+    animation-iteration-count: infinite;
+  }
+  @keyframes heartbeat {
+    from { transform: scale(1); }
+    to { transform: scale(1.4); }
   }
 </style>

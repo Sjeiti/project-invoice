@@ -1,6 +1,9 @@
+
+$colorRed: #F04;
+
 $colorBackground: #F8F8F8;
 $colorHeader: #444;
-$colorError: #F04;
+$colorError: $colorRed;
 $colorLink: #46A;
 $colorButton: #0275D8;
 $colorButtonHigh: #EFAC4E;
@@ -34,7 +37,6 @@ $colorAmountPositive: #7eb743;
 $colorAmountNegative: #d8a771;
 
 $colorPrintBackground: #f8fffd;
-$colorRed: #f04;
 
 $headerHeight: 40px;
 $footerHeight: 20px;

@@ -9,9 +9,6 @@ export default {
       selected:null
     }
   }
-  ,mounted() {
-    console.log('def',23); // todo: remove log
-  }
   ,methods: {
     onClick(e){
       const {target} = e
@@ -21,7 +18,6 @@ export default {
         target.classList.add('selected')
         this.selected = target
       }
-      console.log(' nodeName', nodeName); // todo: remove log
     }
   }
 }

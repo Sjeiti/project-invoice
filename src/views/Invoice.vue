@@ -1,9 +1,8 @@
 <template>
   <section>
     <header>
-      <h1><span class="hide-low">Invoice </span>{{project.invoiceNr}}</h1>
+      <h1><span class="hide-low">Invoice </span><router-link v-bind:to="project.uri||''">{{project.invoiceNr}}</router-link></h1>
       <div class="invoice-options">
-        <!--<router-link v-bind:to="project.uri||''" class="btn">back</router-link>-->
         <button v-on:click="onClickPrint()"
                 v-bind:disabled="!pageReady">print</button>
         <!--<a data-ngClick="onClickDownload($event)"
