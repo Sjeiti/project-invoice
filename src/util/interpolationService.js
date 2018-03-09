@@ -1,5 +1,5 @@
-import model from '@/model'
-import {currency} from '@/util'
+import model from '../model/index'
+import {currency} from './index'
 import marked from 'marked'
 
 marked.setOptions({
@@ -21,7 +21,7 @@ marked.setOptions({
  * @returns {string}
  * @todo only do double interpolation if applicable
  */
-export function parse(key, models, doubled){
+export function parse(key, models={}, doubled=false){
   key = key.toString()
   // extend models
   !doubled && Object.assign(models, {

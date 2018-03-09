@@ -1,4 +1,4 @@
-import {signal} from '@/signals'
+import {signal} from './signals'
 
 let model, clone, deleteCallback, modelChangeTime
 

@@ -7,7 +7,7 @@ import { create as createClient } from './client'
 import { create as createCopy } from './copy'
 import { create as createConfig } from './config'
 import { create as createCloneable } from './cloneable'
-import { modelSaved } from '@/formState'
+import { modelSaved } from '../formState'
 
 const config = getStored('config',defaultConfig)
 const data = getStored('data',defaultData)

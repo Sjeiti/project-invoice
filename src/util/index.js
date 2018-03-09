@@ -39,14 +39,17 @@ export function currency(
 /**
  * Object assign but only when key does not yet exist
  * @param {object} obj
- * @param {object} add
+ * @param {object[]} adds
  */
-export function weakAssign(obj,add){
-  for (let key in add) {
-    if (!obj.hasOwnProperty(key)) {
-      obj[key] = add[key]
+export function weakAssign(obj,...adds){
+  adds.forEach(add=>{
+    for (let key in add) {
+      if (!obj.hasOwnProperty(key)) {
+        obj[key] = add[key]
+      }
     }
-  }
+  })
+  return obj
 }
 
 /**

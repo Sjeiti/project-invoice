@@ -1,6 +1,7 @@
 import {toPage} from './pi'
 
 describe('Generic',()=>{
+
   beforeEach(toPage)
 
   context('Menu',()=>{
@@ -16,5 +17,6 @@ describe('Generic',()=>{
       cy.get('section a[href="/overview/quarter"]').click()
       cy.title().should('include','Quarter')
     })
+
   })
 })

@@ -1,4 +1,4 @@
-import {CURRENCY_ISO} from '@/config/currencyISO'
+import {CURRENCY_ISO} from '../config/currencyISO'
 /**
  * @typedef {object} config
  * @property {number} timestamp
