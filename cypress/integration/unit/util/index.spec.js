@@ -38,20 +38,20 @@ describe('util',()=>{
       const obj1 = {a:1,b:2}
       const obj2 = {b:3,c:4}
       const assigned = weakAssign(obj1,obj2)
-      assert.equal(assigned,obj1)
+      assert.strictEqual(assigned,obj1)
     })
     it('should only assign missing object properties',()=>{
       const obj1 = {a:1,b:2}
       const obj2 = {b:3,c:4}
       const assigned = weakAssign(obj1,obj2)
-      assert.equal(assigned.b,2)
+      assert.strictEqual(assigned.b,2)
     })
     it('should apply n parameters',()=>{
       const obj1 = {a:1,b:2}
       const obj2 = {b:3,c:4}
       const obj3 = {c:3,d:4}
       const assigned = weakAssign(obj1,obj2,obj3)
-      assert.equal(assigned.d,4)
+      assert.strictEqual(assigned.d,4)
     })
   })
 

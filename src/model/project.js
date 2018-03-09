@@ -50,14 +50,6 @@ const proto = {
   }
 
   /**
-   * Client name shortcut
-   * @returns {string}
-   */
-  ,get clientName(){
-    return this.client.name
-  }
-
-  /**
    * Returns an exact clone of the project
    * @returns {Project}
    */
@@ -87,24 +79,6 @@ const proto = {
   calculateInvoiceNr() {
       // ${client.nr}.${project.indexOnClient+1}.${project.dateYear.substr(2,2)}.${project.indexOnYear+1}
       return (new Function('project','client','return `'+this.model.config.projectNumberTemplate+'`'))(this, this.client)
-  },
-
-  addLine(vat=21){
-    this.lines.push({amount:0, hours:0, vat})
-  },
-
-  addInvoice(){
-    const {invoices} = this
-    invoices.push(createInvoice({
-      date: moment().format('YYYY-MM-DD'),
-      type: invoices.length===0?'invoice':'reminder', // todo: from const
-      interest: false,
-      exhortation: false
-    }))
-  },
-
-  get vatMax(){
-    return Math.max(...this.lines.map(line=>line.vat))
   },
 
   /**
@@ -196,6 +170,32 @@ const proto = {
   },
 
   /**
+   * Getter for the date
+   * @returns {Date}
+   */
+  get date(){
+      return this.invoices.length!==0?new Date(this.invoices[0].date):new Date()
+  },
+
+  /**
+   * Getter for the formatted project date
+   * @returns {string}
+   */
+  get dateFormatted(){
+    const dateFormat = this.model.copy.dateFormat[this.model.config.lang]
+    // return this.datePipe.transform(this.date, dateFormat)
+    return moment(this.date).format(dateFormat)
+  },
+
+  /**
+   * Getter for the timestamp of the project
+   * @returns {number}
+   */
+  get timestamp(){
+    return this.date.getTime()
+  },
+
+  /**
    * Getter for number of days late
    * @returns {number}
    */
@@ -228,14 +228,6 @@ const proto = {
   },
 
   /**
-   * Getter for the date
-   * @returns {Date}
-   */
-  get date(){
-      return this.invoices.length!==0?new Date(this.invoices[0].date):new Date()
-  },
-
-  /**
    * Getter for the latest invoice date
    * @returns {number}
    */
@@ -248,6 +240,52 @@ const proto = {
       }
     })
     return latestDate
+  },
+
+  /**
+   * Getter for the timestamp of the latest project date
+   * @returns {number}
+   */
+  get timestampLatest(){
+    return this.dateLatest.getTime()
+  },
+
+  /**
+   * Getter for project date year
+   * @returns {number}
+   */
+  get year() {
+      return this.date.getFullYear()
+  },
+
+  /**
+   * Getter for project date year as string
+   * @returns {string}
+   */
+  get dateYear() {
+      return this.year.toString()
+  },
+
+  /**
+   * Returns the project index in that project years projects
+   * @returns {number}
+   */
+  get indexOnYear() {
+    let year = this.year,
+        projectsInYear = this.model.projects
+            .filter(project=>project.invoices.length>0&&project.year===year)
+            .sort(projectSort)
+            .map(project=>project.id)
+
+    return projectsInYear.indexOf(this.id)
+  },
+
+  /**
+   * Getter for project date quarter
+   * @returns {number}
+   */
+  get quarter(){
+    return ((this.date.getMonth()+1)/4)<<0+1
   },
 
   /**
@@ -284,6 +322,22 @@ const proto = {
   },
 
   /**
+   * Getter for the project client
+   * @returns {client}
+   */
+  get client(){
+    return this._client
+  },
+
+  /**
+   * Client name shortcut
+   * @returns {string}
+   */
+  get clientName(){
+    return this.client.name
+  },
+
+  /**
    * Returns the project index in client.projects
    * @returns {number}
    */
@@ -291,98 +345,39 @@ const proto = {
     let index = -1
     this.client.projects
         .slice(0)
-        // .sort(projectSort)
         .forEach((p,i)=>{
           if (p.id===this.id) index = i
         })
     return index
-    // return this.client.projects
-    //     .slice(0)
-    //     // .filter(project=>project.invoices.length>0)
-    //     .sort(projectSort)
-    //     .indexOf(this)
   },
 
   /**
-   * Getter for project date year
+   * Add a line to the project
+   * @param {number} vat
+   */
+  addLine(vat=21){
+    this.lines.push({amount:0, hours:0, vat})
+  },
+
+  /**
+   * Add an invoice
+   */
+  addInvoice(){
+    const {invoices} = this
+    invoices.push(createInvoice({
+      date: moment().format('YYYY-MM-DD'),
+      type: invoices.length===0?'invoice':'reminder', // todo: from const
+      interest: false,
+      exhortation: false
+    }))
+  },
+
+  /**
+   * Highest VAT amount
    * @returns {number}
    */
-  get year() {
-      return this.date.getFullYear()
-  },
-
-  /**
-   * Getter for project date year as string
-   * @returns {string}
-   */
-  get dateYear() {
-      return this.year.toString()
-  },
-
-  /**
-   * Returns the project index in that project years projects
-   * @returns {number}
-   */
-  get indexOnYear() {
-    let year = this.year,
-        projectsInYear = this.model.projects
-            .filter(project=>project.invoices.length>0&&project.year===year)
-            .sort(projectSort)
-            .map(project=>project.id)
-
-    return projectsInYear.indexOf(this.id)
-  },
-
-  //////////////////////////////////////////////////
-
-  /**
-   * Getter for the timestamp of the project
-   * @returns {number}
-   */
-  get timestamp(){
-    return this.date.getTime()
-  },
-
-  /**
-   * Getter for the timestamp of the latest project date
-   * @returns {number}
-   */
-  get timestampLatest(){
-    return this.dateLatest.getTime()
-  },
-
-  // /**
-  //  * Getter for project date year
-  //  * @returns {number}
-  //  */
-  // get year(){
-  //   return this.date.getFullYear()
-  // },
-
-  /**
-   * Getter for project date quarter
-   * @returns {number}
-   */
-  get quarter(){
-    return ((this.date.getMonth()+1)/4)<<0+1
-  },
-
-  // /**
-  //  * Getter for project date year as a string
-  //  * @returns {string}
-  //  */
-  // get dateYear(){
-  //   return this.year.toString()
-  // },
-
-  /**
-   * Getter for the formatted project date
-   * @returns {string}
-   */
-  get dateFormatted(){
-    const dateFormat = this.model.copy.dateFormat[this.model.config.lang]
-    // return this.datePipe.transform(this.date, dateFormat)
-    return moment(this.date).format(dateFormat)
+  get vatMax(){
+    return Math.max(...this.lines.map(line=>line.vat))
   },
 
   /**
@@ -392,15 +387,6 @@ const proto = {
   get uri(){
     return `/client/${this.clientNr}/${this.indexOnClient}`
   },
-
-  /**
-   * Getter for the project client
-   * @returns {client}
-   */
-  get client(){
-    return this._client
-  }
-  //////////////////////////////////////////////////
 
 }
 
