@@ -26,10 +26,18 @@ const proto = {
     return create(cloned, this.model)
   }
 
+  /**
+   * Return the client pathname
+   * @returns {string}
+   */
   ,get uri(){
     return `/client/${this.nr}`
   }
 
+  /**
+   * Create a new project
+   * @returns {project}
+   */
   ,createProject(){
     const projectId = Math.max(...this.projects.map(p=>p.id),0) + 1
     const project = createProject({
@@ -59,6 +67,11 @@ const proto = {
     return project
   }
 
+  /**
+   * Delete a project by instance
+   * @param {project} project
+   * @returns {boolean}
+   */
   ,deleteProject(project){
     const index = this.projects.indexOf(project)
     const valid = index!==-1
@@ -66,6 +79,10 @@ const proto = {
     return valid
   }
 
+  /**
+   * Strings
+   * @returns {string}
+   */
   ,toString(){
     return `[object client '${this.name}']`
   }

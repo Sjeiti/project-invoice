@@ -44,6 +44,7 @@
     "sass-loader": "^6.0.6",
     "style-loader": "^0.20.1",
     "svg2png": "^4.1.1",
+    "svgo": "^1.0.5",
     "vue-template-compiler": "^2.5.13",
     "xml2js": "^0.4.19"
   },
