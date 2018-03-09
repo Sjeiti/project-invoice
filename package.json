@@ -34,7 +34,7 @@
     "@vue/cli-service": "^3.0.0-alpha.8",
     "adm-zip": "^0.4.7",
     "commander": "^2.14.1",
-    "cypress": "^1.4.2",
+    "cypress": "^2.1.0",
     "eslint-plugin-html": "^4.0.2",
     "faker": "^4.1.0",
     "jsdom": "^11.6.2",

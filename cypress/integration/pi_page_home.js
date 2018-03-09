@@ -3,9 +3,10 @@ import {
   ,basics
   ,toCurrentPage
   ,assertPathname
+  ,describeResponsive
 } from './pi'
 
-describe('Home',()=>{
+describeResponsive('Home',()=>{
 
   beforeEach(toPage)
 
