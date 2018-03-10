@@ -1,8 +1,8 @@
 <template>
   <footer>
-    <a href="http://ronvalstar">Made with <span class="love">&#9829;</span></a>
+    <a href="http://ronvalstar">made with <span class="love">&#9829;</span></a>
     <span>Project Invoice v2.1.13</span>
-    <a href="https://github.com/Sjeiti/project-invoice">Fork on <span class="icon-github"></span></a>
+    <a href="https://github.com/Sjeiti/project-invoice">fork on &nbsp;<span class="icon-github"></span></a>
   </footer>
 </template>
 
@@ -37,7 +37,7 @@ export default {
     display: inline-block;
     padding-left: 2px;
     color: $colorRed;
-    animation-duration: 500ms;
+    animation-duration: 861ms;
     animation-name: heartbeat;
     animation-iteration-count: infinite;
   }
