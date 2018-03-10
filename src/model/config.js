@@ -48,3 +48,5 @@ const proto = {
 export function create(config){
     return Object.setPrototypeOf(config, proto);
 }
+
+console.log('CURRENCY_ISO',CURRENCY_ISO); // todo: remove log
