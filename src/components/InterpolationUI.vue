@@ -15,7 +15,7 @@
 <script>
   import defaultConfig from '@/data/config'
   import defaultData from '@/data/data'
-  import {signal} from '@/signals'
+  import {signal} from '@/util/signal'
   import model from '@/model'
   import {create as createClient} from '@/model/client'
   import {parse,__} from '@/util/interpolationService'

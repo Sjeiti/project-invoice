@@ -38,6 +38,7 @@
 <script>
 import SaveableButtons from '@/components/SaveableButtons'
 import {NAME} from '@/config'
+import {swipeLeft,swipeRight} from '../util/signal.swipe'
 export default {
   name: 'AppHeader'
   ,data () {
@@ -63,6 +64,13 @@ export default {
       next()
     })
     this.boundClick = this.onDocumentClick.bind(this)
+    //
+    swipeLeft.add((startAverage,endAverage,duration,distance,offset,eStart,eEnd)=>{
+       console.log('duration,distance',duration,distance); // todo: remove log
+    })
+    swipeLeft.add(({x})=>(document.body.clientWidth-x)<50&&(this.hamburger=true))
+    swipeRight.add(()=>this.hamburger=false)
+    //
   }
   ,methods: {
     onDocumentClick(){

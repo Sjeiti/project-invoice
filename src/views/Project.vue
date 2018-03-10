@@ -117,7 +117,7 @@
 <script>
 import model from '@/model'
 import Currency from '@/components/Currency'
-import signals from '@/signals'
+import signals from '@/util/signal'
 import {create as createInvoice} from '@/model/invoice'
 import {track,untrack,save} from '@/formState'
 import moment from 'moment'

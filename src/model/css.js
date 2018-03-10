@@ -1,5 +1,5 @@
 import Sass from 'sass.js/dist/sass.js'
-import {signal} from '@/signals'
+import {signal} from '@/util/signal'
 import model from '@/model'
 
 export const sassChanged = signal()

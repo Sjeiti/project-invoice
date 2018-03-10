@@ -23,7 +23,7 @@ import model from '@/model'
 import Currency from '@/components/Currency.vue'
 import Lang from '@/components/Lang.vue'
 import PrintInvoice from '@/components/PrintInvoice.vue'
-import signals from '@/signals'
+import signals from '@/util/signal'
 import {cssCompiled} from '@/model/css'
 
 export default {
