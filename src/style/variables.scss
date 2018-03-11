@@ -1,12 +1,14 @@
 
 $colorRed: #F04;
+$colorBlue: #0275D8;
+$colorYellow: #EFAC4E;
 
 $colorBackground: #F8F8F8;
 $colorHeader: #444;
 $colorError: $colorRed;
 $colorLink: #46A;
-$colorButton: #0275D8;
-$colorButtonHigh: #EFAC4E;
+$colorButton: $colorBlue;
+$colorButtonHigh: $colorYellow;
 $colorBorder: #BBB;
 $colorTable: #EEE;
 $colorShade: rgba(0,0,0,0.1);

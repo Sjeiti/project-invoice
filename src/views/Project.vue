@@ -117,7 +117,7 @@
 <script>
 import model from '@/model'
 import Currency from '@/components/Currency'
-import signals from '@/util/signal'
+import {notify} from '../util/signal'
 import {create as createInvoice} from '@/model/invoice'
 import {track,untrack,save} from '@/formState'
 import moment from 'moment'
@@ -166,10 +166,16 @@ export default {
       this.$router.push(clone.uri)
       this.project = track(this.$el,clone,this.deleteProject)
       save()
-    }
+      notify.dispatch(`Project '${project.description}' cloned`)
+      }
     ,deleteProject() {
       const project = this.client.projects[parseInt(this.$route.params.projectIndex,10)]
-      confirm('Delete this project?') && this.client.deleteProject(project) && (save(),this.$router.push(this.client.uri))
+      if (confirm('Delete this project?')) {
+        this.client.deleteProject(project)
+        save()
+        this.$router.push(this.client.uri)
+        notify.dispatch(`Project '${project.description}' has been deleted`)
+      }
     }
     ,onAddInvoice(){
       this.project.addInvoice()

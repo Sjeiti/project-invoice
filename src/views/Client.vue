@@ -31,6 +31,7 @@ import model from '@/model'
 import {track,untrack,save} from '@/formState'
 import {create} from '@/model/project'
 import ProjectList from '../components/ProjectList'
+import {notify} from '../util/signal'
 
 export default {
   name: 'client'
@@ -52,7 +53,13 @@ export default {
     }
     ,deleteClient(){
       const client = model.getClientByNr(parseInt(this.$route.params.clientNr,10))
-      confirm('Delete this client?') && model.deleteClient(client) && (save(),this.$router.push('/clients'))
+//      confirm('Delete this client?') && model.deleteClient(client) && (save(),this.$router.push('/clients'))
+      if (confirm('Delete this client?')) {
+        model.deleteClient(client)
+        save()
+        this.$router.push('/clients')
+        notify.dispatch(`Client '${client.name}' has been deleted`)
+      }
     }
   }
 }
