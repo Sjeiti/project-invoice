@@ -1,7 +1,7 @@
 <template>
   <header>
     <nav>
-      <router-link class="home-icon" v-bind:to="'/'"></router-link>
+      <router-link class="home-icon" v-bind:to="'/'"><logo></logo></router-link>
       <h2 class="page-title hide-high">{{pageTitle}}</h2>
       <ul class="list-unstyled list-inline">
         <li>
@@ -37,6 +37,7 @@
 
 <script>
 import SaveableButtons from '@/components/SaveableButtons'
+import Logo from '@/components/Logo'
 import {NAME} from '@/config'
 import {swipeLeft,swipeRight} from '../util/signal.swipe'
 export default {
@@ -50,6 +51,7 @@ export default {
   }
   ,components: {
     SaveableButtons
+    ,Logo
   }
   ,watch: {
     hamburger(opened){
@@ -89,9 +91,16 @@ export default {
     height: $headerHeight;
     width: $headerHeight;
     padding: 0;
-    background: url(/static/img/logo.svg) no-repeat;
-    background-size: 80%;
-    background-position: center;
+    /*background: url(/static/img/logo.svg) no-repeat;*/
+    /*background-size: 80%;*/
+    /*background-position: center;*/
+    overflow: hidden;
+    svg {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%,-50%);
+    }
     @media #{$breakpointHigh} { display: none; }
   }
   

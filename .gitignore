@@ -2,6 +2,7 @@
 node_modules
 /src/static
 /dist
+/temp
 
 # local env files
 .env.local
