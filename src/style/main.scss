@@ -379,8 +379,8 @@ label.checkbox {
   }
 }
 
-@media #{$breakpointLow} { .hide-low { display: none; }}
-@media #{$breakpointHigh} { .hide-high { display: none; }}
+@media #{$breakpointLow} { .hide-low { display: none!important; }}
+@media #{$breakpointHigh} { .hide-high { display: none!important; }}
 
 [class^="icon-"], [class*=" icon-"] { font-size: 16px; }
 

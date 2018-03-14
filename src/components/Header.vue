@@ -8,7 +8,7 @@
           <input v-model="hamburger" class="visually-hidden" id="hamburger" type="checkbox">
           <label for="hamburger"><span></span></label>
           <ul v-on:click="hamburger=!hamburger" class="list-inline">
-            <li><router-link to="/">home</router-link></li>
+            <li class="hide-high"><router-link to="/">home</router-link></li>
             <li class="drop">
               <label for="drop1"><router-link to="/overview">overview</router-link></label>
               <input class="visually-hidden" id="drop1" type="checkbox">
@@ -101,7 +101,13 @@ export default {
       top: 50%;
       transform: translate(-50%,-50%);
     }
-    @media #{$breakpointHigh} { display: none; }
+    /*@media #{$breakpointHigh} { display: none; }*/
+    &.router-link-active {
+      background-color: transparent;
+    }
+    @media #{$breakpointHigh} {
+      position: relative;
+    }
   }
   
   .page-title {
