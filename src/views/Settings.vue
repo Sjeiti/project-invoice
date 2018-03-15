@@ -52,7 +52,7 @@
             <option v-for="(storage, key) in storageService.providers" v-bind:value="key">{{storage.name}}</option>
           </select>
           <button v-on:click="storageService.init(settings.cloudSelected)" v-bind:disabled="storageService.authorised">authorise</button>
-          <button v-on:click="storageService.revoke()" v-bind:disabled="!storageService.authorised">revoke</button>
+          <button v-on:click="onClickRevoke" v-bind:disabled="!storageService.authorised">revoke</button>
         </dd>
       </dl>
     </section>
@@ -62,7 +62,7 @@
 <script>
 import BaseView from './BaseView'
 import model from '../model'
-import {track,untrack,revert} from '../formState'
+import {track,untrack,revert,save} from '../formState'
 import {CURRENCY_ISO} from '../config/currencyISO'
 import InterpolationUI from '../components/InterpolationUI'
 import storageService from '../service/storage'
@@ -122,6 +122,12 @@ export default {
           revert()
         }
       }
+    }
+  
+    ,onClickRevoke(){
+      this.settings.cloudSelected = ''
+      storageService.revoke()
+      save()
     }
     
   }

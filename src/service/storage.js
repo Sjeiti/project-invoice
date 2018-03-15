@@ -8,7 +8,6 @@ const syncOff = sync.dispatch.bind(sync,false)
 let provider
 
 function init(providerKey){
-  console.log('init',providerKey); // todo: remove log
   if (providers.hasOwnProperty(providerKey)) {
     setTimeout(syncOn)
     provider = providers[providerKey]
@@ -20,7 +19,6 @@ function init(providerKey){
 
 function initSuccess(){
   storageInitialised.dispatch(true)
-	console.log('Storage initialised'); // todo: remove log
 }
 
 function initFailed(){
@@ -46,10 +44,16 @@ function write(file,data){
   return promise
 }
 
+function revoke(){
+	syncOff()
+  provider = null
+}
+
 export default {
   providers
   ,init
   ,get authorised() { return provider&&provider.authorised||false }
   ,read
   ,write
+  ,revoke
 }

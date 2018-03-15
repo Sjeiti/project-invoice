@@ -24,18 +24,14 @@ const nameConfig = 'projectInvoice.config.json'
 
 storageService.init(config.cloudSelected)
 storageInitialised.add(success=>{
-  console.log('storageInitialised'); // todo: remove
   success&&storageService
       .read(nameData)
       .then(
           json=>{ // file read
             const parsed = JSON.parse(json)
-            console.log('read success',parsed); // todo: remove log
-            console.log('\tnewer',parsed.timestamp>data.timestamp); // todo: remove log
             if (parsed.timestamp>data.timestamp) {
               model.data = parsed
               modelReplaced.dispatch(model.data)
-              console.log('\tlocal replaced'); // todo: remove log
             }
           }
           ,()=>{ // file not found
