@@ -16,8 +16,9 @@ const data = getStored('data',defaultData)
 
 weakAssign(config,defaultConfig)
 
-const nameData = 'projectInvoice.data.json'
-const nameConfig = 'projectInvoice.config.json'
+const ns = location.host.replace(/^localhost.*/,'local.projectinvoice.nl').split(/\./g).reverse().join('.')
+const nameData = `${ns}.data.json`
+const nameConfig = `${ns}.config.json`
 
 //////////////////////////////////////////////////////
 //////////////////////////////////////////////////////
