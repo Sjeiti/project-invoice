@@ -1,5 +1,5 @@
 import model from '../model/index'
-import {currency} from './index'
+import {currency} from '../util/index'
 import marked from 'marked'
 
 marked.setOptions({

@@ -29,11 +29,14 @@
 </template>
 
 <script>
-import model from '@/model'
-import {save,modelSaved} from '@/formState'
+import BaseView from './BaseView'
+import model from '../model'
+import {save,modelSaved} from '../formState'
 import ProjectList from '../components/ProjectList'
+
 export default {
   name: 'home'
+  ,extends: BaseView
   ,components: {ProjectList}
   ,data () {
     return {

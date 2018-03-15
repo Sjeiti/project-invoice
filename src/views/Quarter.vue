@@ -19,13 +19,15 @@
 </template>
 
 <script>
-import model from '@/model'
-import Currency from '@/components/Currency'
-import ProjectList from '@/components/ProjectList'
-import {currency} from '@/util'
-import {parse} from '@/util/interpolationService'
+import BaseView from './BaseView'
+import model from '../model'
+import Currency from '../components/Currency'
+import ProjectList from '../components/ProjectList'
+import {currency} from '../util'
+import {parse} from '../service/interpolationService'
 export default {
   name: 'quarter'
+  ,extends: BaseView
   ,data () {
     return {
       projects: []

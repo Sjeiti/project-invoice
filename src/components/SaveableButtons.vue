@@ -1,13 +1,17 @@
 <template>
-  <div v-if="tracked">
-    <button v-on:click="onSave" :disabled="!saveable"><span class="icon-save hide-high"></span><span class="hide-low">save</span></button>
-    <button v-on:click="onRevert" :disabled="!saveable"><span class="icon-revert hide-high"></span><span class="hide-low">revert</span></button>
-    <button v-on:click="onDelete" v-if="deletable"><span class="icon-delete hide-high"></span><span class="hide-low">delete</span></button>
+  <div class="saveable">
+    <span v-if="syncing" class="icon-sync"></span>
+    <div v-if="tracked">
+      <button v-on:click="onSave" :disabled="!saveable"><span class="icon-save hide-high"></span><span class="hide-low">save</span></button>
+      <button v-on:click="onRevert" :disabled="!saveable"><span class="icon-revert hide-high"></span><span class="hide-low">revert</span></button>
+      <button v-on:click="onDelete" v-if="deletable"><span class="icon-delete hide-high"></span><span class="hide-low">delete</span></button>
+    </div>
   </div>
 </template>
 
 <script>
-  import {saveable, save, revert, deleteModel, tracked, untrack} from '@/formState'
+  import {saveable, save, revert, deleteModel, tracked, untrack} from '../formState'
+  import {sync} from '../util/signal'
   export default {
     name: 'SaveableButtons'
     ,data () {
@@ -15,6 +19,7 @@
         saveable: false
         ,deletable: false
         ,tracked: false
+        ,syncing: false
       }
     }
     ,mounted(){
@@ -39,6 +44,10 @@
           next()
         }
       })
+      // sync
+      sync.add(onoff=>{
+        this.syncing = onoff
+      })
     }
     ,methods: {
       onSave: save
@@ -49,6 +58,20 @@
 </script>
 
 <style lang="scss" scoped>
-  div { margin-top: 5px; }
+  .saveable {
+    display:flex;
+    margin-top: 5px;
+  }
   button { margin-bottom: 0; }
+  .icon-sync {
+    margin-right: 5px;
+    font-size: 1.9rem;
+    color: #aaa;
+    transform: rotate(0);
+		animation: rotation 3000ms infinite linear;
+  }
+  @-webkit-keyframes rotation {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(359deg); }
+  }
 </style>

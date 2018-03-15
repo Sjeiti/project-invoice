@@ -13,12 +13,12 @@
 </template>
 
 <script>
-  import defaultConfig from '@/data/config'
-  import defaultData from '@/data/data'
-  import {signal} from '@/util/signal'
-  import model from '@/model'
-  import {create as createClient} from '@/model/client'
-  import {parse,__} from '@/util/interpolationService'
+  import defaultConfig from '../data/config'
+  import defaultData from '../data/data'
+  import {signal} from '../util/signal'
+  import model from '../model'
+  import {create as createClient} from '../model/client'
+  import {parse,__} from '../service/interpolationService'
   
   const interpolationOpened = signal()
   

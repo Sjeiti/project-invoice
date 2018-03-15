@@ -60,3 +60,17 @@ export function weakAssign(obj,...adds){
 export function capitalise(s){
 	return s[0].toUpperCase()+s.substr(1)
 }
+
+/**
+ * Dynamically load a javascript file
+ * @param {string} src
+ * @returns {Promise}
+ */
+export function loadScript(src){
+  return new Promise((resolve,reject)=>{
+    const script = document.createElement('script')
+    document.body.appendChild(script)
+    script.setAttribute('src',src)
+    script.addEventListener('load',resolve)
+  })
+}

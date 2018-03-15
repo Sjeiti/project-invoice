@@ -121,10 +121,10 @@
 </template>
 
 <script>
-import model from '@/model'
-import Currency from '@/components/Currency'
-import {parse,__} from '@/util/interpolationService'
-import {appendStyle, cssVariablesChanged} from '@/model/css'
+import model from '../model'
+import Currency from '../components/Currency'
+import {parse,__} from '../service/interpolationService'
+import {appendStyle, cssVariablesChanged} from '../model/css'
 
 export default {
   name: 'PrintInvoice'

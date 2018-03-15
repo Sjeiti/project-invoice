@@ -1,9 +1,11 @@
 <template src="./About.html"></template>
 
 <script>
+import BaseView from './BaseView'
 import FoldableDefinition from '@/components/FoldableDefinition'
 export default {
   name: 'about'
+  ,extends: BaseView
   ,components: {FoldableDefinition}
 }
 </script>

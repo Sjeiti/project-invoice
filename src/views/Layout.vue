@@ -52,6 +52,7 @@
 </template>
 
 <script>
+import BaseView from './BaseView'
 import Lang from '@/components/Lang.vue'
 import PrintInvoice from '@/components/PrintInvoice.vue'
 import model from '@/model'
@@ -62,6 +63,7 @@ import {sassChanged, cssVariablesChanged} from '@/model/css'
 
 export default {
   name: 'layout'
+  ,extends: BaseView
   ,data () {
     return {
       client:{}

@@ -1,5 +1,7 @@
 import projectSort from '../util/projectSort'
-
+import {weakAssign} from '../util'
+import {storageInitialised, modelReplaced} from '../util/signal'
+import storageService from '../service/storage'
 import defaultConfig from '../data/config'
 import defaultData from '../data/data'
 
@@ -11,6 +13,46 @@ import { modelSaved } from '../formState'
 
 const config = getStored('config',defaultConfig)
 const data = getStored('data',defaultData)
+
+weakAssign(config,defaultConfig)
+
+const nameData = 'projectInvoice.data.json'
+const nameConfig = 'projectInvoice.config.json'
+
+//////////////////////////////////////////////////////
+//////////////////////////////////////////////////////
+
+storageService.init(config.cloudSelected)
+storageInitialised.add(success=>{
+  console.log('storageInitialised'); // todo: remove
+  success&&storageService
+      .read(nameData)
+      .then(
+          json=>{ // file read
+            const parsed = JSON.parse(json)
+            console.log('read success',parsed); // todo: remove log
+            console.log('\tnewer',parsed.timestamp>data.timestamp); // todo: remove log
+            if (parsed.timestamp>data.timestamp) {
+              model.data = parsed
+              modelReplaced.dispatch(model.data)
+              console.log('\tlocal replaced'); // todo: remove log
+            }
+          }
+          ,()=>{ // file not found
+            let stringData;
+            try {
+              stringData = JSON.stringify(data)
+            } catch(err){}
+            storageService
+                .write(nameData,stringData)
+                .then(console.log.bind(console,'write success'))
+          }
+      )
+})
+
+//////////////////////////////////////////////////////
+//////////////////////////////////////////////////////
+
 
 const model = {
   getClientByNr(nr){
@@ -98,6 +140,9 @@ function setStored(name, data){
   try {
     stringData = JSON.stringify(data)
   } catch(err){}
+  //
+  storageService.authorised&&storageService.write(name==='data'?nameData:nameConfig,stringData)
+  //
 	return localStorage.setItem(name,stringData)
 }
 

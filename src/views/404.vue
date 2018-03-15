@@ -7,7 +7,9 @@
 </template>
 
 <script>
+import BaseView from './BaseView'
 export default {
-  name: '404'
+  name: 'error404'
+  ,extends: BaseView
 }
 </script>

@@ -26,10 +26,12 @@
 </template>
 
 <script>
+import BaseView from './BaseView'
 import model from '@/model'
 import {track,untrack} from '@/formState'
 export default {
   name: 'ddata'
+  ,extends: BaseView
   ,data () {
     return {
       personal:{}

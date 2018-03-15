@@ -115,6 +115,7 @@
 </template>
 
 <script>
+import BaseView from './BaseView'
 import model from '@/model'
 import Currency from '@/components/Currency'
 import {notify} from '../util/signal'
@@ -124,6 +125,7 @@ import moment from 'moment'
 
 export default {
   name: 'project'
+  ,extends: BaseView
   ,data () {
     return {
       client:{}

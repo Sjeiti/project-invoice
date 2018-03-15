@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import BaseView from './BaseView'
 import model from '@/model'
 import Currency from '@/components/Currency.vue'
 import Lang from '@/components/Lang.vue'
@@ -28,6 +29,7 @@ import {cssCompiled} from '@/model/css'
 
 export default {
   name: 'invoice'
+  ,extends: BaseView
   ,data () {
     return {
       client:{}

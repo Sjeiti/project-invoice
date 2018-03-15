@@ -8,12 +8,14 @@
 </template>
 
 <script>
+import BaseView from './BaseView'
 import model from '@/model'
 import Currency from '@/components/Currency'
 import Date from '@/components/Date'
 import ProjectList from '@/components/ProjectList'
 export default {
   name: 'overview'
+  ,extends: BaseView
   ,data () {
     return {
       projects: []

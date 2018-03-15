@@ -1,9 +1,9 @@
 @font-face {
   font-family: 'icomoon';
   src:
-    url('/fonts/icomoon.ttf?xoa332') format('truetype'),
-    url('/fonts/icomoon.woff?xoa332') format('woff'),
-    url('/fonts/icomoon.svg?xoa332#icomoon') format('svg');
+    url('/fonts/icomoon.ttf?g1dwhq') format('truetype'),
+    url('/fonts/icomoon.woff?g1dwhq') format('woff'),
+    url('/fonts/icomoon.svg?g1dwhq#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -33,6 +33,7 @@ $icon-delete: "\e902";
 $icon-file: "\e903";
 $icon-duplicate: "\e904";
 $icon-add: "\e905";
+$icon-sync: "\e909";
 $icon-time: "\e906";
 $icon-mark: "\e907";
 $icon-github: "\e908";
@@ -49,6 +50,7 @@ $icon-social: "\e908";
 .icon-file:before { content: $icon-file; }
 .icon-duplicate:before { content: $icon-duplicate; }
 .icon-add:before { content: $icon-add; }
+.icon-sync:before { content: $icon-sync; }
 .icon-time:before { content: $icon-time; }
 .icon-mark:before { content: $icon-mark; }
 .icon-github:before { content: $icon-github; }
@@ -79,6 +81,7 @@ $icon-social: "\e908";
 @mixin icon-file(){&:before{@include icon-icon();content: $icon-file;}}
 @mixin icon-duplicate(){&:before{@include icon-icon();content: $icon-duplicate;}}
 @mixin icon-add(){&:before{@include icon-icon();content: $icon-add;}}
+@mixin icon-sync(){&:before{@include icon-icon();content: $icon-sync;}}
 @mixin icon-time(){&:before{@include icon-icon();content: $icon-time;}}
 @mixin icon-mark(){&:before{@include icon-icon();content: $icon-mark;}}
 @mixin icon-github(){&:before{@include icon-icon();content: $icon-github;}}

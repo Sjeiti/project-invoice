@@ -30,5 +30,6 @@ export default {
   currency: 'EUR',
   googleFontsAPIKey: 'AIzaSyAFYPRYJcm8kFOxnKJNpnCIPNoA1rEQ1NA',
   homeMessage: true,
+  cloudSelected: '',
   type: 'config'
 }

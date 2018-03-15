@@ -3,25 +3,6 @@
     <section>
       <h1 class="hide-low">Settings</h1>
       <dl>
-        <dt v-explain="'settings.backup'"></dt>
-        <dd>
-          <a class="btn" v-on:click="onClickDownload($event,'config')">config</a>
-          <a class="btn" v-on:click="onClickDownload($event,'data')">data</a>
-        </dd>
-        <dt v-explain="'settings.restore'"></dt>
-        <dd>
-          <label class="btn" for="restore">restore</label>
-          <input accept="application/json, text/json, .json" type="file" id="restore" v-on:change="onChangeRestore" class="visually-hidden" />
-        </dd>
-        <dt v-explain="'settings.clear'"></dt>
-        <dd>
-          <button v-on:click="onClickClear('config')">config</button>
-          <button v-on:click="onClickClear('data')">data</button>
-        </dd>
-      </dl>
-    </section>
-    <section>
-      <dl>
         <dt v-explain="'settings.projectNumberTemplate'"></dt><dd>
           <InterpolationUI v-model="settings.projectNumberTemplate"></InterpolationUI>
         </dd>
@@ -41,27 +22,67 @@
         </dd>
       </dl>
     </section>
+    <section>
+      <h2>data</h2>
+      <dl>
+        <dt v-explain="'settings.backup'"></dt>
+        <dd>
+          <a class="btn" v-on:click="onClickDownload($event,'config')">config</a>
+          <a class="btn" v-on:click="onClickDownload($event,'data')">data</a>
+        </dd>
+        <dt v-explain="'settings.restore'"></dt>
+        <dd>
+          <label class="btn" for="restore">restore</label>
+          <input accept="application/json, text/json, .json" type="file" id="restore" v-on:change="onChangeRestore" class="visually-hidden" />
+        </dd>
+        <dt v-explain="'settings.clear'"></dt>
+        <dd>
+          <button v-on:click="onClickClear('config')">config</button>
+          <button v-on:click="onClickClear('data')">data</button>
+        </dd>
+      </dl>
+    </section>
+    <section>
+      <h2>cloud synchronisation</h2>
+      <dl>
+        <dt>sync</dt>
+        <dd>
+          <select v-model="settings.cloudSelected" v-bind:disabled="storageService.authorised">
+            <option value="">select cloud</option>
+            <option v-for="(storage, key) in storageService.providers" v-bind:value="key">{{storage.name}}</option>
+          </select>
+          <button v-on:click="storageService.init(settings.cloudSelected)" v-bind:disabled="storageService.authorised">authorise</button>
+          <button v-on:click="storageService.revoke()" v-bind:disabled="!storageService.authorised">revoke</button>
+        </dd>
+      </dl>
+    </section>
   </div>
 </template>
 
 <script>
-import model from '@/model'
-import {track,untrack,revert} from '@/formState'
-import {CURRENCY_ISO} from '@/config/currencyISO'
-import InterpolationUI from '@/components/InterpolationUI'
+import BaseView from './BaseView'
+import model from '../model'
+import {track,untrack,revert} from '../formState'
+import {CURRENCY_ISO} from '../config/currencyISO'
+import InterpolationUI from '../components/InterpolationUI'
+import storageService from '../service/storage'
+import {storageInitialised} from '../util/signal'
 
 export default {
   name: 'settings'
+  ,extends: BaseView
   ,data () {
     return {
-      settings:{}
+      settings: {}
       ,currencies: []
+      ,storageService: storageService
     }
   }
   ,components: { InterpolationUI }
   ,mounted(){
     this.settings = track(this.$el,model.config)
     this.currencies = Object.keys(CURRENCY_ISO).map(key=>CURRENCY_ISO[key])
+    storageInitialised.add(success=>this.$forceUpdate())
   }
   ,destroyed: untrack
   ,methods: {

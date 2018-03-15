@@ -27,6 +27,7 @@
 </template>
 
 <script>
+import BaseView from './BaseView'
 import model from '@/model'
 import {track,untrack,save} from '@/formState'
 import {create} from '@/model/project'
@@ -35,6 +36,7 @@ import {notify} from '../util/signal'
 
 export default {
   name: 'client'
+  ,extends: BaseView
   ,data () {
     return {
       client:{}

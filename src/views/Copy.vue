@@ -19,12 +19,14 @@
 </template>
 
 <script>
+import BaseView from './BaseView'
 import model from '@/model'
 import {track,untrack} from '@/formState'
 import Lang from '@/components/Lang.vue'
 import InterpolationUI from '@/components/InterpolationUI'
 export default {
   name: 'copy'
+  ,extends: BaseView
   ,data () {
     return {
       copy:{}

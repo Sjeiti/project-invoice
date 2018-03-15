@@ -15,10 +15,12 @@
 </template>
 
 <script>
+import BaseView from './BaseView'
 import model from '@/model'
 
 export default {
   name: 'clients'
+  ,extends: BaseView
   ,data () {
     return {
         clients: model.clients
