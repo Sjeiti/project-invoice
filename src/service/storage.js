@@ -30,7 +30,9 @@ function read(file){
 	let promise
   if (provider) {
 	  syncOn()
-    promise = provider.read(file).then(result=>(syncOff(),result))
+    promise = provider
+        .read(file)
+        .then(result=>(syncOff(),result))
   }
   return promise
 }
@@ -39,7 +41,9 @@ function write(file,data){
 	let promise
   if (provider) {
 	  syncOn()
-    promise = provider.write(file,data).then(result=>(syncOff(),result))
+    promise = provider
+        .write(file,data)
+        .then(result=>(syncOff(),result))
   }
   return promise
 }

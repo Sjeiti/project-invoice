@@ -29,10 +29,13 @@ storageInitialised.add(success=>{
       .read(nameData)
       .then(
           json=>{ // file read
-            const parsed = JSON.parse(json)
-            if (parsed.timestamp>data.timestamp) {
-              model.data = parsed
-              modelReplaced.dispatch(model.data)
+            // console.log('json',json); // todo: remove log
+            if (json) { // can fail
+              const parsed = JSON.parse(json)
+              if (parsed.timestamp>data.timestamp) {
+                model.data = parsed
+                modelReplaced.dispatch(model.data)
+              }
             }
           }
           ,()=>{ // file not found
