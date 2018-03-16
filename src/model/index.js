@@ -25,20 +25,25 @@ const nameConfig = `${ns}.config.json`
 
 storageService.init(config.cloudSelected)
 storageInitialised.add(success=>{
+  // console.log('storageInitialised',success); // todo: remove log
   success&&storageService
       .read(nameData)
       .then(
           json=>{ // file read
-            // console.log('json',json); // todo: remove log
             if (json) { // can fail
               const parsed = JSON.parse(json)
-              if (parsed.timestamp>data.timestamp) {
+            /*console.log('firstRead'
+                ,'\n\tserver',parsed.timestamp
+                ,'\n\tlocall',data.timestamp
+                ,parsed.timestamp>data.timestamp,{parsed}); // todo: remove log*/
+            if (parsed.timestamp>data.timestamp) {
                 model.data = parsed
                 modelReplaced.dispatch(model.data)
               }
             }
           }
           ,()=>{ // file not found
+            // console.log('file not found',nameData); // todo: remove log
             let stringData;
             try {
               stringData = JSON.stringify(data)
@@ -84,10 +89,7 @@ const model = {
     return data
   }
   ,set data(newData){
-    Object.assign(data, newData||defaultData)
-    data.clients.forEach(client=>createClient(client, model))
-    createCloneable(data.copy)
-    createCloneable(data.personal)
+    this.setData(newData)
     setStored('data', data)
   }
   ,get config(){
@@ -100,10 +102,17 @@ const model = {
   ,get clients(){ return this.data.clients }
   ,get copy(){ return this.data.copy }
   ,get personal(){ return this.data.personal }
+  ,setData(newData){
+    Object.assign(data, newData||defaultData)
+    data.clients.forEach(client=>createClient(client, model))
+    createCloneable(data.copy)
+    createCloneable(data.personal)
+  }
 }
 
 model.config = config
-model.data = data
+// model.data = data
+model.setData(data) // no save
 
 modelSaved.add(()=>{
   setStored('data', data)
@@ -136,6 +145,7 @@ function getStored(name, defaultsTo){
 }
 
 function setStored(name, data){
+  data.timestamp = Date.now()
   let stringData;
   try {
     stringData = JSON.stringify(data)
