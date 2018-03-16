@@ -3,6 +3,7 @@ import {tryParse} from '../util'
 import {storageInitialised, modelReplaced} from '../util/signal'
 import storageService from '../service/storage'
 import defaultData from '../data/data'
+import {VERSION} from '../config'
 
 import { create as createClient } from './client'
 import { create as createCopy } from './copy'
@@ -136,6 +137,7 @@ function getStored(name, defaultsTo){
  */
 function setStored(name, data){
   data.timestamp = Date.now()
+  data.version = VERSION
   let stringData;
   try {
     stringData = JSON.stringify(data)

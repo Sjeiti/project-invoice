@@ -1,14 +1,20 @@
 <template>
   <footer>
     <a href="http://ronvalstar">made with <span class="love">&#9829;</span></a>
-    <span>Project Invoice v2.2.0</span>
+    <span>Project Invoice v{{version}}</span>
     <a href="https://github.com/Sjeiti/project-invoice">fork on &nbsp;<span class="icon-github"></span></a>
   </footer>
 </template>
 
 <script>
+import {VERSION} from '../config'
 export default {
   name: 'AppFooter'
+  ,data () {
+    return {
+      version: VERSION
+    }
+  }
 }
 </script>
 

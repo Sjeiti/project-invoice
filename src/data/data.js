@@ -1,11 +1,13 @@
 /* tslint:disable:max-line-length */
 import moment from 'moment'
+import {VERSION} from '../config'
 
 const now = Date.now()
 const week = 1000*60*60*24*7
 const dateString = millis=>moment(new Date(millis)).format('YYYY-MM-DD')
 const data = {
   timestamp: now,
+  version: VERSION,
   clients: [
     {
       nr: 1,

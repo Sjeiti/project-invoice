@@ -1,13 +1,13 @@
 {
   "name": "ProjectInvoice",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "test": "cypress run",
-    "version": "next-version package.json src/components/Footer.vue",
+    "version": "next-version package.json src/config/index.js",
     "version:minor": "npm run version -- --minor",
     "version:major": "npm run version -- --major",
     "icons": "node task/icons --source public/static/img/logo.svg --target public/static/img --sizes 16,32,320x460,48,57,64,72,96,114,144,168,128,192,196,256,512",
