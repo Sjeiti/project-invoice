@@ -23,23 +23,25 @@
       </dl>
     </section>
     <section>
-      <h2>data</h2>
+      <!--<h2>data</h2>-->
       <dl>
-        <dt v-explain="'settings.backup'"></dt>
+        <dt><h2>data</h2></dt><dd class="data">
+          <a class="btn" v-on:click="onClickDownload($event,'data')">backup</a>
+          <label class="btn" for="restore">restore</label>
+          <input accept="application/json, text/json, .json" type="file" id="restore" v-on:change="onChangeRestore" class="visually-hidden" />
+          <button v-on:click="onClickClear('data')">clear</button>
+        </dd>
+        
+        <!--<dt v-explain="'settings.backup'"></dt>
         <dd>
-          <a class="btn" v-on:click="onClickDownload($event,'config')">config</a>
           <a class="btn" v-on:click="onClickDownload($event,'data')">data</a>
         </dd>
         <dt v-explain="'settings.restore'"></dt>
         <dd>
-          <label class="btn" for="restore">restore</label>
-          <input accept="application/json, text/json, .json" type="file" id="restore" v-on:change="onChangeRestore" class="visually-hidden" />
         </dd>
         <dt v-explain="'settings.clear'"></dt>
         <dd>
-          <button v-on:click="onClickClear('config')">config</button>
-          <button v-on:click="onClickClear('data')">data</button>
-        </dd>
+        </dd>-->
       </dl>
     </section>
     <section>
@@ -89,8 +91,7 @@ export default {
     
     onClickDownload(e, type){
       const currentTarget = e.currentTarget
-          ,isConfig = type==='config'
-          ,dataString = JSON.stringify(isConfig?model.config:model.data)
+          ,dataString = JSON.stringify(model.data)
       currentTarget.setAttribute('href', `data:text/json,${encodeURIComponent(dataString)}`)
       currentTarget.setAttribute('download', `${type}.json`)
     }
@@ -105,9 +106,6 @@ export default {
             ,resultData = JSON.parse(result)
         if (resultData.hasOwnProperty('clients')&&resultData.hasOwnProperty('copy')&&resultData.hasOwnProperty('personal')) {
           model.data = resultData
-        } else if (resultData.hasOwnProperty('theme')) {
-          model.config = resultData
-          revert()
         }
         target.value = null
       })
@@ -115,12 +113,7 @@ export default {
   
     ,onClickClear(type){
       if (confirm(`Do you really want to clear the ${type}?`)) {
-        if (type==='data') {
           model.data = null
-        } else if (type==='config') {
-          model.config = null
-          revert()
-        }
       }
     }
   
@@ -133,3 +126,9 @@ export default {
   }
 }
 </script>
+
+<style type="text/css" scoped>
+  .data {
+    transform: translateY(20px);
+  }
+</style>

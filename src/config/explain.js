@@ -37,9 +37,9 @@ let explain = {
     quotationStartDate:    ['project start date']
   },
   settings: {
-    backup:                ['backup',                    'download all the data or configuration as a json file'],
-    restore:               ['restore',                   'load a json file to restore the data or configuration'],
-    clear:                 ['clear',                     'clear all data from LocalStorage'],
+    // backup:                ['backup',                    'download all the data or configuration as a json file'],
+    // restore:               ['restore',                   'load a json file to restore the data or configuration'],
+    // clear:                 ['clear',                     'clear all data from LocalStorage'],
     projectNumberTemplate: ['project number template'],
     csvTemplate:           ['csv template'],
     langs:                 ['languages',                 'A comma separated list of language ISO codes, ie `en,nl`. These are the languages you want to send your invoices in.'],

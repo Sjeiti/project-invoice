@@ -1,8 +1,7 @@
 import projectSort from '../util/projectSort'
-import {weakAssign} from '../util'
+import {tryParse} from '../util'
 import {storageInitialised, modelReplaced} from '../util/signal'
 import storageService from '../service/storage'
-import defaultConfig from '../data/config'
 import defaultData from '../data/data'
 
 import { create as createClient } from './client'
@@ -11,23 +10,24 @@ import { create as createConfig } from './config'
 import { create as createCloneable } from './cloneable'
 import { modelSaved } from '../formState'
 
-const config = getStored('config',defaultConfig)
+const ns = location.host.replace(/^localhost.*/,'local.projectinvoice.nl').split(/\./g).reverse().join('.')
+const fileName = `${ns}.data.json`
+
 const data = getStored('data',defaultData)
 
-weakAssign(config,defaultConfig)
+// config removal: 2.1.22 -> 2.2
+const oldConfig = getStored('config')
+if (oldConfig) {
+  data.config = oldConfig
+  delete localStorage.config
+  setStored('data',data)
+}
 
-const ns = location.host.replace(/^localhost.*/,'local.projectinvoice.nl').split(/\./g).reverse().join('.')
-const nameData = `${ns}.data.json`
-const nameConfig = `${ns}.config.json`
-
-//////////////////////////////////////////////////////
-//////////////////////////////////////////////////////
-
-storageService.init(config.cloudSelected)
+// cloud checking
+storageService.init(data.config.cloudSelected)
 storageInitialised.add(success=>{
-  // console.log('storageInitialised',success); // todo: remove log
   success&&storageService
-      .read(nameData)
+      .read(fileName)
       .then(
           json=>{ // file read
             if (json) { // can fail
@@ -49,18 +49,30 @@ storageInitialised.add(success=>{
               stringData = JSON.stringify(data)
             } catch(err){}
             storageService
-                .write(nameData,stringData)
+                .write(fileName,stringData)
                 .then(console.log.bind(console,'write success'))
           }
       )
 })
 
-//////////////////////////////////////////////////////
-//////////////////////////////////////////////////////
-
-
-const model = {
-  getClientByNr(nr){
+// create model
+const model = Object.create({
+  get data(){ return data }
+  ,set data(newData){
+    this.setData(newData)
+    setStored('data', data)
+  }
+  ,get config(){ return data.config }
+  ,get clients(){ return this.data.clients }
+  ,get copy(){ return this.data.copy }
+  ,get personal(){ return this.data.personal }
+  ,get projects() {
+    return this.clients
+        .map(client => client.projects)
+        .reduce((projects,project)=>(projects.push(...project),projects),[])
+        .sort(projectSort)
+  }
+  ,getClientByNr(nr){
     return this.clients.filter(client=>client.nr===nr).pop()
   }
   ,addClient(){
@@ -80,70 +92,48 @@ const model = {
     valid&&this.clients.splice(index,1)
     return valid
   }
-  ,get projects(){
-    return this.clients
-        .map(client=>client.projects)
-        .reduce((a,b)=>(a.push(...b),a),[])
-  }
-  ,get data(){
-    return data
-  }
-  ,set data(newData){
-    this.setData(newData)
-    setStored('data', data)
-  }
-  ,get config(){
-    return config
-  }
-  ,set config(newConfig){
-    Object.assign(config, createConfig(newConfig||defaultConfig))
-    setStored('config', config)
-  }
-  ,get clients(){ return this.data.clients }
-  ,get copy(){ return this.data.copy }
-  ,get personal(){ return this.data.personal }
   ,setData(newData){
     Object.assign(data, newData||defaultData)
+    data.config = createConfig(data.config)
     data.clients.forEach(client=>createClient(client, model))
+    for (let key in data.copy) {
+      model.copy[key] = createCopy(data.copy[key],data.config)
+    }
+    Object.assign(model.personal, data.personal)
     createCloneable(data.copy)
     createCloneable(data.personal)
   }
-}
+})
 
-model.config = config
-// model.data = data
+export default model
+
 model.setData(data) // no save
 
 modelSaved.add(()=>{
   setStored('data', data)
-  setStored('config', config)
 })
 
-Object.setPrototypeOf(model,{
-  get projects() {
-    projectSort
-    return this.clients
-        .map(client => client.projects)
-        .reduce((projects,project) => (projects.push(...project), projects),[])
-        .sort(projectSort)
-  }
-});
-
-for (let key in data.copy) {
-    model.copy[key] = createCopy(data.copy[key],model.config)
-}
-Object.assign(model.personal, data.personal)
-Object.assign(model.config, config)
-
+/**
+ * Get localStorage JSON with fallback
+ * @param {string} name
+ * @param {object} defaultsTo
+ * @returns {object}
+ */
 function getStored(name, defaultsTo){
   const rawData = localStorage.getItem(name)
-  let data;
+  let data
   try {
     data = rawData&&JSON.parse(rawData)
   } catch(err){}
 	return rawData&&data||defaultsTo
 }
 
+/**
+ * Set localStorage JSON
+ * And possibly save cloud
+ * @param {string} name
+ * @param {object} data
+ */
 function setStored(name, data){
   data.timestamp = Date.now()
   let stringData;
@@ -151,9 +141,7 @@ function setStored(name, data){
     stringData = JSON.stringify(data)
   } catch(err){}
   //
-  storageService.authorised&&storageService.write(name==='data'?nameData:nameConfig,stringData)
+  storageService.authorised&&storageService.write(fileName,stringData)
   //
 	return localStorage.setItem(name,stringData)
 }
-
-export default model
