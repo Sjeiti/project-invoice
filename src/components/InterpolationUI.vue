@@ -13,7 +13,6 @@
 </template>
 
 <script>
-  import defaultConfig from '../data/config'
   import defaultData from '../data/data'
   import {signal} from '../util/signal'
   import model from '../model'
