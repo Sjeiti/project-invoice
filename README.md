@@ -1,4 +1,5 @@
-# Project Invoice
+Project Invoice
+===============
 
 This invoicing application stores all your data on your local machine.
  
@@ -29,14 +30,7 @@ To get the application running locally you only need NodeJS, npm and GIT. If you
 `npm i`
 
 `npm run start`
-
-
-## Contributing
-
-The sources of this application are open-source and can be found at [Github](https://github.com/Sjeiti/project-invoice).
-    
-If you find a bug or have a good idea for a feature you can [file it there](https://github.com/Sjeiti/project-invoice/issues).
-    
+  
 
 ## faq
 
@@ -79,6 +73,16 @@ So I created my own:
  - you can use the online version or run a local copy
 
 I cleaned it up a bit because I thought you might like it.
+
+
+## Contributing
+
+The sources of this application are open-source and can be found at [Github](https://github.com/Sjeiti/project-invoice).
+    
+If you find a bug or have a good idea for a feature you can [file it there](https://github.com/Sjeiti/project-invoice/issues).
+Please search the existing issues before submitting a new one.
+
+If you want to contribute by fixing bugs or adding features yourself, please read the [contribution guidelines](https://github.com/Sjeiti/project-invoice/blob/master/CONTRIBUTING.md).
 
 
 ## License
