@@ -2,7 +2,7 @@ import {modelReplaced} from '../util/signal'
 
 export default {
   name: 'BaseView'
-  ,data () {
+  ,data(){
     return {
       binds: []
     }

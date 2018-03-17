@@ -7,7 +7,7 @@ import model from '@/model'
 export default {
   name: 'Currency'
   ,props: ['value']
-  ,data () {
+  ,data(){
     return {
       symbol: model.config.currencySymbol
     }

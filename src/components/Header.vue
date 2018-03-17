@@ -42,7 +42,7 @@ import {NAME} from '@/config'
 import {swipeLeft,swipeRight} from '../util/signal.swipe'
 export default {
   name: 'AppHeader'
-  ,data () {
+  ,data(){
     return {
       hamburger: false
       ,pageTitle: NAME
@@ -55,13 +55,13 @@ export default {
   }
   ,watch: {
     hamburger(opened){
-      if (opened) document.addEventListener('click', this.boundClick, true)
-      else document.removeEventListener('click', this.boundClick, true)
+      if (opened) document.addEventListener('click',this.boundClick,true)
+      else document.removeEventListener('click',this.boundClick,true)
     }
   }
   ,mounted(){
     this.pageTitle = this.$route.meta.title
-    this.$router.beforeEach((to, from, next) => {
+    this.$router.beforeEach((to,from,next) => {
       this.pageTitle = to.meta.title
       next()
     })
@@ -72,7 +72,7 @@ export default {
   }
   ,methods: {
     onDocumentClick(){
-      setTimeout(()=>this.hamburger = false, 40)
+      setTimeout(()=>this.hamburger = false,40)
     }
   }
 }

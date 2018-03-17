@@ -58,13 +58,13 @@ import PrintInvoice from '@/components/PrintInvoice.vue'
 import model from '@/model'
 import defaultData from '@/data/data'
 import {create as createClient} from '@/model/client'
-import {track,untrack,save,saveable} from '@/formState'
-import {sassChanged, cssVariablesChanged} from '@/model/css'
+import {track,untrack} from '@/formState'
+import {sassChanged,cssVariablesChanged} from '@/model/css'
 
 export default {
   name: 'layout'
   ,extends: BaseView
-  ,data () {
+  ,data(){
     return {
       client:{}
       ,project:{}
@@ -79,7 +79,7 @@ export default {
     this.project = this.client.projects[0]
     this.invoice = this.project.invoices[0]
     //
-    this.settings = track(this.$el, model.config)
+    this.settings = track(this.$el,model.config)
     //
     cssVariablesChanged.dispatch(this.settings)
     // todo trigger cssVariablesChanged on revert
@@ -92,34 +92,34 @@ export default {
   }
   ,destroyed: untrack
   ,methods: {
-    
+
     onChangeVariables(){
       cssVariablesChanged.dispatch(this.settings)
     }
-  
+
     ,onChangeSass(sass){
       sassChanged.dispatch(sass)
     }
-  
+
     ,onChangeLogo(e){
       const target = e.target // as HTMLInputElement
       const fileReader = new FileReader()
       const file = target.files[0]
       fileReader.readAsDataURL(file)
-      fileReader.addEventListener('load', ()=>{
+      fileReader.addEventListener('load',()=>{
         const result = fileReader.result
         const img = document.createElement('img')
-        img.addEventListener('load', this.onLogoLoad.bind(this, result, img))
-        img.setAttribute('src', result)
+        img.addEventListener('load',this.onLogoLoad.bind(this,result,img))
+        img.setAttribute('src',result)
         target.value = null
       })
     }
-  
+
     ,onDeleteLogo(){
       this.onLogoLoad()
     }
-  
-    ,onLogoLoad(result, img){
+
+    ,onLogoLoad(result,img){
       this.settings.themeLogoCSS = result?`.invoice #logo {
           width: ${img.naturalWidth}px!important;
           height: ${img.naturalHeight}px!important;
@@ -127,7 +127,7 @@ export default {
       }`:''
       this.onChangeVariables()
     }
-    
+
     ,getFonts(){
       fetch(`https://www.googleapis.com/webfonts/v1/webfonts?key=${this.settings.googleFontsAPIKey}`)
           .then(response=>response.json())
@@ -135,7 +135,7 @@ export default {
             this.fonts = result.items
           })
     }
-    
+
   }
 }
 </script>

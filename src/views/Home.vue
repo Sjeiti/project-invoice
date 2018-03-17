@@ -31,14 +31,14 @@
 <script>
 import BaseView from './BaseView'
 import model from '../model'
-import {save,modelSaved} from '../formState'
+import {save} from '../formState'
 import ProjectList from '../components/ProjectList'
 
 export default {
   name: 'home'
   ,extends: BaseView
   ,components: {ProjectList}
-  ,data () {
+  ,data(){
     return {
       invoices: []
       ,config: model.config
@@ -69,7 +69,7 @@ export default {
       project && save()
       this.$router.push(project.uri)
     }
-    ,onHideWelcome() {
+    ,onHideWelcome(){
       this.config.homeMessage = false
       save()
     }

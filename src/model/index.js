@@ -1,6 +1,6 @@
 import projectSort from '../util/projectSort'
-import {tryParse} from '../util'
-import {storageInitialised, modelReplaced} from '../util/signal'
+import {tryParse,tryStringify} from '../util'
+import {storageInitialised,modelReplaced} from '../util/signal'
 import storageService from '../service/storage'
 import defaultData from '../data/data'
 import {VERSION} from '../config'
@@ -18,7 +18,7 @@ const data = getStored('data',defaultData)
 
 // config removal: 2.1.22 -> 2.2
 const oldConfig = getStored('config')
-if (oldConfig) {
+if (oldConfig){
   data.config = oldConfig
   delete localStorage.config
   setStored('data',data)
@@ -31,13 +31,13 @@ storageInitialised.add(success=>{
       .read(fileName)
       .then(
           json=>{ // file read
-            if (json) { // can fail
+            if (json){ // can fail
               const parsed = JSON.parse(json)
             /*console.log('firstRead'
                 ,'\n\tserver',parsed.timestamp
                 ,'\n\tlocall',data.timestamp
                 ,parsed.timestamp>data.timestamp,{parsed}); // todo: remove log*/
-            if (parsed.timestamp>data.timestamp) {
+            if (parsed.timestamp>data.timestamp){
                 model.data = parsed
                 modelReplaced.dispatch(model.data)
               }
@@ -45,10 +45,7 @@ storageInitialised.add(success=>{
           }
           ,()=>{ // file not found
             // console.log('file not found',nameData); // todo: remove log
-            let stringData;
-            try {
-              stringData = JSON.stringify(data)
-            } catch(err){}
+            let stringData = tryStringify(data)
             storageService
                 .write(fileName,stringData)
                 .then(console.log.bind(console,'write success'))
@@ -58,16 +55,26 @@ storageInitialised.add(success=>{
 
 // create model
 const model = Object.create({
-  get data(){ return data }
+  get data(){
+ return data
+}
   ,set data(newData){
     this.setData(newData)
-    setStored('data', data)
+    setStored('data',data)
   }
-  ,get config(){ return data.config }
-  ,get clients(){ return this.data.clients }
-  ,get copy(){ return this.data.copy }
-  ,get personal(){ return this.data.personal }
-  ,get projects() {
+  ,get config(){
+ return data.config
+}
+  ,get clients(){
+ return this.data.clients
+}
+  ,get copy(){
+ return this.data.copy
+}
+  ,get personal(){
+ return this.data.personal
+}
+  ,get projects(){
     return this.clients
         .map(client => client.projects)
         .reduce((projects,project)=>(projects.push(...project),projects),[])
@@ -82,9 +89,9 @@ const model = Object.create({
       name: `new client ${clientNr}`
       ,nr: clientNr
       ,projects: []
-    }, this)
+    },this)
     this.clients.push(client)
-    setStored('data', data)
+    setStored('data',data)
     return client
   }
   ,deleteClient(client){
@@ -94,13 +101,13 @@ const model = Object.create({
     return valid
   }
   ,setData(newData){
-    Object.assign(data, newData||defaultData)
+    Object.assign(data,newData||defaultData)
     data.config = createConfig(data.config)
-    data.clients.forEach(client=>createClient(client, model))
-    for (let key in data.copy) {
+    data.clients.forEach(client=>createClient(client,model))
+    for (let key in data.copy){
       model.copy[key] = createCopy(data.copy[key],data.config)
     }
-    Object.assign(model.personal, data.personal)
+    Object.assign(model.personal,data.personal)
     createCloneable(data.copy)
     createCloneable(data.personal)
   }
@@ -111,7 +118,7 @@ export default model
 model.setData(data) // no save
 
 modelSaved.add(()=>{
-  setStored('data', data)
+  setStored('data',data)
 })
 
 /**
@@ -120,13 +127,10 @@ modelSaved.add(()=>{
  * @param {object} defaultsTo
  * @returns {object}
  */
-function getStored(name, defaultsTo){
+function getStored(name,defaultsTo){
   const rawData = localStorage.getItem(name)
-  let data
-  try {
-    data = rawData&&JSON.parse(rawData)
-  } catch(err){}
-	return rawData&&data||defaultsTo
+  let data = tryParse(rawData)
+  return rawData&&data||defaultsTo
 }
 
 /**
@@ -135,15 +139,12 @@ function getStored(name, defaultsTo){
  * @param {string} name
  * @param {object} data
  */
-function setStored(name, data){
+function setStored(name,data){
   data.timestamp = Date.now()
   data.version = VERSION
-  let stringData;
-  try {
-    stringData = JSON.stringify(data)
-  } catch(err){}
+  let stringData = tryStringify(data)
   //
   storageService.authorised&&storageService.write(fileName,stringData)
   //
-	return localStorage.setItem(name,stringData)
+  localStorage.setItem(name,stringData)
 }

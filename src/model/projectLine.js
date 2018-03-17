@@ -6,11 +6,14 @@
  * @property {number} vat todo convert to number
  */
 
-const proto = {
-  get fooProjectLine(){return 'barProjectLine'}
-}
+const proto = {}
 
+/**
+ * Create a project lien
+ * @param {object} line
+ * @returns {projectLine}
+ */
 export function create(line){
     line.vat = parseFloat(line.vat)
-    return Object.setPrototypeOf(line, proto);
+    return Object.setPrototypeOf(line,proto)
 }

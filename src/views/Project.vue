@@ -119,25 +119,23 @@ import BaseView from './BaseView'
 import model from '@/model'
 import Currency from '@/components/Currency'
 import {notify} from '../util/signal'
-import {create as createInvoice} from '@/model/invoice'
 import {track,untrack,save} from '@/formState'
-import moment from 'moment'
 
 export default {
   name: 'project'
   ,extends: BaseView
-  ,data () {
+  ,data(){
     return {
       client:{}
       ,project:{}
       ,vatAmounts: model.personal.vatAmounts.split(/,/g).map(parseFloat)
       ,quotation: [
-        { property: 'quotationAfter', type: 'textarea' }
-        ,{ property: 'quotationBefore', type: 'textarea' }
-        ,{ property: 'quotationDate', type: 'date' }
-        ,{ property: 'quotationDuration', type: 'text' }
-        ,{ property: 'quotationStartDate', type: 'date' }
-        ,{ property: 'quotationSubject', type: 'text' }
+        { property: 'quotationAfter',type: 'textarea' }
+        ,{ property: 'quotationBefore',type: 'textarea' }
+        ,{ property: 'quotationDate',type: 'date' }
+        ,{ property: 'quotationDuration',type: 'text' }
+        ,{ property: 'quotationStartDate',type: 'date' }
+        ,{ property: 'quotationSubject',type: 'text' }
       ]
       ,currencySymbol: model.config.currencySymbol
     }
@@ -151,28 +149,28 @@ export default {
   }
   ,destroyed: untrack
   ,methods: {
-    onRemoveLine(line) {
-      const lines = this.project.lines,
-          i = lines.indexOf(line)
-      i!==-1&&lines.splice(i, 1)
+    onRemoveLine(line){
+      const lines = this.project.lines
+          ,i = lines.indexOf(line)
+      i!==-1&&lines.splice(i,1)
     }
     ,onAddLine(){
       this.project.addLine()
     }
-    ,onClickLineCalculation(project, line) {
+    ,onClickLineCalculation(project,line){
       line.amount = line.hours*project.hourlyRateDiscounted
     }
-    ,clone(project) {
-      const clone = project.cloneNew();
+    ,clone(project){
+      const clone = project.cloneNew()
       clone.client.projects.push(clone)
       this.$router.push(clone.uri)
       this.project = track(this.$el,clone,this.deleteProject)
       save()
       notify.dispatch(`Project '${project.description}' cloned`)
       }
-    ,deleteProject() {
+    ,deleteProject(){
       const project = this.client.projects[parseInt(this.$route.params.projectIndex,10)]
-      if (confirm('Delete this project?')) {
+      if (confirm('Delete this project?')){
         this.client.deleteProject(project)
         save()
         this.$router.push(this.client.uri)
@@ -184,7 +182,7 @@ export default {
       save()
     }
     ,onRemoveInvoice(invoice){
-      if (confirm('Remove this invoice?')) {
+      if (confirm('Remove this invoice?')){
         const {project} = this
         const {invoices} = project
         const index = invoices.indexOf(invoice)

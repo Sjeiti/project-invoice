@@ -64,7 +64,7 @@
 <script>
 import BaseView from './BaseView'
 import model from '../model'
-import {track,untrack,revert,save} from '../formState'
+import {track,untrack,save} from '../formState'
 import {CURRENCY_ISO} from '../config/currencyISO'
 import InterpolationUI from '../components/InterpolationUI'
 import storageService from '../service/storage'
@@ -73,7 +73,7 @@ import {storageInitialised} from '../util/signal'
 export default {
   name: 'settings'
   ,extends: BaseView
-  ,data () {
+  ,data(){
     return {
       settings: {}
       ,currencies: []
@@ -84,45 +84,45 @@ export default {
   ,mounted(){
     this.settings = track(this.$el,model.config)
     this.currencies = Object.keys(CURRENCY_ISO).map(key=>CURRENCY_ISO[key])
-    storageInitialised.add(success=>this.$forceUpdate())
+    storageInitialised.add(()=>this.$forceUpdate())
   }
   ,destroyed: untrack
   ,methods: {
-    
-    onClickDownload(e, type){
+
+    onClickDownload(e,type){
       const currentTarget = e.currentTarget
           ,dataString = JSON.stringify(model.data)
-      currentTarget.setAttribute('href', `data:text/json,${encodeURIComponent(dataString)}`)
-      currentTarget.setAttribute('download', `${type}.json`)
+      currentTarget.setAttribute('href',`data:text/json,${encodeURIComponent(dataString)}`)
+      currentTarget.setAttribute('download',`${type}.json`)
     }
-  
+
     ,onChangeRestore(e){
       const target = e.target
       const fileReader = new FileReader()
       const file = target.files[0]
       fileReader.readAsText(file)
-      fileReader.addEventListener('load', ()=>{
+      fileReader.addEventListener('load',()=>{
         const result = fileReader.result
             ,resultData = JSON.parse(result)
-        if (resultData.hasOwnProperty('clients')&&resultData.hasOwnProperty('copy')&&resultData.hasOwnProperty('personal')) {
+        if (resultData.hasOwnProperty('clients')&&resultData.hasOwnProperty('copy')&&resultData.hasOwnProperty('personal')){
           model.data = resultData
         }
         target.value = null
       })
     }
-  
+
     ,onClickClear(type){
-      if (confirm(`Do you really want to clear the ${type}?`)) {
+      if (confirm(`Do you really want to clear the ${type}?`)){
           model.data = null
       }
     }
-  
+
     ,onClickRevoke(){
       this.settings.cloudSelected = ''
       storageService.revoke()
       save()
     }
-    
+
   }
 }
 </script>

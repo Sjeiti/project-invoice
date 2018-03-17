@@ -23,7 +23,7 @@ const proto = {
    */
   clone(){
     const cloned = JSON.parse(JSON.stringify(this))
-    return create(cloned, this.model)
+    return create(cloned,this.model)
   }
 
   /**
@@ -88,10 +88,16 @@ const proto = {
   }
 }
 
-export function create(client, model){
+/**
+ * Create a client from an object literal
+ * @param {object} client
+ * @param {object} model
+ * @returns {client}
+ */
+export function create(client,model){
   client.paymentterm = parseInt(client.paymentterm,10) // todo convert to number (days)
   client.projects.forEach((project,i,a)=>{
-    a[i] = createProject(project, client, model)
+    a[i] = createProject(project,client,model)
   })
-  return Object.setPrototypeOf(client, proto);
+  return Object.setPrototypeOf(client,proto)
 }

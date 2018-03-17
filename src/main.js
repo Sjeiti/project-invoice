@@ -8,8 +8,8 @@ import {notify} from './util/signal'
 Vue.config.productionTip = false
 
 new Vue({
-  router,
-  render: h => h(App)
+  router
+  ,render: h => h(App)
 }).$mount('#app')
 
 // checking service worker application cache
@@ -19,7 +19,7 @@ appUpdated.add(()=>{
   location.reload()
 })
 
-if (localStorage.updated) {
+if (localStorage.updated){
   notify.dispatch('Project Invoice has just been updated<!-- to version xxxx -->')
-  setTimeout(() => localStorage.removeItem('updated'), 5000)
+  setTimeout(() => localStorage.removeItem('updated'),5000)
 }

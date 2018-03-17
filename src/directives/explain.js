@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import {EXPLAIN} from '@/config/explain'
 
-Vue.directive('explain', {
+Vue.directive('explain',{
   bind(el,binding){
     const {value} = binding
     const split = value.split('.')

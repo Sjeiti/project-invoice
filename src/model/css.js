@@ -29,12 +29,12 @@ Promise.all([
 
 /**
  * Compiles a sass string
- * @param sassString
+ * @param {string} sassString
  * @returns {Promise.<string>}
  */
 function sassCompile(sassString){
   return new Promise((resolve,reject)=>{
-    sass.compile(sassString||model.config.invoiceCSS, ({status, text})=>{
+    sass.compile(sassString||model.config.invoiceCSS,({status,text})=>{
       if (status===0){
         sassCompiled = text
         resolve(text)
@@ -47,12 +47,12 @@ function sassCompile(sassString){
 
 /**
  * Updates the variables css
- * @param settings
+ * @param {object} settings
  * @returns {Promise.<string>}
  */
 function updateVariables(settings){
   if (!settings) settings = model.config
-	cssVariables = `html {
+  cssVariables = `html {
     --main-bg-color: ${settings.themeMainBgColor};
     --main-fg-color: ${settings.themeMainFgColor};
     --secondary-bg-color: ${settings.themeSecondaryBgColor};
@@ -68,10 +68,10 @@ function updateVariables(settings){
 /**
  * CSS is set onto the style element
  */
-function setStyle() {
+function setStyle(){
   css = `${cssVariables}${sassCompiled}`
   style.textContent = css
-  localStorage.setItem('css', css)
+  localStorage.setItem('css',css)
   cssCompiled.dispatch(css)
 }
 
@@ -79,6 +79,6 @@ function setStyle() {
  * Style is appended to a parent element
  * @param {HTMLElement} elm
  */
-export function appendStyle(elm) {
+export function appendStyle(elm){
   elm.appendChild(style)
 }

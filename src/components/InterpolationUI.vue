@@ -24,7 +24,7 @@
   export default {
     name: 'InterpolationUI'
     ,props: ['value']
-    ,data () {
+    ,data(){
       return {
        /* internalValue: this.value
         ,*/models: []
@@ -40,17 +40,17 @@
       this.project = this.client.projects[0]
       this.invoice = this.project.invoices[0]
       const models = [
-        {name: 'client', model: this.client }
-        ,{name: 'project', model: this.project }
-        ,{name: 'invoice', model: this.invoice }
-        ,{name: 'data', model: model.personal }
+        {name: 'client',model: this.client }
+        ,{name: 'project',model: this.project }
+        ,{name: 'invoice',model: this.invoice }
+        ,{name: 'data',model: model.personal }
       ]
       models.forEach(obj=>{
         const {model} = obj
         const getters = []
         const prototypeOf = Object.getPrototypeOf(model)
         const propertyDescriptors = Object.getOwnPropertyDescriptors(prototypeOf)
-        for (let key in propertyDescriptors) {
+        for (let key in propertyDescriptors){
           const descriptor = propertyDescriptors[key]
           descriptor.get&&getters.push(key)
         }
@@ -72,16 +72,16 @@
           textarea.focus()
           textarea.selectionStart = selectionStart
           textarea.selectionEnd = selectionEnd
-          this.$refs.textarea.style.height = `${this.$refs.div.offsetHeight+16}px`;
-        })
+          this.$refs.textarea.style.height = `${this.$refs.div.offsetHeight+16}px`
+      })
       }
       ,onInterpolationOpened(ui){
-        if (ui!==this) {
+        if (ui!==this){
           this.opened = false
         }
       }
-      ,onInput(e) {
-        this.$emit('input', e.target.value)
+      ,onInput(e){
+        this.$emit('input',e.target.value)
       }
       ,onSelectChange(e){
         const {target} = e
@@ -93,9 +93,9 @@
         const selectionEnd = textarea.selectionEnd
         const valueLength = this.internalValue.length
         //
-        if (selectionStart===valueLength) {
+        if (selectionStart===valueLength){
           this.internalValue = this.internalValue + `$\{${name}.${value}}`
-        } else if (selectionEnd===0) {
+        } else if (selectionEnd===0){
           this.internalValue = `$\{${name}.${value}}` + this.internalValue
         } else {
           this.internalValue = this.internalValue.substring(0,selectionStart) + `$\{${name}.${value}}` + this.internalValue.substr(selectionEnd)
@@ -113,8 +113,12 @@
     }
     ,computed: {
       internalValue: {
-        get: function(){return this.value}
-        ,set: function(value){this.value !== value && this.$emit('input', value)}
+        get: function(){
+return this.value
+}
+        ,set: function(value){
+this.value !== value && this.$emit('input',value)
+}
       }
     }
   }

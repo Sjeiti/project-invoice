@@ -3,14 +3,14 @@ import {currency} from '../util/index'
 import marked from 'marked'
 
 marked.setOptions({
-  renderer: new marked.Renderer(),
-  gfm: true,
-  tables: true,
-  breaks: true, // false,
-  pedantic: false,
-  sanitize: false,
-  smartLists: true,
-  smartypants: false
+  renderer: new marked.Renderer()
+  ,gfm: true
+  ,tables: true
+  ,breaks: true // false,
+  ,pedantic: false
+  ,sanitize: false
+  ,smartLists: true
+  ,smartypants: false
 })
 
 /**
@@ -21,10 +21,10 @@ marked.setOptions({
  * @returns {string}
  * @todo only do double interpolation if applicable
  */
-export function parse(key, models={}, doubled=false){
+export function parse(key,models={},doubled=false){
   key = key.toString()
   // extend models
-  !doubled && Object.assign(models, {
+  !doubled && Object.assign(models,{
     data: model.personal
     ,copy: model.copy
     ,currency
@@ -33,7 +33,7 @@ export function parse(key, models={}, doubled=false){
   //
   const keys = Object.keys(models)
   const values = Object.values(models)
-  let interpolated;
+  let interpolated
   try {
     const tpl = marked(__(key).replace(/\n/g,'<br/>')).replace(/^\s*<p>|<\/p>\s*$/g,'')
     interpolated = new Function(
@@ -42,11 +42,11 @@ export function parse(key, models={}, doubled=false){
     )(
       ...values
     )
-  } catch (err) {
+  } catch (err){
     interpolated = '[interpolation error]'
-    console.warn('Interpolation error',{key, models});
+    console.warn('Interpolation error',{key,models})
   }
-  return doubled?interpolated:parse(interpolated, models, true)
+  return doubled?interpolated:parse(interpolated,models,true)
 }
 
 /**

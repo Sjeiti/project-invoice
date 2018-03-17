@@ -23,7 +23,7 @@ import {notify} from '../util/signal'
 const playstatePaused = 'animation-play-state:paused;'
 export default {
   name: 'Notification'
-  ,data () {
+  ,data(){
     return {
       notifications: []
     }

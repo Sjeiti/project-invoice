@@ -16,7 +16,7 @@ import ProjectList from '@/components/ProjectList'
 export default {
   name: 'overview'
   ,extends: BaseView
-  ,data () {
+  ,data(){
     return {
       projects: []
     }
@@ -30,7 +30,7 @@ export default {
     this.projects = model.clients
         .map(client=>client.projects)
         .reduce((a,b)=>(a.push(...b),a),[])
-        .sort((a,b)=>a.paid?1:0)
+        .sort((a/*,b*/)=>a.paid?1:0)
   }
 }
 </script>

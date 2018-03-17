@@ -21,7 +21,7 @@ import model from '@/model'
 export default {
   name: 'clients'
   ,extends: BaseView
-  ,data () {
+  ,data(){
     return {
         clients: model.clients
     }

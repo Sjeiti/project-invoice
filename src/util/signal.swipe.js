@@ -44,7 +44,7 @@ function onTouchEnd(eStart,eEnd){
   //const isVertical = Math.abs(aspectRatio)<1/edge
   //const isDiagonal = !isHorizontal&&!isVertical
   const parameters = [startAverage,endAverage,duration,distance,offset,eStart,eEnd]
-  if (duration<400&&distance>100) {
+  if (duration<400&&distance>100){
     isHorizontal&&(offset.x<0?swipeLeft:swipeRight).dispatch(...parameters)
   }
 }
@@ -55,7 +55,7 @@ function onTouchEnd(eStart,eEnd){
  * @returns {{x: number, y: number}}
  */
 function averageTouchPosition(e){
-	const touches = Array.from(e.changedTouches)
+  const touches = Array.from(e.changedTouches)
   const numTouches = touches.length
   return {
     x: touches.map(t=>t.screenX).reduce((a,b)=>a+b)/numTouches

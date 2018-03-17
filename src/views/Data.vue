@@ -32,7 +32,7 @@ import {track,untrack} from '@/formState'
 export default {
   name: 'ddata'
   ,extends: BaseView
-  ,data () {
+  ,data(){
     return {
       personal:{}
     }

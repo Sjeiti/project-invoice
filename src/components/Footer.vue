@@ -10,7 +10,7 @@
 import {VERSION} from '../config'
 export default {
   name: 'AppFooter'
-  ,data () {
+  ,data(){
     return {
       version: VERSION
     }

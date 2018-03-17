@@ -24,13 +24,12 @@ import model from '@/model'
 import Currency from '@/components/Currency.vue'
 import Lang from '@/components/Lang.vue'
 import PrintInvoice from '@/components/PrintInvoice.vue'
-import signals from '@/util/signal'
 import {cssCompiled} from '@/model/css'
 
 export default {
   name: 'invoice'
   ,extends: BaseView
-  ,data () {
+  ,data(){
     return {
       client:{}
       ,project:{}
@@ -67,7 +66,7 @@ export default {
       const {contentWindow} = this.getIFrameContent()
       contentWindow.print()
     }
-  
+
     ,populateIframe(){
       return new Promise(resolve=>{
         setTimeout(()=>{
@@ -76,7 +75,7 @@ export default {
           //
           contentDocument.title = this.invoiceName
           //
-          const html = this.$el.querySelector('.invoice').outerHTML.replace(/print\-invoice/,'')
+          const html = this.$el.querySelector('.invoice').outerHTML.replace(/print-invoice/,'')
           const styles = Array.from(document.querySelectorAll('style,link[rel=stylesheet]')).map(style=>style.outerHTML).join('')
           //
           contentBody.innerHTML = styles + html
@@ -92,8 +91,8 @@ export default {
      * @returns {{contentWindow: Window, contentDocument: Document}}
      */
     ,getIFrameContent(){
-      const {contentWindow, contentDocument} = this.$el.querySelector('iframe')
-      return {contentWindow, contentDocument}
+      const {contentWindow,contentDocument} = this.$el.querySelector('iframe')
+      return {contentWindow,contentDocument}
     }
 
 //    /**
@@ -116,9 +115,9 @@ export default {
      * Inject custom CSS into iframe when sass has compiled
      * @param {string} css
      */
-    ,onCssCompiled(css) {
+    ,onCssCompiled(css){
       const {contentDocument} = this.getIFrameContent()
-      if (contentDocument) {
+      if (contentDocument){
         contentDocument.getElementById('invoiceCSS').textContent = css
       }
       // todo: re-render image after css compilation

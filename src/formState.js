@@ -1,12 +1,12 @@
 import {signal} from './util/signal'
 
-let model, clone, deleteCallback, modelChangeTime
+let model,clone,deleteCallback,modelChangeTime
 
 export const modelSaved = signal()
 export const saveable = signal()
 export const tracked = signal()
 
-const boundListeners = [];
+const boundListeners = []
 
 /**
  * Add eventlisteners and store the bindings for later removal
@@ -15,17 +15,17 @@ const boundListeners = [];
  * @param {Function} listener
  * @param {boolean|object} options
  */
-function addEventListener(eventTarget, event, listener, options) {
-    boundListeners.push({ eventTarget, event, listener });
-    eventTarget.addEventListener(event, listener, options);
+function addEventListener(eventTarget,event,listener,options){
+    boundListeners.push({ eventTarget,event,listener })
+    eventTarget.addEventListener(event,listener,options)
 }
 
 /**
  * Remove all stored event listeners
  */
 function removeEventListeners(){
-	 boundListeners.forEach(({ eventTarget, event, listener }) => eventTarget.removeEventListener(event, listener));
-	 boundListeners.length = 0
+  boundListeners.forEach(({ eventTarget,event,listener }) => eventTarget.removeEventListener(event,listener))
+  boundListeners.length = 0
 }
 
 /**
@@ -35,7 +35,7 @@ function removeEventListeners(){
  * @param {Function} _delete
  * @returns {object} The cloned model
  */
-export function track(element, _model, _delete) {
+export function track(element,_model,_delete){
   model = _model
   clone = _model.clone()
   deleteCallback = _delete
@@ -43,7 +43,7 @@ export function track(element, _model, _delete) {
   removeEventListeners()
 
   ;['change','input','mouseup','keyup']
-      .forEach(s=>addEventListener(element, s, onModelChange, true))
+      .forEach(s=>addEventListener(element,s,onModelChange,true))
 
   /**
    * Check dirty state of model by comparing stringified versions of model and clone
@@ -53,7 +53,7 @@ export function track(element, _model, _delete) {
     modelChangeTime = setTimeout(()=>{
       const stringModel = JSON.stringify(model)
       const stringClone = JSON.stringify(clone)
-      const isSaveable = stringModel!==stringClone;
+      const isSaveable = stringModel!==stringClone
       saveable.dispatch(isSaveable)
     },100)
   }
@@ -65,7 +65,7 @@ export function track(element, _model, _delete) {
 /**
  * Apply the clone to the model and dispatch a save signal
  */
-export function untrack() {
+export function untrack(){
   removeEventListeners()
   model = {}
   clone = {}
@@ -76,11 +76,11 @@ export function untrack() {
 /**
  * Apply the clone to the model and dispatch a save signal
  */
-export function save() {
-  if (clone&&clone.clone) {
+export function save(){
+  if (clone&&clone.clone){
     const cloneClone = clone.clone()
-    for (let s in cloneClone) {
-      if (model.hasOwnProperty(s)) {
+    for (let s in cloneClone){
+      if (model.hasOwnProperty(s)){
         model[s] = cloneClone[s]
       }
     }
@@ -91,11 +91,12 @@ export function save() {
 
 /**
  * Apply the model to the clone and dispatch the saveable signal
+ * @returns {boolean}
  */
-export function revert() {
+export function revert(){
   const modelClone = model.clone()
-  for (let s in modelClone) {
-    if (clone.hasOwnProperty(s)) {
+  for (let s in modelClone){
+    if (clone.hasOwnProperty(s)){
       clone[s] = modelClone[s]
     }
   }
@@ -106,6 +107,6 @@ export function revert() {
 /**
  * Call the delete method
  */
-export function deleteModel() {
+export function deleteModel(){
   deleteCallback&&deleteCallback()
 }

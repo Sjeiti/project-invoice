@@ -1,9 +1,9 @@
 let invoice = {
   type: {
-    invoice: 'invoice',
-    reminder: 'reminder'
-  },
-  dateFormat: 'dd-MM-yyyy'
+    invoice: 'invoice'
+    ,reminder: 'reminder'
+  }
+  ,dateFormat: 'dd-MM-yyyy'
 }
 
 Object.freeze(invoice)

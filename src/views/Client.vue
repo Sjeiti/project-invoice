@@ -30,14 +30,13 @@
 import BaseView from './BaseView'
 import model from '@/model'
 import {track,untrack,save} from '@/formState'
-import {create} from '@/model/project'
 import ProjectList from '../components/ProjectList'
 import {notify} from '../util/signal'
 
 export default {
   name: 'client'
   ,extends: BaseView
-  ,data () {
+  ,data(){
     return {
       client:{}
     }
@@ -56,7 +55,7 @@ export default {
     ,deleteClient(){
       const client = model.getClientByNr(parseInt(this.$route.params.clientNr,10))
 //      confirm('Delete this client?') && model.deleteClient(client) && (save(),this.$router.push('/clients'))
-      if (confirm('Delete this client?')) {
+      if (confirm('Delete this client?')){
         model.deleteClient(client)
         save()
         this.$router.push('/clients')

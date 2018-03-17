@@ -124,12 +124,12 @@
 import model from '../model'
 import Currency from '../components/Currency'
 import {parse,__} from '../service/interpolationService'
-import {appendStyle, cssVariablesChanged} from '../model/css'
+import {appendStyle,cssVariablesChanged} from '../model/css'
 
 export default {
   name: 'PrintInvoice'
   ,props: ['client','project','invoice']
-  ,data () {
+  ,data(){
     return {
       config: model.config
       ,isQuotation: false

@@ -63,7 +63,7 @@ export default {
     ,cols:{default:null}
     ,totals:{default:true}
   }
-  ,data () {
+  ,data(){
     return {
       columns: ['paid','invoiceNr','date','dateLatest','clientName','description','totalIncDiscounted']
       ,sort: 'paid'
@@ -83,10 +83,10 @@ export default {
     }
   }
   ,mounted(){
-    if (this.cols) {
+    if (this.cols){
       this.columns = this.cols.split(/[\s,]/g)
     }
-    if (this.totals===undefined) {
+    if (this.totals===undefined){
       this.totals = true
     }
     this.projects.sort((a,b)=>a.date>b.date?-1:1)
@@ -122,11 +122,11 @@ export default {
     }
     ,getTotalValue(property){
       let returnValue = ''
-      if (this.projects&&this.projects.length) {
+      if (this.projects&&this.projects.length){
         const propertyType = typeof this.projects[0][property]
-        if (propertyType==='number') {
+        if (propertyType==='number'){
           returnValue = this.projects.map(p=>p[property]).reduce((amt,v)=>amt+v,0)
-        } else if (propertyType==='boolean') {
+        } else if (propertyType==='boolean'){
           returnValue = this.projects.map(p=>p[property]).reduce((amt,v)=>amt+(v&&1||0),0)
         }
       }

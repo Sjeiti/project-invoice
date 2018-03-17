@@ -8,7 +8,7 @@ export default {
   name: 'Date'
   ,props: ['value']
   ,filters: {
-    date: (value,mod)=>moment(value).format('YYYY-MM-DD')
+    date: (value/*,mod*/)=>moment(value).format('YYYY-MM-DD')
   }
 }
 </script>

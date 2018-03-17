@@ -11,7 +11,7 @@
 import model from '@/model'
 export default {
   name: 'Lang'
-  ,data () {
+  ,data(){
     return {
       config: model.config
     }

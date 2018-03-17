@@ -10,11 +10,11 @@
 </template>
 
 <script>
-  import {saveable, save, revert, deleteModel, tracked, untrack} from '../formState'
+  import {saveable,save,revert,deleteModel,tracked} from '../formState'
   import {sync} from '../util/signal'
   export default {
     name: 'SaveableButtons'
-    ,data () {
+    ,data(){
       return {
         saveable: false
         ,deletable: false
@@ -29,15 +29,15 @@
         this.deletable = isDeletable
       })
       // CTRL save
-      document.addEventListener('keydown', e=>{
-        if ((e.metaKey||e.ctrlKey)&&e.keyCode===83) {
+      document.addEventListener('keydown',e=>{
+        if ((e.metaKey||e.ctrlKey)&&e.keyCode===83){
           e.preventDefault()
           this.saveable&&save()
         }
-      }, false)
+      },false)
       // prevent route change on dirty
       this.$router.beforeEach((to,from,next)=>{
-        if (this.saveable&&!confirm('Leave unsaved changes')) {
+        if (this.saveable&&!confirm('Leave unsaved changes')){
           next(false)
         } else {
           this.saveable&&revert()

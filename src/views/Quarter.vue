@@ -23,17 +23,16 @@ import BaseView from './BaseView'
 import model from '../model'
 import Currency from '../components/Currency'
 import ProjectList from '../components/ProjectList'
-import {currency} from '../util'
 import {parse} from '../service/interpolationService'
 export default {
   name: 'quarter'
   ,extends: BaseView
-  ,data () {
+  ,data(){
     return {
       projects: []
       ,year: new Date().getFullYear()
       ,years: []
-      ,quarters: [[], [], [], []]
+      ,quarters: [[],[],[],[]]
       ,csvTemplate: ''
       ,elmCsv: document.createElement('div')
     }
@@ -45,25 +44,25 @@ export default {
   ,mounted(){
     this.csvTemplate = model.config.csvTemplate
     this.projects = model.projects
-    
+
     this.year = parseInt(this.$route.params.year,10)||this.year
     this.years = this.projects
         .filter(project=>project.invoices.length)
         .map(project=>project.year)
-        .filter((elem, pos, arr) => arr.indexOf(elem)===pos)
+        .filter((elem,pos,arr) => arr.indexOf(elem)===pos)
         .sort()
-    
+
     this.setQuarters()
     this.elmCsv = this.$refs.csv
   }
   ,watch: {
-    '$route'() {
+    '$route'(){
       this.year = parseInt(this.$route.params.year,10)||this.year
       this.setQuarters()
     }
   }
   ,methods: {
-    
+
     setQuarters(){
       this.quarters.forEach(quarter=>quarter.length = 0)
       this.projects
@@ -74,30 +73,30 @@ export default {
             this.quarters[quarter-1].push(project)
           })
     }
-  
-    ,onClickCsv(quarter) {
+
+    ,onClickCsv(quarter){
       const parsed = quarter.map(project=>{
         const client = project.client
           ,invoice = project.invoices.slice(0).shift()
-        return parse(this.csvTemplate, {
+        return parse(this.csvTemplate,{
           project
           ,client
           ,invoice
         })
       })
       this.elmCsv.value = parsed.join('\n')
-      if (this.elmCsv && this.elmCsv.select) {
+      if (this.elmCsv && this.elmCsv.select){
         this.elmCsv.select()
         try {
           document.execCommand('copy')
           this.elmCsv.blur()
-        } catch (err) {
+        } catch (err){
           alert('please press Ctrl/Cmd+C to copy')
         }
       }
     }
-    
-    
+
+
   }
 }
 </script>

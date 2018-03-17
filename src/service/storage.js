@@ -2,13 +2,17 @@ import local from './storageLocal'
 import drive from './storageDrive'
 import {notify,storageInitialised,sync} from '../util/signal'
 
-const providers = {local, drive}
+const providers = {local,drive}
 const syncOn = sync.dispatch.bind(sync,true)
 const syncOff = sync.dispatch.bind(sync,false)
 let provider
 
+/**
+ * Initialise the storage
+ * @param {string} providerKey
+ */
 function init(providerKey){
-  if (providers.hasOwnProperty(providerKey)) {
+  if (providers.hasOwnProperty(providerKey)){
     setTimeout(syncOn)
     provider = providers[providerKey]
     provider.init()
@@ -17,19 +21,30 @@ function init(providerKey){
   }
 }
 
+/**
+ * Init success handler
+ */
 function initSuccess(){
   storageInitialised.dispatch(true)
 }
 
+/**
+ * Init fail handler
+ */
 function initFailed(){
   storageInitialised.dispatch(false)
   notify.dispatch(`Authentication for ${provider.name} failed. Go to settings to authorise.`)
 }
 
+/**
+ * Read a file through the provider
+ * @param {string} file
+ * @returns {Promise}
+ */
 function read(file){
-	let promise
-  if (provider) {
-	  syncOn()
+  let promise
+  if (provider){
+    syncOn()
     promise = provider
         .read(file)
         .then(result=>(syncOff(),result))
@@ -37,10 +52,16 @@ function read(file){
   return promise
 }
 
+/**
+ * Write a file through the provider
+ * @param {string} file
+ * @param {object} data
+ * @returns {Promise}
+ */
 function write(file,data){
-	let promise
-  if (provider) {
-	  syncOn()
+  let promise
+  if (provider){
+    syncOn()
     promise = provider
         .write(file,data)
         .then(result=>(syncOff(),result))
@@ -48,15 +69,20 @@ function write(file,data){
   return promise
 }
 
+/**
+ * Revoke provider access
+ */
 function revoke(){
-	syncOff()
+  syncOff()
   provider = null
 }
 
 export default {
   providers
   ,init
-  ,get authorised() { return provider&&provider.authorised||false }
+  ,get authorised(){
+ return provider&&provider.authorised||false
+}
   ,read
   ,write
   ,revoke

@@ -20,24 +20,24 @@ import page404 from './views/404.vue'
 Vue.use(Router)
 
 const routes = [
-  {path: '/',component: pageHome, meta: {title:'Project Invoice'}}
-  ,{path: '/overview', component: pageOverview}
-  ,{path: '/overview/quarter', component: pageQuarter}
-  ,{path: '/overview/quarter/:year', component: pageQuarter}
-  ,{path: '/overview/year', component: pageOverview}
-  ,{path: '/overview/year/:year', component: pageOverview}
-  ,{path: '/clients', component: pageClients}
-  ,{path: '/client/:clientNr', component: pageClient}
-  ,{path: '/client/:clientNr/:projectIndex', component: pageProject}
-  ,{path: '/client/:clientNr/:projectIndex/quotation', component: pageInvoice}
-  ,{path: '/client/:clientNr/:projectIndex/invoice', component: pageInvoice}
-  ,{path: '/client/:clientNr/:projectIndex/reminder/:reminderNr', component: pageInvoice}
-  ,{path: '/settings', component: pageSettings}
-  ,{path: '/layout', component: pageLayout}
-  ,{path: '/data', component: pageData}
-  ,{path: '/copy', component: pageCopy}
+  {path: '/',component: pageHome,meta: {title:'Project Invoice'}}
+  ,{path: '/overview',component: pageOverview}
+  ,{path: '/overview/quarter',component: pageQuarter}
+  ,{path: '/overview/quarter/:year',component: pageQuarter}
+  ,{path: '/overview/year',component: pageOverview}
+  ,{path: '/overview/year/:year',component: pageOverview}
+  ,{path: '/clients',component: pageClients}
+  ,{path: '/client/:clientNr',component: pageClient}
+  ,{path: '/client/:clientNr/:projectIndex',component: pageProject}
+  ,{path: '/client/:clientNr/:projectIndex/quotation',component: pageInvoice}
+  ,{path: '/client/:clientNr/:projectIndex/invoice',component: pageInvoice}
+  ,{path: '/client/:clientNr/:projectIndex/reminder/:reminderNr',component: pageInvoice}
+  ,{path: '/settings',component: pageSettings}
+  ,{path: '/layout',component: pageLayout}
+  ,{path: '/data',component: pageData}
+  ,{path: '/copy',component: pageCopy}
   ,{path: '/about',component: pageAbout}
-  ,{path: '**', component: page404}
+  ,{path: '**',component: page404}
 ]
 routes.forEach(route=>{
   const meta = route.meta||(route.meta = {})
@@ -47,8 +47,8 @@ routes.forEach(route=>{
 const router = new Router({
   routes
   ,mode: 'history'
-  ,scrollBehavior(to,from,savedPosition) {
-    if (savedPosition) {
+  ,scrollBehavior(to,from,savedPosition){
+    if (savedPosition){
       return savedPosition
     } else {
       return {x: 0,y: 0}
@@ -56,7 +56,7 @@ const router = new Router({
   }
 })
 
-router.beforeEach((to, from, next)=>{
+router.beforeEach((to,from,next)=>{
   const title = to.meta.title
   document.title = title===NAME?NAME:`${title} - ${NAME}`
   next()

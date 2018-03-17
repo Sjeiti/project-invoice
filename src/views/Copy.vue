@@ -27,7 +27,7 @@ import InterpolationUI from '@/components/InterpolationUI'
 export default {
   name: 'copy'
   ,extends: BaseView
-  ,data () {
+  ,data(){
     return {
       copy:{}
       ,config: model.config
@@ -37,8 +37,11 @@ export default {
     this.copy = track(this.$el,model.copy)
   }
   ,computed: {
-    sortedCopy() {
-      return Object.entries(this.copy).sort(([a,b],[c,d])=>b.index>d.index?1:-1).map(a=>a[0])
+    sortedCopy(){
+      return Object
+          .entries(this.copy)
+          .sort(([a,b],[c,d])=>b.index>d.index?1:-1) // eslint-disable-line no-unused-vars
+          .map(a=>a[0])
     }
   }
   ,destroyed: untrack

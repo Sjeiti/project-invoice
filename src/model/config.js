@@ -33,18 +33,37 @@ const proto = {
       return create(cloned)
   }
 
+  /**
+   * Getter to return the language array as comma joined string
+   * @returns {string}
+   */
   ,get langsJoined(){
     return this.langs.join(',')
   }
+
+  /**
+   * Setter to turn a comma joined string into an array
+   * @param {string} s
+   * @returns {string[]}
+   */
   ,set langsJoined(s){
     return this.langs = s.split(/,/g)
   }
 
+  /**
+   * Getter for the currency symbol
+   * @returns {string}
+   */
   ,get currencySymbol(){
     return CURRENCY_ISO[this.currency].symbol
   }
 }
 
+/**
+ * Create a config object
+ * @param {object} config
+ * @returns {config}
+ */
 export function create(config){
-    return Object.setPrototypeOf(config, proto);
+    return Object.setPrototypeOf(config,proto)
 }

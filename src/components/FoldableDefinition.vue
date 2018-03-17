@@ -1,10 +1,9 @@
 <template><dl v-on:click="onClick"><slot></slot></dl></template>
 
 <script>
-import model from '@/model'
 export default {
   name: 'foldable-definition'
-  ,data () {
+  ,data(){
     return {
       selected:null
     }
@@ -13,7 +12,7 @@ export default {
     onClick(e){
       const {target} = e
       const {nodeName} = target
-      if (nodeName==='DT') {
+      if (nodeName==='DT'){
         this.selected&&this.selected.classList.remove('selected')
         target.classList.add('selected')
         this.selected = target
