@@ -31,7 +31,7 @@ export const testElementExists = (name,querySelector,exist) => it(`should ${exis
 
 export const assertPathname = pathname=>cy.location().should(location => expect(location.pathname).to.eq(pathname))
 
-export const isDirty = is => cy.get('.saveable-buttons>:nth-child(1)').should(is?'not.be.disabled':'be.disabled')
+export const isDirty = is => cy.get('.saveable-buttons>div>:nth-child(1)').should(is?'not.be.disabled':'be.disabled')
 
 export const elementLanguage = testElementExists.bind(null,'language toggle','.layout section>header>ul',true)
 export const elementInvoice = testElementExists.bind(null,'invoice','.invoice.print-invoice',true)
@@ -43,5 +43,5 @@ export const basics = (title,heading,isSaveable = false) => {
   heading!=='' && it('should have the correct heading',()=>{
     cy.get('h1').should('contain',heading)
   })
-  testElementExists('saveable buttons','.saveable-buttons',isSaveable)
+  testElementExists('saveable buttons','.saveable-buttons>div',isSaveable)
 }

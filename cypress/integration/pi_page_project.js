@@ -21,7 +21,7 @@ describeResponsive('Project page',()=>{
     })
 
     it('should change name field',()=>{
-      cy.get('.saveable-buttons>:nth-child(1)')
+      cy.get('.saveable-buttons>div>:nth-child(1)')
           .should('be.disabled')
       cy.get('dt').contains('description')
           .find('+dd>input')
@@ -31,7 +31,7 @@ describeResponsive('Project page',()=>{
           .type('{backspace}'.repeat('Keyboard'.length) + 'Arms')
       cy.get('h1')
           .should('contain','Project: Unbranded Metal Arms')
-      cy.get('.saveable-buttons>:nth-child(1)')
+      cy.get('.saveable-buttons>div>:nth-child(1)')
           .should('not.be.disabled')
     })
 

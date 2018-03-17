@@ -1,6 +1,5 @@
 import {create} from '../../../../src/model/client'
 import data from '../../../../src/data/data'
-import config from '../../../../src/data/config'
 
 const fixtureLsData = 'cypress/fixtures/localStorageData.json'
 
@@ -9,7 +8,7 @@ describe('project',() => {
   beforeEach(() => {
     cy.readFile(fixtureLsData).then(json => {
       global.client = create(json.clients[0],{
-        config,personal: data.personal,get projects() {
+        config:data.config,personal: data.personal,get projects() {
           return client.projects.slice(0)
         }
       })

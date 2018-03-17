@@ -1,7 +1,7 @@
 import {
   parse
   ,__
-} from '../../../../src/util/interpolationService'
+} from '../../../../src/service/interpolationService'
 import model from '../../../../src/model/index'
 
 describe('interpolationService',()=>{

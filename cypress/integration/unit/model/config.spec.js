@@ -1,10 +1,10 @@
-import configRaw from '../../../../src/data/config'
+import data from '../../../../src/data/data'
 import {create} from '../../../../src/model/config'
 
 describe('config',() => {
 
   beforeEach(() => {
-    global.config = create(configRaw);
+    global.config = create(data.config);
   })
 
   describe('create',() => {

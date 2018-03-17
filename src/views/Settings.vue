@@ -26,7 +26,7 @@
       <!--<h2>data</h2>-->
       <dl>
         <dt><h2>data</h2></dt><dd class="data">
-          <a class="btn" v-on:click="onClickDownload($event,'data')">backup</a>
+          <a class="btn" v-on:click="onClickDownload($event,'data')">download</a>
           <label class="btn" for="restore">restore</label>
           <input accept="application/json, text/json, .json" type="file" id="restore" v-on:change="onChangeRestore" class="visually-hidden" />
           <button v-on:click="onClickClear('data')">clear</button>
