@@ -17,7 +17,7 @@
         </dd>
         <dt data-appExplain="'project.discount'">discount</dt>
         <dd class="discount">
-          <div input-unit="%"><input v-model="project.discount" type="number" /></div>
+          <div input-unit="%"><input v-model.number="project.discount" type="number" /></div>
           <currency :value="project.hourlyRate - project.hourlyRate*project.discount*0.01" class="text-align-left" />
         </dd>
         <dt data-appExplain="'project.paid'">paid</dt>
@@ -45,7 +45,7 @@
         <tr v-for="(line, index) in project.lines" :key="index">
           <td><input v-model="line.description"/></td>
           <td class="hide-low"><input v-model.number="line.hours" type="number"/></td>
-          <td class="hide-low"><currency @click.native="onClickLineCalculation(project,line)" :value="line.hours*project.hourlyRateDiscounted"/></td>
+          <td class="hide-low"><currency @click.native="onClickLineCalculation(project,line)" :value="line.hours*project.hourlyRate"/></td>
           <td><input v-model.number="line.amount" type="number" step="0.01"/></td>
           <td>
             <select v-model="line.vat" class="mono">
@@ -59,8 +59,16 @@
         <tr>
           <td>total ex VAT</td>
           <td class="hide-low"><div class="input mono">{{project.totalHours}}</div></td>
-          <td class="hide-low"><currency :value="project.totalHours*project.hourlyRateDiscounted"/></td>
+          <td class="hide-low"><currency :value="project.totalHours*project.hourlyRate"/></td>
           <td><currency class="float-right" :value="project.total"/></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr v-if="project.discount">
+          <td>discount {{project.discount}}%</td>
+          <td class="hide-low"></td>
+          <td class="hide-low"><currency :value="project.totalHours*project.hourlyRateDiscounted"/></td>
+          <td><currency class="float-right" :value="project.totalDiscounted"/></td>
           <td></td>
           <td></td>
         </tr>
