@@ -46,7 +46,7 @@ export default {
     const reminderNr = parseInt(this.$route.params.reminderNr,10)
     this.client = model.getClientByNr(parseInt(this.$route.params.clientNr,10))
     this.project = this.client.projects[parseInt(this.$route.params.projectIndex,10)]
-    this.invoice = this.project.invoices[reminderNr||0] // todo implement
+    this.invoice = this.project.invoices[reminderNr||0]||{}
     //
     Promise.all([
         new Promise(resolve=>cssCompiled.addOnce(resolve))
