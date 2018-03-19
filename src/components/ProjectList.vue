@@ -10,12 +10,10 @@
         v-bind:class="{'row-select':true,'alert-paid':project.paid,'alert-late':project.isLate,'alert-pending':project.isPending}"
         v-on:click="onRowClick(project)"
     >
-      <td v-for="col in columns">
-        
+      <td v-for="col in columns" v-bind:class="'colname-'+col">
+
         <template v-if="col==='paid'">
-          
           <label v-on:click.stop class="checkbox"><input v-model="project.paid" v-on:change="onPaidChange" type="checkbox" /><span></span></label>
-          
         </template>
         <template v-else-if="col==='invoiceNr'">
           <router-link class="small" :to="project.uri">{{project.invoiceNr}}</router-link>
@@ -31,7 +29,7 @@
           <button v-on:click.stop v-else-if="project.overdue" v-on:click="onAddReminder(project)"><span class="hide-low">Add reminder</span><span class="icon-file icon-add-round hide-high"></span></button>
         </template>
         <template v-else>
-          <router-link cdlass="small" :to="project.uri">{{project[col]}}</router-link>
+          <router-link :to="project.uri" v-ellipsis v-bind:data-text="project[col]">{{project[col]}}</router-link>
         </template>
         
       </td>
@@ -56,6 +54,7 @@
 import Currency from '@/components/Currency'
 import Date from '@/components/Date'
 import {save} from '@/formState'
+
 export default {
   name: 'ProjectList'
   ,props: {
@@ -175,8 +174,9 @@ export default {
       max-width: 20vw;
       /*max-width: 200px;*/
       white-space: nowrap;
-      text-overflow: ellipsis;
+      /*text-overflow: ellipsis;*/
       overflow: hidden;
+      
     }
     th {
       &:last-child { text-align: right; }
@@ -205,5 +205,16 @@ export default {
   .input.mono {
     float: right;
     padding-right: 0;
+  }
+  .middle-ellipsis {
+    display: block;
+  }
+  .colname-invoiceNr,
+  .colname-date {
+    padding-right: 8px;
+  }
+  .colname-clientName,
+  .colname-description {
+    padding-right: 16px;
   }
 </style>

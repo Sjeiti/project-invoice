@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import {EXPLAIN} from '@/config/explain'
+import {EXPLAIN} from '../config/explain'
 
 Vue.directive('explain',{
   bind(el,binding){
