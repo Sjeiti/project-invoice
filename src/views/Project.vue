@@ -108,7 +108,7 @@
     </section>
     
     <section>
-      <a v-bind:href="`${project.uri}/quotation`" class="btn float-right">show quotation</a>
+      <router-link v-bind:to="`${project.uri}/quotation`" class="btn float-right">show quotation</router-link>
       <h3>quotation</h3>
       <dl>
         <template v-for="qt in quotation">
