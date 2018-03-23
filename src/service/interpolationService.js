@@ -28,14 +28,17 @@ export function parse(key,models={},doubled=false){
     data: model.personal
     ,copy: model.copy
     ,currency
-    ,c: val=>currency(val,'€',2,'.',',')
+    ,c: val=>currency(val,'€',2,'.',',') // todo: euro sign should be dynamic
   })
   //
   const keys = Object.keys(models)
   const values = Object.values(models)
   let interpolated
   try {
-    const tpl = marked(__(key).replace(/\n/g,'<br/>')).replace(/^\s*<p>|<\/p>\s*$/g,'')
+    // console.log('try',__(key).replace(/\n/g,'<br/>')); // todo: remove log
+    // console.log('try',marked(key),{key}); // todo: remove log
+    // const tpl = marked(__(key).replace(/\n/g,'<br/>')).replace(/^\s*<p>|<\/p>\s*$/g,'')
+    const tpl = marked(__(key)).replace(/\n/g,'<br/>').replace(/^\s*<p>|<\/p>\s*$/g,'')
     interpolated = new Function(
       ...keys
       ,'return `'+tpl+'`'

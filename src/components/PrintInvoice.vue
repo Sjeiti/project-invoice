@@ -27,7 +27,7 @@
             <dt class="type">{{isQuotation?__('quotation'):(invoice.invoiceIndex>0?invoice.exhortation?__('exhortation'):invoice.invoiceIndex+'e '+__('reminder'):__('invoice'))}}</dt>
             <dd v-if="!isQuotation">{{__('number')}} {{project.invoiceNr}}</dd>
           </dl>
-          <dl class="list">
+          <dl class="list concerns">
             <dt>{{__('concerns')}}</dt>
             <dd>{{project.description}}</dd>
           </dl>
@@ -39,7 +39,7 @@
         <div v-if="isQuotation" v-html="parse(project.quotationBefore)" class="wrapper"></div>
         <!--isQuotation-->
         <div class="wrapper">
-          <h3 class="payment">{{__('payment')}}</h3>
+          <h3 class="payment">{{__(isQuotation?'quotation':'payment')}}</h3>
           <table cellspacing="0" cellpadding="0">
             <thead>
             <tr>
@@ -212,5 +212,23 @@ export default {
   width: 210mm;
   min-height: 296.9mm;
   font-family: "Istok Web","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+.page-break{
+  position: relative;
+  left: -10%;
+  display: block;
+  width: 120%;
+  height: 0;
+  border-top: 2px dashed $colorGrayLight;
+  /*&:after{
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 297mm;
+    display: block;
+    width: 100%;
+    height: 0;
+    border-top: 2px dashed #EEE;
+  }*/
 }
 </style>

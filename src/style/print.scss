@@ -54,6 +54,7 @@ body {
   //font-family: "Istok Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-family: var(--font-main)!important;
   font-size: var(--base-font-size);
+  line-height: 160%;
   -webkit-print-color-adjust: exact;
   &.quotation {
     display: block;
@@ -108,6 +109,10 @@ body {
     //margin: 0;
   }
 
+  h1,h2,h3,h4,h5,h6 {
+    margin: 8pt 0;
+  }
+
   h1, h2, h3, h4, h1 a, h2 a, h3 a, h4 a, th, label {
     color: inherit;
   }
@@ -127,6 +132,10 @@ body {
     h3, h4, h5, h6 {
       &:first-child { margin-top: 0; }
     }
+  }
+
+  .page .wrapper {
+    padding-bottom: 30mm;
   }
 
   .type {
@@ -172,12 +181,18 @@ body {
     margin: 0;
     vertical-align: top;
   }
-  dl.list dt {
-    width: 30%;
-    font-weight: bold;
-  }
-  dl.list dd {
-    width: 70%;
+  dl.list {
+    display: flex;
+    dt {
+      width: 30%;
+      font-weight: bold;
+    }
+    dd {
+      width: 70%;
+    }
+    &.concerns {
+      margin-top: 20mm;
+    }
   }
 
   dl.main {

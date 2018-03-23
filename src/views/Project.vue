@@ -113,8 +113,10 @@
       <dl>
         <template v-for="qt in quotation">
           <dt v-explain="'project.'+qt.property"></dt>
-          <!--<strong>{{qt.property}}</strong>-->
-          <dd v-if="qt.type==='textarea'"><textarea v-model="project[qt.property]" /></dd>
+          <dd v-if="qt.type==='textarea'">
+            <!--<textarea v-model="project[qt.property]" />-->
+            <InterpolationUI v-model="project[qt.property]"></InterpolationUI>
+          </dd>
           <dd v-else><input v-model="project[qt.property]" v-bind:type="qt.type" /></dd>
         </template>
       </dl>
@@ -128,6 +130,7 @@ import model from '@/model'
 import Currency from '@/components/Currency'
 import {notify} from '../util/signal'
 import {track,untrack,save} from '@/formState'
+import InterpolationUI from '@/components/InterpolationUI'
 
 export default {
   name: 'project'
@@ -148,9 +151,7 @@ export default {
       ,currencySymbol: model.config.currencySymbol
     }
   }
-  ,components: {
-    Currency
-  }
+  ,components: { Currency,InterpolationUI }
   ,mounted(){
     this.client = model.getClientByNr(parseInt(this.$route.params.clientNr,10))
     this.project = track(this.$el,this.client.getProject(parseInt(this.$route.params.projectIndex,10)),this.deleteProject)

@@ -26,8 +26,7 @@
     ,props: ['value']
     ,data(){
       return {
-       /* internalValue: this.value
-        ,*/models: []
+        models: []
         ,client: {}
         ,project: {}
         ,invoice: {}
@@ -39,11 +38,16 @@
       this.client = createClient(defaultData.clients[0])
       this.project = this.client.projects[0]
       this.invoice = this.project.invoices[0]
+      //
+      const {lang} = model.config
+      //
+      // only keys are needed to create ui interface
       const models = [
         {name: 'client',model: this.client }
         ,{name: 'project',model: this.project }
         ,{name: 'invoice',model: this.invoice }
         ,{name: 'data',model: model.personal }
+        ,{name: 'copy',model: Object.entries(model.copy).reduce((copy,[key,langs])=>(copy[key]=langs[lang],copy),{}) }
       ]
       models.forEach(obj=>{
         const {model} = obj
@@ -72,7 +76,7 @@
           textarea.focus()
           textarea.selectionStart = selectionStart
           textarea.selectionEnd = selectionEnd
-          this.$refs.textarea.style.height = `${this.$refs.div.offsetHeight+16}px`
+          this.setTextareaHeight()
       })
       }
       ,onInterpolationOpened(ui){
@@ -80,8 +84,12 @@
           this.opened = false
         }
       }
+      ,setTextareaHeight(){
+        this.$refs.textarea.style.height = `${this.$refs.textarea.scrollHeight}px`
+      }
       ,onInput(e){
         this.$emit('input',e.target.value)
+        this.setTextareaHeight()
       }
       ,onSelectChange(e){
         const {target} = e
@@ -113,12 +121,12 @@
     }
     ,computed: {
       internalValue: {
-        get: function(){
-return this.value
-}
-        ,set: function(value){
-this.value !== value && this.$emit('input',value)
-}
+        get: function () {
+          return this.value
+        }
+        ,set: function (value) {
+          this.value!==value && this.$emit('input',value)
+        }
       }
     }
   }

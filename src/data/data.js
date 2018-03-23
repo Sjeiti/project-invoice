@@ -63,17 +63,11 @@ const data = {
           ,quotationDate: dateString(now-8*week)
           ,quotationStartDate: dateString(now-8*week)
           ,quotationDuration: 7
+          ,quotationSubject: 'spongebob.io'
           ,quotationBefore: `### project
-
-I, Spongebob Squarepants, hereby solemly swear to make one gazillion Krabby Patties.
-
-### planning
-
-%planning%
-%pagebreak%`
+I, Spongebob Squarepants, hereby solemly swear to make one gazillion Krabby Patties.`
           ,quotationAfter: `### finally
-
-%finally%`
+Thank you`
         }
       ]
     }
@@ -168,6 +162,10 @@ I, Spongebob Squarepants, hereby solemly swear to make one gazillion Krabby Patt
     ,payment: {
       nl: 'betaling'
       ,en: 'payment'
+    }
+    ,discount: {
+      nl: 'korting'
+      ,en: 'discount'
     }
     ,date: {
       nl: 'datum'
