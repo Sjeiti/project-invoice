@@ -104,6 +104,7 @@ const model = Object.create({
     Object.assign(data,newData||defaultData)
     data.config = createConfig(data.config)
     data.clients.forEach(client=>createClient(client,model))
+    data.copy = Object.assign({},defaultData.copy,data.copy) // make sure required copy exists
     for (let key in data.copy){
       model.copy[key] = createCopy(data.copy[key],data.config)
     }

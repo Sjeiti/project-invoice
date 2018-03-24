@@ -79,10 +79,15 @@ export function untrack(){
 export function save(){
   if (clone&&clone.clone){
     const cloneClone = clone.clone()
+    // additions
     for (let s in cloneClone){
-      if (model.hasOwnProperty(s)){
+      if (cloneClone.hasOwnProperty(s)){
         model[s] = cloneClone[s]
       }
+    }
+    // removals
+    for (let s in model){
+      !cloneClone.hasOwnProperty(s)&&delete model[s]
     }
   }
   modelSaved.dispatch()
