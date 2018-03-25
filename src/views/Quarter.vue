@@ -82,7 +82,7 @@ export default {
           project
           ,client
           ,invoice
-        })
+        },true)
       })
       this.elmCsv.value = parsed.join('\n')
       if (this.elmCsv && this.elmCsv.select){

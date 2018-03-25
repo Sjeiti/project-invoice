@@ -114,7 +114,7 @@
         <!--isQuotation-->
       </div>
       <footer class="wrapper">
-        <div class="page" v-if="!isQuotation" v-html="parse(__('footer'))"></div>
+        <div class="page" v-if="!isQuotation" v-html="parse('footer')"></div>
       </footer>
     </div>
   </div>
@@ -147,6 +147,7 @@ export default {
   ,methods: {
     __
     ,parse(key){
+      model.copy[key]&&(key = `$\{copy.${key}}`)
       return parse(key,{
           client: this.client
           ,project: this.project

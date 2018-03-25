@@ -1,6 +1,7 @@
 import model from '../model/index'
 import {currency} from '../util/index'
 import marked from 'marked'
+import {CURRENCY_ISO} from '../config/currencyISO'
 
 marked.setOptions({
   renderer: new marked.Renderer()
@@ -17,39 +18,51 @@ marked.setOptions({
  * Parse a string by interpolation
  * @param {string} key
  * @param {object} models
- * @param {boolean} doubled
  * @returns {string}
- * @todo only do double interpolation if applicable
  */
-export function parse(key,models={},doubled=false){
+export function parse(key,models={}){
+  const rxIterpolation = /\${\w*(\.\w*)*}/
+  const currencySymbol = CURRENCY_ISO[model.config.currency].symbol
   key = key.toString()
   // extend models
-  !doubled && Object.assign(models,{
+  Object.assign(models,{
     data: model.personal
-    ,copy: model.copy
+    ,copy: new Proxy({},{get:(a,key)=>__(key)})
     ,currency
-    ,c: val=>currency(val,'€',2,'.',',') // todo: euro sign should be dynamic
+    ,c: val=>currency(val,currencySymbol,2,'.',',') // todo: euro sign should be dynamic
   })
   //
   const keys = Object.keys(models)
   const values = Object.values(models)
-  let interpolated
+  let interpolated = key
   try {
-    // console.log('try',__(key).replace(/\n/g,'<br/>')); // todo: remove log
-    // console.log('try',marked(key),{key}); // todo: remove log
-    // const tpl = marked(__(key).replace(/\n/g,'<br/>')).replace(/^\s*<p>|<\/p>\s*$/g,'')
-    const tpl = marked(__(key)).replace(/\n/g,'<br/>').replace(/^\s*<p>|<\/p>\s*$/g,'')
-    interpolated = new Function(
-      ...keys
-      ,'return `'+tpl+'`'
-    )(
-      ...values
-    )
+    let maxInterpolations = 10
+    while (rxIterpolation.test(interpolated)&&maxInterpolations--) interpolated = interpolate(interpolated,keys,values)
+    interpolated = marked(interpolated)
+    interpolated.match(/<\/p>/g).length===1
+      &&(interpolated = interpolated.replace(/^\s*<p>|<\/p>\s*$/g,''))
+      ||(interpolated = interpolated.replace(/\n/g,'<br/>'))
   } catch (err){
     interpolated = '[interpolation error]'
-    console.warn('Interpolation error',{key,models})
+    console.warn('Interpolation error',{key,models,err})
   }
-  return doubled?interpolated:parse(interpolated,models,true)
+  return interpolated
+}
+
+/**
+ * Interpolate
+ * @param {string} tpl
+ * @param {string[]} keys
+ * @param {string[]} values
+ * @returns {string}
+ */
+function interpolate(tpl,keys,values){
+  return new Function(
+    ...keys
+    ,'return `'+tpl+'`'
+  )(
+    ...values
+  )
 }
 
 /**
