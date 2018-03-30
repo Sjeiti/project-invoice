@@ -1,9 +1,9 @@
 @font-face {
   font-family: 'icomoon';
   src:
-    url('/fonts/icomoon.ttf?g1dwhq') format('truetype'),
-    url('/fonts/icomoon.woff?g1dwhq') format('woff'),
-    url('/fonts/icomoon.svg?g1dwhq#icomoon') format('svg');
+    url('/fonts/icomoon.ttf?f2v32n') format('truetype'),
+    url('/fonts/icomoon.woff?f2v32n') format('woff'),
+    url('/fonts/icomoon.svg?f2v32n#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -40,6 +40,9 @@ $icon-github: "\e908";
 $icon-brand: "\e908";
 $icon-octacat: "\e908";
 $icon-social: "\e908";
+$icon-promile: "\e90a";
+$icon-stop: "\e90b";
+$icon-drag: "\e90c";
 
 
 // rules
@@ -57,6 +60,9 @@ $icon-social: "\e908";
 .icon-brand:before { content: $icon-brand; }
 .icon-octacat:before { content: $icon-octacat; }
 .icon-social:before { content: $icon-social; }
+.icon-promile:before { content: $icon-promile; }
+.icon-stop:before { content: $icon-stop; }
+.icon-drag:before { content: $icon-drag; }
 
 
 // mixins
@@ -88,6 +94,9 @@ $icon-social: "\e908";
 @mixin icon-brand(){&:before{@include icon-icon();content: $icon-brand;}}
 @mixin icon-octacat(){&:before{@include icon-icon();content: $icon-octacat;}}
 @mixin icon-social(){&:before{@include icon-icon();content: $icon-social;}}
+@mixin icon-promile(){&:before{@include icon-icon();content: $icon-promile;}}
+@mixin icon-stop(){&:before{@include icon-icon();content: $icon-stop;}}
+@mixin icon-drag(){&:before{@include icon-icon();content: $icon-drag;}}
 
 
 // scss svg mixins missing

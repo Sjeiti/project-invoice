@@ -1,10 +1,11 @@
 <script>
 import BaseView from './BaseView'
-import model from '@/model'
-import {track,untrack} from '@/formState'
-import Lang from '@/components/Lang.vue'
-import InterpolationUI from '@/components/InterpolationUI'
+import model from '../model'
+import {track,untrack} from '../formState'
+import Lang from '../components/Lang.vue'
+import InterpolationUI from '../components/InterpolationUI'
 import defaultData from '../data/data'
+import draggable from 'vuedraggable'
 
 export default {
   name: 'copy'
@@ -24,11 +25,17 @@ export default {
       this.forceUpdate()
       return Object.keys(defaultData.copy)
     }
-    ,customKeys(){
-      const customKeys = Object.keys(this.copy).filter(key=>!this.defaultKeys.includes(key))
-      return customKeys.map(key=>[key,this.copy[key]])
-           .sort(([a,b],[c,d])=>b.index>d.index?1:-1) // eslint-disable-line no-unused-vars
-           .map(a=>a[0])
+    ,customKeys:{
+      get: function(){
+        const customKeys = Object.keys(this.copy).filter(key=>!this.defaultKeys.includes(key))
+        return customKeys.map(key=>[key,this.copy[key]])
+             .sort(([a,b],[c,d])=>b.index>d.index?1:-1) // eslint-disable-line no-unused-vars
+             .map(a=>a[0])
+      }
+      ,set: function(order){
+        order.forEach((key,index)=>this.copy[key].index = index)
+        this.$el.dispatchEvent(new CustomEvent('change'))
+      }
     }
   }
   ,methods: {
@@ -50,12 +57,17 @@ export default {
   ,components: {
     Lang
     ,InterpolationUI
+    ,draggable
   }
 }
 </script>
 
 <style lang="scss" scoped>
   dt { white-space: nowrap; }
+  dl div {
+    display: flex;
+    width: 100%;
+  }
 </style>
 
 <template>
@@ -75,17 +87,18 @@ export default {
         </template>
       </dl>
       <button v-on:click="onAddCopy">add copy</button>
-      <dl>
-        <template v-for="key in customKeys">
+      <draggable v-model="customKeys" :element="'dl'">
+        <div v-for="key in customKeys">
           <dt>
+            <i class="icon-drag"></i>
             <button v-on:click="onRemoveCopy(key)">&#10006;</button>
             {{key}}
           </dt>
           <dd>
             <InterpolationUI v-model="copy[key][config.lang]"></InterpolationUI>
           </dd>
-        </template>
-      </dl>
+        </div>
+      </draggable>
     </section>
   </div>
 </template>

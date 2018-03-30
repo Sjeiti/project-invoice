@@ -33,6 +33,7 @@
       <table>
         <thead>
         <tr>
+          <th></th>
           <th width="60%">description</th>
           <th width="5%" class="hide-low">hours</th>
           <th class="hide-low"></th>
@@ -41,45 +42,49 @@
           <th></th>
         </tr>
         </thead>
-        <tbody>
-        <tr v-for="(line, index) in project.lines" :key="index">
-          <td><input v-model="line.description"/></td>
-          <td class="hide-low"><input v-model.number="line.hours" type="number"/></td>
-          <td class="hide-low"><currency @click.native="onClickLineCalculation(project,line)" :value="line.hours*project.hourlyRate"/></td>
-          <td><input v-model.number="line.amount" type="number" step="0.01"/></td>
-          <td>
-            <select v-model="line.vat" class="mono">
-              <option v-for="vat in vatAmounts" v-bind:key="vat" v-bind:value="vat">{{vat}}</option>
-            </select>
-          </td>
-          <td><button v-on:click="onRemoveLine(line)">&#10006;</button></td>
-        </tr>
+        <tbody is="draggable" v-model="project.lines" :element="'tbody'"><!-- :clone="true"-->
+          <tr v-for="(line, index) in project.lines" :key="index">
+            <td><i class="icon-drag"></i></td>
+            <td><input v-model="line.description"/></td>
+            <td class="hide-low"><input v-model.number="line.hours" type="number"/></td>
+            <td class="hide-low"><currency @click.native="onClickLineCalculation(project,line)" :value="line.hours*project.hourlyRate"/></td>
+            <td><input v-model.number="line.amount" type="number" step="0.01"/></td>
+            <td>
+              <select v-model="line.vat" class="mono">
+                <option v-for="vat in vatAmounts" v-bind:key="vat" v-bind:value="vat">{{vat}}</option>
+              </select>
+            </td>
+            <td><button v-on:click="onRemoveLine(line)">&#10006;</button></td>
+          </tr>
         </tbody>
         <tfoot>
-        <tr>
-          <td>total ex VAT</td>
-          <td class="hide-low"><div class="input mono">{{project.totalHours}}</div></td>
-          <td class="hide-low"><currency :value="project.totalHours*project.hourlyRate"/></td>
-          <td><currency class="float-right" :value="project.total"/></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr v-if="project.discount">
-          <td>discount {{project.discount}}%</td>
-          <td class="hide-low"></td>
-          <td class="hide-low"><currency :value="project.totalHours*project.hourlyRateDiscounted"/></td>
-          <td><currency class="float-right" :value="project.totalDiscounted"/></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>total inc VAT</td>
-          <td class="hide-low"></td>
-          <td class="hide-low"></td>
-          <td><currency class="float-right" :value="project.totalIncDiscounted"/></td>
-          <td></td>
-          <td></td>
-        </tr>
+          <tr>
+            <td></td>
+            <td>total ex VAT</td>
+            <td class="hide-low"><div class="input mono">{{project.totalHours}}</div></td>
+            <td class="hide-low"><currency :value="project.totalHours*project.hourlyRate"/></td>
+            <td><currency class="float-right" :value="project.total"/></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr v-if="project.discount">
+            <td></td>
+            <td>discount {{project.discount}}%</td>
+            <td class="hide-low"></td>
+            <td class="hide-low"><currency :value="project.totalHours*project.hourlyRateDiscounted"/></td>
+            <td><currency class="float-right" :value="project.totalDiscounted"/></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>total inc VAT</td>
+            <td class="hide-low"></td>
+            <td class="hide-low"></td>
+            <td><currency class="float-right" :value="project.totalIncDiscounted"/></td>
+            <td></td>
+            <td></td>
+          </tr>
         </tfoot>
       </table>
     </section>
@@ -131,6 +136,7 @@ import Currency from '@/components/Currency'
 import {notify} from '../util/signal'
 import {track,untrack,save} from '@/formState'
 import InterpolationUI from '@/components/InterpolationUI'
+import draggable from 'vuedraggable'
 
 export default {
   name: 'project'
@@ -151,7 +157,7 @@ export default {
       ,currencySymbol: model.config.currencySymbol
     }
   }
-  ,components: { Currency,InterpolationUI }
+  ,components: { Currency,InterpolationUI,draggable }
   ,mounted(){
     this.client = model.getClientByNr(parseInt(this.$route.params.clientNr,10))
     this.project = track(this.$el,this.client.getProject(parseInt(this.$route.params.projectIndex,10)),this.deleteProject)
@@ -203,6 +209,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  @import '../style/variables';
   .invoice-link {
     flex: 0 0 110px;
   }
