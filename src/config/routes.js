@@ -12,6 +12,7 @@ import pageSettings from '../views/Settings.vue'
 import pageLayout from '../views/Layout.vue'
 import pageData from '../views/Data.vue'
 import pageCopy from '../views/Copy.vue'
+import pageChangelog from '../views/Changelog.vue'
 import page404 from '../views/404.vue'
 
 const routes = [
@@ -32,6 +33,7 @@ const routes = [
   ,{path: '/data',component: pageData,meta: {title:'Data'}}
   ,{path: '/copy',component: pageCopy}
   ,{path: '/about',component: pageAbout}
+  ,{path: '/changelog',component: pageChangelog}
   ,{path: '**',component: page404}
 ]
 

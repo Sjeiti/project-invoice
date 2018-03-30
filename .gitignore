@@ -4,7 +4,10 @@ node_modules
 /dist
 /temp
 
+*.bat
+
 # local env files
+.env
 .env.local
 .env.*.local
 

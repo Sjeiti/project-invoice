@@ -67,36 +67,39 @@ utils.read(commander.source)
       // faq
 
       const heading = document.getElementById('faq')
-      element = heading
-      list.length = 0
-      while (element = element.nextSibling) {
-        const {nodeName} = element
-        if (nodeName==='H3') {
-          sectionArray = [element]
-          list.push(sectionArray)
-        } else {
-          sectionArray.push(element)
-        }
-      }
-      const parent = heading.parentNode
-      parent.innerHTML = ''
-      parent.appendChild(heading)
-      // const afd = document.createElement('app-foldable-definition')
-      const afd = document.createElement('foldable-definition')
-      // afd.setAttribute('data-foldable-definition','foldable-definition')
-      parent.appendChild(afd)
-      list.forEach(sl=>{
-        const dt = document.createElement('dt')
-        const dd = document.createElement('dd')
-        sl.forEach((elm,i)=>{
-          if (i===0) {
-            dt.innerHTML = elm.innerHTML
+      if (heading) {
+        element = heading
+        list.length = 0
+        while (element = element.nextSibling) {
+          const {nodeName} = element
+          if (nodeName==='H3') {
+            sectionArray = [element]
+            list.push(sectionArray)
           } else {
-            dd.appendChild(elm)
+            sectionArray.push(element)
           }
+        }
+        const parent = heading.parentNode
+        parent.innerHTML = ''
+        parent.appendChild(heading)
+        // const afd = document.createElement('app-foldable-definition')
+        const afd = document.createElement('foldable-definition')
+        // afd.setAttribute('data-foldable-definition','foldable-definition')
+        parent.appendChild(afd)
+        list.forEach(sl=>{
+          const dt = document.createElement('dt')
+          const dd = document.createElement('dd')
+          sl.forEach((elm,i)=>{
+            if (i===0) {
+              dt.innerHTML = elm.innerHTML
+            } else {
+              dd.appendChild(elm)
+            }
+          })
+          afd.appendChild(dt)
+          afd.appendChild(dd)
         })
-        afd.appendChild(dt)
-        afd.appendChild(dd)
-      })
+      }
+
       utils.save(commander.target,`<div>${body.innerHTML}</div>`)
     })
