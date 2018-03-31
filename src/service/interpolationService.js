@@ -29,7 +29,7 @@ export function parse(key,models={}){
     data: model.personal
     ,copy: new Proxy({},{get:(a,key)=>__(key)})
     ,currency
-    ,c: val=>currency(val,currencySymbol,2,'.',',') // todo: euro sign should be dynamic
+    ,c: val=>currency(val,currencySymbol,2,'.',',')
   })
   //
   const keys = Object.keys(models)

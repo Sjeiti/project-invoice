@@ -13,18 +13,18 @@ describe('interpolationService',()=>{
     it('should have default models',()=>{
       assert.equal(parse('${data.city}'),'Bikini Bottom')
     })
-    it('should parse Javascript',()=>{
-      assert.equal(parse('a${Date.now()*0}a'),'a0a')
+    it('should only objects and properties',()=>{
+      assert.notEqual(parse('a${Date.now()*0}a'),'a0a')
     })
-    it('should translate if possible',()=>{
+    xit('should translate if possible',()=>{
       model.config.lang = 'nl'
       assert.equal(parse('total'),'totaal')
     })
     it('should parse from multiple sources',()=>{
       assert.equal(parse('${c(2)} ${data.city}'),'€2,00 Bikini Bottom')
     })
-    it('should interpolate strings',()=>{
-      assert.equal(parse('a\\${b}a',{b:'c'},true),'a${b}a')
+    it('should recursively interpolate',()=>{
+      assert.equal(parse('a\\${b}a',{b:'c'},true),'aca')
     })
     it('should do double interpolation',()=>{
       assert.equal(parse('a\\${b}a',{b:'c'}),'aca')

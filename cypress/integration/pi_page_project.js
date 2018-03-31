@@ -87,11 +87,11 @@ describeResponsive('Project page',()=>{
       const totals = []
       cy.get('tbody tr')
           .each(tr=>{
-            const amount = parseInt(tr.find('td:nth-child(4) > input').val(), 10)
-            const vat = parseInt(tr.find('td:nth-child(5) > select').val(), 10)
+            const amount = parseInt(tr.find('td:nth-child(5) > input').val(), 10)
+            const vat = parseInt(tr.find('td:nth-child(6) > select').val(), 10)
             totals.push([amount,vat])
           })
-          .then(()=>cy.get('tfoot tr:first-child :nth-child(4) > .input').should('have.text', totals.map(a=>a[0]).reduce((a,b)=>a+b,0).toFixed(2)))
+          .then(()=>cy.get('tfoot tr:first-child :nth-child(5) > .input').should('have.text', totals.map(a=>a[0]).reduce((a,b)=>a+b,0).toFixed(2)))
     })
 
   })

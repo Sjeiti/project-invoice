@@ -70,7 +70,7 @@ describeResponsive('Layout page',()=>{
 
 describeResponsive('Data page',()=>{
   beforeEach(toPage.bind(null,'/data'))
-  context('Basics',basics.bind(null,getTitle('Ddata'),'Data',true))
+  context('Basics',basics.bind(null,getTitle('Data'),'Data',true))
 })
 
 describeResponsive('Copy page',()=>{
