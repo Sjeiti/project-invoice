@@ -10,7 +10,7 @@
     <section v-for="(quarter, i) in quarters" :key="i">
       <header>
         <h3>quarter {{i + 1}}</h3>
-        <button v-on:click="onClickCsv(quarter)">copy csv data</button>
+        <button v-on:click="onClickCsv(quarter)" v-bind:disabled="quarter.length===0">copy csv data</button>
       </header>
       <project-list :projects="quarter" :cols="'invoiceNr date clientName description totalDiscounted totalVatDiscounted totalIncDiscounted'"></project-list>
     </section>
@@ -59,12 +59,13 @@ export default {
     '$route'(){
       this.year = parseInt(this.$route.params.year,10)||this.year
       this.setQuarters()
+      this.$forceUpdate()
     }
   }
   ,methods: {
 
     setQuarters(){
-      this.quarters.forEach(quarter=>quarter.length = 0)
+      this.quarters = this.quarters.map(()=>[]) // setting length to 0 doesn't work because Vue doesn't see any (deep) change
       this.projects
           .filter(project=>project.invoices.length&&project.year===this.year)
           .forEach(project=>{

@@ -1,39 +1,42 @@
 <template>
-  <div class="project-list">
+  <div class="project-list" v-bind:class="{'project-list':true,'empty':projects.length===0}">
   <table>
     <thead><tr>
       <th v-for="col in columns" v-on:click="onClickOrder(col)" v-bind:class="'th-'+col">{{colName[col]}}</th>
     </tr></thead>
-    <tbody><tr
-        v-for="project in projects"
-        class="row-select"
-        v-bind:class="{'row-select':true,'alert-paid':project.paid,'alert-late':project.isLate,'alert-pending':project.isPending}"
-        v-on:click="onRowClick(project)"
-    >
-      <td v-for="col in columns" v-bind:class="'colname-'+col">
-
-        <template v-if="col==='paid'">
-          <label v-on:click.stop class="checkbox"><input v-model="project.paid" v-on:change="onPaidChange" type="checkbox" /><span></span></label>
-        </template>
-        <template v-else-if="col==='invoiceNr'">
-          <router-link class="small" :to="project.uri">{{project.invoiceNr}}</router-link>
-        </template>
-        <template v-else-if="col==='date'||col==='dateLatest'">
-          <date class="small nowrap" :value="project[col]" />
-        </template>
-        <template v-else-if="col==='totalDiscounted'||col==='totalVatDiscounted'||col==='totalIncDiscounted'">
-          <currency :value="project[col]" />
-        </template>
-        <template v-else-if="col==='actions'">
-          <button v-on:click.stop v-if="project.invoices.length===0" v-on:click="onAddInvoice(project)"><span class="hide-low">Add invoice</span><span class="icon-file icon-add-round hide-high"></span></button>
-          <button v-on:click.stop v-else-if="project.overdue" v-on:click="onAddReminder(project)"><span class="hide-low">Add reminder</span><span class="icon-file icon-add-round hide-high"></span></button>
-        </template>
-        <template v-else>
-          <router-link :to="project.uri" v-ellipsis v-bind:data-text="project[col]">{{project[col]}}</router-link>
-        </template>
-        
-      </td>
-    </tr></tbody>
+    <tbody>
+      <tr
+          v-for="project in projects"
+          class="row-select"
+          v-bind:class="{'row-select':true,'alert-paid':project.paid,'alert-late':project.isLate,'alert-pending':project.isPending}"
+          v-on:click="onRowClick(project)"
+      >
+        <td v-for="col in columns" v-bind:class="'colname-'+col">
+  
+          <template v-if="col==='paid'">
+            <label v-on:click.stop class="checkbox"><input v-model="project.paid" v-on:change="onPaidChange" type="checkbox" /><span></span></label>
+          </template>
+          <template v-else-if="col==='invoiceNr'">
+            <router-link class="small" :to="project.uri">{{project.invoiceNr}}</router-link>
+          </template>
+          <template v-else-if="col==='date'||col==='dateLatest'">
+            <date class="small nowrap" :value="project[col]" />
+          </template>
+          <template v-else-if="col==='totalDiscounted'||col==='totalVatDiscounted'||col==='totalIncDiscounted'">
+            <currency :value="project[col]" />
+          </template>
+          <template v-else-if="col==='actions'">
+            <button v-on:click.stop v-if="project.invoices.length===0" v-on:click="onAddInvoice(project)"><span class="hide-low">Add invoice</span><span class="icon-file icon-add-round hide-high"></span></button>
+            <button v-on:click.stop v-else-if="project.overdue" v-on:click="onAddReminder(project)"><span class="hide-low">Add reminder</span><span class="icon-file icon-add-round hide-high"></span></button>
+          </template>
+          <template v-else>
+            <router-link :to="project.uri" v-ellipsis v-bind:data-text="project[col]">{{project[col]}}</router-link>
+          </template>
+          
+        </td>
+      </tr>
+      <tr v-if="projects.length===0"><td>-</td></tr>
+    </tbody>
     <tfoot v-if="totals"><tr>
       <th v-for="col in columns">
         
@@ -155,6 +158,7 @@ export default {
     max-width: 100vw;
     overflow-x: auto;
     overflow-y: hidden;
+    &.empty { color: #AAA; }
   }
   table {
     tbody tr {
