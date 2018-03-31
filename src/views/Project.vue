@@ -45,7 +45,7 @@
         <tbody is="draggable" v-model="project.lines" :element="'tbody'"><!-- :clone="true"-->
           <tr v-for="(line, index) in project.lines" :key="index">
             <td><i class="icon-drag"></i></td>
-            <td><input v-model="line.description"/></td>
+            <td><input v-model="line.description" ref="description" /></td>
             <td class="hide-low"><input v-model.number="line.hours" type="number"/></td>
             <td class="hide-low"><currency @click.native="onClickLineCalculation(project,line)" :value="line.hours*project.hourlyRate"/></td>
             <td><input v-model.number="line.amount" type="number" step="0.01"/></td>
@@ -171,6 +171,11 @@ export default {
     }
     ,onAddLine(){
       this.project.addLine()
+      setTimeout(()=>{
+        const descriptions = this.$refs.description
+        const num = descriptions.length
+        num&&descriptions[num-1].focus()
+      })
     }
     ,onClickLineCalculation(project,line){
       line.amount = line.hours*project.hourlyRateDiscounted
