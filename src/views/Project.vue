@@ -7,7 +7,7 @@
         <dt data-appExplain="'project.client'">client</dt>
         <dd><router-link class="input" v-bind:to="client.uri||''">{{client.name}}</router-link></dd>
         <dt data-appExplain="'project.description'">description</dt>
-        <dd><input v-model="project.description"/></dd>
+        <dd><input v-model="project.description" ref="description" /></dd>
         <dt data-appExplain="'project.invoiceNr'">invoice number</dt>
         <dd><div class="input mono">{{project.invoiceNr}}</div></dd>
         <dt data-appExplain="'project.hourlyRate'">hourly rate</dt>
@@ -45,7 +45,7 @@
         <tbody is="draggable" v-model="project.lines" :element="'tbody'"><!-- :clone="true"-->
           <tr v-for="(line, index) in project.lines" :key="index">
             <td><i class="icon-drag"></i></td>
-            <td><input v-model="line.description" ref="description" /></td>
+            <td><input v-model="line.description" ref="lineDescription" /></td>
             <td class="hide-low"><input v-model.number="line.hours" type="number"/></td>
             <td class="hide-low"><currency @click.native="onClickLineCalculation(project,line)" :value="line.hours*project.hourlyRate"/></td>
             <td><input v-model.number="line.amount" type="number" step="0.01"/></td>
@@ -161,6 +161,8 @@ export default {
   ,mounted(){
     this.client = model.getClientByNr(parseInt(this.$route.params.clientNr,10))
     this.project = track(this.$el,this.client.getProject(parseInt(this.$route.params.projectIndex,10)),this.deleteProject)
+    const { lines } = this.project
+    lines&&(lines.length===0||!lines[0].description)&&this.$refs.description.focus()
   }
   ,destroyed: untrack
   ,methods: {
@@ -172,7 +174,7 @@ export default {
     ,onAddLine(){
       this.project.addLine()
       setTimeout(()=>{
-        const descriptions = this.$refs.description
+        const descriptions = this.$refs.lineDescription
         const num = descriptions.length
         num&&descriptions[num-1].focus()
       })
@@ -187,7 +189,8 @@ export default {
       this.project = track(this.$el,clone,this.deleteProject)
       save()
       notify.dispatch(`Project '${project.description}' cloned`)
-      }
+      this.$refs.description.focus()
+    }
     ,deleteProject(){
       const project = this.client.projects[parseInt(this.$route.params.projectIndex,10)]
       if (confirm('Delete this project?')){
