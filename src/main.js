@@ -5,6 +5,7 @@ import './directives/explain'
 import './directives/middleEllipsis'
 import {appUpdated} from './util/cache'
 import {notify} from './util/signal'
+import 'current-device'
 
 Vue.config.productionTip = false
 

@@ -101,9 +101,9 @@
             <router-link v-bind:to="`${project.uri}/${invoice.type}${i!==0?'/'+i:''}`" class="btn">{{invoice.type}}{{i!==0?'&nbsp;' + i:''}}</router-link>
           </div>
           <div class="col"><input v-model="invoice.date" type="date" /></div>
-          <div class="col text-align-right">
-            <label v-if="i>0" class="checkbox"><input v-model="invoice.interest" type="checkbox"/><span title="add interest"></span></label>
-            <label v-if="i>1" class="checkbox"><input v-model="invoice.exhortation" type="checkbox"/><span title="exhortation"></span></label>
+          <div class="col text-align-right position-relative">
+            <label v-if="i>0" class="checkbox interest"><input v-on:click="onClickInvoiceCheck($event,invoice.interest,true)" v-model="invoice.interest" type="checkbox"/><span title="add interest"></span></label>
+            <label v-if="i>1" class="checkbox exhortation"><input v-on:click="onClickInvoiceCheck($event,invoice.exhortation,false)" v-model="invoice.exhortation" type="checkbox"/><span title="exhortation"></span></label>
           </div>
           <div class="col text-align-right">
             <button v-on:click="onRemoveInvoice(invoice)">&#10006;</button>
@@ -119,7 +119,6 @@
         <template v-for="qt in quotation">
           <dt v-explain="'project.'+qt.property"></dt>
           <dd v-if="qt.type==='textarea'">
-            <!--<textarea v-model="project[qt.property]" />-->
             <InterpolationUI v-model="project[qt.property]"></InterpolationUI>
           </dd>
           <dd v-else><input v-model="project[qt.property]" v-bind:type="qt.type" /></dd>
@@ -137,6 +136,7 @@ import {notify} from '../util/signal'
 import {track,untrack,save} from '@/formState'
 import InterpolationUI from '@/components/InterpolationUI'
 import draggable from 'vuedraggable'
+import device from 'current-device'
 
 export default {
   name: 'project'
@@ -238,12 +238,22 @@ export default {
         index!==-1&&invoices.splice(index,1)
       }
     }
+    /**
+     * Click the invoice interest or exhortation checkbox
+     * @param {Event} e
+     * @param {boolean} isChecked
+     * @param {boolean} interest
+     */
+    ,onClickInvoiceCheck(e,isChecked,interest){
+      !isChecked&&device.mobile()&&!confirm(interest?'Add interest?':'Is this reminder the final exhortation?')&&e.preventDefault()
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
   @import '../style/variables';
+  @import '../style/icons';
   .invoice-link {
     flex: 0 0 110px;
   }
@@ -257,4 +267,6 @@ export default {
       flex: 1 1 auto;
     }
   }
+  label.checkbox.interest span:before { content: $icon-promile; }
+  label.checkbox.exhortation span:before { content: $icon-stop; }
 </style>

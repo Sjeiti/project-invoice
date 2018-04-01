@@ -1,9 +1,9 @@
 @font-face {
   font-family: 'icomoon';
   src:
-    url('/fonts/icomoon.ttf?f2v32n') format('truetype'),
-    url('/fonts/icomoon.woff?f2v32n') format('woff'),
-    url('/fonts/icomoon.svg?f2v32n#icomoon') format('svg');
+    url('/fonts/icomoon.ttf?qsy0hq') format('truetype'),
+    url('/fonts/icomoon.woff?qsy0hq') format('woff'),
+    url('/fonts/icomoon.svg?qsy0hq#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -43,6 +43,7 @@ $icon-social: "\e908";
 $icon-promile: "\e90a";
 $icon-stop: "\e90b";
 $icon-drag: "\e90c";
+$icon-cog: "\e90d";
 
 
 // rules
@@ -63,6 +64,7 @@ $icon-drag: "\e90c";
 .icon-promile:before { content: $icon-promile; }
 .icon-stop:before { content: $icon-stop; }
 .icon-drag:before { content: $icon-drag; }
+.icon-cog:before { content: $icon-cog; }
 
 
 // mixins
@@ -97,6 +99,7 @@ $icon-drag: "\e90c";
 @mixin icon-promile(){&:before{@include icon-icon();content: $icon-promile;}}
 @mixin icon-stop(){&:before{@include icon-icon();content: $icon-stop;}}
 @mixin icon-drag(){&:before{@include icon-icon();content: $icon-drag;}}
+@mixin icon-cog(){&:before{@include icon-icon();content: $icon-cog;}}
 
 
 // scss svg mixins missing
