@@ -44,7 +44,7 @@
         </thead>
         <tbody is="draggable" v-model="project.lines" :element="'tbody'"><!-- :clone="true"-->
           <tr v-for="(line, index) in project.lines" :key="index">
-            <td><i class="icon-drag"></i></td>
+            <td><i class="icon-drag" v-if="project.lines.length>1"></i></td>
             <td><input v-model="line.description" ref="lineDescription" /></td>
             <td class="hide-low"><input v-model.number="line.hours" type="number"/></td>
             <td class="hide-low"><currency @click.native="onClickLineCalculation(project,line)" :value="line.hours*project.hourlyRate"/></td>
