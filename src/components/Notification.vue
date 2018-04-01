@@ -32,20 +32,37 @@ export default {
     notify.add(this.onNotify.bind(this))
   }
   ,methods: {
+    /**
+     * Show notification
+     * @param {string} text
+     * @param {number} t
+     */
     onNotify(text,t){
       if (t===undefined) t = Math.max(2000,text.length*70)
       const style = `animation: count-down ${t}ms linear;`
       const notification = {text,t,style,key:Date.now()}
       this.notifications.unshift(notification)
     }
+    /**
+     * Pause animation on mouse leave
+     * @param {object} notification
+     */
     ,onMouseEnter(notification){
       notification.style += playstatePaused
       this.$forceUpdate()
     }
+    /**
+     * Resume animation on mouse leave
+     * @param {object} notification
+     */
     ,onMouseLeave(notification){
       notification.style = notification.style.replace(playstatePaused,'')
       this.$forceUpdate()
     }
+    /**
+     * Remove the notification when the animation ends
+     * @param {object} notification
+     */
     ,onTransitionEnd(notification){
       this.notifications.splice(this.notifications.indexOf(notification),1)
     }

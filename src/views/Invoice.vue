@@ -67,6 +67,10 @@ export default {
       contentWindow.print()
     }
 
+    /**
+     * Popupate the iframe with the interpolated HTML and add the stylesheets
+     * @returns {Promise}
+     */
     ,populateIframe(){
       return new Promise(resolve=>{
         setTimeout(()=>{

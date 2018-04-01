@@ -146,6 +146,11 @@ export default {
   }
   ,methods: {
     __
+    /**
+     * Wrapper for interpolationService.parse to add client, project and invoice
+     * @param {string} key
+     * @returns {string}
+     */
     ,parse(key){
       model.copy[key]&&(key = `$\{copy.${key}}`)
       return parse(key,{

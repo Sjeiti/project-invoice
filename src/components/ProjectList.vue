@@ -98,6 +98,10 @@ export default {
     ,Date
   }
   ,methods: {
+    /**
+     * Header click to order the list
+     * @param {string} key
+     */
     onClickOrder(key){
       if (this.sort===key) this.asc = !this.asc
       else this.sort = key
@@ -105,23 +109,46 @@ export default {
       const lt = this.asc?1:-1
       this.projects.sort((a,b)=>a[key]>b[key]?gt:lt)
     }
+    /**
+     * Action click handler to add a reminder to a project
+     * @param {project} project
+     */
     ,onAddReminder(project){
       this.addInvoice(project)
     }
+    /**
+     * Action click handler to add an invoice to a project
+     * @param {project} project
+     */
     ,onAddInvoice(project){
       this.addInvoice(project)
     }
+    /**
+     * Navigate to project when clicking row
+     */
     ,onRowClick(project){
       this.$router.push(project.uri)
     }
+    /**
+     * Save after paid-checkbox toggle
+     */
     ,onPaidChange(){
       save()
     }
+    /**
+     * Action click handler to add an invoice or reminder to a project
+     * @param {project} project
+     */
     ,addInvoice(project){
       project.addInvoice()
       save()
       this.$router.push(project.uri)
     }
+    /**
+     * Get the total value for a specific column or property
+     * @param {string} property
+     * @returns {string}
+     */
     ,getTotalValue(property){
       let returnValue = ''
       if (this.projects&&this.projects.length){
