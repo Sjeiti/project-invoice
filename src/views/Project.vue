@@ -166,11 +166,18 @@ export default {
   }
   ,destroyed: untrack
   ,methods: {
+    /**
+     * Remove a project line
+     * @param {projectLine} line
+     */
     onRemoveLine(line){
       const lines = this.project.lines
           ,i = lines.indexOf(line)
       i!==-1&&lines.splice(i,1)
     }
+    /**
+     * Add a new line to the project
+     */
     ,onAddLine(){
       this.project.addLine()
       setTimeout(()=>{
@@ -179,9 +186,18 @@ export default {
         num&&descriptions[num-1].focus()
       })
     }
+    /**
+     * When clicking the estimate set the same value to the cost field
+     * @param {project} project
+     * @param {projectLine} line
+     */
     ,onClickLineCalculation(project,line){
-      line.amount = line.hours*project.hourlyRateDiscounted
+      line.amount = line.hours*project.hourlyRate
     }
+    /**
+     * Clone the project to a new project
+     * @param {project} project
+     */
     ,clone(project){
       const clone = project.cloneNew()
       clone.client.projects.push(clone)
@@ -191,6 +207,9 @@ export default {
       notify.dispatch(`Project '${project.description}' cloned`)
       this.$refs.description.focus()
     }
+    /**
+     * Delete the project by confirm
+     */
     ,deleteProject(){
       const project = this.client.projects[parseInt(this.$route.params.projectIndex,10)]
       if (confirm('Delete this project?')){
@@ -200,10 +219,17 @@ export default {
         notify.dispatch(`Project '${project.description}' has been deleted`)
       }
     }
+    /**
+     * Add an invoice and save the project
+     */
     ,onAddInvoice(){
       this.project.addInvoice()
       save()
     }
+    /**
+     * Remove an invoice
+     * @param {invoice} invoice
+     */
     ,onRemoveInvoice(invoice){
       if (confirm('Remove this invoice?')){
         const {project} = this
