@@ -44,4 +44,8 @@ export const basics = (title,heading,isSaveable = false) => {
     cy.get('h1').should('contain',heading)
   })
   testElementExists('saveable buttons','.saveable-buttons>div',isSaveable)
+  it('should not have horizontal scrollbar',()=>{
+    const body = document.body
+    assert.equal(body.offsetWidth,body.scrollWidth)
+  })
 }
