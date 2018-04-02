@@ -23,25 +23,14 @@
       </dl>
     </section>
     <section>
-      <!--<h2>data</h2>-->
       <dl>
-        <dt><h2>data</h2></dt><dd class="data">
+        <dt><h2>data</h2></dt>
+        <dd class="data">
           <a class="btn" v-on:click="onClickDownload($event,'data')">download</a>
           <label class="btn" for="restore">restore</label>
           <input accept="application/json, text/json, .json" type="file" id="restore" v-on:change="onChangeRestore" class="visually-hidden" />
           <button v-on:click="onClickClear('data')">clear</button>
         </dd>
-        
-        <!--<dt v-explain="'settings.backup'"></dt>
-        <dd>
-          <a class="btn" v-on:click="onClickDownload($event,'data')">data</a>
-        </dd>
-        <dt v-explain="'settings.restore'"></dt>
-        <dd>
-        </dd>
-        <dt v-explain="'settings.clear'"></dt>
-        <dd>
-        </dd>-->
       </dl>
     </section>
     <section>
@@ -52,6 +41,7 @@
           <select v-model="settings.cloudSelected" v-bind:disabled="storageService.authorised">
             <option value="">select cloud</option>
             <option v-for="(storage, key) in storageService.providers" v-bind:value="key">{{storage.name}}</option>
+            <option>(more to come)</option>
           </select>
           <button v-on:click="storageService.init(settings.cloudSelected)" v-bind:disabled="storageService.authorised">authorise</button>
           <button v-on:click="onClickRevoke" v-bind:disabled="!storageService.authorised">revoke</button>

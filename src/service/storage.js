@@ -1,8 +1,8 @@
-import local from './storageLocal'
+// import local from './storageLocal'
 import drive from './storageDrive'
 import {notify,storageInitialised,sync} from '../util/signal'
 
-const providers = {local,drive}
+const providers = {drive}
 const syncOn = sync.dispatch.bind(sync,true)
 const syncOff = sync.dispatch.bind(sync,false)
 let provider
