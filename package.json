@@ -77,7 +77,8 @@
     "last 2 versions",
     "not ie <= 8"
   ],
-  "XgitHooks": {
+  "gitHooks": {
+    "pre-commit": "npm run version",
     "apre-commit": "lint-staged"
   },
   "Xlint-staged": {

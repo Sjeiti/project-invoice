@@ -4,17 +4,19 @@
     <thead><tr>
       <th v-for="col in columns" v-on:click="onClickOrder(col)" v-bind:class="'th-'+col">{{colName[col]}}</th>
     </tr></thead>
-    <tbody>
+    <!--<tbody>-->
+    <transition-group v-bind:name="animate?'animate-row':'a'+Date.now()" tag="tbody">
+   
       <tr
           v-for="project in projects"
-          class="row-select"
-          v-bind:class="{'row-select':true,'alert-paid':project.paid,'alert-late':project.isLate,'alert-pending':project.isPending}"
+          :key="project.id"
+          v-bind:class="{'row-select':true,'animate-row':animate,'alert-paid':project.paid,'alert-late':project.isLate,'alert-pending':project.isPending}"
           v-on:click="onRowClick(project)"
       >
         <td v-for="col in columns" v-bind:class="'colname-'+col">
   
           <template v-if="col==='paid'">
-            <label v-on:click.stop class="checkbox"><input v-model="project.paid" v-on:change="onPaidChange" type="checkbox" /><span></span></label>
+            <label v-on:click.stop class="checkbox"><input v-model="project.paid" v-on:change="onPaidChange(project)" type="checkbox" /><span></span></label>
           </template>
           <template v-else-if="col==='invoiceNr'">
             <router-link class="small" :to="project.uri">{{project.invoiceNr}}</router-link>
@@ -36,7 +38,9 @@
         </td>
       </tr>
       <tr v-if="projects.length===0"><td>-</td></tr>
-    </tbody>
+    
+    </transition-group>
+    <!--</tbody>-->
     <tfoot v-if="totals"><tr>
       <th v-for="col in columns">
         
@@ -54,9 +58,10 @@
 </template>
 
 <script>
-import Currency from '@/components/Currency'
-import Date from '@/components/Date'
-import {save} from '@/formState'
+import Currency from '../components/Currency'
+import Date from '../components/Date'
+import {save} from '../formState'
+import {projectPaid} from '../util/signal'
 
 export default {
   name: 'ProjectList'
@@ -64,6 +69,7 @@ export default {
     projects:{default:null}
     ,cols:{default:null}
     ,totals:{default:true}
+    ,animate:{default:false}
   }
   ,data(){
     return {
@@ -131,9 +137,11 @@ export default {
     }
     /**
      * Save after paid-checkbox toggle
+     * @param {project} project
      */
-    ,onPaidChange(){
+    ,onPaidChange(project){
       save()
+      projectPaid.dispatch(project)
     }
     /**
      * Action click handler to add an invoice or reminder to a project
@@ -178,14 +186,18 @@ export default {
       button { &, * { color: white; } }
     }
   }
-  /*button, button [class*=icon-]:before {
-    color: white;
-  }*/
   .project-list {
     max-width: 100vw;
     overflow-x: auto;
     overflow-y: hidden;
     &.empty { color: #AAA; }
+  }
+  .animate-row {
+    &-enter, &-leave-to {
+      transition: transform 500ms linear 200ms, opacity 500ms linear 200ms;
+      opacity: 0;
+      transform: scaleY(0);
+    }
   }
   table {
     tbody tr {
@@ -203,9 +215,7 @@ export default {
     }
     td, th {
       max-width: 20vw;
-      /*max-width: 200px;*/
       white-space: nowrap;
-      /*text-overflow: ellipsis;*/
       overflow: hidden;
       
     }

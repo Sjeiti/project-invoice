@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="page-home">
     <section v-if="config.homeMessage" class="jumbotron clearfix">
       <p>This invoicing application stores all your data on your local machine.<br/>
       <em><small>Because all your data are belongs to you.</small></em></p>
@@ -17,7 +17,7 @@
       <section class="col-12 col-md-7">
         <h2>Open invoices</h2>
         <p v-if="invoices.length===0"><em>You currently have no open invoices... yay!</em></p>
-        <project-list v-if="invoices.length>0" :projects="invoices" :cols="'paid date description totalIncDiscounted actions'" :totals="false"></project-list>
+        <project-list v-if="invoices.length>0" :projects="invoices" :cols="'paid date description totalIncDiscounted actions'" :totals="false" :animate="true"></project-list>
       </section>
       <section class="col-12 col-md-7">
         <h2>Draft projects</h2>
@@ -33,6 +33,7 @@ import BaseView from './BaseView'
 import model from '../model'
 import {save} from '../formState'
 import ProjectList from '../components/ProjectList'
+import {projectPaid} from '../util/signal'
 
 export default {
   name: 'home'
@@ -45,13 +46,20 @@ export default {
       ,drafts: []
       ,latestProject: []
       ,latestClient: {}
+      ,boundDelayedSetInvoices: null
     }
   }
   ,mounted(){
-    this.invoices = model.projects.filter(p=>!p.paid&&!p.ignore&&p.invoices.length)
+//    this.invoices = model.projects.filter(p=>!p.paid&&!p.ignore&&p.invoices.length)
+    this.delayedSetInvoices()
     this.drafts = model.projects.filter(p=>!p.ignore&&p.invoices.length===0)
     this.latestProject = model.projects.sort((a,b)=>new Date(a.dateLatest)>new Date(b.dateLatest)?1:-1).pop()
     this.latestClient = model.getClientByNr(this.latestProject.clientNr)
+    this.boundDelayedSetInvoices = this.delayedSetInvoices.bind(this,1000)
+    projectPaid.add(this.boundDelayedSetInvoices)
+  }
+  ,destroyed(){
+    projectPaid.remove(this.boundDelayedSetInvoices)
   }
   ,methods: {
     onAddClient(){
@@ -72,6 +80,11 @@ export default {
     ,onHideWelcome(){
       this.config.homeMessage = false
       save()
+    }
+    ,delayedSetInvoices(delay=0){
+      this.invoices = model.projects.filter(p=>!p.paid&&!p.ignore&&p.invoices.length)
+      delay
+//      setTimeout(()=>this.invoices = model.projects.filter(p=>!p.paid&&!p.ignore&&p.invoices.length),delay)
     }
   }
 }
@@ -109,4 +122,15 @@ export default {
     padding-top: 0;
     box-shadow: none;
   }
+</style>
+
+<style lang="scss">
+  /*@import '../style/variables';*/
+  /*.page-home .row-select {
+    transition: none;
+    &.alert-paid {
+      opacity: 0;
+      transition: opacity 500ms linear 500ms;
+    }
+  }*/
 </style>
