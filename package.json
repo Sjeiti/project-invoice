@@ -1,6 +1,6 @@
 {
   "name": "ProjectInvoice",
-  "version": "2.2.13",
+  "version": "2.2.15",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -78,17 +78,6 @@
     "not ie <= 8"
   ],
   "gitHooks": {
-    "pre-commit": "npm run version",
-    "apre-commit": "lint-staged"
-  },
-  "Xlint-staged": {
-    "*.js": [
-      "vue-cli-service lint",
-      "git add"
-    ],
-    "*.vue": [
-      "vue-cli-service lint",
-      "git add"
-    ]
+    "pre-commit": "npm run version"
   }
 }

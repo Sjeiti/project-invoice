@@ -21,20 +21,21 @@ const data = {
       ,paymentterm: '21'
       ,contact: ''
       ,projects: [
-        {
+        ...Array.from(new Array(2)).map((o,i)=>({
           clientNr: 1
-          ,description: 'Krabby Patty innovations'
+          ,id: i
+          ,description: `${i===0?'One':'Two'} gazillion Krabby Patties`
           ,hourlyRate: 33
           ,discount: 5
           ,lines: [
             {
-              description: 'frying fodder'
+              description: 'Krabby Patties'
               ,hours: 55
               ,vat: 21
               ,amount: 1234
             }
             ,{
-              description: 'gritty greese'
+              description: 'spatula greese'
               ,hours: 14
               ,vat: 21
               ,amount: 444
@@ -42,33 +43,55 @@ const data = {
           ]
           ,invoices: [
             {
-              date: dateString(now-7*week)
+              date: dateString(now-7*week-i*52)
               ,type: 'invoice'
             }
             ,{
-              date: dateString(now-4*week)
+              date: dateString(now-4*week-i*52)
               ,type: 'reminder'
             }
             ,{
-              date: dateString(now-2*week)
+              date: dateString(now-2*week-i*52)
               ,type: 'reminder'
             }
             ,{
-              date: dateString(now)
+              date: dateString(now-i*52)
               ,type: 'reminder'
               ,interest: true
             }
           ]
-          ,paid: false
+          ,paid: i===0
           ,quotationDate: dateString(now-8*week)
           ,quotationStartDate: dateString(now-8*week)
           ,quotationDuration: 7
-          ,quotationSubject: 'spongebob.io'
+          ,quotationSubject: 'Krabby Patties'
           ,quotationBefore: `### project
-I, Spongebob Squarepants, hereby solemly swear to make one gazillion Krabby Patties.`
+I, Spongebob Squarepants, hereby solemly swear to make ${i===0?'one':'two'} gazillion Krabby Patties.`
           ,quotationAfter: `### finally
 Thank you`
-        }
+        }))
+        ,...Array.from(new Array(3)).map((o,i)=>({
+          clientNr: 1
+          ,id: i+21
+          ,description: 'Krusty Krab spring-cleaning'
+          ,hourlyRate: 33
+          ,discount: 5
+          ,lines: [
+            {
+              description: 'Krabby Patties'
+              ,hours: 823
+              ,vat: 21
+              ,amount: 12345
+            }
+          ]
+          ,invoices: i===0?[]:[
+            {
+              date: dateString(now-i*52*week)
+              ,type: 'invoice'
+            }
+          ]
+          ,paid: false
+        }))
       ]
     }
   ]
