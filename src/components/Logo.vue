@@ -7,12 +7,16 @@ import anime from 'animejs'
 
 export default {
   name: 'Logo'
+  ,props: {
+    colors:{default:()=>['#666','#999','#CCC']}
+  }
   ,data(){
     return {
       size: 28
     }
   }
   ,mounted(){
+    const colors = this.colors
 
     const size = this.size
     const sizeh = size/2
@@ -30,13 +34,13 @@ export default {
     //
     const hexagon = create('polygon')
     hexagon.setAttribute('points',hexPoints.map(v=>v.join(',')).join(' '))
-    setColor(hexagon,'#666')
+    setColor(hexagon,colors[0])
     group.appendChild(hexagon)
     //
     //const rhombus = drawRhombus(group, '#0275d8')
     //const triangle = drawTriangle(group, '#f04')
-    const rhombus = drawRhombus(group,'#999')
-    const triangle = drawTriangle(group,'#CCC')
+    const rhombus = drawRhombus(group,colors[1])
+    const triangle = drawTriangle(group,colors[2])
 
     const timeline = [
       ()=>rotateElement(triangle,hexPoints,3)

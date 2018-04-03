@@ -2,9 +2,11 @@
   <div class="page-home">
     <section v-if="config.homeMessage" class="jumbotron clearfix">
       <p>This invoicing application stores all your data on your local machine.<br/>
-      <em><small>Because all your data are belongs to you.</small></em></p>
+      <em><small>Because all your data are belong to you.</small></em></p>
       <button class="btn-link float-right" v-on:click="onHideWelcome">hide message</button>
       <router-link v-bind:to="'/about'" class="btn btn-link float-right">read more</router-link>
+      
+      <logo :colors="['#3B596D','#356576','#2A7F8B']"></logo>
     </section>
     <div class="row no-gutters">
       <section class="col-12 col-md-5">
@@ -33,12 +35,13 @@ import BaseView from './BaseView'
 import model from '../model'
 import {save} from '../formState'
 import ProjectList from '../components/ProjectList'
+import Logo from '../components/Logo'
 import {projectPaid} from '../util/signal'
 
 export default {
   name: 'home'
   ,extends: BaseView
-  ,components: {ProjectList}
+  ,components: {ProjectList,Logo}
   ,data(){
     return {
       invoices: []
@@ -101,12 +104,20 @@ export default {
     margin-bottom: 40px;
     font-size: 2rem;
     line-height: 130%;
-    background-color: $bgcolor;
-    box-shadow:
-        1000px 0 0 $bgcolor,
-        -1000px 0 0 $bgcolor,
-        200px 0 0 $bgcolor,
-        -200px 0 0 $bgcolor;
+    &:before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      width: 100vw;
+      height: 100%;
+      z-index: -2;
+      transform: translateX(-50%);
+      background-position: center;
+      background-size: cover;
+      background-color: #0cbaba;
+      background-image: linear-gradient(315deg, #0cbaba 0%, $bgcolor 100%);
+    }
     &, * { color: white; }
     p {
       padding: 40px;
@@ -117,20 +128,18 @@ export default {
     }
   }
   
+  svg {
+    position: absolute;
+    left: -4rem;
+    bottom: 1rem;
+    z-index: -1;
+    zoom: 10;
+    opacity: 0.4;
+  }
+  
   section+section {
     margin-top: 0;
     padding-top: 0;
     box-shadow: none;
   }
-</style>
-
-<style lang="scss">
-  /*@import '../style/variables';*/
-  /*.page-home .row-select {
-    transition: none;
-    &.alert-paid {
-      opacity: 0;
-      transition: opacity 500ms linear 500ms;
-    }
-  }*/
 </style>
