@@ -1,3 +1,4 @@
+import 'current-device'
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
@@ -5,9 +6,11 @@ import './directives/explain'
 import './directives/middleEllipsis'
 import {appUpdated} from './util/cache'
 import {notify} from './util/signal'
-import 'current-device'
+import './service/notificationService'
 
 Vue.config.productionTip = false
+
+if(process.env.NODE_ENV!=='production')console.log(process.env)
 
 new Vue({
   router

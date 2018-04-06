@@ -268,6 +268,7 @@ Spongebob Squarepants
     ,homeMessage: true
     ,cloudSelected: ''
     ,type: 'config'
+    ,notifications: false
   }
 }
 

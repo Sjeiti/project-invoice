@@ -13,23 +13,23 @@ if (process.env.NODE_ENV === 'production'){
   register(`${process.env.BASE_URL}service-worker.js`,{
     // App is being served from cache by a service worker
     ready(){
- appReady.dispatch()
-}
+      appReady.dispatch()
+    }
     // Content has been cached for offline use
     ,cached(){
- appCached._dispatch()
-}
+      appCached._dispatch()
+    }
     // New content is available; please refresh
     ,updated(){
- appUpdated.dispatch()
-}
+      appUpdated.dispatch()
+    }
     // No internet connection found. App is running in offline mode.
     ,offline(){
- appOffline.dispatch()
-}
+      appOffline.dispatch()
+    }
     // Error during service worker registration
     ,error(error){
- appError.dispatch(error)
-}
+      appError.dispatch(error)
+    }
   })
 }

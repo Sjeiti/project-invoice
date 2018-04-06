@@ -21,6 +21,7 @@ import {CURRENCY_ISO} from '../config/currencyISO'
  * @property {string} googleFontsAPIKey
  * @property {boolean} homeMessage
  * @property {string} type
+ * @property {boolean} notifications
  */
 
 const proto = {
