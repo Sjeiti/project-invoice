@@ -1,11 +1,15 @@
+import 'dialog-polyfill'
+import 'dialog-polyfill/dialog-polyfill.css'
+import 'current-device'
+
 import Vue from 'vue'
+
 import App from './App.vue'
 import router from './router'
 import './directives/explain'
 import './directives/middleEllipsis'
 import {appUpdated} from './util/cache'
 import {notify} from './util/signal'
-import 'current-device'
 
 Vue.config.productionTip = false
 

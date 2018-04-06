@@ -130,13 +130,14 @@
 
 <script>
 import BaseView from './BaseView'
-import model from '@/model'
-import Currency from '@/components/Currency'
+import model from '../model'
+import Currency from '../components/Currency'
 import {notify} from '../util/signal'
-import {track,untrack,save} from '@/formState'
-import InterpolationUI from '@/components/InterpolationUI'
+import {track,untrack,save} from '../formState'
+import InterpolationUI from '../components/InterpolationUI'
 import draggable from 'vuedraggable'
 import device from 'current-device'
+import {confirm} from '../components/Modal'
 
 export default {
   name: 'project'
@@ -212,12 +213,13 @@ export default {
      */
     ,deleteProject(){
       const project = this.client.projects[parseInt(this.$route.params.projectIndex,10)]
-      if (confirm('Delete this project?')){
-        this.client.deleteProject(project)
-        save()
-        this.$router.push(this.client.uri)
-        notify.dispatch(`Project '${project.description}' has been deleted`)
-      }
+      confirm('Delete this project?')
+          .then(()=>{
+            this.client.deleteProject(project)
+            save()
+            this.$router.push(this.client.uri)
+            notify.dispatch(`Project '${project.description}' has been deleted`)
+          },()=>{})
     }
     /**
      * Add an invoice and save the project
@@ -231,12 +233,10 @@ export default {
      * @param {invoice} invoice
      */
     ,onRemoveInvoice(invoice){
-      if (confirm('Remove this invoice?')){
-        const {project} = this
-        const {invoices} = project
-        const index = invoices.indexOf(invoice)
-        index!==-1&&invoices.splice(index,1)
-      }
+      const {project} = this
+      const {invoices} = project
+      const index = invoices.indexOf(invoice)
+      index!==-1&&invoices.splice(index,1)
     }
     /**
      * Click the invoice interest or exhortation checkbox
@@ -245,7 +245,7 @@ export default {
      * @param {boolean} interest
      */
     ,onClickInvoiceCheck(e,isChecked,interest){
-      !isChecked&&device.mobile()&&!confirm(interest?'Add interest?':'Is this reminder the final exhortation?')&&e.preventDefault()
+      !isChecked&&device.mobile()&&!window.confirm(interest?'Add interest?':'Is this reminder the final exhortation?')&&e.preventDefault()
     }
   }
 }

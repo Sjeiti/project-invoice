@@ -32,6 +32,7 @@ import model from '@/model'
 import {track,untrack,save} from '@/formState'
 import ProjectList from '../components/ProjectList'
 import {notify} from '../util/signal'
+import {confirm} from '../components/Modal'
 
 export default {
   name: 'client'
@@ -54,13 +55,13 @@ export default {
     }
     ,deleteClient(){
       const client = model.getClientByNr(parseInt(this.$route.params.clientNr,10))
-      //confirm('Delete this client?') && model.deleteClient(client) && (save(),this.$router.push('/clients'))
-      if (confirm('Delete this client?')){
-        model.deleteClient(client)
-        save()
-        this.$router.push('/clients')
-        notify.dispatch(`Client '${client.name}' has been deleted`)
-      }
+      confirm('Delete this client?')
+          .then(()=>{
+            model.deleteClient(client)
+            save()
+            this.$router.push('/clients')
+            notify.dispatch(`Client '${client.name}' has been deleted`)
+          },()=>{})
     }
   }
 }

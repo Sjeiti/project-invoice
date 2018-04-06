@@ -6,6 +6,9 @@ import Lang from '../components/Lang.vue'
 import InterpolationUI from '../components/InterpolationUI'
 import defaultData from '../data/data'
 import draggable from 'vuedraggable'
+import {confirm} from '../components/Modal'
+
+const noop = ()=>{}
 
 export default {
   name: 'copy'
@@ -47,7 +50,11 @@ export default {
       }
     }
     ,onRemoveCopy(key){
-      confirm('Do you really want to remove this copy?')&&delete this.copy[key]&&this.forceUpdate()
+      confirm('delete','Do you really want to remove this copy?')
+          .then(()=>{
+            delete this.copy[key]
+            this.forceUpdate()
+          },noop)
     }
     ,forceUpdate(){
       this.updateForcer = !this.updateForcer

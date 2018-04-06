@@ -1,21 +1,21 @@
 <template>
-    <transition-group tag="ul" name="fade">
-      <li
-          v-for="notification in notifications"
-          :key="notification.key"
-          v-on:mouseenter="onMouseEnter(notification)"
-          v-on:mouseleave="onMouseLeave(notification)"
-      >
-        <div v-html="notification.text"></div><button v-on:click="onTransitionEnd(notification)">&#10006;</button>
-        <div
-            class="timer"
-            v-bind:style="notification.style"
-            v-bind:class="notification.class"
-            v-on:transitionend="onTransitionEnd(notification)"
-            v-on:animationend="onTransitionEnd(notification)"
-        ></div>
-      </li>
-    </transition-group>
+  <transition-group tag="ul" name="fade">
+    <li
+        v-for="notification in notifications"
+        :key="notification.key"
+        v-on:mouseenter="onMouseEnter(notification)"
+        v-on:mouseleave="onMouseLeave(notification)"
+    >
+      <div v-html="notification.text"></div><button v-on:click="onTransitionEnd(notification)">&#10006;</button>
+      <div
+          class="timer"
+          v-bind:style="notification.style"
+          v-bind:class="notification.class"
+          v-on:transitionend="onTransitionEnd(notification)"
+          v-on:animationend="onTransitionEnd(notification)"
+      ></div>
+    </li>
+  </transition-group>
 </template>
 
 <script>

@@ -12,6 +12,8 @@
 <script>
   import {saveable,save,revert,deleteModel,tracked} from '../formState'
   import {sync} from '../util/signal'
+  import {confirm} from '../components/Modal'
+  
   export default {
     name: 'SaveableButtons'
     ,data(){
@@ -37,12 +39,12 @@
       },false)
       // prevent route change on dirty
       this.$router.beforeEach((to,from,next)=>{
-        if (this.saveable&&!confirm('Leave unsaved changes')){
-          next(false)
-        } else {
+        const nxt = ()=>{
           this.saveable&&revert()
           next()
         }
+        this.saveable&&confirm('unsaved changes','You are about to discard your changes by leaving this page.','cancel','leave')
+            .then(nxt,()=>next(false))||nxt()
       })
       // sync
       sync.add(onoff=>{

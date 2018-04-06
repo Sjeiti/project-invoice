@@ -28,7 +28,7 @@
         <a class="btn" v-on:click="onClickDownload($event,'data')">download</a>
         <label class="btn" for="restore">restore</label>
         <input accept="application/json, text/json, .json" type="file" id="restore" v-on:change="onChangeRestore" class="visually-hidden" />
-        <button v-on:click="onClickClear('data')">clear</button>
+        <button v-on:click="onClickClear">clear</button>
         <p>Everything you do in this application is saved to localStorage. You can backup this data by downloading a JSON file. You can use this file to restore the data on any other device or machine.<br/>
         You can also clear all the data. It will then be replaced by the default data.</p>
       </div>
@@ -57,6 +57,9 @@ import {CURRENCY_ISO} from '../config/currencyISO'
 import InterpolationUI from '../components/InterpolationUI'
 import storageService from '../service/storage'
 import {storageInitialised} from '../util/signal'
+import {confirm} from '../components/Modal'
+
+const noop = ()=>{}
 
 export default {
   name: 'settings'
@@ -70,14 +73,18 @@ export default {
   }
   ,components: { InterpolationUI }
   ,mounted(){
-    this.config = track(this.$el,model.config)
-    this.currencies = Object.keys(CURRENCY_ISO).map(key=>CURRENCY_ISO[key])
-    storageInitialised.add(()=>this.$forceUpdate())
+    this.init()
   }
   ,destroyed: untrack
   ,methods: {
 
-    onClickDownload(e,type){
+    init(){
+      this.config = track(this.$el,model.config)
+      this.currencies = Object.keys(CURRENCY_ISO).map(key=>CURRENCY_ISO[key])
+      storageInitialised.add(()=>this.$forceUpdate()) // todo destroy
+    }
+
+    ,onClickDownload(e,type){
       const currentTarget = e.currentTarget
           ,dataString = JSON.stringify(model.data)
       currentTarget.setAttribute('href',`data:text/json,${encodeURIComponent(dataString)}`)
@@ -94,15 +101,23 @@ export default {
             ,resultData = JSON.parse(result)
         if (resultData.hasOwnProperty('clients')&&resultData.hasOwnProperty('copy')&&resultData.hasOwnProperty('personal')){
           model.data = resultData
+          this.init()
         }
         target.value = null
       })
     }
 
-    ,onClickClear(type){
-      if (confirm(`Do you really want to clear the ${type}?`)){
-          model.data = null
-      }
+    ,onClickClear(){
+      confirm(
+          'clear data'
+          ,'Delete all the data?'
+          ,'no wait!'
+          ,'clear'
+      )
+          .then(()=>{
+            model.data = null
+            this.init()
+          },noop)
     }
 
     ,onClickRevoke(){
