@@ -29,8 +29,8 @@
         <label class="btn" for="restore">restore</label>
         <input accept="application/json, text/json, .json" type="file" id="restore" v-on:change="onChangeRestore" class="visually-hidden" />
         <button v-on:click="onClickClear">clear</button>
-        <p>Everything you do in this application is saved to localStorage. You can backup this data by downloading a JSON file. You can use this file to restore the data on any other device or machine.<br/>
-        You can also clear all the data. It will then be replaced by the default data.</p>
+        <p>Everything you do in this application is saved to localStorage. You can backup this data by <em>downloading</em> a JSON file. You can use this file to <em>restore</em> the data on any other device or machine.<br/>
+        When you <em>clear</em> the data it will be replaced by default data.</p>
       </div>
     </section>
     <section class="row no-gutters">
