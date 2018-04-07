@@ -27,7 +27,7 @@ body, h1, h2, h3, h4, h5, h6, p, ol, ul {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  padding: 10px 0;
+  padding: 0 0 10px;
   line-height: 200%;
   /*box-shadow: 0 0 0 999px #EEE inset;*/
 }
@@ -41,6 +41,13 @@ section+section {
   margin-top: 40px;
   padding-top: 40px;
   box-shadow: 0 1px 0 $colorBorder inset;
+}
+section>button:first-child,
+section>.btn:first-child,
+section>header>button:first-child,
+section>header>.btn:first-child,
+.button--lower {
+  margin-top: .5rem;
 }
 
 img {

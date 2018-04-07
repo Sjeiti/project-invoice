@@ -1,59 +1,60 @@
 <template>
   <div class="project-list" v-bind:class="{'project-list':true,'empty':projects.length===0}">
-  <table>
-    <thead><tr>
-      <th v-for="col in columns" v-on:click="onClickOrder(col)" v-bind:class="'th-'+col">{{colName[col]}}</th>
-    </tr></thead>
-    <!--<tbody>-->
-    <transition-group v-bind:name="animate?'animate-row':'a'+Date.now()" tag="tbody">
-   
-      <tr
-          v-for="project in projects"
-          :key="project.id"
-          v-bind:class="{'row-select':true,'animate-row':animate,'alert-paid':project.paid,'alert-late':project.isLate,'alert-pending':project.isPending}"
-          v-on:click="onRowClick(project)"
-      >
-        <td v-for="col in columns" v-bind:class="'colname-'+col">
-  
-          <template v-if="col==='paid'">
-            <label v-on:click.stop class="checkbox"><input v-model="project.paid" v-on:change="onPaidChange(project)" type="checkbox" /><span></span></label>
-          </template>
-          <template v-else-if="col==='invoiceNr'">
-            <router-link class="small" :to="project.uri">{{project.invoiceNr}}</router-link>
-          </template>
-          <template v-else-if="col==='date'||col==='dateLatest'">
-            <date class="small nowrap" :value="project[col]" />
-          </template>
-          <template v-else-if="col==='totalDiscounted'||col==='totalVatDiscounted'||col==='totalIncDiscounted'">
-            <currency :value="project[col]" />
-          </template>
-          <template v-else-if="col==='actions'">
-            <button v-on:click.stop v-if="project.invoices.length===0" v-on:click="onAddInvoice(project)"><span class="hide-low">Add invoice</span><span class="icon-file icon-add-round hide-high"></span></button>
-            <button v-on:click.stop v-else-if="project.overdue" v-on:click="onAddReminder(project)"><span class="hide-low">Add reminder</span><span class="icon-file icon-add-round hide-high"></span></button>
+    <p v-if="projects.length===0&&empty"><em>{{empty}}</em></p>
+    <table v-if="projects.length>0||!empty">
+      <thead><tr>
+        <th v-for="col in columns" v-on:click="onClickOrder(col)" v-bind:class="'th-'+col">{{colName[col]}}</th>
+      </tr></thead>
+      <!--<tbody>-->
+      <transition-group v-bind:name="animate?'animate-row':'a'+Date.now()" tag="tbody">
+     
+        <tr
+            v-for="project in projects"
+            :key="project.id"
+            v-bind:class="{'row-select':true,'animate-row':animate,'alert-paid':project.paid,'alert-late':project.isLate,'alert-pending':project.isPending}"
+            v-on:click="onRowClick(project)"
+        >
+          <td v-for="col in columns" v-bind:class="'colname-'+col">
+    
+            <template v-if="col==='paid'">
+              <label v-on:click.stop class="checkbox"><input v-model="project.paid" v-on:change="onPaidChange(project)" type="checkbox" /><span></span></label>
+            </template>
+            <template v-else-if="col==='invoiceNr'">
+              <router-link class="small" :to="project.uri">{{project.invoiceNr}}</router-link>
+            </template>
+            <template v-else-if="col==='date'||col==='dateLatest'">
+              <date class="small nowrap" :value="project[col]" />
+            </template>
+            <template v-else-if="col==='totalDiscounted'||col==='totalVatDiscounted'||col==='totalIncDiscounted'">
+              <currency :value="project[col]" />
+            </template>
+            <template v-else-if="col==='actions'">
+              <button v-on:click.stop v-if="project.invoices.length===0" v-on:click="onAddInvoice(project)"><span class="hide-low">Add invoice</span><span class="icon-file icon-add-round hide-high"></span></button>
+              <button v-on:click.stop v-else-if="project.overdue" v-on:click="onAddReminder(project)"><span class="hide-low">Add reminder</span><span class="icon-file icon-add-round hide-high"></span></button>
+            </template>
+            <template v-else>
+              <router-link :to="project.uri" v-ellipsis v-bind:data-text="project[col]">{{project[col]}}</router-link>
+            </template>
+            
+          </td>
+        </tr>
+        <tr :key="'empty'" v-if="projects.length===0"><td>-</td></tr>
+      
+      </transition-group>
+      <!--</tbody>-->
+      <tfoot v-if="totals"><tr>
+        <th v-for="col in columns">
+          
+          <template v-if="col==='totalDiscounted'||col==='totalVatDiscounted'||col==='totalIncDiscounted'">
+            <currency :value="getTotalValue(col)" />
           </template>
           <template v-else>
-            <router-link :to="project.uri" v-ellipsis v-bind:data-text="project[col]">{{project[col]}}</router-link>
+            {{getTotalValue(col)}}
           </template>
           
-        </td>
-      </tr>
-      <tr :key="'empty'" v-if="projects.length===0"><td>-</td></tr>
-    
-    </transition-group>
-    <!--</tbody>-->
-    <tfoot v-if="totals"><tr>
-      <th v-for="col in columns">
-        
-        <template v-if="col==='totalDiscounted'||col==='totalVatDiscounted'||col==='totalIncDiscounted'">
-          <currency :value="getTotalValue(col)" />
-        </template>
-        <template v-else>
-          {{getTotalValue(col)}}
-        </template>
-        
-      </th>
-    </tr></tfoot>
-  </table>
+        </th>
+      </tr></tfoot>
+    </table>
   </div>
 </template>
 
@@ -70,6 +71,7 @@ export default {
     ,cols:{default:null}
     ,totals:{default:true}
     ,animate:{default:false}
+    ,empty:{default:''}
   }
   ,data(){
     return {
@@ -175,6 +177,7 @@ export default {
 
 <style lang="scss" scoped>
   @import '../style/variables';
+  .project-list>p { color: #333; }
   .alert {
     &-paid { &, * { color: #AAA; }}
     &-late { &, * { color: red; }}

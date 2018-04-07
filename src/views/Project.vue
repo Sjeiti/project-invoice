@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button v-on:click="clone(project)" class="float-right">clone</button>
+    <button v-on:click="clone(project)" class="float-right button--lower">clone</button>
     <h1><span class="hide-low">Project: </span>{{project.description}}</h1>
     <section>
       <dl>
@@ -28,8 +28,10 @@
     </section>
     
     <section>
-      <button v-on:click="onAddLine()" class="float-right">add line</button>
-      <h3>lines</h3>
+      <header>
+        <button v-on:click="onAddLine()" class="float-right">add line</button>
+        <h3>lines</h3>
+      </header>
       <table>
         <thead>
         <tr>
@@ -90,7 +92,7 @@
     </section>
     
     <section>
-      <header class="clearfix">
+      <header>
         <button v-on:click="onAddInvoice()" class="float-right" v-html="`add ${project.invoices&&project.invoices.length?'reminder':'invoice'}`">add invoice</button>
         <h3>invoices</h3>
       </header>
@@ -113,8 +115,10 @@
     </section>
     
     <section>
-      <router-link v-bind:to="`${project.uri}/quotation`" class="btn float-right">show quotation</router-link>
-      <h3>quotation</h3>
+      <header>
+        <router-link v-bind:to="`${project.uri}/quotation`" class="btn float-right">show quotation</router-link>
+        <h3>quotation</h3>
+      </header>
       <dl>
         <template v-for="qt in quotation">
           <dt v-explain="'project.'+qt.property"></dt>

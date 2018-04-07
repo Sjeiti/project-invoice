@@ -17,11 +17,15 @@
     </section>
     
     <section>
-      <header class="clearfix">
+      <header>
         <button v-on:click="onAddProject()" class="float-right">add project</button>
         <h3>Projects</h3>
       </header>
-      <project-list :projects="client.projects||[]" :cols="'paid nr date dateLatest description totalIncDiscounted'"></project-list>
+      <project-list
+          :projects="client.projects"
+          :cols="'paid nr date dateLatest description totalIncDiscounted'"
+          :empty="'This client has no projects :-/'"
+      ></project-list>
     </section>
   </div>
 </template>
@@ -39,7 +43,7 @@ export default {
   ,extends: BaseView
   ,data(){
     return {
-      client:{}
+      client:{projects:[]}
     }
   }
   ,mounted(){

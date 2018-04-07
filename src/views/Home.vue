@@ -19,13 +19,22 @@
       </section>
       <section class="col-12 col-md-7">
         <h2>Open invoices</h2>
-        <p v-if="invoices.length===0"><em>You currently have no open invoices... yay!</em></p>
-        <project-list v-if="invoices.length>0" :projects="invoices" :cols="'paid date description totalIncDiscounted actions'" :totals="false" :animate="true"></project-list>
+        <project-list
+            :projects="invoices"
+            :cols="'paid date description totalIncDiscounted actions'"
+            :empty="'You currently have no open invoices... yay!'"
+            :totals="false"
+            :animate="true"
+        ></project-list>
       </section>
       <section class="col-12 col-md-7">
         <h2>Draft projects</h2>
-        <p v-if="drafts.length===0"><em>You currently have no drafts... :-/</em></p>
-        <project-list v-if="drafts.length>0" :projects="drafts" :cols="'clientName description totalIncDiscounted actions'" :totals="false"></project-list>
+        <project-list
+            :projects="drafts"
+            :cols="'clientName description totalIncDiscounted actions'"
+            :empty="'You currently have no drafts... :-/'"
+            :totals="false"
+        ></project-list>
       </section>
     </div>
   </div>
