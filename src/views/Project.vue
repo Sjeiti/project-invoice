@@ -44,7 +44,7 @@
           <th></th>
         </tr>
         </thead>
-        <tbody is="draggable" v-model="project.lines" :element="'tbody'"><!-- :clone="true"-->
+        <tbody is="draggable" v-model="project.lines" :element="'tbody'" :options="{handle:'.icon-drag'}">
           <tr v-for="(line, index) in project.lines" :key="index">
             <td><i class="icon-drag" v-if="project.lines.length>1"></i></td>
             <td><input v-model="line.description" ref="lineDescription" /></td>
