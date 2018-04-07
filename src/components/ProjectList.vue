@@ -37,7 +37,7 @@
           
         </td>
       </tr>
-      <tr v-if="projects.length===0"><td>-</td></tr>
+      <tr :key="'empty'" v-if="projects.length===0"><td>-</td></tr>
     
     </transition-group>
     <!--</tbody>-->
