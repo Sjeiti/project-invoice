@@ -9,8 +9,8 @@
     </header>
     <section v-for="(quarter, i) in quarters" :key="i">
       <header>
+        <button v-on:click="onClickCsv(quarter)" v-bind:disabled="quarter.length===0" class="float-right">copy csv data</button>
         <h3>quarter {{i + 1}}</h3>
-        <button v-on:click="onClickCsv(quarter)" v-bind:disabled="quarter.length===0">copy csv data</button>
       </header>
       <project-list
           :projects="quarter"
@@ -111,23 +111,9 @@ export default {
     text-decoration: none;
     padding-right: 10px;
   }
-  header {
-    position: relative;
-    button {
-      position: absolute;
-      right: 0;
-      top: 20px;
-    }
-  }
   .current {
     font-weight: bold;
     cursor: default;
   }
   .page-quarter.page-quarter .alert-paid, .page-quarter.page-quarter .alert-paid * { color: inherit; }
-  /*.page-quarter.page-quarter.page-quarter .alert {
-    &-paid { &, * { color: inherit; }}
-    &-late { &, * { color: inherit; }}
-    &-pending { &, * { color: inherit; }}
-    &-select { &, * { background-color: inherit; }}
-  }*/
 </style>
