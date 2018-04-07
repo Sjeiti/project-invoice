@@ -12,7 +12,11 @@
         <h3>quarter {{i + 1}}</h3>
         <button v-on:click="onClickCsv(quarter)" v-bind:disabled="quarter.length===0">copy csv data</button>
       </header>
-      <project-list :projects="quarter" :cols="'invoiceNr date clientName description totalDiscounted totalVatDiscounted totalIncDiscounted'"></project-list>
+      <project-list
+          :projects="quarter"
+          :cols="'invoiceNr date clientName description totalDiscounted totalVatDiscounted totalIncDiscounted'"
+          :empty="'No projects in this quarter'"
+      ></project-list>
     </section>
     <textarea class="visually-hidden" ref="csv"></textarea>
   </div>

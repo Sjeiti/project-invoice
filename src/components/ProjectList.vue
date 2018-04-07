@@ -203,6 +203,8 @@ export default {
     }
   }
   table {
+    thead { border-bottom: 1px solid #CCC; }
+    tfoot { border-top: 1px solid #CCC; }
     tbody tr {
       transition: background-color 200ms linear, box-shadow 200ms linear;
       box-shadow: 0 1px 0 0 transparent inset, 0 -1px 0 0 transparent inset;
