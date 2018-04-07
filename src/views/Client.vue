@@ -31,7 +31,7 @@ import BaseView from './BaseView'
 import model from '@/model'
 import {track,untrack,save} from '@/formState'
 import ProjectList from '../components/ProjectList'
-import {notify} from '../util/signal'
+import {notify} from '../components/Notification'
 import {confirm} from '../components/Modal'
 
 export default {
@@ -60,7 +60,7 @@ export default {
             model.deleteClient(client)
             save()
             this.$router.push('/clients')
-            notify.dispatch(`Client '${client.name}' has been deleted`)
+            notify(`Client '${client.name}' has been deleted`)
           },()=>{})
     }
   }

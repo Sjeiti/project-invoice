@@ -9,7 +9,8 @@ import router from './router'
 import './directives/explain'
 import './directives/middleEllipsis'
 import {appUpdated} from './util/cache'
-import {notify} from './util/signal'
+import {notify} from './components/Notification'
+import {VERSION} from './config'
 
 Vue.config.productionTip = false
 
@@ -26,6 +27,6 @@ appUpdated.add(()=>{
 })
 
 if (localStorage.updated){
-  notify.dispatch('Project Invoice has just been updated<!-- to version xxxx -->')
+  notify(`Project Invoice has just been updated to version ${VERSION}`)
   setTimeout(() => localStorage.removeItem('updated'),5000)
 }

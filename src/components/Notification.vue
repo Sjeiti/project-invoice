@@ -19,8 +19,28 @@
 </template>
 
 <script>
-import {notify} from '../util/signal'
+//import {notify} from '../util/signal'
+
+import {signal} from '../util/signal'
+const sgNotify = signal()
+
+/**
+ * Show notification
+ * @param {string} notification
+ * @returns {Promise}
+ */
+export function notify(notification){
+  return new Promise((resolve,reject)=>{
+//    removeAll()
+//    sgConfirm.addOnce(resolve)
+//    sgCancel.addOnce(reject)
+    sgNotify.dispatch(notification)
+    resolve()||reject()
+  })
+}
+
 const playstatePaused = 'animation-play-state:paused;'
+
 export default {
   name: 'Notification'
   ,data(){
@@ -29,7 +49,7 @@ export default {
     }
   }
   ,mounted(){
-    notify.add(this.onNotify.bind(this))
+    sgNotify.add(this.onNotify.bind(this))
   }
   ,methods: {
     /**

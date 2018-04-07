@@ -132,7 +132,7 @@
 import BaseView from './BaseView'
 import model from '../model'
 import Currency from '../components/Currency'
-import {notify} from '../util/signal'
+import {notify} from '../components/Notification'
 import {track,untrack,save} from '../formState'
 import InterpolationUI from '../components/InterpolationUI'
 import draggable from 'vuedraggable'
@@ -205,7 +205,7 @@ export default {
       this.$router.push(clone.uri)
       this.project = track(this.$el,clone,this.deleteProject)
       save()
-      notify.dispatch(`Project '${project.description}' cloned`)
+      notify(`Project '${project.description}' cloned`)
       this.$refs.description.focus()
     }
     /**
@@ -218,7 +218,7 @@ export default {
             this.client.deleteProject(project)
             save()
             this.$router.push(this.client.uri)
-            notify.dispatch(`Project '${project.description}' has been deleted`)
+            notify(`Project '${project.description}' has been deleted`)
           },()=>{})
     }
     /**
