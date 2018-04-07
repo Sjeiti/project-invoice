@@ -1,13 +1,14 @@
 <template>
   <div class="page-home">
-    <section v-if="config.homeMessage" class="jumbotron clearfix">
-      <p>This invoicing application stores all your data on your local machine.<br/>
-      <em><small>Because all your data are belong to you.</small></em></p>
-      <button class="btn-link float-right" v-on:click="onHideWelcome">hide message</button>
-      <router-link v-bind:to="'/about'" class="btn btn-link float-right">read more</router-link>
-      
-      <logo :colors="['#3B596D','#356576','#2A7F8B']"></logo>
-    </section>
+    <transition-group name="jumbotron">
+      <section v-if="config.homeMessage" class="jumbotron clearfix" :key="'jumbotron'">
+        <p>This invoicing application stores all your data on your local machine.<br/>
+        <em><small>Because all your data are belong to you.</small></em></p>
+        <button class="btn-link float-right" v-on:click="onHideWelcome">hide message</button>
+        <router-link v-bind:to="'/about'" class="btn btn-link float-right">read more</router-link>
+        <logo :colors="['#3B596D','#376677','#2A7F8B']"></logo>
+      </section>
+    </transition-group>
     <div class="row no-gutters">
       <section class="col-12 col-md-5">
         <h2>What do you want to do:</h2>
@@ -49,20 +50,19 @@ export default {
       ,drafts: []
       ,latestProject: []
       ,latestClient: {}
-      ,boundDelayedSetInvoices: null
+      ,boundSetInvoices: null
     }
   }
   ,mounted(){
-//    this.invoices = model.projects.filter(p=>!p.paid&&!p.ignore&&p.invoices.length)
-    this.delayedSetInvoices()
+    this.setInvoices()
     this.drafts = model.projects.filter(p=>!p.ignore&&p.invoices.length===0)
     this.latestProject = model.projects.sort((a,b)=>new Date(a.dateLatest)>new Date(b.dateLatest)?1:-1).pop()
     this.latestClient = model.getClientByNr(this.latestProject.clientNr)
-    this.boundDelayedSetInvoices = this.delayedSetInvoices.bind(this,1000)
-    projectPaid.add(this.boundDelayedSetInvoices)
+    this.boundSetInvoices = this.setInvoices.bind(this,1000)
+    projectPaid.add(this.boundSetInvoices)
   }
   ,destroyed(){
-    projectPaid.remove(this.boundDelayedSetInvoices)
+    projectPaid.remove(this.boundSetInvoices)
   }
   ,methods: {
     onAddClient(){
@@ -84,10 +84,8 @@ export default {
       this.config.homeMessage = false
       save()
     }
-    ,delayedSetInvoices(delay=0){
+    ,setInvoices(){
       this.invoices = model.projects.filter(p=>!p.paid&&!p.ignore&&p.invoices.length)
-      delay
-//      setTimeout(()=>this.invoices = model.projects.filter(p=>!p.paid&&!p.ignore&&p.invoices.length),delay)
     }
   }
 }
@@ -117,6 +115,11 @@ export default {
       background-size: cover;
       background-color: #0cbaba;
       background-image: linear-gradient(315deg, #0cbaba 0%, $bgcolor 100%);
+    }
+    &-enter, &-leave-to {
+      transition: transform 300ms linear, margin-bottom 300ms linear;
+      transform: translateY(-100%);
+      margin-bottom: -220px;
     }
     &, * { color: white; }
     p {
