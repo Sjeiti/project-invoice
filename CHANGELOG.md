@@ -1,5 +1,28 @@
 # Changelog
 
+## v2.2.21 (07/04/2018)
+- Animated home jumbotron [#151](https://github.com/Sjeiti/project-invoice/issues/151)
+- Better explanation in settings [#148](https://github.com/Sjeiti/project-invoice/issues/148)
+- Jumbotron styling [#147](https://github.com/Sjeiti/project-invoice/issues/147)
+- Removed localStorage from cloud options [#144](https://github.com/Sjeiti/project-invoice/issues/144)
+- When adding line to project set focus to first field [#128](https://github.com/Sjeiti/project-invoice/issues/128)
+- Add test to assert no horizontal scrollbars [#117](https://github.com/Sjeiti/project-invoice/issues/117)
+- Currency formatting (list view) [#94](https://github.com/Sjeiti/project-invoice/issues/94)
+- Added message for empty list in quarter / home / overview [#58](https://github.com/Sjeiti/project-invoice/issues/58)
+- Added better dummy data [#52](https://github.com/Sjeiti/project-invoice/issues/52)
+- Removed projects without invoices from quarter [#48](https://github.com/Sjeiti/project-invoice/issues/48)
+- New project focus to description [#44](https://github.com/Sjeiti/project-invoice/issues/44)
+- Added visual feedback when cloning a project from the project page [#37](https://github.com/Sjeiti/project-invoice/issues/37)
+- Better reminder checkbox implementation for mobile [#14](https://github.com/Sjeiti/project-invoice/issues/14)
+- Timed animated row removal when marking 'paid' on front-page [#13](https://github.com/Sjeiti/project-invoice/issues/13)
+- Replaced confirm with custom modal component [#12](https://github.com/Sjeiti/project-invoice/issues/12)
+- Written e2e and unit tests [#5](https://github.com/Sjeiti/project-invoice/issues/5)
+- JSDoc all the things! [#4](https://github.com/Sjeiti/project-invoice/issues/4)
+- Bugfixes [#134](https://github.com/Sjeiti/project-invoice/issues/134), [#119](https://github.com/Sjeiti/project-invoice/issues/119), [#103](https://github.com/Sjeiti/project-invoice/issues/103), [#16](https://github.com/Sjeiti/project-invoice/issues/16)
+
+
+---
+
 ## v2.2.7 (31/03/2018)
 - Refactor copy page to original state [#132](https://github.com/Sjeiti/project-invoice/issues/132)
 - Drag/order project lines [#125](https://github.com/Sjeiti/project-invoice/issues/125)
