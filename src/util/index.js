@@ -1,3 +1,5 @@
+export const nextTick = window.requestAnimationFrame
+
 /**
  * Promise all watch several properties
  * @param {object} vm

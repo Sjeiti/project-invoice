@@ -6,7 +6,7 @@ import Lang from '../components/Lang.vue'
 import InterpolationUI from '../components/InterpolationUI'
 import defaultData from '../data/data'
 import draggable from 'vuedraggable'
-import {confirm} from '../components/Modal'
+import {confirm,prompt} from '../components/Modal'
 
 const noop = ()=>{}
 
@@ -43,11 +43,12 @@ export default {
   }
   ,methods: {
     onAddCopy(){
-      const key = prompt('name?')
-      if (key&&!this.copy.hasOwnProperty(key)){
-        this.copy[key] = this.config.langs.reduce((o,s)=>(o[s]='',o),{index:-1})
-        this.forceUpdate()
-      }
+      prompt('Type a name','The name is used as a key').then(key=>{
+        if (key&&!this.copy.hasOwnProperty(key)){
+          this.copy[key] = this.config.langs.reduce((o,s)=>(o[s]='',o),{index:-1})
+          this.forceUpdate()
+        }
+      },()=>{})
     }
     ,onRemoveCopy(key){
       confirm('delete','Do you really want to remove this copy?')
