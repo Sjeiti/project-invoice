@@ -71,8 +71,8 @@ button, .btn, input, button, select, textarea, .input {
 button, .btn {
   display: inline-block;
   margin-bottom: $padding;
-  box-shadow: 0 0 0 1px darken($colorButton,10%) inset,
-    1px 1px 0 1px lighten($colorButton,5%) inset,
+  box-shadow: 0 0 0 1px darken($colorButton,5%) inset,
+    1px 1px 0 1px lighten($colorButton,3%) inset,
     0 -2px 8px $colorShade inset;
   background-color: $colorButton;
   color: #FFF!important;
@@ -80,13 +80,13 @@ button, .btn {
   transition: background-color 200ms linear;
   cursor: pointer;
   &:hover {
-    background-color: lighten($colorButton,10%);
+    background-color: lighten($colorButton,5%);
   }
   &:focus {
     box-shadow: 0 0 0 1px darken($colorButton,10%) inset,
-      1px 1px 0 1px lighten($colorButton,40%) inset,
+      1px 1px 0 1px lighten($colorButton,20%) inset,
       0 -2px 8px $colorShade inset,
-      1px 2px 4px rgba(0,0,0,0.4);
+      $shadeFlat;
   }
   &[disabled], &[disabled]:hover {
     opacity: 0.3;

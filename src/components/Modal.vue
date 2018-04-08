@@ -146,8 +146,8 @@ export default {
     min-width: 300px;
     max-width: calc(100vw - 2rem);
     border: 0;
-    background-color: #FFF;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    background-color: $colorBackground;
+    box-shadow: 0 0 0 1px $colorBlue, $shadeFlat;
     border-radius: $borderRadius;
     @media (max-width: 400px) {
       min-width: 10px;
@@ -162,9 +162,10 @@ export default {
       }
       button {
         flex: 0 0 auto;
-        color: black!important;
         background-color: transparent;
         box-shadow: none;
+        color: $colorLink!important;
+        transform: translateX(6px);
       }
     }
     section {

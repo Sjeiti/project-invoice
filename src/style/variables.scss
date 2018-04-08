@@ -1,6 +1,6 @@
 
 $colorRed: #F04;
-$colorBlue: #0275D8;
+$colorBlue: #1d85b4;
 $colorYellow: #EFAC4E;
 $colorGrayDark: #444;
 $colorGray: #888;
@@ -9,7 +9,7 @@ $colorGrayLight: #CCC;
 $colorBackground: #F8F8F8;
 $colorHeader: #444;
 $colorError: $colorRed;
-$colorLink: #46A;
+$colorLink: #1c93be;
 $colorButton: $colorBlue;
 $colorButtonHigh: $colorYellow;
 $colorBorder: #BBB;
@@ -30,6 +30,7 @@ $breakpointHigh: '(min-width: 599px)';
 
 // below old
 
+$shadeFlat: 2px 3px 1px rgba(0, 0, 0, 0.2);
 
 $colorMain: #444; //#748274;
 $colorMainDark: darken($colorMain,5%);

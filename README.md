@@ -6,6 +6,8 @@ This invoicing application stores all your data on your local machine.
 Your local documents are not shared between different browsers or computers.
 Project Invoice is accessible offline after the application has been loaded for the first time. You can turn it into a mobile-web-app by using the add-to-home-screen from your mobile browser.
 
+Project Invoice is an invoicing application intended for freelancers or other forms of self employed professionals.
+
 
 ## Getting Started
 
