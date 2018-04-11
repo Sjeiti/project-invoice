@@ -71,22 +71,14 @@ body {
   header {
     padding-top: 20pt;
     margin-bottom: 30pt;
-    //font-size: 16pt;
-    > * {
-      z-index: 1;
+    .wrapper {
+      display: flex;
+      justify-content: space-between;
     }
+    > * { z-index: 1; }
     .client {}
     .you { text-align: right; }
-    p {
-      margin: 0;
-    }
-    > canvas {
-      zoom: 3;
-      position: absolute;
-      left: 0;
-      top: 0;
-      z-index: 0;
-    }
+    p { margin: 0; }
   }
   footer {
     flex: 0 1 63pt;

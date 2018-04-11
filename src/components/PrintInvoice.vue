@@ -1,16 +1,19 @@
 <template>
   <div>
-    <div class="invoice-shade"><div></div></div>
-    <div class="invoice print-invoice" :class="config.theme||''">
+    <div ref="shade" class="invoice-shade"><div></div></div>
+    <div ref="iframeWrapper" class="iframe-wrapper">
+      <iframe ref="iframe"></iframe>
+    </div>
+    <div ref="invoice" class="invoice print-invoice" :class="config.theme||''">
       <!--<link href='https://fonts.googleapis.com/css?family=Droid+Sans+Mono|Istok+Web:400,400italic,700,700italic' rel='stylesheet' type='text/css'/>-->
       <!--<style>{{config.invoiceCSS}}</style>-->
       <link v-bind:href="fontsURI" rel='stylesheet' type='text/css'/>
       <!--############################################################-->
       <header>
         <div class="page">
-          <div class="wrapper block clearfix">
-            <div class="float-left client" v-html="parse('receiver')"></div>
-            <div class="float-right you">
+          <div class="wrapper">
+            <div class="client" v-html="parse('receiver')"></div>
+            <div class="you">
               <div id="logo"></div>
               <div v-html="parse('sender')"></div>
             </div>
@@ -124,7 +127,8 @@
 import model from '../model'
 import Currency from '../components/Currency'
 import {parse,__} from '../service/interpolationService'
-import {appendStyle,cssVariablesChanged} from '../model/css'
+import {appendStyle,cssVariablesChanged,cssCompiled} from '../model/css'
+import {resize} from '../util/signal'
 
 export default {
   name: 'PrintInvoice'
@@ -134,18 +138,88 @@ export default {
       config: model.config
       ,isQuotation: false
       ,personal: model.personal
+      ,contentHeight: 297
+      ,resizeBind: null
     }
   }
   ,mounted(){
     this.isQuotation = /\/client\/\d+\/\d+\/quotation/.test(location.href)
     appendStyle(this.$el.querySelector('.invoice'))
     cssVariablesChanged.add(settings=>this.config=settings||model.config)
+    //
+    Promise.all([
+        new Promise(resolve=>cssCompiled.addOnce(resolve))
+        ,this.populateIframe()
+    ])
+      .then(([css])=>{
+        this.onCssCompiled(css)
+        cssCompiled.add(this.onCssCompiled.bind(this))
+        this.resizeBind = resize.add(this.onResize.bind(this))
+      })
+  }
+  ,destroy(){
+    this.resizeBind&&this.resizeBind.detach()
   }
   ,components: {
     Currency
   }
   ,methods: {
-    __
+    /**
+     * Popupate the iframe with the interpolated HTML and add the stylesheets
+     * @returns {Promise}
+     */
+    populateIframe(){
+      return new Promise(resolve=>{
+        setTimeout(()=>{
+          const {iframe,invoice} = this.$refs
+          const {contentDocument} = iframe
+          const contentBody = contentDocument.body
+          //
+          contentDocument.title = this.invoiceName
+          //
+          const html = invoice.outerHTML.replace(/print-invoice/,'')
+          const styles = Array.from(document.querySelectorAll('style,link[rel=stylesheet]'))
+              .filter(style=>/@page/.test(style.textContent)||style.getAttribute('id')==='invoiceCSS')
+              .map(style=>style.outerHTML).join('')
+          //
+          contentBody.innerHTML = styles + html
+          //
+          this.contentHeight = contentDocument.body.offsetHeight
+          this.onResize()
+          //
+          resolve()
+          this.pageReady = true // todo to parent component
+        })
+      })
+    }
+
+    /**
+     * Resize
+     */
+    ,onResize(w){
+      const {shade,iframeWrapper,iframe} = this.$refs
+      const height = this.contentHeight
+      iframe.style.height = `${height}px`
+      shade.children[0].style.height = `${height}px`
+      iframeWrapper.style.height = `${(w>=598?0.6:0.4)*height}px`
+    }
+
+    /**
+     * Inject custom CSS into iframe when sass has compiled
+     * @param {string} css
+     */
+    ,onCssCompiled(css){
+      const {iframe} = this.$refs
+      const {contentDocument} = iframe
+      if (contentDocument){
+        contentDocument.getElementById('invoiceCSS').textContent = css
+      }
+      // todo: re-render image after css compilation
+      // this.renderImage()
+    }
+
+    ,__
+
     /**
      * Wrapper for interpolationService.parse to add client, project and invoice
      * @param {string} key
@@ -168,73 +242,63 @@ export default {
 }
 </script>
 
-<style lang="scss" scped>
-@import '../style/variables';
-@import '../style/print';
+<style lang="scss">
+  @import '../style/variables';
+  @import '../style/print';
+</style>
 
-.invoice-shade {
-  position: relative;
-  display: block;
-  height: 0;
-  zoom: .399;
-  @media #{$breakpointHigh} { zoom: .599; }
-  div {
+<style lang="scss" scoped>
+  @import '../style/variables';
+  $sizeS: 0.4;
+  $sizeL: 0.6;
+  $A4w: 210mm;
+  $A4h: 297mm;
+  $A4ws: $A4w*$sizeS;
+  $A4wl: $A4w*$sizeL;
+  $A4wsh: 0.5*$A4ws;
+  $A4wlh: 0.5*$A4wl;
+  .iframe-wrapper {
     position: relative;
-    left: 50%;
-    width: 210mm;
-    min-height: 296.9mm;
-    transform: translateX(-50%);
-    &:before, &:after {
-      content: '';
-      position: absolute;
-      left: 4%;
-      top: 1%;
-      width: 92%;
-      height: 98%;
-      box-shadow: 4px 8px 64px rgba(0, 0, 0, 0.4);
-    }
-    &:before {
-      transform: skewX(3deg);
-    }
-    &:after {
-      transform: skewX(-3deg);
+    left: calc(50% - #{$A4wsh});
+    width: $A4ws;
+    overflow: hidden;
+    @media #{$breakpointHigh} {
+      width: $A4wl;
+      left: calc(50% - #{$A4wlh});
     }
   }
-}
-.print-invoice {
-  /*display: block;*/
-  width: 210mm;
-  min-height: 296.9mm;
-  margin: 0 auto 60px;
-  position: relative;
-  z-index: 1;
-  zoom: .4;
-  font-family: "Istok Web","Helvetica Neue",Helvetica,Arial,sans-serif;
-  @media #{$breakpointHigh} { zoom: .6; }
-}
-.invoice {
-  position: relative;
-  z-index: 1;
-  width: 210mm;
-  min-height: 296.9mm;
-  font-family: "Istok Web","Helvetica Neue",Helvetica,Arial,sans-serif;
-}
-.page-break{
-  position: relative;
-  left: -10%;
-  display: block;
-  width: 120%;
-  height: 0;
-  border-top: 2px dashed $colorGrayLight;
-  /*&:after{
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 297mm;
+  iframe {
+    width: $A4w;
+    border: 0;
+    transform-origin: 0 0;
+    transform: scale($sizeS);
+    background-color: white;
+    @media #{$breakpointHigh} { transform: scale($sizeL); }
+  }
+  .invoice-shade {
+    position: relative;
     display: block;
-    width: 100%;
     height: 0;
-    border-top: 2px dashed #EEE;
-  }*/
-}
+    zoom: $sizeS;
+    @media #{$breakpointHigh} { zoom: $sizeL; }
+    div {
+      position: relative;
+      left: 50%;
+      width: $A4w;
+      min-height: $A4h;
+      transform: translateX(-50%);
+      &:before, &:after {
+        content: '';
+        position: absolute;
+        left: 7%; // 5%;
+        top: 1%;
+        width: 86%; // 90%;
+        height: 98%;
+        box-shadow: 4px 8px 64px rgba(0, 0, 0, 0.4);
+      }
+      &:before { transform: skewX(3deg); }
+      &:after { transform: skewX(-3deg); }
+    }
+  }
+  .print-invoice { display: none; }
 </style>

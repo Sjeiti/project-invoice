@@ -107,9 +107,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  nav a {
-    text-decoration: none;
-    padding-right: 10px;
+  nav {
+    padding: 0.5rem 0;
+    a {
+      text-decoration: none;
+      padding-right: 10px;
+    }
   }
   .current {
     font-weight: bold;

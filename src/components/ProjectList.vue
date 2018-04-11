@@ -180,7 +180,7 @@ export default {
   .project-list>p { color: #333; }
   .alert {
     &-paid { &, * { color: #AAA; }}
-    &-late { &, * { color: red; }}
+    &-late { &, * { color: $colorRed; }}
     &-pending { &, * { color: green; }}
     &-select { &, * { background-color: darken($colorBackground,5%); }}
   }

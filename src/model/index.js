@@ -56,24 +56,24 @@ storageInitialised.add(success=>{
 // create model
 const model = Object.create({
   get data(){
- return data
-}
+    return data
+  }
   ,set data(newData){
     this.setData(newData)
     setStored('data',data)
   }
   ,get config(){
- return data.config
-}
+    return data.config
+  }
   ,get clients(){
- return this.data.clients
-}
+    return this.data.clients
+  }
   ,get copy(){
- return this.data.copy
-}
+    return this.data.copy
+  }
   ,get personal(){
- return this.data.personal
-}
+    return this.data.personal
+  }
   ,get projects(){
     return this.clients
         .map(client => client.projects)
