@@ -1,6 +1,7 @@
 <template>
   <div>
     <div ref="shade" class="invoice-shade"><div></div></div>
+    <div ref="pageDividers" class="page-dividers"><div></div></div>
     <div ref="iframeWrapper" class="iframe-wrapper">
       <iframe ref="iframe"></iframe>
     </div>
@@ -138,7 +139,6 @@ export default {
       config: model.config
       ,isQuotation: false
       ,personal: model.personal
-      ,contentHeight: 297
       ,signalBindings: []
     }
   }
@@ -148,7 +148,11 @@ export default {
     this.signalBindings.push(cssVariablesChanged.add(settings=>this.config=settings||model.config))
     //
     Promise.all([
-        new Promise(resolve=>cssCompiled.addOnce(resolve))
+        new Promise(resolve=>{
+          const binding = cssCompiled.addOnce(resolve)
+          this.signalBindings.push(binding)
+          return binding
+        })
         ,this.populateIframe()
     ])
       .then(([css])=>{
@@ -159,6 +163,12 @@ export default {
   }
   ,destroy(){
     while (this.signalBindings.length) this.signalBindings.pop().detach()
+  }
+  ,watch: {
+    'config.theme': function(newVal,oldVal){
+      console.log('value changed from ' + oldVal + ' to ' + newVal)
+      this.populateIframe()
+    }
   }
   ,components: {
     Currency
@@ -185,7 +195,7 @@ export default {
           let printRules = []
           let printStarted = false
           Array.from(document.styleSheets).forEach(sheet=>{
-            try {
+            try { // CORS sucks
               Array.from(sheet.cssRules).forEach(rule=>{
                 if (/^\.html-print-/.test(rule.cssText)){
                   printStarted =! printStarted
@@ -200,7 +210,6 @@ export default {
           //
           contentBody.innerHTML = styles + html
           //
-          this.contentHeight = contentDocument.body.offsetHeight
           this.onResize(resize.w)
           //
           resolve()
@@ -213,10 +222,12 @@ export default {
      * Resize
      */
     ,onResize(w){
-      const {shade,iframeWrapper,iframe} = this.$refs
-      const height = this.contentHeight
-      iframe.style.height = `${height}px`
-      shade.children[0].style.height = `${height}px`
+      const {shade,iframeWrapper,iframe,pageDividers} = this.$refs
+      //
+      const {contentDocument} = iframe
+      const height = contentDocument&&contentDocument.querySelector('.invoice').offsetHeight||(297*3.779527559055)
+      //
+      iframe.style.height = shade.children[0].style.height = pageDividers.children[0].style.height = `${height}px`
       iframeWrapper.style.height = `${(w>=598?0.6:0.4)*height}px`
     }
 
@@ -230,6 +241,9 @@ export default {
       if (contentDocument){
         contentDocument.getElementById('invoiceCSS').textContent = css
       }
+      //
+      setTimeout(this.onResize.bind(this,resize.w),200)
+      //
       // todo: re-render image after css compilation
       // this.renderImage()
     }
@@ -289,6 +303,8 @@ export default {
     transform-origin: 0 0;
     transform: scale($sizeS);
     background-color: white;
+    overflow: hidden;
+    box-shadow: 0 0 8px rgba(0,0,0,0.2);
     @media #{$breakpointHigh} { transform: scale($sizeL); }
   }
   .invoice-shade {
@@ -314,6 +330,44 @@ export default {
       }
       &:before { transform: skewX(3deg); }
       &:after { transform: skewX(-3deg); }
+    }
+  }
+  .page-dividers {
+    $colorDivider: $colorBlue;
+    $dividerSize: 0.3%;
+    $dividerWidth: 1.02 * $A4w;
+    position: relative;
+    left: 50%;
+    /*z-index: 2;*/
+    width: $A4w;
+    height: 0;
+    transform: translateX(-50%);
+    zoom: $sizeS;
+    @media #{$breakpointHigh} { zoom: $sizeL; }
+    div {
+      position: relative;
+      width: $dividerWidth;
+      height: $A4h;
+      background: linear-gradient(transparent #{100%-$dividerSize}, $colorDivider #{100%-$dividerSize});
+      background-size: $A4w $A4h;
+      transform: translateX(-#{0.5*($dividerWidth - $A4w)});
+      &:before, &:after {
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: block;
+        width: 100%;
+        height: 100%;
+        background-size: inherit;
+      }
+      &:first-child:before {
+        content: '';
+        background: linear-gradient($colorDivider $dividerSize, transparent $dividerSize);
+      }
+      &:last-child:after {
+        content: '';
+        background: linear-gradient(transparent #{100%-$dividerSize}, $colorDivider #{100%-$dividerSize});
+      }
     }
   }
   .print-invoice { display: none; }
