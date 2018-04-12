@@ -1,5 +1,7 @@
 @import "./variables";
 
+.html-print-start { content: 'START'; }
+
 html {
   --main-bg-color: white;
   --main-fg-color: black;
@@ -382,3 +384,5 @@ body {
     }
   }
 }
+
+.html-print-end { content: 'END'; }

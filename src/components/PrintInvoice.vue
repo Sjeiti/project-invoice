@@ -139,13 +139,13 @@ export default {
       ,isQuotation: false
       ,personal: model.personal
       ,contentHeight: 297
-      ,resizeBind: null
+      ,signalBindings: []
     }
   }
   ,mounted(){
     this.isQuotation = /\/client\/\d+\/\d+\/quotation/.test(location.href)
     appendStyle(this.$el.querySelector('.invoice'))
-    cssVariablesChanged.add(settings=>this.config=settings||model.config)
+    this.signalBindings.push(cssVariablesChanged.add(settings=>this.config=settings||model.config))
     //
     Promise.all([
         new Promise(resolve=>cssCompiled.addOnce(resolve))
@@ -153,12 +153,12 @@ export default {
     ])
       .then(([css])=>{
         this.onCssCompiled(css)
-        cssCompiled.add(this.onCssCompiled.bind(this))
-        this.resizeBind = resize.add(this.onResize.bind(this))
+        this.signalBindings.push(cssCompiled.add(this.onCssCompiled.bind(this)))
+        this.signalBindings.push(resize.add(this.onResize.bind(this)))
       })
   }
   ,destroy(){
-    this.resizeBind&&this.resizeBind.detach()
+    while (this.signalBindings.length) this.signalBindings.pop().detach()
   }
   ,components: {
     Currency
@@ -175,17 +175,33 @@ export default {
           const {contentDocument} = iframe
           const contentBody = contentDocument.body
           //
-          contentDocument.title = this.invoiceName
+          contentDocument.title = this.project.invoiceNr
           //
           const html = invoice.outerHTML.replace(/print-invoice/,'')
-          const styles = Array.from(document.querySelectorAll('style,link[rel=stylesheet]'))
-              .filter(style=>/@page/.test(style.textContent)||style.getAttribute('id')==='invoiceCSS')
-              .map(style=>style.outerHTML).join('')
+          //
+          // Because Webpack/Vue does not let us easily pump out separate stylesheets and because
+          // dev styles differ from an actual build we've added `.html-print-start` and `.html-print-end`
+          // to be able to determine the css applicable for print
+          let printRules = []
+          let printStarted = false
+          Array.from(document.styleSheets).forEach(sheet=>{
+            try {
+              Array.from(sheet.cssRules).forEach(rule=>{
+                if (/^\.html-print-/.test(rule.cssText)){
+                  printStarted =! printStarted
+                } else {
+                  printStarted&&printRules.push(rule.cssText)
+                }
+              })
+            } catch (err){} // eslint-disable-line no-empty
+          })
+          const customStyle = document.getElementById('invoiceCSS')
+          const styles = '<style>' + printRules.join('') + customStyle.textContent + '</style>'
           //
           contentBody.innerHTML = styles + html
           //
           this.contentHeight = contentDocument.body.offsetHeight
-          this.onResize()
+          this.onResize(resize.w)
           //
           resolve()
           this.pageReady = true // todo to parent component
