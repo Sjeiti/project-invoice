@@ -350,6 +350,10 @@ body {
     $barWidth: 60mm;
     $left: 2mm;
     $padding: 5mm;
+
+    // beware... linear-gradient and sass sucks a bit... for instance setting background-size is not parsed at all, and declaring it after background breaks sass in weird little bits
+    background: linear-gradient(to right, var(--secondary-bg-color) $left, transparent $left, transparent #{$A4w - $barWidth}, var(--secondary-bg-color) #{$A4w - $barWidth});
+
     .page {
       width: $A4w - $barWidth - $left;
       margin: 0 0 0 $left;
@@ -360,22 +364,6 @@ body {
       background-color: transparent;
     }
     header {
-      &:before, &:after {
-        content: '';
-        display: block;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        background-color: var(--secondary-bg-color);
-      }
-      &:before {
-        width: $left;
-        left: 0;
-      }
-      &:after {
-        width: $barWidth;
-        right: 0;
-      }
       .you {
         position: absolute;
         right: - $barWidth - $padding;

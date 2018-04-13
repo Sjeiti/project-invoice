@@ -1,7 +1,9 @@
 <template>
   <div>
     <div ref="shade" class="invoice-shade"><div></div></div>
-    <div ref="pageDividers" class="page-dividers"><div></div></div>
+    <div ref="pageDividers" class="page-dividers" v-bind:data-foo="pageBreaks.join(',')">
+      <div v-for="pageHeight in pageBreaks" v-bind:style="`height:${pageHeight}px;`">&nbsp;</div>
+    </div>
     <div ref="iframeWrapper" class="iframe-wrapper">
       <iframe ref="iframe"></iframe>
     </div>
@@ -140,6 +142,7 @@ export default {
       ,isQuotation: false
       ,personal: model.personal
       ,signalBindings: []
+      ,pageBreaks: [300]
     }
   }
   ,mounted(){
@@ -212,6 +215,19 @@ export default {
           //
           this.onResize(resize.w)
           //
+          ///
+          ////
+          /////
+//          setTimeout(()=>{
+//          setTimeout(()=>{
+            this.calculatePagebreaks()
+//          })
+//          })
+          /////
+          ////
+          ///
+          //
+          //
           resolve()
           this.pageReady = true // todo to parent component
         })
@@ -219,15 +235,32 @@ export default {
     }
 
     /**
+     */
+    ,calculatePagebreaks(){
+        const {iframe} = this.$refs
+        const {contentDocument} = iframe
+        const contentBody = contentDocument.body
+        this.pageBreaks = Array.from(contentBody.querySelectorAll('.page-break'))
+            .map(elm=>elm.getBoundingClientRect().top)
+            .concat([this.$refs.iframe.offsetHeight])
+            .reverse()
+            .map((v,i,a)=>i<a.length-1?v-a[i+1]:v)
+            .reverse()
+        //setTimeout(this.$forceUpdate.bind(this))
+        //this.$forceUpdate()
+        console.log('this.pageBreaks',this.pageBreaks,iframe.offsetHeight) // todo: remove log
+    }
+
+    /**
      * Resize
      */
     ,onResize(w){
-      const {shade,iframeWrapper,iframe,pageDividers} = this.$refs
+      const {shade,iframeWrapper,iframe} = this.$refs
       //
       const {contentDocument} = iframe
       const height = contentDocument&&contentDocument.querySelector('.invoice').offsetHeight||(297*3.779527559055)
       //
-      iframe.style.height = shade.children[0].style.height = pageDividers.children[0].style.height = `${height}px`
+      iframe.style.height = shade.children[0].style.height = `${height}px`
       iframeWrapper.style.height = `${(w>=598?0.6:0.4)*height}px`
     }
 
@@ -236,6 +269,7 @@ export default {
      * @param {string} css
      */
     ,onCssCompiled(css){
+      console.log('onCssCompiled') // todo: remove log
       const {iframe} = this.$refs
       const {contentDocument} = iframe
       if (contentDocument){
@@ -304,11 +338,12 @@ export default {
     transform: scale($sizeS);
     background-color: white;
     overflow: hidden;
-    box-shadow: 0 0 8px rgba(0,0,0,0.2);
+    box-shadow: 0 0 4px rgba(0,0,0,0.1);
     @media #{$breakpointHigh} { transform: scale($sizeL); }
   }
   .invoice-shade {
     position: relative;
+    /*z-index: 99;*/
     display: block;
     height: 0;
     zoom: $sizeS;
@@ -322,11 +357,12 @@ export default {
       &:before, &:after {
         content: '';
         position: absolute;
-        left: 7%; // 5%;
+        left: 4%; // 7%; // 5%; //
         top: 1%;
-        width: 86%; // 90%;
+        width: 92%; // 86%; // 90%; //
         height: 98%;
         box-shadow: 4px 8px 64px rgba(0, 0, 0, 0.4);
+        background-color: rgba(0, 0, 0, 0.15);
       }
       &:before { transform: skewX(3deg); }
       &:after { transform: skewX(-3deg); }
@@ -348,7 +384,8 @@ export default {
       position: relative;
       width: $dividerWidth;
       height: $A4h;
-      background: linear-gradient(transparent #{100%-$dividerSize}, $colorDivider #{100%-$dividerSize});
+      //background: linear-gradient(transparent #{100%-$dividerSize}, $colorDivider #{100%-$dividerSize});
+      background: linear-gradient($colorDivider $dividerSize, transparent $dividerSize);
       background-size: $A4w $A4h;
       transform: translateX(-#{0.5*($dividerWidth - $A4w)});
       &:before, &:after {

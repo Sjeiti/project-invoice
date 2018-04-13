@@ -86,7 +86,7 @@ export default {
     position: absolute;
     left: 0;
     top: 0;
-    z-index: 1;
+    z-index: 3;
     float: left;
     height: $headerHeight;
     width: $headerHeight;
@@ -127,7 +127,7 @@ export default {
     max-width: 100vw;
     max-height: $headerHeight;
     overflow: visible;
-    z-index: 2;
+    z-index: 3;
     background-color: $colorHeader;
     box-shadow: 0 0 16px $colorHeader;
   }

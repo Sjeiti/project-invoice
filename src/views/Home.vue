@@ -118,7 +118,7 @@ export default {
       top: 0;
       width: 100vw;
       height: 100%;
-      z-index: -2;
+      z-index: 0;
       transform: translateX(-50%);
       background-position: center;
       background-size: cover;
@@ -131,6 +131,13 @@ export default {
       margin-bottom: -220px;
     }
     &, * { color: white; }
+    svg {
+      z-index: 1;
+    }
+    p, button, a {
+      position: relative;
+      z-index: 2;
+    }
     p {
       padding: 40px;
     }
