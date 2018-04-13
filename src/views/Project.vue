@@ -38,7 +38,7 @@
           <th></th>
           <th width="60%">description</th>
           <th width="5%" class="hide-low">hours</th>
-          <th class="hide-low"></th>
+          <th class="hide-low text-align-center" v-on:click="onClickLineCalculations(project)">⇥</th>
           <th>amount</th>
           <th>VAT</th>
           <th></th>
@@ -190,6 +190,13 @@ export default {
         const num = descriptions.length
         num&&descriptions[num-1].focus()
       })
+    }
+    /**
+     * When set estimates to the cost fields
+     * @param {project} project
+     */
+    ,onClickLineCalculations(project){
+      project.lines.forEach(line=>this.onClickLineCalculation(project,line))
     }
     /**
      * When clicking the estimate set the same value to the cost field

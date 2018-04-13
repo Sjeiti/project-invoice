@@ -75,7 +75,8 @@ button, .btn {
     1px 1px 0 1px lighten($colorButton,3%) inset,
     0 -2px 8px $colorShade inset;
   background-color: $colorButton;
-  color: #FFF!important;
+  //color: #FFF!important;
+  color: #FFF;
   text-decoration: none;
   transition: background-color 200ms linear;
   cursor: pointer;
@@ -102,6 +103,7 @@ button, .btn {
     box-shadow: none;
     text-decoration: underline;
     &:hover { background-color: transparent; }
+    &:focus { box-shadow: none; }
   }
 }
 
@@ -338,6 +340,7 @@ code {
 .float-right { float: right; }
 .text-align-left { text-align: left; }
 .text-align-right { text-align: right; }
+.text-align-center { text-align: center; }
 .nowrap { white-space: nowrap; }
 .overflow-hidden { overflow: hidden; }
 .display-flex { display: flex; }

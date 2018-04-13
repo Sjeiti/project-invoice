@@ -160,11 +160,13 @@ export default {
     ])
       .then(([css])=>{
         this.onCssCompiled(css)
-        this.signalBindings.push(cssCompiled.add(this.onCssCompiled.bind(this)))
-        this.signalBindings.push(resize.add(this.onResize.bind(this)))
+        this.signalBindings.push(
+            cssCompiled.add(this.onCssCompiled.bind(this))
+            ,resize.add(this.onResize.bind(this))
+        )
       })
   }
-  ,destroy(){
+  ,beforeDestroy(){
     while (this.signalBindings.length) this.signalBindings.pop().detach()
   }
   ,watch: {
@@ -215,18 +217,7 @@ export default {
           //
           this.onResize(resize.w)
           //
-          ///
-          ////
-          /////
-//          setTimeout(()=>{
-//          setTimeout(()=>{
-            this.calculatePagebreaks()
-//          })
-//          })
-          /////
-          ////
-          ///
-          //
+          this.calculatePagebreaks()
           //
           resolve()
           this.pageReady = true // todo to parent component
@@ -246,9 +237,6 @@ export default {
             .reverse()
             .map((v,i,a)=>i<a.length-1?v-a[i+1]:v)
             .reverse()
-        //setTimeout(this.$forceUpdate.bind(this))
-        //this.$forceUpdate()
-        console.log('this.pageBreaks',this.pageBreaks,iframe.offsetHeight) // todo: remove log
     }
 
     /**
@@ -269,7 +257,6 @@ export default {
      * @param {string} css
      */
     ,onCssCompiled(css){
-      console.log('onCssCompiled') // todo: remove log
       const {iframe} = this.$refs
       const {contentDocument} = iframe
       if (contentDocument){

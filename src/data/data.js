@@ -244,7 +244,7 @@ Spongebob Squarepants
     ,themeMainFgColor: '#333333'
     ,themeSecondaryBgColor: '#FFF244'
     ,themeSecondaryFgColor: '#ff0071'
-    ,themeFontSize: 26
+    ,themeFontSize: 18
     ,themeFontMain: 'Schoolbell'
     ,themeFontCurrency: 'Allan'
     ,themeLogoCSS: `.invoice #logo {
