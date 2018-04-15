@@ -96,7 +96,7 @@
         <button v-on:click="onAddInvoice()" class="float-right" v-html="`add ${project.invoices&&project.invoices.length?'reminder':'invoice'}`">add invoice</button>
         <h3>invoices</h3>
       </header>
-      <ul class="list-unstyled">
+      <ol class="list-unstyled">
         <li v-for="(invoice, i) in project.invoices" v-bind:key="i" class="row no-gutters">
           <div class="col hide-low"></div>
           <div class="col invoice-link">
@@ -111,7 +111,7 @@
             <button v-on:click="onRemoveInvoice(invoice)">&#10006;</button>
           </div>
         </li>
-      </ul>
+      </ol>
     </section>
     
     <section>
@@ -152,12 +152,12 @@ export default {
       ,project:{}
       ,vatAmounts: model.personal.vatAmounts.split(/,/g).map(parseFloat)
       ,quotation: [
-        { property: 'quotationAfter',type: 'textarea' }
-        ,{ property: 'quotationBefore',type: 'textarea' }
-        ,{ property: 'quotationDate',type: 'date' }
+        { property: 'quotationDate',type: 'date' }
         ,{ property: 'quotationDuration',type: 'text' }
         ,{ property: 'quotationStartDate',type: 'date' }
         ,{ property: 'quotationSubject',type: 'text' }
+        ,{ property: 'quotationBefore',type: 'textarea' }
+        ,{ property: 'quotationAfter',type: 'textarea' }
       ]
       ,currencySymbol: model.config.currencySymbol
     }
@@ -277,6 +277,9 @@ export default {
     *:last-child {
       flex: 1 1 auto;
     }
+  }
+  tbody tr:first-child td {
+    padding-top: 4px;
   }
   label.checkbox.interest span:before { content: $icon-promile; }
   label.checkbox.exhortation span:before { content: $icon-stop; }

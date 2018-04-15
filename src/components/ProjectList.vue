@@ -209,7 +209,7 @@ export default {
       transition: background-color 200ms linear, box-shadow 200ms linear;
       box-shadow: 0 1px 0 0 transparent inset, 0 -1px 0 0 transparent inset;
       &:nth-child(even) {
-        background-color: #f0f0f0;
+        background-color: #f8f8f8;
       }
       @media #{$breakpointHigh} {
         &:hover {

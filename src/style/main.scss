@@ -231,10 +231,13 @@ input {
 .btn { @extend .input; }
 
 select {
-  padding: 3px 6px;
+  padding: 6px 6px;
   border: 1px solid $colorBorder;
   &:focus {
     border: 1px solid $colorButton;
+  }
+  @media #{$breakpointLow} {
+    padding: 4px 6px;
   }
 }
 
