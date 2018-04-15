@@ -3,13 +3,19 @@
     <button v-on:click="clone(project)" class="float-right button--lower">clone</button>
     <h1><span class="hide-low">Project: </span>{{project.description}}</h1>
     <section>
+      <div class="display-flex">
+      
       <dl>
         <dt data-appExplain="'project.client'">client</dt>
         <dd><router-link class="input" v-bind:to="client.uri||''">{{client.name}}</router-link></dd>
-        <dt data-appExplain="'project.description'">description</dt>
+        <dt data-appExplain="'project.description'" >description</dt>
         <dd><input v-model="project.description" ref="description" /></dd>
-        <dt data-appExplain="'project.invoiceNr'">invoice number</dt>
-        <dd><div class="input mono">{{project.invoiceNr}}</div></dd>
+      </dl>
+      <label for="projectProperties"><i class="icon-cog color-button"></i></label>
+      </div>
+      
+      <input id="projectProperties" type="checkbox" class="reveal visually-hidden" />
+      <dl>
         <dt data-appExplain="'project.hourlyRate'">hourly rate</dt>
         <dd class="hourly-rate">
           <currency :value="project.hourlyRateCalculated" />
@@ -98,7 +104,7 @@
       </header>
       <ol class="list-unstyled">
         <li v-for="(invoice, i) in project.invoices" v-bind:key="i" class="row no-gutters">
-          <div class="col hide-low"></div>
+          <div class="col hide-low">{{project.invoiceNr}}</div>
           <div class="col invoice-link">
             <router-link v-bind:to="`${project.uri}/${invoice.type}${i!==0?'/'+i:''}`" class="btn">{{invoice.type}}{{i!==0?'&nbsp;' + i:''}}</router-link>
           </div>
@@ -268,6 +274,18 @@ export default {
   .invoice-link {
     flex: 0 0 110px;
   }
+  
+  div.display-flex { justify-content: space-between; }
+  input.reveal:checked+* { max-height: 200px; }
+  label[for=projectProperties] {
+    flex: 0 0 auto;
+    margin-top: 2.5rem;
+    margin-left: 1rem;
+  }
+  
+  div.display-flex dl { margin-bottom: 0; }
+  
+  
   .hourly-rate, .discount {
     display: flex;
     *:first-child {

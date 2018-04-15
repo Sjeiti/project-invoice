@@ -347,6 +347,7 @@ code {
 .nowrap { white-space: nowrap; }
 .overflow-hidden { overflow: hidden; }
 .display-flex { display: flex; }
+.color-button { color: $colorButton; }
 
 .ellipsis {
   position: relative;
@@ -458,5 +459,20 @@ label.checkbox {
 //  }
 //}
 
-
+input.reveal {
+  &+* {
+    max-height: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    overflow: hidden;
+    transition: max-height 200ms ease,
+                margin 200ms ease,
+                padding 200ms ease;
+  }
+  &:checked+* {
+    max-height: 400px;
+  }
+}
 
