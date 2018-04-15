@@ -114,7 +114,8 @@
             <label v-if="i>1" class="checkbox exhortation"><input v-on:click="onClickInvoiceCheck($event,invoice.exhortation,false)" v-model="invoice.exhortation" type="checkbox"/><span title="exhortation"></span></label>
           </div>
           <div class="col text-align-right">
-            <button v-on:click="onRemoveInvoice(invoice)">&#10006;</button>
+            <button v-if="i===project.invoices.length-1" v-on:click="onRemoveInvoice(invoice)">&#10006;</button>
+            <button v-on:click="onEditInvoice(invoice)">&#128393;</button>
           </div>
         </li>
       </ol>
@@ -147,7 +148,10 @@ import {track,untrack,save} from '../formState'
 import InterpolationUI from '../components/InterpolationUI'
 import draggable from 'vuedraggable'
 import device from 'current-device'
-import {confirm} from '../components/Modal'
+import {confirm,modal} from '../components/Modal'
+import moment from 'moment'
+
+const noop = ()=>{}
 
 export default {
   name: 'project'
@@ -242,8 +246,30 @@ export default {
      * Add an invoice and save the project
      */
     ,onAddInvoice(){
-      this.project.addInvoice()
-      save()
+      const invoices = this.project.invoices
+      const lastInvoice = [...invoices].pop()
+      const data = {
+        invoice: {
+          date: moment().format('YYYY-MM-DD')
+          ,interest: lastInvoice&&lastInvoice.interest||false
+          ,exhortation: lastInvoice&&lastInvoice.exhortation||false
+        }
+        ,index: invoices.length
+      }
+      modal('add invoice','InvoiceProperties',data,'cancel','add')
+          .then(data=>this.project.addInvoice(data.invoice),noop)
+    }
+    /**
+     * Edit an invoice
+     * @param {invoice} invoice
+     */
+    ,onEditInvoice(invoice){
+      const data = {
+        invoice: invoice.clone()
+        ,index: this.project.invoices.indexOf(invoice)
+      }
+      modal('edit invoice','InvoiceProperties',data,'cancel','edit')
+          .then(data=>Object.assign(invoice,data.invoice),noop)
     }
     /**
      * Remove an invoice

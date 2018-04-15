@@ -362,14 +362,16 @@ const proto = {
   /**
    * Add an invoice
    */
-  ,addInvoice(){
+  ,addInvoice(invoice){
     const {invoices} = this
-    invoices.push(createInvoice({
+    const defaultInvoice = {
       date: moment().format('YYYY-MM-DD')
       ,type: invoices.length===0?'invoice':'reminder' // todo: from const
       ,interest: false
       ,exhortation: false
-    }))
+    }
+    invoice&&Object.assign(defaultInvoice,invoice) // todo format date
+    invoices.push(createInvoice(defaultInvoice))
   }
 
   /**

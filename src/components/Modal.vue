@@ -6,8 +6,9 @@
         <button v-if="cancel!==''" v-on:click="onCancel">&#10006;</button>
       </header>
       <section>
-        <p>{{body}}</p>
+        <p v-if="!component">{{body}}</p>
         <input v-model="value" v-if="type==='prompt'" type="text" ref="input"/>
+        <component v-if="component" :is="component" :data="data">qwer</component>
       </section>
       <footer>
         <button v-if="cancel!==''" v-on:click="onCancel" type="button">{{cancel}}</button>
@@ -21,6 +22,7 @@
 import dialogPolyfill from 'dialog-polyfill'
 //import {nextTick} from '../util'
 import {signal} from '../util/signal'
+import InvoiceProperties from '../components/InvoiceProperties'
 
 const sgModal = signal()
 const sgCancel = signal()
@@ -77,6 +79,24 @@ export function alert(title,body,confirm){
 }
 
 /**
+ * Show generic modal
+ * @param {string} title
+ * @param {string} contentClassName
+ * @param {object} data
+ * @param {string} cancel
+ * @param {string} confirm
+ * @returns {Promise}
+ */
+export function modal(title,contentClassName,data,cancel,confirm){
+  return new Promise((resolve,reject)=>{
+    removeAll()
+    sgConfirm.addOnce(resolve)
+    sgCancel.addOnce(reject)
+    sgModal.dispatch(title,null,cancel,confirm,contentClassName,contentClassName,data)
+  })
+}
+
+/**
  * Detach all signal listeners
  */
 function removeAll(){
@@ -94,20 +114,27 @@ export default {
       ,confirm: 'confirm'
       ,type: 'confirm'
       ,value: ''
+      ,component: null
+      ,data: null
     }
   }
   ,mounted(){
     dialogPolyfill.registerDialog(this.$el)
     sgModal.add(this.onModal.bind(this))
   }
+  ,components: {
+    InvoiceProperties
+  }
   ,methods: {
-    onModal(title,body,cancel='cancel',confirm='confirm',type='confirm'){
+    onModal(title,body,cancel='cancel',confirm='confirm',type='confirm',component=null,data=null){
       this.title = title||''
       this.body = body||''
       this.cancel = cancel||''
       this.confirm = confirm||''
       this.type = type||'confirm'
-      this.value = ''
+      this.component = component||null
+      this.data = data||null
+      this.value = data||''
       const isPrompt = this.type==='prompt'
       // document.body.style.overflow = 'hidden' // todo: cleanup befor using, width of scrollbar must be replaced with temporary margin if page is scrollable
       setTimeout(()=>isPrompt?this.$refs.input.focus():this.$refs.confirm.focus())
@@ -123,6 +150,8 @@ export default {
       this.close()
     }
     ,onClose(){
+      this.component = null
+      this.data = null
       // document.body.style.removeProperty('overflow') // todo: cleanup befor using, width of scrollbar must be replaced with temporary margin if page is scrollable
     }
     ,close(){

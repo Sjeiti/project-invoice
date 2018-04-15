@@ -7,11 +7,21 @@
  */
 
 const proto = {
+
+  /**
+   * Returns an exact clone of the project
+   * @returns {Project}
+   */
+  clone(){
+    const cloned = JSON.parse(JSON.stringify(this))
+    return create(cloned,this.project)
+  }
+
   /**
    * Get the index of the invoice
    * @returns {number}
    */
-  get invoiceIndex(){
+  ,get invoiceIndex(){
     return this.project.invoices.indexOf(this)
   }
 }
