@@ -95,6 +95,14 @@
       </table>
     </section>
     
+    <tabs v-model="tabs">
+      <tab id="qut">quotation</tab>
+      <tab>invoices</tab>
+    </tabs>
+    
+    <p>{{tabs}}</p>
+  
+    <input class="tabs-trigger" type="checkbox" v-model="tabs[0]" />
     <section>
       <header>
         <button v-on:click="onAddInvoice()" class="float-right" v-html="`add ${project.invoices&&project.invoices.length?'reminder':'invoice'}`">add invoice</button>
@@ -123,6 +131,7 @@
       </ol>
     </section>
     
+    <input class="tabs-trigger" type="checkbox" v-model="tabs[1]" />
     <section>
       <header>
         <router-link v-bind:to="`${project.uri}/quotation`" class="btn float-right">show quotation</router-link>
@@ -148,6 +157,7 @@ import Currency from '../components/Currency'
 import {notify} from '../components/Notification'
 import {track,untrack,save} from '../formState'
 import InterpolationUI from '../components/InterpolationUI'
+import Tabs from '../components/Tabs'
 import draggable from 'vuedraggable'
 import device from 'current-device'
 import {confirm,modal} from '../components/Modal'
@@ -172,10 +182,10 @@ export default {
         ,{ property: 'quotationAfter',type: 'textarea' }
       ]
       ,currencySymbol: model.config.currencySymbol
-      ,flip: false
+      ,tabs: []
     }
   }
-  ,components: { Currency,InterpolationUI,draggable }
+  ,components: { Currency,InterpolationUI,Tabs,draggable }
   ,mounted(){
     this.client = model.getClientByNr(parseInt(this.$route.params.clientNr,10))
     this.project = track(this.$el,this.client.getProject(parseInt(this.$route.params.projectIndex,10)),this.deleteProject)
