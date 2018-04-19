@@ -105,6 +105,12 @@ button, .btn {
     &:hover { background-color: transparent; }
     &:focus { box-shadow: none; }
   }
+  i:first-child:last-child {
+    margin: 0 -5.5px;
+    @media #{$breakpointLow} {
+      margin: 0 -1.5px;
+    }
+  }
 }
 
 .col {
@@ -366,32 +372,33 @@ code {
 }
 
 label.checkbox {
-  $checkSize: 20px;
+  margin: 0 2px 4px 0;
+  padding: 0;
   cursor: pointer;
-  input {
-    @extend .visually-hidden;
-  }
+  input { @extend .visually-hidden; }
   span {
+    @extend .input;
     position: relative;
     display: inline-block;
-    width: $checkSize;
-    height: $checkSize;
-    margin: 1px;
+    margin: 0;
+    padding: 8px;
     overflow: hidden;
     background-color: #E0E0E0;
-    box-shadow: 0 0 0 1px #bcbcbc;
-    border-radius: 2px;
     text-align: center;
+    box-shadow: 0 0 0 1px $colorBorder inset;
     @include icon-mark;
+    font-size: 1rem;
+    @media #{$breakpointLow} {
+      padding: 6px;
+    }
   }
   input+span:before {
-    font-size: 16px;
-    line-height: $checkSize;
+    display: inline-block;
+    transform-origin: 50%;
+    transform: scale(1.4);
     color: #F8F8F8;
   }
-  input:checked+span:before {
-      color: $colorButton;
-  }
+  input:checked+span:before { color: $colorButton; }
 }
 
 @media #{$breakpointLow} { .hide-low { display: none!important; }}

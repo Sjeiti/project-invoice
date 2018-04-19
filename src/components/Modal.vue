@@ -3,11 +3,13 @@
     <form v-on:submit="onSubmit">
       <header>
         <h2>{{title}}</h2>
-        <button v-if="cancel!==''" v-on:click="onCancel">&#10006;</button>
+        <button v-if="cancel!==''" v-on:click="onCancel"><i class="icon-close"></i></button>
+        <!--<button v-if="cancel!==''" v-on:click="onCancel"><i class="icon-close"></i></button>-->
       </header>
-      <section>
-        <p v-if="!component">{{body}}</p>
-        <input v-model="value" v-if="type==='prompt'" type="text" ref="input"/>
+      <section v-if="(!component&&body)||type==='prompt'||component">
+      <!--<section>-->
+        <p v-if="!component&&body">{{body}}</p>
+        <input v-if="type==='prompt'" v-model="value" type="text" ref="input"/>
         <component v-if="component" :is="component" :data="data">qwer</component>
       </section>
       <footer>
@@ -164,7 +166,8 @@ export default {
 
 <style lang="scss" scoped>
   @import '../style/variables';
-  $borderRadius: 2px;
+  $borderRadius: 3px;
+  $padding: 2*$padding;
   dialog {
     position: fixed;
     top: 50%;
@@ -184,17 +187,25 @@ export default {
     header {
       display: flex;
       justify-content: space-between;
+      background-color: #d9e6e8; // lighten($colorHeader,15%);
+      color: $colorText; // $colorBackground;
+      border-top-left-radius: $borderRadius;
+      border-top-right-radius: $borderRadius;
+      box-shadow: 0 1px 0 #a8c8de;
       h2 {
         margin: 0;
-        padding: $padding 0 0 $padding;
+        padding: 0.75*$padding 0 0.75*$padding $padding;
         line-height: 100%;
+        color: #23323c;
       }
       button {
         flex: 0 0 auto;
+        padding: 1rem;
         background-color: transparent;
         box-shadow: none;
-        color: $colorLink!important;
-        transform: translateX(6px);
+        color: #8298b3!important; // $colorText!important; // $colorLink!important;
+        margin: 0;
+        /*ttransform: translateX(6px);*/
       }
     }
     section {

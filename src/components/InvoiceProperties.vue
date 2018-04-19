@@ -26,4 +26,6 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+  dt { padding-top: 0.4rem; }
+</style>

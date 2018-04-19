@@ -3,34 +3,32 @@
     <button v-on:click="clone(project)" class="float-right button--lower">clone</button>
     <h1><span class="hide-low">Project: </span>{{project.description}}</h1>
     <section>
-      <div class="display-flex">
-      
       <dl>
         <dt data-appExplain="'project.client'">client</dt>
         <dd><router-link class="input" v-bind:to="client.uri||''">{{client.name}}</router-link></dd>
         <dt data-appExplain="'project.description'" >description</dt>
         <dd><input v-model="project.description" ref="description" /></dd>
       </dl>
-      <label for="projectProperties"><i class="icon-cog color-button"></i></label>
+      <div class="position-relative">
+        <label for="projectProperties"><i class="icon-cog color-button"></i></label>
+        <input id="projectProperties" type="checkbox" class="reveal visually-hidden" />
+        <dl>
+          <dt data-appExplain="'project.discount'">discount</dt>
+          <dd class="discount">
+            <div input-unit="%"><input v-model.number="project.discount" type="number" /></div>
+            <currency :value="project.hourlyRate - project.hourlyRate*project.discount*0.01" class="text-align-left" />
+          </dd>
+          <dt data-appExplain="'project.hourlyRate'">hourly rate</dt>
+          <dd class="hourly-rate">
+            <currency :value="project.hourlyRateCalculated" />
+            <div v-bind:input-unit="currencySymbol"><input v-model.number="project.hourlyRate" type="number"/></div>
+          </dd>
+          <dt data-appExplain="'project.paid'">paid</dt>
+          <dd><label class="checkbox"><input v-model="project.paid" type="checkbox"/><span></span></label></dd>
+          <dt data-appExplain="'project.ignore'">ignore</dt>
+          <dd><label class="checkbox"><input v-model="project.ignore" type="checkbox"/><span></span></label></dd>
+        </dl>
       </div>
-      
-      <input id="projectProperties" type="checkbox" class="reveal visually-hidden" />
-      <dl>
-        <dt data-appExplain="'project.hourlyRate'">hourly rate</dt>
-        <dd class="hourly-rate">
-          <currency :value="project.hourlyRateCalculated" />
-          <div v-bind:input-unit="currencySymbol"><input v-model.number="project.hourlyRate" type="number"/></div>
-        </dd>
-        <dt data-appExplain="'project.discount'">discount</dt>
-        <dd class="discount">
-          <div input-unit="%"><input v-model.number="project.discount" type="number" /></div>
-          <currency :value="project.hourlyRate - project.hourlyRate*project.discount*0.01" class="text-align-left" />
-        </dd>
-        <dt data-appExplain="'project.paid'">paid</dt>
-        <dd><label class="checkbox"><input v-model="project.paid" type="checkbox"/><span></span></label></dd>
-        <dt data-appExplain="'project.ignore'">ignore</dt>
-        <dd><label class="checkbox"><input v-model="project.ignore" type="checkbox"/><span></span></label></dd>
-      </dl>
     </section>
     
     <section>
@@ -62,7 +60,7 @@
                 <option v-for="vat in vatAmounts" v-bind:key="vat" v-bind:value="vat">{{vat}}</option>
               </select>
             </td>
-            <td><button v-on:click="onRemoveLine(line)">&#10006;</button></td>
+            <td><button v-on:click="onRemoveLine(line)"><i class="icon-close"></i></button></td>
           </tr>
         </tbody>
         <tfoot>
@@ -102,20 +100,24 @@
         <button v-on:click="onAddInvoice()" class="float-right" v-html="`add ${project.invoices&&project.invoices.length?'reminder':'invoice'}`">add invoice</button>
         <h3>invoices</h3>
       </header>
-      <ol class="list-unstyled">
+      <ol class="list-unstyled invoices">
         <li v-for="(invoice, i) in project.invoices" v-bind:key="i" class="row no-gutters">
-          <div class="col hide-low">{{project.invoiceNr}}</div>
-          <div class="col invoice-link">
-            <router-link v-bind:to="`${project.uri}/${invoice.type}${i!==0?'/'+i:''}`" class="btn">{{invoice.type}}{{i!==0?'&nbsp;' + i:''}}</router-link>
+          <div class="col-4">
+            <router-link
+                v-bind:to="`${project.uri}/${invoice.type}${i!==0?'/'+i:''}`"
+                v-bind:title="project.invoiceNr"
+                class="btn">{{invoice.type}}{{i!==0?'&nbsp;' + i:''}}</router-link>
           </div>
-          <div class="col"><input v-model="invoice.date" type="date" /></div>
-          <div class="col text-align-right position-relative">
-            <label v-if="i>0" class="checkbox interest"><input v-on:click="onClickInvoiceCheck($event,invoice.interest,true)" v-model="invoice.interest" type="checkbox"/><span title="add interest"></span></label>
-            <label v-if="i>1" class="checkbox exhortation"><input v-on:click="onClickInvoiceCheck($event,invoice.exhortation,false)" v-model="invoice.exhortation" type="checkbox"/><span title="exhortation"></span></label>
+          <div class="col input hide-low">{{project.invoiceNr}}</div>
+          <div class="col-3 input">{{invoice.date}}</div>
+          <div class="col input">
+            <i v-if="invoice.interest" class="icon-promile" title="Legal interest was added"></i>
+            <i v-if="invoice.exhortation" class="icon-stop" title="Final exhortation"></i>
+            <i v-if="invoice.paid" class="icon-time" title="Some paid"></i>
           </div>
           <div class="col text-align-right">
-            <button v-if="i===project.invoices.length-1" v-on:click="onRemoveInvoice(invoice)">&#10006;</button>
-            <button v-on:click="onEditInvoice(invoice)">&#128393;</button>
+            <button v-if="i===project.invoices.length-1" v-on:click="onRemoveInvoice(invoice)"><i class="icon-close"></i></button>
+            <button v-on:click="onEditInvoice(invoice)"><i class="icon-pencil"></i></button>
           </div>
         </li>
       </ol>
@@ -170,6 +172,7 @@ export default {
         ,{ property: 'quotationAfter',type: 'textarea' }
       ]
       ,currencySymbol: model.config.currencySymbol
+      ,flip: false
     }
   }
   ,components: { Currency,InterpolationUI,draggable }
@@ -258,6 +261,7 @@ export default {
       }
       modal('add invoice','InvoiceProperties',data,'cancel','add')
           .then(data=>this.project.addInvoice(data.invoice),noop)
+          .then(()=>this.$el.dispatchEvent(new CustomEvent('change')))
     }
     /**
      * Edit an invoice
@@ -270,6 +274,7 @@ export default {
       }
       modal('edit invoice','InvoiceProperties',data,'cancel','edit')
           .then(data=>Object.assign(invoice,data.invoice),noop)
+          .then(()=>this.$el.dispatchEvent(new CustomEvent('change')))
     }
     /**
      * Remove an invoice
@@ -297,16 +302,25 @@ export default {
 <style lang="scss" scoped>
   @import '../style/variables';
   @import '../style/icons';
-  .invoice-link {
-    flex: 0 0 110px;
+  
+  dl:first-child {
+    margin-bottom: 0;
+  }
+  
+  .invoices {
+    .btn { white-space: nowrap; }
+    li:nth-child(odd) {
+      box-shadow: 0 2rem 0 $colorBackground inset;
+    }
   }
   
   div.display-flex { justify-content: space-between; }
   input.reveal:checked+* { max-height: 200px; }
   label[for=projectProperties] {
-    flex: 0 0 auto;
-    margin-top: 2.5rem;
-    margin-left: 1rem;
+    position: absolute;
+    right: 0;
+    top: 0.4rem;
+    z-index: 1;
   }
   
   div.display-flex dl { margin-bottom: 0; }
