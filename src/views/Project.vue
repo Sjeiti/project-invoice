@@ -95,18 +95,15 @@
       </table>
     </section>
     
-    <tabs v-model="tabs">
-      <tab id="qut">quotation</tab>
+    <tabs v-model="tabs" v-bind:index="project.invoices&&project.invoices.length&&1||0">
+      <tab selected>quotation</tab>
       <tab>invoices</tab>
     </tabs>
-    
-    <p>{{tabs}}</p>
   
-    <input class="tabs-trigger" type="checkbox" v-model="tabs[0]" />
+    <input class="tabs-trigger" type="checkbox" v-model="tabs[1]" />
     <section>
-      <header>
+      <header class="clearfix">
         <button v-on:click="onAddInvoice()" class="float-right" v-html="`add ${project.invoices&&project.invoices.length?'reminder':'invoice'}`">add invoice</button>
-        <h3>invoices</h3>
       </header>
       <ol class="list-unstyled invoices">
         <li v-for="(invoice, i) in project.invoices" v-bind:key="i" class="row no-gutters">
@@ -131,11 +128,10 @@
       </ol>
     </section>
     
-    <input class="tabs-trigger" type="checkbox" v-model="tabs[1]" />
+    <input class="tabs-trigger" type="checkbox" v-model="tabs[0]" />
     <section>
-      <header>
+      <header class="clearfix">
         <router-link v-bind:to="`${project.uri}/quotation`" class="btn float-right">show quotation</router-link>
-        <h3>quotation</h3>
       </header>
       <dl>
         <template v-for="qt in quotation">
