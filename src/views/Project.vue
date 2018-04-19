@@ -15,13 +15,14 @@
         <dl>
           <dt data-appExplain="'project.discount'">discount</dt>
           <dd class="discount">
-            <div input-unit="%"><input v-model.number="project.discount" type="number" /></div>
-            <currency :value="project.hourlyRate - project.hourlyRate*project.discount*0.01" class="text-align-left" />
+            <div input-unit="%" style="flex: 0 0 75px;"><input v-model.number="project.discount" type="number" /></div>
+            <currency v-if="hourlyRate" :value="project.hourlyRate - project.hourlyRate*project.discount*0.01" class="text-align-left" />
           </dd>
           <dt data-appExplain="'project.hourlyRate'">hourly rate</dt>
           <dd class="hourly-rate">
-            <currency :value="project.hourlyRateCalculated" />
-            <div v-bind:input-unit="currencySymbol"><input v-model.number="project.hourlyRate" type="number"/></div>
+            <label class="checkbox"><input v-model="hourlyRate" type="checkbox"/><span></span></label>
+            <currency v-if="hourlyRate" :value="project.hourlyRateCalculated" />
+            <div v-if="hourlyRate" v-bind:input-unit="currencySymbol"><input v-model.number="project.hourlyRate" type="number"/></div>
           </dd>
           <dt data-appExplain="'project.paid'">paid</dt>
           <dd><label class="checkbox"><input v-model="project.paid" type="checkbox"/><span></span></label></dd>
@@ -41,8 +42,8 @@
         <tr>
           <th></th>
           <th width="60%">description</th>
-          <th width="5%" class="hide-low">hours</th>
-          <th class="hide-low text-align-center" v-on:click="onClickLineCalculations(project)">⇥</th>
+          <th v-if="hourlyRate" width="5%" class="hide-low">hours</th>
+          <th v-if="hourlyRate" class="hide-low text-align-center" v-on:click="onClickLineCalculations(project)">⇥</th>
           <th>amount</th>
           <th>VAT</th>
           <th></th>
@@ -52,8 +53,8 @@
           <tr v-for="(line, index) in project.lines" :key="index">
             <td><i class="icon-drag" v-if="project.lines.length>1"></i></td>
             <td><input v-model="line.description" ref="lineDescription" /></td>
-            <td class="hide-low"><input v-model.number="line.hours" type="number"/></td>
-            <td class="hide-low"><currency @click.native="onClickLineCalculation(project,line)" :value="line.hours*project.hourlyRate"/></td>
+            <td v-if="hourlyRate" class="hide-low"><input v-model.number="line.hours" type="number"/></td>
+            <td v-if="hourlyRate" class="hide-low"><currency @click.native="onClickLineCalculation(project,line)" :value="line.hours*project.hourlyRate"/></td>
             <td><input v-model.number="line.amount" type="number" step="0.01"/></td>
             <td>
               <select v-model="line.vat" class="mono">
@@ -67,8 +68,8 @@
           <tr>
             <td></td>
             <td>total ex VAT</td>
-            <td class="hide-low"><div class="input mono">{{project.totalHours}}</div></td>
-            <td class="hide-low"><currency :value="project.totalHours*project.hourlyRate"/></td>
+            <td v-if="hourlyRate" class="hide-low"><div class="input mono">{{project.totalHours}}</div></td>
+            <td v-if="hourlyRate" class="hide-low"><currency :value="project.totalHours*project.hourlyRate"/></td>
             <td><currency class="float-right" :value="project.total"/></td>
             <td></td>
             <td></td>
@@ -76,8 +77,8 @@
           <tr v-if="project.discount">
             <td></td>
             <td>discount {{project.discount}}%</td>
-            <td class="hide-low"></td>
-            <td class="hide-low"><currency :value="project.totalHours*project.hourlyRateDiscounted"/></td>
+            <td v-if="hourlyRate" class="hide-low"></td>
+            <td v-if="hourlyRate" class="hide-low"><currency :value="project.totalHours*project.hourlyRateDiscounted"/></td>
             <td><currency class="float-right" :value="project.totalDiscounted"/></td>
             <td></td>
             <td></td>
@@ -85,8 +86,8 @@
           <tr>
             <td></td>
             <td>total inc VAT</td>
-            <td class="hide-low"></td>
-            <td class="hide-low"></td>
+            <td v-if="hourlyRate" class="hide-low"></td>
+            <td v-if="hourlyRate" class="hide-low"></td>
             <td><currency class="float-right" :value="project.totalIncDiscounted"/></td>
             <td></td>
             <td></td>
@@ -300,6 +301,16 @@ export default {
      */
     ,onClickInvoiceCheck(e,isChecked,interest){
       !isChecked&&device.mobile()&&!window.confirm(interest?'Add interest?':'Is this reminder the final exhortation?')&&e.preventDefault()
+    }
+  }
+  ,computed: {
+    hourlyRate: {
+      get: function(){
+        return !!this.project.hourlyRate
+      }
+      ,set: function(newValue){
+        this.project.hourlyRate = newValue?this.project.hourlyRateCalculated||10:0
+      }
     }
   }
 }

@@ -44,7 +44,7 @@ const proto = {
       clientNr: this.nr
       ,description: `project ${projectId}`
       ,id: projectId
-      ,hourlyRate: 90
+      ,hourlyRate: 0
       ,discount: 0
       ,invoices: []
       ,lines: []
