@@ -54,6 +54,7 @@
               <th>{{__('vat')}}</th>
             </tr>
             </thead>
+            
             <!--lines-->
             <tbody>
             <tr v-for="line in project.lines">
@@ -62,57 +63,54 @@
               <td><currency :value="line.amount*line.vat/100" /></td>
             </tr>
             </tbody>
-            <!--subtotal discount-->
-            <tbody v-if="project.discount!==0">
-            <tr class="separate add"><td colspan="3"></td></tr>
-            <tr>
+            
+            <!--subtotal-->
+            <tbody>
+            <tr v-if="project.numLines>1" class="separate add"><td colspan="3"></td></tr>
+            <tr v-if="project.numLines>1">
               <td>{{__('subtotal')}}</td>
               <td><currency :value="project.total" /></td>
               <td><currency :value="project.totalVat" /></td>
             </tr>
-            <tr>
-              <td>{{__('discount')}} {{project.discount}}%<!-- | number:2--></td>
-              <td><currency :value="project.totalDiscount" /></td>
-              <td><currency :value="project.totalVatDiscount" /></td>
+            <tr v-if="discount!==0">
+              <td>{{__('discount')}} {{discount}}%<!-- | number:2--></td>
+              <td><currency :value="-project.totalDiscount" /></td>
+              <td><currency :value="-project.totalVatDiscount" /></td>
             </tr>
             </tbody>
-            <!--subtotal no discount-->
-            <tbody v-if="project.discount===0&&project.lines.length>1">
-            <tr class="separate add"><td colspan="3"></td></tr>
-            <tr>
-              <td>{{__('subtotal')}}</td>
-              <td><currency :value="project.total" /></td>
-              <td><currency :value="project.totalVat" /></td>
-            </tr>
-            </tbody>
-            <!--total no interest-->
-            <tbody v-if="!invoice.interest">
-            <tr class="separate add">
-              <td colspan="3"></td>
-            </tr>
-            <tr class="total">
-              <td>{{__('total')}}</td>
-              <td colspan="2"><currency :value="project.totalIncDiscounted" /></td>
-            </tr>
-            </tbody>
-            <!--total interest-->
-            <tbody v-if="invoice.interest">
-            <tr>
+            
+            <!--total-->
+            <tbody>
+            <tr v-if="invoice.interest">
               <td>{{__('administrationCosts')}}</td>
               <td><currency :value="personal.administrationCosts" /></td>
               <td></td>
             </tr>
-            <tr>
+            <tr v-if="invoice.interest">
               <td>{{__('legalInterest')}} {{personal.interestAmount}}%</td>
               <td><currency :value="project.interest" /></td>
               <td></td>
             </tr>
             <tr class="separate add"><td colspan="3"></td></tr>
-            <tr class="total">
+            <tr v-bind:class="{total:invoice.alreadyPaid===0}">
               <td>{{__('total')}}</td>
-              <td colspan="2"><currency :value="project.totalIncDiscountedInterest" /></td>
+              <td colspan="2"><currency :value="invoice.total" /></td>
             </tr>
             </tbody>
+            
+            <!--already paid / remainder-->
+            <tbody v-if="invoice.alreadyPaid!==0">
+            <tr>
+              <td>{{__('amount paid')}}</td>
+              <td colspan="2"><currency :value="invoice.alreadyPaid" /></td>
+            </tr>
+            <tr class="separate subtract"><td colspan="3"></td></tr>
+            <tr class="total">
+              <td>{{__('remainder')}}</td>
+              <td colspan="2"><currency :value="invoice.remainder" /></td>
+            </tr>
+            </tbody>
+            
           </table>
         </div>
         <!--isQuotation-->
@@ -288,6 +286,14 @@ export default {
   ,computed: {
     fontsURI(){
       return `https://fonts.googleapis.com/css?family=${this.config.themeFontMain}|${this.config.themeFontCurrency}`
+    }
+    ,discount: {
+      get: function(){
+        return this.project.discount||0
+      }
+      ,set: function(amount){
+        this.project.discount = amount||0
+      }
     }
   }
 }

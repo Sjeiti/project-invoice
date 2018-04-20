@@ -257,12 +257,16 @@ body {
     height: .8pt;
     background-color: var(--secondary-bg-color);
   }
+  tr.subtract td:last-child:after,
   tr.add td:last-child:after {
     content: '+';
     position: absolute;
     top: -2pt;
     right: -14pt;
     color: var(--secondary-bg-color);
+  }
+  tr.subtract td:last-child:after {
+    content: '-';
   }
   td, th {
     padding-right: 16pt;

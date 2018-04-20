@@ -388,7 +388,15 @@ const proto = {
    */
   ,get uri(){
     return `/client/${this.clientNr}/${this.indexOnClient}`
-  },
+  }
+
+  /**
+   * Get the number of lines
+   * @returns {number}
+   */
+  ,get numLines(){
+    return (this.lines||[]).length
+  }
 
 }
 

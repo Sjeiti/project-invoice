@@ -24,6 +24,35 @@ const proto = {
   ,get invoiceIndex(){
     return this.project.invoices.indexOf(this)
   }
+
+  /**
+   * Get the total for this invoice
+   * @returns {number}
+   */
+  ,get total(){
+    return this.interest
+        ?this.project.totalIncDiscountedInterest
+        :this.project.totalIncDiscounted
+  }
+
+  /**
+   * Get the cumulative of current invoice.paid plus the previous ones
+   * @returns {number}
+   */
+  ,get alreadyPaid(){
+    return (this.project.invoices||[])
+        .slice(0,this.invoiceIndex+1)
+        .map(invoice=>parseFloat(invoice.paid||0))
+        .reduce((a,b)=>a+b,0)
+  }
+
+  /**
+   * Get the remaining due amount
+   * @returns {number}
+   */
+  ,get remainder(){
+    return this.total-this.alreadyPaid
+  }
 }
 
 /**

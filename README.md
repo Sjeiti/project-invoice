@@ -68,11 +68,11 @@ Being self-employed all my life means I've been sending invoices for quite a whi
 So I created my own:
 
  - no cloud based data, everything is saved on your local machine, nothing is sent to a server
- - invoices are well designed and customizable
- - its easy to use
- - its open-source
- - its free
- - you can use the online version or run a local copy
+ - well designed and customizable invoices
+ - easy to use
+ - open-source
+ - free
+ - run it online or offline or even on a local server
 
 I cleaned it up a bit because I thought you might like it.
 
