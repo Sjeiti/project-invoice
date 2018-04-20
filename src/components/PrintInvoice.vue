@@ -101,7 +101,7 @@
             <!--already paid / remainder-->
             <tbody v-if="invoice.alreadyPaid!==0">
             <tr>
-              <td>{{__('amount paid')}}</td>
+              <td>{{__('amountPaid')}}</td>
               <td colspan="2"><currency :value="invoice.alreadyPaid" /></td>
             </tr>
             <tr class="separate subtract"><td colspan="3"></td></tr>

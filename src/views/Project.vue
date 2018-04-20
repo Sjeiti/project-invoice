@@ -119,7 +119,7 @@
           <div class="col input">
             <i v-if="invoice.interest" class="icon-promile" title="Legal interest was added"></i>
             <i v-if="invoice.exhortation" class="icon-stop" title="Final exhortation"></i>
-            <i v-if="invoice.paid" class="icon-time" title="Some paid"></i>
+            <i v-if="invoice.paid" class="icon-money" v-bind:title="`Paid: ${currency(invoice.paid)}`"></i>
           </div>
           <div class="col text-align-right">
             <button v-if="i===project.invoices.length-1" v-on:click="onRemoveInvoice(invoice)"><i class="icon-close"></i></button>
@@ -301,6 +301,12 @@ export default {
      */
     ,onClickInvoiceCheck(e,isChecked,interest){
       !isChecked&&device.mobile()&&!window.confirm(interest?'Add interest?':'Is this reminder the final exhortation?')&&e.preventDefault()
+    }
+    ,currency(val){ // todo: dots or commas
+      let dotValue = parseFloat(val||0).toFixed(2)
+      const [before,after] = dotValue.split(/\./)
+      const reg3 = /(\d)(?=(\d\d\d)+(?!\d))/g
+      return this.currencySymbol+before.replace(reg3,'$1,')+'.'+(after==='00'?'-':after)
     }
   }
   ,computed: {

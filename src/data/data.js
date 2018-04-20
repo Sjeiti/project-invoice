@@ -190,6 +190,14 @@ Thank you`
       nl: 'korting'
       ,en: 'discount'
     }
+    ,amountPaid: {
+      nl: 'betaald'
+      ,en: 'amount paid'
+    }
+    ,remainder: {
+      nl: 'restant'
+      ,en: 'remainder'
+    }
     ,date: {
       nl: 'datum'
       ,en: 'date'
