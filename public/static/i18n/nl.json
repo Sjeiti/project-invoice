@@ -2,12 +2,16 @@
   "home": "home",
   "overview": "overzicht",
   "quarter": "kwartaal",
+  "clients": "klanten",
+  "client": "klant",
   "settings": "instellingen",
+  "description": "omschrijving",
   "layout": "layout",
   "data": "data",
   "copy": "copij",
   "about": "over",
   "date": "datum",
+  "changed": "aangepast",
   "quotation": "offerte",
   "exhortation": "aanmaning",
   "reminder": "herinnering",
@@ -23,5 +27,6 @@
   "total": "totaal",
   "amountPaid": "betaald bedrag",
   "remainder": "restant",
-  "made with": "gemaakt met"
+  "made with ": "gemaakt met ",
+  "fork on  ": "vork op  "
 }

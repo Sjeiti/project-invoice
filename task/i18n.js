@@ -6,6 +6,8 @@ const fileBase = './i18n/base.json'
 const globSrc = './src/**/*.+(vue|js)'
 const globFiles = './public/static/i18n/*.json'
 
+// todo: implement       ar" v-__>made with <span clas
+
 Promise.all([
     readSrc(globSrc,fileBase)
     ,readExisting(globFiles)
@@ -14,7 +16,7 @@ Promise.all([
       contents.forEach((content,i)=>{
         let added = false
         for (let key in keys){
-          if (!content.hasOwnProperty(key)) {
+          if (!content.hasOwnProperty(key)){
             content[key] = key
             added = true
           }

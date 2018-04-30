@@ -8,25 +8,25 @@
           <input v-model="hamburger" class="visually-hidden" id="hamburger" type="checkbox">
           <label for="hamburger"><span></span></label>
           <ul v-on:click="hamburger=!hamburger" class="list-inline">
-            <li class="hide-high"><router-link to="/">{{__('home')}}</router-link></li>
+            <li class="hide-high"><router-link to="/" v-__>home</router-link></li>
             <li class="drop">
-              <label for="drop1"><router-link to="/overview">{{__('overview')}}</router-link></label>
+              <label for="drop1"><router-link to="/overview" v-__>overview</router-link></label>
               <input class="visually-hidden" id="drop1" type="checkbox">
               <ul>
-                <li><router-link to="/overview/quarter">{{__('quarter')}}</router-link></li>
+                <li><router-link to="/overview/quarter" v-__>quarter</router-link></li>
               </ul>
             </li>
-            <li><router-link to="/clients">clients</router-link></li>
+            <li><router-link to="/clients" v-__>clients</router-link></li>
             <li class="drop">
-              <label for="drop2"><router-link to="/settings">{{__('settings')}}</router-link></label>
+              <label for="drop2"><router-link to="/settings" v-__>settings</router-link></label>
               <input class="visually-hidden" id="drop2" type="checkbox">
               <ul>
-                <li><router-link to="/layout">{{__('layout')}}</router-link></li>
-                <li><router-link to="/data">{{__('data')}}</router-link></li>
-                <li><router-link to="/copy">{{__('copy')}}</router-link></li>
+                <li><router-link to="/layout" v-__>layout</router-link></li>
+                <li><router-link to="/data" v-__>data</router-link></li>
+                <li><router-link to="/copy" v-__>copy</router-link></li>
               </ul>
             </li>
-            <li><router-link to="/about">{{__('about')}}</router-link></li>
+            <li><router-link to="/about" v-__>about</router-link></li>
           </ul>
         </li>
       </ul>
@@ -36,9 +36,9 @@
 </template>
 
 <script>
-import SaveableButtons from '@/components/SaveableButtons'
-import Logo from '@/components/Logo'
-import {NAME} from '@/config'
+import SaveableButtons from './SaveableButtons'
+import Logo from './Logo'
+import {NAME} from '../config'
 import {swipeLeft,swipeRight} from '../util/signal.swipe'
 export default {
   name: 'AppHeader'
@@ -74,7 +74,6 @@ export default {
     onDocumentClick(){
       setTimeout(()=>this.hamburger = false,40)
     }
-    ,__: s=>s
   }
 }
 </script>
