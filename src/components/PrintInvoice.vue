@@ -130,6 +130,7 @@ import Currency from '../components/Currency'
 import {parse,__} from '../service/interpolationService'
 import {appendStyle,cssVariablesChanged,cssCompiled} from '../model/css'
 import {resize} from '../util/signal'
+import cssEdit from '../util/cssEdit'
 
 export default {
   name: 'PrintInvoice'
@@ -212,6 +213,7 @@ export default {
           const styles = '<style>' + printRules.join('') + customStyle.textContent + '</style>'
           //
           contentBody.innerHTML = styles + html
+          cssEdit.init(contentBody,customStyle)
           //
           this.onResize(resize.w)
           //
