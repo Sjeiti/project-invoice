@@ -21,7 +21,8 @@
     "faker": "node task/fakeData",
     "cypress": "cypress open",
     "svg": "svgo -f design",
-    "sitemap": "node task/sitemap"
+    "sitemap": "node task/sitemap",
+    "i18n": "node task/i18n"
   },
   "dependencies": {
     "animejs": "^2.2.0",
@@ -48,6 +49,7 @@
     "express": "^4.16.3",
     "faker": "^4.1.0",
     "github-release-notes": "^0.15.0",
+    "glob": "^7.1.2",
     "jsdom": "^11.6.2",
     "lint-staged": "^6.0.0",
     "next-version": "^0.11.7",

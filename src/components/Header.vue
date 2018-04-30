@@ -8,25 +8,25 @@
           <input v-model="hamburger" class="visually-hidden" id="hamburger" type="checkbox">
           <label for="hamburger"><span></span></label>
           <ul v-on:click="hamburger=!hamburger" class="list-inline">
-            <li class="hide-high"><router-link to="/">home</router-link></li>
+            <li class="hide-high"><router-link to="/">{{__('home')}}</router-link></li>
             <li class="drop">
-              <label for="drop1"><router-link to="/overview">overview</router-link></label>
+              <label for="drop1"><router-link to="/overview">{{__('overview')}}</router-link></label>
               <input class="visually-hidden" id="drop1" type="checkbox">
               <ul>
-                <li><router-link to="/overview/quarter">quarter</router-link></li>
+                <li><router-link to="/overview/quarter">{{__('quarter')}}</router-link></li>
               </ul>
             </li>
             <li><router-link to="/clients">clients</router-link></li>
             <li class="drop">
-              <label for="drop2"><router-link to="/settings">settings</router-link></label>
+              <label for="drop2"><router-link to="/settings">{{__('settings')}}</router-link></label>
               <input class="visually-hidden" id="drop2" type="checkbox">
               <ul>
-                <li><router-link to="/layout">layout</router-link></li>
-                <li><router-link to="/data">data</router-link></li>
-                <li><router-link to="/copy">copy</router-link></li>
+                <li><router-link to="/layout">{{__('layout')}}</router-link></li>
+                <li><router-link to="/data">{{__('data')}}</router-link></li>
+                <li><router-link to="/copy">{{__('copy')}}</router-link></li>
               </ul>
             </li>
-            <li><router-link to="/about">about</router-link></li>
+            <li><router-link to="/about">{{__('about')}}</router-link></li>
           </ul>
         </li>
       </ul>
@@ -74,6 +74,7 @@ export default {
     onDocumentClick(){
       setTimeout(()=>this.hamburger = false,40)
     }
+    ,__: s=>s
   }
 }
 </script>

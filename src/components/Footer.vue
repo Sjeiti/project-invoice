@@ -1,6 +1,6 @@
 <template>
   <footer>
-    <a href="http://ronvalstar">made with <span class="love">&#9829;</span></a>
+    <a href="http://ronvalstar">{{__('made with')}} <span class="love">&#9829;</span></a>
     <router-link to="/changelog">Project Invoice v{{version}}</router-link>
     <a href="https://github.com/Sjeiti/project-invoice">fork on &nbsp;<span class="icon-github"></span></a>
   </footer>
@@ -14,6 +14,9 @@ export default {
     return {
       version: VERSION
     }
+  }
+  ,methods: {
+    __: s=>s
   }
 }
 </script>

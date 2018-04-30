@@ -193,7 +193,7 @@ export default {
           const html = invoice.outerHTML.replace(/print-invoice/,'')
           //
           // Because Webpack/Vue does not let us easily pump out separate stylesheets and because
-          // dev styles differ from an actual build we've added `.html-print-start` and `.html-print-end`
+          // dev styles differ from an actual build we have added `.html-print-start` and `.html-print-end`
           // to be able to determine the css applicable for print
           let printRules = []
           let printStarted = false

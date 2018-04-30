@@ -235,7 +235,7 @@ Met vriendelijke groet,
 
 Spongebob Squarepants
 *‎Fry cook*`
-      ,en: `This quotation is subject to: $\{data.terms}. Please confirm acceptance of the quotation by email. If you have any questions then let me know. I hope the proposal is appropriate and I'm looking forward to your response.
+      ,en: `This quotation is subject to: $\{data.terms}. Please confirm acceptance of the quotation by email. If you have any questions then let me know. I hope the proposal is appropriate and I am looking forward to your response.
 
 
 Met vriendelijke groet,
