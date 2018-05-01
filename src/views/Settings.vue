@@ -29,7 +29,7 @@
         <label class="btn" for="restore" v-__>restore</label>
         <input accept="application/json, text/json, .json" type="file" id="restore" v-on:change="onChangeRestore" class="visually-hidden" />
         <button v-on:click="onClickClear" v-__>clear</button>
-        <p v-__="settingsData">Everything you do in this application is saved to localStorage. You can backup this data by <em>downloading</em> a JSON file. You can use this file to <em>restore</em> the data on any other device or machine.<br/>
+        <p v-__="'settingsData'">Everything you do in this application is saved to localStorage. You can backup this data by <em>downloading</em> a JSON file. You can use this file to <em>restore</em> the data on any other device or machine.<br/>
         When you <em>clear</em> the data it will be replaced by default data.</p>
       </div>
     </section>
@@ -43,7 +43,7 @@
         </select>
         <button v-on:click="storageService.init(config.cloudSelected)" v-bind:disabled="storageService.authorised" v-__>authorise</button>
         <button v-on:click="onClickRevoke" v-bind:disabled="!storageService.authorised" v-__>revoke</button>
-        <p v-__="settingsCloud">By default <em>Project Invoice</em> does not send or receive any data. But cloud synchronisation can be convenient if you want to use this application on multiple machines and/or devices. If you authorise a cloud provider the application will check the cloud for newer data when it loads, and save to the cloud every time you save to localStorage.</p>
+        <p v-__="'settingsCloud'">By default <em>Project Invoice</em> does not send or receive any data. But cloud synchronisation can be convenient if you want to use this application on multiple machines and/or devices. If you authorise a cloud provider the application will check the cloud for newer data when it loads, and save to the cloud every time you save to localStorage.</p>
       </div>
     </section>
   </div>

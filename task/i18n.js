@@ -13,7 +13,7 @@ Promise.all([
     .then(([keys,[paths,contents]])=>{
       contents.forEach((content,i)=>{
         const path = paths[i]
-        let key;
+        let key
         let added = false
         for (key in keys){
           if (!content.hasOwnProperty(key)){
@@ -25,7 +25,7 @@ Promise.all([
         //
         const unused = []
         for (key in content){
-            !keys.hasOwnProperty(key)&&unused.push(key);
+            !keys.hasOwnProperty(key)&&unused.push(key)
         }
         unused.length&&console.log(`unused keys in ${path.match(/\w+\.\w+$/).pop()}: ${unused.map(s=>`'${s}'`).join(', ')}`)
       })

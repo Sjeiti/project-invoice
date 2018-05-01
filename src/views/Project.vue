@@ -76,7 +76,7 @@
           </tr>
           <tr v-if="project.discount">
             <td></td>
-            <td v-__>discount {{project.discount}}%</td>
+            <td><span v-__>discount</span> {{project.discount}}%</td>
             <td v-if="hourlyRate" class="hide-low"></td>
             <td v-if="hourlyRate" class="hide-low"><currency :value="project.totalHours*project.hourlyRateDiscounted"/></td>
             <td><currency class="float-right" :value="project.totalDiscounted"/></td>
@@ -104,7 +104,7 @@
     <input class="tabs-trigger" type="checkbox" v-model="tabs[1]" />
     <section>
       <header class="clearfix">
-        <button v-on:click="onAddInvoice()" class="float-right" v-html="`add ${project.invoices&&project.invoices.length?'reminder':'invoice'}`">add invoice</button>
+        <button v-on:click="onAddInvoice()" class="float-right" v-html="`add ${project.invoices&&project.invoices.length?'reminder':'invoice'}`" v-__>add invoice</button>
       </header>
       <ol class="list-unstyled invoices">
         <li v-for="(invoice, i) in project.invoices" v-bind:key="i" class="row no-gutters">

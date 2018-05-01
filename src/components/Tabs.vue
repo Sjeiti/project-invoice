@@ -21,7 +21,7 @@ export default {
       if (tag==='tab'&&children&&children[0]){
         this.tabs.push(children[0].text)
         const index = this.tabs.length - 1
-        this.value[index] = !!data&&data.attrs.selected!==undefined
+        this.value[index] = !!data&&data.attrs&&data.attrs.selected!==undefined
       }
     })
   }
