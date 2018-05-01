@@ -1,25 +1,25 @@
 <template>
   <div>
-    <h1><span class="hide-low">Client: </span>{{client.name}}</h1>
+    <h1><span class="hide-low" v-__>Client: </span>{{client.name}}</h1>
     <section>
       <dl>
-        <dt>name</dt><dd><input v-model="client.name"/></dd>
-        <dt>nr</dt><dd><input v-model="client.nr"/></dd>
-        <dt>address</dt><dd><input v-model="client.address"/></dd>
-        <dt>city</dt><dd><input v-model="client.city"/></dd>
-        <dt>contact</dt><dd><input v-model="client.contact"/></dd>
-        <dt>paymentterm</dt><dd><input v-model="client.paymentterm"/></dd>
-        <dt>phone</dt><dd><input v-model="client.phone"/></dd>
-        <dt>postbox</dt><dd><input v-model="client.postbox"/></dd>
-        <dt>zipcode</dt><dd><input v-model="client.zipcode"/></dd>
-        <dt>zippost</dt><dd><input v-model="client.zippost"/></dd>
+        <dt v-__>name</dt><dd><input v-model="client.name"/></dd>
+        <dt v-__>nr</dt><dd><input v-model="client.nr"/></dd>
+        <dt v-__>address</dt><dd><input v-model="client.address"/></dd>
+        <dt v-__>city</dt><dd><input v-model="client.city"/></dd>
+        <dt v-__>contact</dt><dd><input v-model="client.contact"/></dd>
+        <dt v-__>paymentterm</dt><dd><input v-model="client.paymentterm"/></dd>
+        <dt v-__>phone</dt><dd><input v-model="client.phone"/></dd>
+        <dt v-__>postbox</dt><dd><input v-model="client.postbox"/></dd>
+        <dt v-__>zipcode</dt><dd><input v-model="client.zipcode"/></dd>
+        <dt v-__>zippost</dt><dd><input v-model="client.zippost"/></dd>
       </dl>
     </section>
     
     <section>
       <header>
-        <button v-on:click="onAddProject()" class="float-right">add project</button>
-        <h3>Projects</h3>
+        <button v-on:click="onAddProject()" class="float-right" v-__>add project</button>
+        <h3 v-__>Projects</h3>
       </header>
       <project-list
           :projects="client.projects"

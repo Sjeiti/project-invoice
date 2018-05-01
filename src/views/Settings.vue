@@ -1,7 +1,7 @@
 <template>
   <div>
     <section>
-      <h1 class="hide-low">Settings</h1>
+      <h1 class="hide-low" v-__>Settings</h1>
       <dl>
         <dt v-explain="'config.projectNumberTemplate'"></dt><dd>
           <InterpolationUI v-model="config.projectNumberTemplate"></InterpolationUI>
@@ -23,27 +23,27 @@
       </dl>
     </section>
     <section class="row no-gutters">
-      <h2 class="col-12 col-sm-3">data</h2>
+      <h2 class="col-12 col-sm-3" v-__>data</h2>
       <div class="col-12 col-sm-9">
-        <a class="btn" v-on:click="onClickDownload($event,'data')">download</a>
-        <label class="btn" for="restore">restore</label>
+        <a class="btn" v-on:click="onClickDownload($event,'data')" v-__>download</a>
+        <label class="btn" for="restore" v-__>restore</label>
         <input accept="application/json, text/json, .json" type="file" id="restore" v-on:change="onChangeRestore" class="visually-hidden" />
-        <button v-on:click="onClickClear">clear</button>
-        <p>Everything you do in this application is saved to localStorage. You can backup this data by <em>downloading</em> a JSON file. You can use this file to <em>restore</em> the data on any other device or machine.<br/>
+        <button v-on:click="onClickClear" v-__>clear</button>
+        <p v-__="settingsData">Everything you do in this application is saved to localStorage. You can backup this data by <em>downloading</em> a JSON file. You can use this file to <em>restore</em> the data on any other device or machine.<br/>
         When you <em>clear</em> the data it will be replaced by default data.</p>
       </div>
     </section>
     <section class="row no-gutters">
-      <h2 class="col-12 col-sm-3">cloud sync</h2>
+      <h2 class="col-12 col-sm-3" v-__>cloud sync</h2>
       <div class="col-12 col-sm-9">
         <select v-model="config.cloudSelected" v-bind:disabled="storageService.authorised">
-          <option value="">select cloud</option>
+          <option value="" v-__>select cloud</option>
           <option v-for="(storage, key) in storageService.providers" v-bind:value="key">{{storage.name}}</option>
-          <option>(more to come)</option>
+          <option v-__>(more to come)</option>
         </select>
-        <button v-on:click="storageService.init(config.cloudSelected)" v-bind:disabled="storageService.authorised">authorise</button>
-        <button v-on:click="onClickRevoke" v-bind:disabled="!storageService.authorised">revoke</button>
-        <p>By default <em>Project Invoice</em> does not send or receive any data. But cloud synchronisation can be convenient if you want to use this application on multiple machines and/or devices. If you authorise a cloud provider the application will check the cloud for newer data when it loads, and save to the cloud every time you save to localStorage.</p>
+        <button v-on:click="storageService.init(config.cloudSelected)" v-bind:disabled="storageService.authorised" v-__>authorise</button>
+        <button v-on:click="onClickRevoke" v-bind:disabled="!storageService.authorised" v-__>revoke</button>
+        <p v-__="settingsCloud">By default <em>Project Invoice</em> does not send or receive any data. But cloud synchronisation can be convenient if you want to use this application on multiple machines and/or devices. If you authorise a cloud provider the application will check the cloud for newer data when it loads, and save to the cloud every time you save to localStorage.</p>
       </div>
     </section>
   </div>

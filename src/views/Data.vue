@@ -1,9 +1,9 @@
 <template>
   <div>
     <section>
-      <h1 class="hide-low">Data</h1>
+      <h1 class="hide-low" v-__>Data</h1>
       <dl>
-          <dt><strong>key</strong></dt><dd><strong>value</strong></dd>
+          <dt><strong v-__>key</strong></dt><dd><strong v-__>value</strong></dd>
       </dl>
       <dl>
         <template v-for="(value, key) in personal">

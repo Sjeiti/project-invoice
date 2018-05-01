@@ -40,6 +40,7 @@ import SaveableButtons from './SaveableButtons'
 import Logo from './Logo'
 import {NAME} from '../config'
 import {swipeLeft,swipeRight} from '../util/signal.swipe'
+import {__,loaded} from '../service/i18n'
 export default {
   name: 'AppHeader'
   ,data(){
@@ -60,9 +61,10 @@ export default {
     }
   }
   ,mounted(){
-    this.pageTitle = this.$route.meta.title
+    this.pageTitle = __(this.$route.meta.title)
+    loaded.addOnce(()=>this.pageTitle = __(this.$route.meta.title))
     this.$router.beforeEach((to,from,next) => {
-      this.pageTitle = to.meta.title
+      this.pageTitle = __(to.meta.title)
       next()
     })
     this.boundClick = this.onDocumentClick.bind(this)

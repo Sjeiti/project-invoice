@@ -1,32 +1,32 @@
 <template>
   <div>
-    <button v-on:click="clone(project)" class="float-right button--lower">clone</button>
+    <button v-on:click="clone(project)" class="float-right button--lower" v-__>clone</button>
     <h1><span class="hide-low">Project: </span>{{project.description}}</h1>
     <section>
       <dl>
-        <dt data-appExplain="'project.client'">client</dt>
+        <dt data-appExplain="'project.client'" v-__>client</dt>
         <dd><router-link class="input" v-bind:to="client.uri||''">{{client.name}}</router-link></dd>
-        <dt data-appExplain="'project.description'" >description</dt>
+        <dt data-appExplain="'project.description'"  v-__>description</dt>
         <dd><input v-model="project.description" ref="description" /></dd>
       </dl>
       <div class="position-relative">
         <label for="projectProperties"><i class="icon-cog color-button"></i></label>
         <input id="projectProperties" type="checkbox" class="reveal visually-hidden" />
         <dl>
-          <dt data-appExplain="'project.discount'">discount</dt>
+          <dt data-appExplain="'project.discount'" v-__>discount</dt>
           <dd class="discount">
             <div input-unit="%" style="flex: 0 0 75px;"><input v-model.number="project.discount" type="number" /></div>
             <currency v-if="hourlyRate" :value="project.hourlyRate - project.hourlyRate*project.discount*0.01" class="text-align-left" />
           </dd>
-          <dt data-appExplain="'project.hourlyRate'">hourly rate</dt>
+          <dt data-appExplain="'project.hourlyRate'" v-__>hourly rate</dt>
           <dd class="hourly-rate">
             <label class="checkbox"><input v-model="hourlyRate" type="checkbox"/><span></span></label>
             <currency v-if="hourlyRate" :value="project.hourlyRateCalculated" />
             <div v-if="hourlyRate" v-bind:input-unit="currencySymbol"><input v-model.number="project.hourlyRate" type="number"/></div>
           </dd>
-          <dt data-appExplain="'project.paid'">paid</dt>
+          <dt data-appExplain="'project.paid'" v-__>paid</dt>
           <dd><label class="checkbox"><input v-model="project.paid" type="checkbox"/><span></span></label></dd>
-          <dt data-appExplain="'project.ignore'">ignore</dt>
+          <dt data-appExplain="'project.ignore'" v-__>ignore</dt>
           <dd><label class="checkbox"><input v-model="project.ignore" type="checkbox"/><span></span></label></dd>
         </dl>
       </div>
@@ -34,18 +34,18 @@
     
     <section>
       <header>
-        <button v-on:click="onAddLine()" class="float-right">add line</button>
-        <h3>lines</h3>
+        <button v-on:click="onAddLine()" class="float-right" v-__>add line</button>
+        <h3 v-__>lines</h3>
       </header>
       <table>
         <thead>
         <tr>
           <th></th>
-          <th width="60%">description</th>
-          <th v-if="hourlyRate" width="5%" class="hide-low">hours</th>
+          <th width="60%" v-__>description</th>
+          <th v-if="hourlyRate" width="5%" class="hide-low" v-__>hours</th>
           <th v-if="hourlyRate" class="hide-low text-align-center" v-on:click="onClickLineCalculations(project)">⇥</th>
-          <th>amount</th>
-          <th>VAT</th>
+          <th v-__>amount</th>
+          <th v-__>VAT</th>
           <th></th>
         </tr>
         </thead>
@@ -67,7 +67,7 @@
         <tfoot>
           <tr>
             <td></td>
-            <td>total ex VAT</td>
+            <td v-__>total ex VAT</td>
             <td v-if="hourlyRate" class="hide-low"><div class="input mono">{{project.totalHours}}</div></td>
             <td v-if="hourlyRate" class="hide-low"><currency :value="project.totalHours*project.hourlyRate"/></td>
             <td><currency class="float-right" :value="project.total"/></td>
@@ -76,7 +76,7 @@
           </tr>
           <tr v-if="project.discount">
             <td></td>
-            <td>discount {{project.discount}}%</td>
+            <td v-__>discount {{project.discount}}%</td>
             <td v-if="hourlyRate" class="hide-low"></td>
             <td v-if="hourlyRate" class="hide-low"><currency :value="project.totalHours*project.hourlyRateDiscounted"/></td>
             <td><currency class="float-right" :value="project.totalDiscounted"/></td>
@@ -85,7 +85,7 @@
           </tr>
           <tr>
             <td></td>
-            <td>total inc VAT</td>
+            <td v-__>total inc VAT</td>
             <td v-if="hourlyRate" class="hide-low"></td>
             <td v-if="hourlyRate" class="hide-low"></td>
             <td><currency class="float-right" :value="project.totalIncDiscounted"/></td>
@@ -97,8 +97,8 @@
     </section>
     
     <tabs v-model="tabs" v-bind:index="project.invoices&&project.invoices.length&&1||0">
-      <tab selected>quotation</tab>
-      <tab>invoices</tab>
+      <tab selected v-__>quotation</tab>
+      <tab v-__>invoices</tab>
     </tabs>
   
     <input class="tabs-trigger" type="checkbox" v-model="tabs[1]" />
@@ -132,7 +132,7 @@
     <input class="tabs-trigger" type="checkbox" v-model="tabs[0]" />
     <section>
       <header class="clearfix">
-        <router-link v-bind:to="`${project.uri}/quotation`" class="btn float-right">show quotation</router-link>
+        <router-link v-bind:to="`${project.uri}/quotation`" class="btn float-right" v-__>show quotation</router-link>
       </header>
       <dl>
         <template v-for="qt in quotation">

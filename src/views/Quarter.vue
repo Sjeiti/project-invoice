@@ -9,7 +9,7 @@
     </header>
     <section v-for="(quarter, i) in quarters" :key="i">
       <header>
-        <button v-on:click="onClickCsv(quarter)" v-bind:disabled="quarter.length===0" class="float-right">copy csv data</button>
+        <button v-on:click="onClickCsv(quarter)" v-bind:disabled="quarter.length===0" class="float-right" v-__>copy csv data</button>
         <h3>quarter {{i + 1}}</h3>
       </header>
       <project-list

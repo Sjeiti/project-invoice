@@ -1,10 +1,10 @@
 <template>
   <section>
     <header>
-      <h1><span class="hide-low">Invoice </span><router-link v-bind:to="project.uri||''">{{project.invoiceNr}}</router-link></h1>
+      <h1><span class="hide-low" v-__>Invoice </span><router-link v-bind:to="project.uri||''">{{project.invoiceNr}}</router-link></h1>
       <div class="invoice-options">
         <button v-on:click="onClickPrint()"
-                v-bind:disabled="!pageReady">print</button>
+                v-bind:disabled="!pageReady" v-__>print</button>
       </div>
       <lang></lang>
     </header>

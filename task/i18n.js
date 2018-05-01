@@ -6,22 +6,28 @@ const fileBase = './i18n/base.json'
 const globSrc = './src/**/*.+(vue|js)'
 const globFiles = './public/static/i18n/*.json'
 
-// todo: implement       ar" v-__>made with <span clas
-
 Promise.all([
     readSrc(globSrc,fileBase)
     ,readExisting(globFiles)
 ])
     .then(([keys,[paths,contents]])=>{
       contents.forEach((content,i)=>{
+        const path = paths[i]
+        let key;
         let added = false
-        for (let key in keys){
+        for (key in keys){
           if (!content.hasOwnProperty(key)){
             content[key] = key
             added = true
           }
         }
-        added&&save(paths[i],JSON.stringify(content,null,2))
+        added&&save(path,JSON.stringify(content,null,2))
+        //
+        const unused = []
+        for (key in content){
+            !keys.hasOwnProperty(key)&&unused.push(key);
+        }
+        unused.length&&console.log(`unused keys in ${path.match(/\w+\.\w+$/).pop()}: ${unused.map(s=>`'${s}'`).join(', ')}`)
       })
     })
 
@@ -34,8 +40,11 @@ Promise.all([
 function readSrc(src,target){
   return glomise(src)
     .then(paths=>Promise.all(paths.map(read)))
-    .then(rslt=>rslt.join('').match(/__\('([^']+)'\)/g))
-    .then(rslt=>rslt.map(fn=>fn.replace(/^__\('|'\)$/g,'')))
+    .then(rslt=>rslt.join('').match(/__\('([^']+)'\)|v-__="'[^"']*|v-__[^>]*>[^<]*/g)) // match js and directives
+// .then(rslt=>(console.log(rslt),rslt))
+    .then(rslt=>rslt.map(fn=>fn.replace(/^__\('|'\)$|v-__="'|v-__[^>]*>/g,''))) // clean matches
+    .then(rslt=>rslt.filter(s=>s!==''&&s.substr(0,2)!=='{{')) // don't match interpolations
+// .then(rslt=>(console.log(rslt),rslt))
     .then(rslt=>(console.log(`found ${rslt.length} keys`),rslt))
     .then(rslt=>rslt.reduce((o,s)=>(o[s]=s,o),{}))
     .then(obj=>(save(target,JSON.stringify(obj)),obj))
