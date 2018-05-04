@@ -9,6 +9,7 @@ import App from './App.vue'
 import router from './router'
 import './directives/explain'
 import './directives/middleEllipsis'
+import './directives/_'
 import {appUpdated} from './util/cache'
 import {notify} from './components/Notification'
 import {VERSION} from './config'
@@ -27,6 +28,7 @@ const i18n = new VueI18n({
       ,save: 'save'
       ,revert: 'revert'
       ,delete: 'delete'
+      ,language: 'language'
     },nl: {
       message: {
         hello: 'hallo wereld'
@@ -34,6 +36,7 @@ const i18n = new VueI18n({
       ,save: 'bewaar'
       ,revert: 'herstel'
       ,delete: 'verwijder'
+      ,language: 'taal'
     }
   }
 })

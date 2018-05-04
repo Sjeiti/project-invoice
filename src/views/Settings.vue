@@ -3,6 +3,19 @@
     <section>
       <h1 class="hide-low">Settings</h1>
       <dl>
+      
+        <dt v-_>language</dt><dd>
+          <button v-on:click="$i18n.locale = 'en'">en</button>
+          <button v-on:click="$i18n.locale = 'nl'">nl</button>
+        </dd>
+        <dt v-t="'language'"></dt><dd>
+          <button v-on:click="$i18n.locale = 'en'">en</button>
+          <button v-on:click="$i18n.locale = 'nl'">nl</button>
+        </dd>
+        <dt>{{$t('language')}}</dt><dd>
+          <button v-on:click="$i18n.locale = 'en'">en</button>
+          <button v-on:click="$i18n.locale = 'nl'">nl</button>
+        </dd>
         <dt v-explain="'config.projectNumberTemplate'"></dt><dd>
           <InterpolationUI v-model="config.projectNumberTemplate"></InterpolationUI>
         </dd>
