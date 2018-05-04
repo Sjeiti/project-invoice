@@ -29,6 +29,15 @@ const i18n = new VueI18n({
       ,revert: 'revert'
       ,delete: 'delete'
       ,language: 'language'
+      ,home: 'home'
+      ,overview: 'overview'
+      ,quarter: 'quarter'
+      ,clients: 'clients'
+      ,settings: 'settings'
+      ,layout: 'layout'
+      ,data: 'data'
+      ,copy: 'copy'
+      ,about: 'about'
     },nl: {
       message: {
         hello: 'hallo wereld'
@@ -37,6 +46,15 @@ const i18n = new VueI18n({
       ,revert: 'herstel'
       ,delete: 'verwijder'
       ,language: 'taal'
+      ,home: 'home'
+      ,overview: 'overzicht'
+      ,quarter: 'kwartaal'
+      ,clients: 'klanten'
+      ,settings: 'instellingen'
+      ,layout: 'opmaak'
+      ,data: 'data'
+      ,copy: 'tekst'
+      ,about: 'over'
     }
   }
 })

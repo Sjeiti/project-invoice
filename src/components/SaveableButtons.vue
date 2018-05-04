@@ -2,9 +2,9 @@
   <div class="saveable">
     <span v-if="syncing" class="icon-sync"></span>
     <div v-if="tracked">
-      <button v-on:click="onSave" :disabled="!saveable"><span class="icon-save hide-high"></span><span class="hide-low">{{$t('save')}}</span></button>
-      <button v-on:click="onRevert" :disabled="!saveable"><span class="icon-revert hide-high"></span><span class="hide-low">{{$t('revert')}}</span></button>
-      <button v-on:click="onDelete" v-if="deletable"><span class="icon-delete hide-high"></span><span class="hide-low">{{$t('delete')}}</span></button>
+      <button v-on:click="onSave" :disabled="!saveable"><span class="icon-save hide-high"></span><span class="hide-low" v-_>save</span></button>
+      <button v-on:click="onRevert" :disabled="!saveable"><span class="icon-revert hide-high"></span><span class="hide-low" v-_>revert</span></button>
+      <button v-on:click="onDelete" v-if="deletable"><span class="icon-delete hide-high"></span><span class="hide-low" v-_>delete</span></button>
     </div>
   </div>
 </template>
