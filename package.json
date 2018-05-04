@@ -21,7 +21,8 @@
     "faker": "node task/fakeData",
     "cypress": "cypress open",
     "svg": "svgo -f design",
-    "sitemap": "node task/sitemap"
+    "sitemap": "node task/sitemap",
+    "i18n": "node task/i18n"
   },
   "dependencies": {
     "animejs": "^2.2.0",
