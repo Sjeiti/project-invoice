@@ -46,10 +46,14 @@ const i18n = new VueI18n({
 fetch('/static/i18n/nl.json')
     .then(res=>res.json())
     .then(nl=>{
-        console.log('nl',nl) // todo: remove log
+        // console.log('nl',nl) // todo: remove log
         i18n.setLocaleMessage('nl',nl)
         i18n.locale = 'en'
         i18n.locale = 'nl'
     })
 
 export default i18n
+
+// $t('client')
+// $t('description')
+// $t('changed')

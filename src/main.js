@@ -34,3 +34,9 @@ if (localStorage.updated){
   notify(`Project Invoice has just been updated to version ${VERSION}`)
   setTimeout(() => localStorage.removeItem('updated'),5000)
 }
+
+//$t('date')
+//$t('description')
+//$t('total')
+//$t('VAT')
+//$t('paid')

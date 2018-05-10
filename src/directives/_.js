@@ -1,13 +1,13 @@
 import Vue from 'vue'
+import {sluggify} from '../util/string'
 
 Vue.directive('_',{
-  bind(el,binding,vnode){
-    console.log('bind',{el,binding,vnode},this) // todo: remove log
-    const key = el.key = binding.value||el.firstChild&&el.firstChild.textContent
-    el.firstChild.textContent = vnode.context.$t(key)
+  literal: true
+  ,bind(el,binding,vnode){
+    el.key = binding.value||el.firstChild&&sluggify(el.firstChild.textContent)
+    el.firstChild.textContent = vnode.context.$t(el.key)
   }
   ,update(el,binding,vnode){
-    console.log('update',{el,binding,vnode}) // todo: remove log
     el.firstChild.textContent = vnode.context.$t(el.key)
   }
 })

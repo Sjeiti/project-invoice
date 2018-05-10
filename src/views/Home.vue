@@ -2,23 +2,23 @@
   <div class="page-home">
     <transition-group name="jumbotron">
       <section v-if="config.homeMessage" class="jumbotron clearfix" :key="'jumbotron'">
-        <p>This invoicing application stores all your data on your local machine.<br/>
-        <em><small>Because all your data are belong to you.</small></em></p>
-        <button class="btn-link float-right" v-on:click="onHideWelcome">hide message</button>
-        <router-link v-bind:to="'/about'" class="btn btn-link float-right">read more</router-link>
+        <p v-_="'homeMessage'">This invoicing application stores all your data on your local machine.<br/>
+        <em><small v-_="'homeMessageSub'">Because all your data are belong to you.</small></em></p>
+        <button class="btn-link float-right" v-on:click="onHideWelcome" v-_>hide message</button>
+        <router-link v-bind:to="'/about'" class="btn btn-link float-right" v-_>read more</router-link>
         <logo :colors="['#3B596D','#376677','#2A7F8B']"></logo>
       </section>
     </transition-group>
     <div class="row no-gutters">
       <section class="col-12 col-md-5">
-        <h2>What do you want to do:</h2>
-        <p><button v-on:click="onAddClient">Create a new client</button></p>
-        <p><button v-on:click="onAddProjectForLatestClient" v-if="latestClient">Create project for '{{latestClient.name}}'</button></p>
-        <p><button v-on:click="onCloneLatestProject" v-if="latestProject">Clone project '{{latestProject.description}}'</button></p>
-        <p><router-link to="/overview/quarter" class="btn">See current quarter</router-link></p>
+        <h2 v-_>What do you want to do:</h2>
+        <p><button v-on:click="onAddClient" v-_>Create a new client</button></p>
+        <p><button v-on:click="onAddProjectForLatestClient" v-if="latestClient" v-_>Create project for <span>'{{latestClient.name}}'</span></button></p>
+        <p><button v-on:click="onCloneLatestProject" v-if="latestProject" v-_>Clone project <span>'{{latestProject.description}}'</span></button></p>
+        <p><router-link to="/overview/quarter" class="btn" v-_>See current quarter</router-link></p>
       </section>
       <section class="col-12 col-md-7">
-        <h2>Open invoices</h2>
+        <h2 v-_>Open invoices</h2>
         <project-list
             :projects="invoices"
             :cols="'paid date description totalIncDiscounted actions'"
@@ -28,7 +28,7 @@
         ></project-list>
       </section>
       <section class="col-12 col-md-7">
-        <h2>Draft projects</h2>
+        <h2 v-_>Draft projects</h2>
         <project-list
             :projects="drafts"
             :cols="'clientName description totalIncDiscounted actions'"

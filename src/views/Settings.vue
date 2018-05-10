@@ -1,7 +1,7 @@
 <template>
   <div>
     <section>
-      <h1 class="hide-low">Settings</h1>
+      <h1 class="hide-low" v-_>Settings</h1>
       <dl>
       
         <dt v-_>language</dt><dd>

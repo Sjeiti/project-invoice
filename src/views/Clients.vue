@@ -2,7 +2,7 @@
   <div>
     <section>
       <header>
-        <button v-on:click="onAddClient()" class="float-right">add client</button>
+        <button v-on:click="onAddClient()" class="float-right" v-_>add client</button>
         <h1 class="hide-low">Clients</h1>
       </header>
       <ul>

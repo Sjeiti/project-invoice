@@ -1,9 +1,9 @@
 <template>
   <div class="project-list" v-bind:class="{'project-list':true,'empty':projects.length===0}">
-    <p v-if="projects.length===0&&empty"><em>{{empty}}</em></p>
+    <p v-if="projects.length===0&&empty"><em v-_>{{empty}}</em></p>
     <table v-if="projects.length>0||!empty">
       <thead><tr>
-        <th v-for="col in columns" v-on:click="onClickOrder(col)" v-bind:class="'th-'+col">{{colName[col]}}</th>
+        <th v-for="col in columns" v-on:click="onClickOrder(col)" v-bind:class="'th-'+col" v-_="colName[col]">{{colName[col]}}</th>
       </tr></thead>
       <!--<tbody>-->
       <transition-group v-bind:name="animate?'animate-row':'a'+Date.now()" tag="tbody">
@@ -15,7 +15,7 @@
             v-on:click="onRowClick(project)"
         >
           <td v-for="col in columns" v-bind:class="'colname-'+col">
-    
+
             <template v-if="col==='paid'">
               <label v-on:click.stop class="checkbox"><input v-model="project.paid" v-on:change="onPaidChange(project)" type="checkbox" /><span></span></label>
             </template>

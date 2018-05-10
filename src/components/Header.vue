@@ -2,7 +2,7 @@
   <header>
     <nav>
       <router-link class="home-icon" v-bind:to="'/'"><logo></logo></router-link>
-      <h2 class="page-title hide-high">{{pageTitle}}</h2>
+      <h2 class="page-title hide-high" v-_>{{pageTitle}}</h2>
       <ul class="list-unstyled list-inline">
         <li>
           <input v-model="hamburger" class="visually-hidden" id="hamburger" type="checkbox">
