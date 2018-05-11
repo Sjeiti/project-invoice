@@ -65,5 +65,22 @@
   "addProject": "add project",
   "projects": "Projects",
   "addClient": "add client",
-  "paid": "paid"
+  "paid": "paid",
+  "projectNumberTemplate": "projectNumberTemplate",
+  "csvTemplate": "csv template",
+  "languages": "languages",
+  "currency": "currency",
+  "download": "download",
+  "restore": "restore",
+  "clear": "clear",
+  "everythingYouDoInThisApplicationIsSavedToLocalStorageYouCanBackupThisDataBy": "Everything you do in this application is saved to localStorage. You can backup this data by ",
+  "cloudSync": "cloud sync",
+  "selectCloud": "select cloud",
+  "(moreToCome": "(more to come)",
+  "authorise": "authorise",
+  "revoke": "revoke",
+  "byDefault": "By default ",
+  "showHomeMessage": "show home message",
+  "dataExplain": "dataExplain",
+  "cloudExplain": "cloudExplain"
 }
