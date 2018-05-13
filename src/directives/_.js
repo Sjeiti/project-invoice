@@ -9,10 +9,13 @@ const map = new Map()
  */
 function setContent(dir){
   const {el,vnode,key,filters} = dir
+  const text = vnode.context.$t(key)
   if (filters.length&&filters.full){
-    el.innerHTML = vnode.context.$t(key)
+    el.innerHTML = text
+  } else if (el.firstChild){
+    el.firstChild.textContent = text
   } else {
-    el.firstChild.textContent = vnode.context.$t(key)
+    el.appendChild(document.createTextNode(text))
   }
 }
 

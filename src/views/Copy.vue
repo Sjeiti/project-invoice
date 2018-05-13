@@ -83,14 +83,14 @@ export default {
     <section>
       <header>
         <lang class="float-right"></lang>
-        <h1 class="hide-low">Copy</h1>
+        <h1 class="hide-low" v-_>Copy</h1>
       </header>
       <dl>
-          <dt><strong>key</strong></dt><dd><strong>value</strong></dd>
+          <dt><strong v-_>key</strong></dt><dd><strong v-_>value</strong></dd>
       </dl>
       <dl>
         <template v-for="key in defaultKeys">
-          <dt v-explain="'copy.'+key"></dt>
+          <dt v-_="key"></dt>
           <dd><InterpolationUI v-model="copy[key][config.lang]"></InterpolationUI></dd>
         </template>
       </dl>

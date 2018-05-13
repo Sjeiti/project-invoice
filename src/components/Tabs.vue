@@ -4,7 +4,7 @@
           v-for="(tab, i) in tabs"
           v-on:click="onClick(i)"
           v-bind:class="{selected:value[i]}"
-      ><h3>{{tab}}</h3></li>
+      ><h3 v-_>{{tab}}</h3></li>
     </ul>
 </template>
 
@@ -21,7 +21,7 @@ export default {
       if (tag==='tab'&&children&&children[0]){
         this.tabs.push(children[0].text)
         const index = this.tabs.length - 1
-        this.value[index] = !!data&&data.attrs.selected!==undefined
+        this.value[index] = !!data&&data.attrs&&data.attrs.selected!==undefined
       }
     })
   }
