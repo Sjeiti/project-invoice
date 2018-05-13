@@ -1,6 +1,13 @@
 <template>
   <header>
     <nav>
+      <!--###################todo:remove-->
+      <div style="line-height:8px;font-size:8px;position:absolute;right:0;top:0;color:white;z-index:999;">
+          <span v-on:click="$i18n.locale='en'">en</span>
+          <span v-on:click="$i18n.locale='nl'">nl</span>
+          <span v-on:click="$i18n.locale='de'">de</span>
+      </div>
+      <!--###################-->
       <router-link class="home-icon" v-bind:to="'/'"><logo></logo></router-link>
       <h2 class="page-title hide-high" v-_>{{pageTitle}}</h2>
       <ul class="list-unstyled list-inline">

@@ -9,6 +9,8 @@ const globFiles = './public/static/i18n/*.json'
 const rxMatch = /\$t\('([^']+)'\)|v-_="'[^'"]*|v-__?[^>]*>[^<]*/g
 const rxReplace = /^\$t\('|'\)$|v-_="'|v-__?[^>]*>/g
 
+// todo: add [title] when [v-title] and no node.textcontent
+
 Promise.all([readSrc(globSrc,fileBase),readExisting(globFiles)])
     .then(([keys,[paths,contents]]) => {
       contents.forEach((content,i) => {
@@ -24,7 +26,7 @@ Promise.all([readSrc(globSrc,fileBase),readExisting(globFiles)])
         added && save(path,JSON.stringify(content,null,2))
         //
         const unused = []
-        for (key in content) {
+        for (key in content){
           !keys.hasOwnProperty(key) && unused.push(key)
         }
         unused.length && console.log(`unused keys in ${path.match(/\w+\.\w+$/).pop()}: ${unused.map(s => `'${s}'`).join(', ')}`)

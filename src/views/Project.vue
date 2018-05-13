@@ -4,7 +4,7 @@
     <h1><span class="hide-low" v-_>Project: </span>{{project.description}}</h1>
     <section>
       <dl>
-        <dt data-appExplain="'project.client'">client</dt>
+        <dt data-appExplain="'project.client'" v-_>client</dt>
         <dd><router-link class="input" v-bind:to="client.uri||''">{{client.name}}</router-link></dd>
         <dt data-appExplain="'project.description'" v-_>description</dt>
         <dd><input v-model="project.description" ref="description" /></dd>
@@ -117,9 +117,9 @@
           <div class="col input hide-low">{{project.invoiceNr}}</div>
           <div class="col-3 input">{{invoice.date}}</div>
           <div class="col input">
-            <i v-if="invoice.interest" class="icon-promile" title="Legal interest was added"></i>
-            <i v-if="invoice.exhortation" class="icon-stop" title="Final exhortation"></i>
-            <i v-if="invoice.paid" class="icon-money" v-bind:title="`Paid: ${currency(invoice.paid)}`"></i>
+            <i v-if="invoice.interest" class="icon-promile" title="Legal interest was added" v-title></i>
+            <i v-if="invoice.exhortation" class="icon-stop" title="Final exhortation" v-title></i>
+            <i v-if="invoice.paid" class="icon-money" v-bind:title="$t('paid')+': '+currency(invoice.paid)"></i>
           </div>
           <div class="col text-align-right">
             <button v-if="i===project.invoices.length-1" v-on:click="onRemoveInvoice(invoice)"><i class="icon-close"></i></button>
