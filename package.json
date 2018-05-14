@@ -1,6 +1,6 @@
 {
   "name": "ProjectInvoice",
-  "version": "2.3.7",
+  "version": "2.3.8",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -22,7 +22,8 @@
     "cypress": "cypress open",
     "svg": "svgo -f design",
     "sitemap": "node task/sitemap",
-    "i18n": "node task/i18n"
+    "i18n": "node task/i18n",
+    "i18n-about": "node task/i18n-about"
   },
   "dependencies": {
     "animejs": "^2.2.0",

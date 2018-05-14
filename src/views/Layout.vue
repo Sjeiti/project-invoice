@@ -110,10 +110,10 @@ export default {
         </dd>
         
         <dt v-_>Colors</dt><dd>
-          <label><input type="color" v-on:change="onChangeVariables" v-model="settings.themeMainBgColor" v-_ />main background</label><br/>
-          <label><input type="color" v-on:change="onChangeVariables" v-model="settings.themeMainFgColor" v-_ />main foreground</label><br/>
-          <label><input type="color" v-on:change="onChangeVariables" v-model="settings.themeSecondaryBgColor" v-_ />secondary background</label><br/>
-          <label><input type="color" v-on:change="onChangeVariables" v-model="settings.themeSecondaryFgColor" v-_ />secondary foreground</label><br/>
+          <label><input type="color" v-on:change="onChangeVariables" v-model="settings.themeMainBgColor" /><span v-_>main background</span></label><br/>
+          <label><input type="color" v-on:change="onChangeVariables" v-model="settings.themeMainFgColor" /><span v-_>main foreground</span></label><br/>
+          <label><input type="color" v-on:change="onChangeVariables" v-model="settings.themeSecondaryBgColor" /><span v-_>secondary background</span></label><br/>
+          <label><input type="color" v-on:change="onChangeVariables" v-model="settings.themeSecondaryFgColor" /><span v-_>secondary foreground</span></label><br/>
         </dd>
     
         <dt class="name font-size"><label for="font-size" v-_>base font size</label></dt><dd>
