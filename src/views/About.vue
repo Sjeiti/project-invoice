@@ -1,12 +1,33 @@
-<template src="./About.html"></template>
-
 <script>
 import BaseView from './BaseView'
-import FoldableDefinition from '@/components/FoldableDefinition'
+import FoldableDefinition from '../components/FoldableDefinition'
+import Vue from 'vue'
+import model from '../model'
+import aboutHtml from 'html-loader!./About.html'
+
+const components = {FoldableDefinition}
+
 export default {
   name: 'about'
   ,extends: BaseView
-  ,components: {FoldableDefinition}
+  ,components
+
+  ,data(){
+    return {
+      template: Vue.compile(aboutHtml)
+    }
+  }
+  ,render(createElement){
+    return createElement(Object.assign({},this.template,{components}))
+  }
+  ,mounted(){
+    const {uilang} = model.config
+    fetch(`/static/i18n/About-${uilang}.html`)
+        .then(result=>result.text())
+        .then(text=>{
+          this.template = Vue.compile(text)
+        })
+  }
 }
 </script>
 

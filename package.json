@@ -1,6 +1,6 @@
 {
   "name": "ProjectInvoice",
-  "version": "2.3.8",
+  "version": "2.3.9",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -51,6 +51,7 @@
     "express": "^4.16.3",
     "faker": "^4.1.0",
     "github-release-notes": "^0.15.0",
+    "html-loader": "^0.5.5",
     "jsdom": "^11.6.2",
     "lint-staged": "^6.0.0",
     "next-version": "^0.11.7",
