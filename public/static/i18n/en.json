@@ -141,11 +141,10 @@
   "noProjectsInThisQuarter": "no projects in this quarter",
   "projectNumberTemplateExplain": "projectNumberTemplateExplain",
   "csvTemplateExplain": "csvTemplateExplain",
-  "languagesExplain": "languagesExplain",
-  "dataExplainfull": "dataExplain|full",
-  "cloudExplainfull": "cloudExplain|full",
+  "languagesExplain": "What languages are your invoices in?",
   "legalInterestWasAdded": "Legal interest was added",
   "finalExhortation": "final exhortation",
   "applicationLanguage": "application language",
-  "invoiceLanguages": "invoice languages"
+  "invoiceLanguages": "invoice languages",
+  "youCurrentlyHaveNoDrafts": "You currently have no drafts... :-/"
 }

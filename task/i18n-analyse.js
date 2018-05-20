@@ -6,7 +6,7 @@ const glomise = utils.glomise
 const fileBase = './i18n/base.json'
 const globSrc = './src/**/*.+(vue|js)'
 const globFiles = './public/static/i18n/*.json'
-const rxMatch = /\$t\('([^']+)'\)|v-_="'[^'"]*|v-__?[^>]*>[^<]*/g
+const rxMatch = /\$t\('([^|']+)'\)|v-_="'[^|'"]*|v-__?[^>]*>[^<]*/g
 const rxReplace = /^\$t\('|'\)$|v-_="'|v-__?[^>]*>/g
 
 // todo: add [title] when [v-title] and no node.textcontent

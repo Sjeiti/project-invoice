@@ -41,8 +41,8 @@ function setLocateTo(iso){
 
 export default i18n
 
-// $t('client')
-// $t('changed')
+//$t('client')
+//$t('changed')
 
 //$t('date')
 //$t('description')
@@ -111,3 +111,4 @@ export default i18n
 
 //$t('legalInterestWasAdded')
 //$t('finalExhortation')
+//$t('youCurrentlyHaveNoDrafts')
