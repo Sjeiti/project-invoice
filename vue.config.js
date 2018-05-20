@@ -6,12 +6,12 @@ module.exports = {
         'vue$': 'vue/dist/vue.esm.js'
       }
     }
-    ,rules: [
+    /*,rules: [
         {
             test: /\.html$/
             ,exclude: /node_modules/
             ,use: {loader: 'html-loader'}
         }
-    ]
+    ]*/
   }
 }

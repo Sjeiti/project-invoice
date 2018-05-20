@@ -3,7 +3,7 @@ import BaseView from './BaseView'
 import FoldableDefinition from '../components/FoldableDefinition'
 import Vue from 'vue'
 import model from '../model'
-import aboutHtml from 'html-loader!./About.html'
+import aboutHtml from 'html-loader!../../public/static/i18n/About-en.html'
 
 const components = {FoldableDefinition}
 
