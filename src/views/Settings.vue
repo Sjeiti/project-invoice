@@ -3,9 +3,10 @@
     <section>
       <h1 class="hide-low" v-_>Settings</h1>
       <dl>
-        <dt v-_>language</dt><dd>
-          <button v-on:click="config.uilang='en'">en</button>
-          <button v-on:click="config.uilang='nl'">nl</button>
+        <dt v-_>application language</dt><dd>
+          <select v-model="config.uilang">
+            <option v-for="iso in isos" v-bind:value="iso" v-_>{{iso}}</option>
+          </select>
         </dd>
         <dt v-title v-_>project number template</dt><dd>
           <InterpolationUI v-model="config.projectNumberTemplate"></InterpolationUI>
@@ -13,7 +14,7 @@
         <dt v-title v-_>csv template</dt><dd>
           <InterpolationUI v-model="config.csvTemplate"></InterpolationUI>
         </dd>
-        <dt v-title v-_>languages</dt><dd>
+        <dt v-title v-_>invoice languages</dt><dd>
           <input v-model="config.langsJoined" />
         </dd>
         <dt v-_>currency</dt><dd>
@@ -57,6 +58,7 @@
 import BaseView from './BaseView'
 import model from '../model'
 import {track,untrack,save} from '../formState'
+import {I18N_ISO as isos} from '../config/i18n'
 import {CURRENCY_ISO} from '../config/currencyISO'
 import InterpolationUI from '../components/InterpolationUI'
 import storageService from '../service/storage'
@@ -72,7 +74,8 @@ export default {
     return {
       config: {}
       ,currencies: []
-      ,storageService: storageService
+      ,isos
+      ,storageService
     }
   }
   ,components: { InterpolationUI }

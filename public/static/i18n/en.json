@@ -145,5 +145,7 @@
   "dataExplainfull": "dataExplain|full",
   "cloudExplainfull": "cloudExplain|full",
   "legalInterestWasAdded": "Legal interest was added",
-  "finalExhortation": "final exhortation"
+  "finalExhortation": "final exhortation",
+  "applicationLanguage": "application language",
+  "invoiceLanguages": "invoice languages"
 }

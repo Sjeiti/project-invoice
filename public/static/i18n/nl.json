@@ -145,5 +145,7 @@
   "dataExplainfull": "dataExplain|full",
   "cloudExplainfull": "cloudExplain|full",
   "legalInterestWasAdded": "Wettelijke rente is bijgevoegd",
-  "finalExhortation": "Laatste aanmaning"
+  "finalExhortation": "Laatste aanmaning",
+  "applicationLanguage": "application language",
+  "invoiceLanguages": "invoice languages"
 }
