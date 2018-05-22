@@ -2,31 +2,31 @@
   <header>
     <nav>
       <router-link class="home-icon" v-bind:to="'/'"><logo></logo></router-link>
-      <h2 class="page-title hide-high">{{pageTitle}}</h2>
+      <h2 class="page-title hide-high" v-_>{{pageTitle}}</h2>
       <ul class="list-unstyled list-inline">
         <li>
           <input v-model="hamburger" class="visually-hidden" id="hamburger" type="checkbox">
           <label for="hamburger"><span></span></label>
           <ul v-on:click="hamburger=!hamburger" class="list-inline">
-            <li class="hide-high"><router-link to="/">home</router-link></li>
+            <li class="hide-high"><router-link to="/" v-_>home</router-link></li>
             <li class="drop">
-              <label for="drop1"><router-link to="/overview">overview</router-link></label>
+              <label for="drop1"><router-link to="/overview" v-_>overview</router-link></label>
               <input class="visually-hidden" id="drop1" type="checkbox">
               <ul>
-                <li><router-link to="/overview/quarter">quarter</router-link></li>
+                <li><router-link to="/overview/quarter" v-_>quarter</router-link></li>
               </ul>
             </li>
-            <li><router-link to="/clients">clients</router-link></li>
+            <li><router-link to="/clients" v-_>clients</router-link></li>
             <li class="drop">
-              <label for="drop2"><router-link to="/settings">settings</router-link></label>
+              <label for="drop2"><router-link to="/settings" v-_>settings</router-link></label>
               <input class="visually-hidden" id="drop2" type="checkbox">
               <ul>
-                <li><router-link to="/layout">layout</router-link></li>
-                <li><router-link to="/data">data</router-link></li>
-                <li><router-link to="/copy">copy</router-link></li>
+                <li><router-link to="/layout" v-_>layout</router-link></li>
+                <li><router-link to="/data" v-_>data</router-link></li>
+                <li><router-link to="/copy" v-_>copy</router-link></li>
               </ul>
             </li>
-            <li><router-link to="/about">about</router-link></li>
+            <li><router-link to="/about" v-_>about</router-link></li>
           </ul>
         </li>
       </ul>

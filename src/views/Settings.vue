@@ -1,49 +1,54 @@
 <template>
   <div>
     <section>
-      <h1 class="hide-low">Settings</h1>
+      <h1 class="hide-low" v-_>Settings</h1>
       <dl>
-        <dt v-explain="'config.projectNumberTemplate'"></dt><dd>
+        <dt v-_>application language</dt><dd>
+          <select v-model="config.uilang">
+            <option v-for="iso in isos" v-bind:value="iso" v-_>{{iso}}</option>
+          </select>
+        </dd>
+        <dt v-title v-_>project number template</dt><dd>
           <InterpolationUI v-model="config.projectNumberTemplate"></InterpolationUI>
         </dd>
-        <dt v-explain="'config.csvTemplate'"></dt><dd>
+        <dt v-title v-_>csv template</dt><dd>
           <InterpolationUI v-model="config.csvTemplate"></InterpolationUI>
         </dd>
-        <dt v-explain="'config.langs'"></dt><dd>
+        <dt v-title v-_>invoice languages</dt><dd>
           <input v-model="config.langsJoined" />
         </dd>
-        <dt v-explain="'config.currency'"></dt><dd>
+        <dt v-_>currency</dt><dd>
           <select v-model="config.currency">
             <option v-for="currency in currencies" v-bind:value="currency.code" ngDefaultControl>{{currency.name}} ({{currency.symbol}})</option>
           </select>
         </dd>
-        <dt v-explain="'config.homeMessage'"></dt><dd>
+        <dt v-_>show home message</dt><dd>
           <label class="checkbox"><input v-model="config.homeMessage" type="checkbox" /><span></span></label>
         </dd>
       </dl>
     </section>
     <section class="row no-gutters">
-      <h2 class="col-12 col-sm-3">data</h2>
+      <h2 class="col-12 col-sm-3" v-_>data</h2>
       <div class="col-12 col-sm-9">
-        <a class="btn" v-on:click="onClickDownload($event,'data')">download</a>
-        <label class="btn" for="restore">restore</label>
+        <a class="btn" v-on:click="onClickDownload($event,'data')" v-_>download</a>
+        <label class="btn" for="restore" v-_>restore</label>
         <input accept="application/json, text/json, .json" type="file" id="restore" v-on:change="onChangeRestore" class="visually-hidden" />
-        <button v-on:click="onClickClear">clear</button>
-        <p>Everything you do in this application is saved to localStorage. You can backup this data by <em>downloading</em> a JSON file. You can use this file to <em>restore</em> the data on any other device or machine.<br/>
+        <button v-on:click="onClickClear" v-_>clear</button>
+        <p v-_="'dataExplain|full'">Everything you do in this application is saved to localStorage. You can backup this data by <em>downloading</em> a JSON file. You can use this file to <em>restore</em> the data on any other device or machine.<br/>
         When you <em>clear</em> the data it will be replaced by default data.</p>
       </div>
     </section>
     <section class="row no-gutters">
-      <h2 class="col-12 col-sm-3">cloud sync</h2>
+      <h2 class="col-12 col-sm-3" v-_>cloud sync</h2>
       <div class="col-12 col-sm-9">
         <select v-model="config.cloudSelected" v-bind:disabled="storageService.authorised">
-          <option value="">select cloud</option>
-          <option v-for="(storage, key) in storageService.providers" v-bind:value="key">{{storage.name}}</option>
-          <option>(more to come)</option>
+          <option value="" v-_>select cloud</option>
+          <option v-for="(storage, key) in storageService.providers" v-bind:value="key" v-_>{{storage.name}}</option>
+          <option v-_>(more to come)</option>
         </select>
-        <button v-on:click="storageService.init(config.cloudSelected)" v-bind:disabled="storageService.authorised">authorise</button>
-        <button v-on:click="onClickRevoke" v-bind:disabled="!storageService.authorised">revoke</button>
-        <p>By default <em>Project Invoice</em> does not send or receive any data. But cloud synchronisation can be convenient if you want to use this application on multiple machines and/or devices. If you authorise a cloud provider the application will check the cloud for newer data when it loads, and save to the cloud every time you save to localStorage.</p>
+        <button v-on:click="storageService.init(config.cloudSelected)" v-bind:disabled="storageService.authorised" v-_>authorise</button>
+        <button v-on:click="onClickRevoke" v-bind:disabled="!storageService.authorised" v-_>revoke</button>
+        <p v-_="'cloudExplain|full'">By default <em>Project Invoice</em> does not send or receive any data. But cloud synchronisation can be convenient if you want to use this application on multiple machines and/or devices. If you authorise a cloud provider the application will check the cloud for newer data when it loads, and save to the cloud every time you save to localStorage.</p>
       </div>
     </section>
   </div>
@@ -53,6 +58,7 @@
 import BaseView from './BaseView'
 import model from '../model'
 import {track,untrack,save} from '../formState'
+import {I18N_ISO as isos} from '../config/i18n'
 import {CURRENCY_ISO} from '../config/currencyISO'
 import InterpolationUI from '../components/InterpolationUI'
 import storageService from '../service/storage'
@@ -68,7 +74,8 @@ export default {
     return {
       config: {}
       ,currencies: []
-      ,storageService: storageService
+      ,isos
+      ,storageService
     }
   }
   ,components: { InterpolationUI }

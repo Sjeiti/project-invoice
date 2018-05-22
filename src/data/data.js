@@ -271,6 +271,7 @@ Spongebob Squarepants
       ,'nl'
     ]
     ,lang: 'en'
+    ,uilang: 'nl'
     ,currency: 'EUR'
     ,googleFontsAPIKey: 'AIzaSyAFYPRYJcm8kFOxnKJNpnCIPNoA1rEQ1NA'
     ,homeMessage: true

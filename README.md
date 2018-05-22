@@ -39,6 +39,7 @@ To get the application running locally you only need NodeJS, npm and GIT. If you
 ### Wait, this app is online in a browser. How is my private data not online?
 
 Every site can access something called LocalStorage which resides on your local machine or device. This is where your data is stored. Websites can never access the LocalStorage of another website. Never will data be sent from your computer to the server. The only network communication is the application logic being sent from the server to your computer. All your private data remains on your own computer.
+Unless of course you are using the cloud service, but this is turned off by default.
 
 ### Is this safe?
 
@@ -54,7 +55,7 @@ Since the data is stored locally you can only access it from one computer. Howev
 
 ### I want to clear my LocalStorage to wipe all my data.
 
-There is a button for that on the [settings page](https://projectinvoice.nl/settings).
+You can simply clear your LocalStorage from your devtools, but this app also has a button for that on the [settings page](https://projectinvoice.nl/settings).
 
 ### Is there an Android or IOS app for this?
 
@@ -75,7 +76,6 @@ So I created my own:
  - run it online or offline or even on a local server
 
 I cleaned it up a bit because I thought you might like it.
-
 
 ## Contributing
 

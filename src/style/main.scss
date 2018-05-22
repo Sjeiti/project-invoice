@@ -286,7 +286,25 @@ dt {
   flex: 0 0 100%/12*3;
   overflow: hidden;
   text-overflow: ellipsis;
-  //@extend .input;
+  &[title]:after {
+    $infoSize: 10px;
+    content: 'i';
+    position: relative;
+    left: 3px;
+    top: -3px;
+    display: inline-block;
+    width: $infoSize;
+    height: $infoSize;
+    overflow: visible;
+    font-size: 8px;
+    font-weight: bold;
+    line-height: $infoSize;
+    text-align: center;
+    //text-transform: uppercase;
+    color: white;
+    background-color: #CCC;
+    border-radius: $infoSize;
+  }
 }
 dd {
   flex: 0 0 100%/12*9;

@@ -6,7 +6,10 @@ import Vue from 'vue'
 
 import App from './App.vue'
 import router from './router'
-import './directives/explain'
+import i18n from './i18n'
+
+import './directives/_'
+import './directives/title'
 import './directives/middleEllipsis'
 import {appUpdated} from './util/cache'
 import {notify} from './components/Notification'
@@ -16,6 +19,7 @@ Vue.config.productionTip = false
 
 new Vue({
   router
+  ,i18n
   ,render: h => h(App)
 }).$mount('#app')
 

@@ -1,32 +1,32 @@
 <template>
   <div>
-    <button v-on:click="clone(project)" class="float-right button--lower">clone</button>
-    <h1><span class="hide-low">Project: </span>{{project.description}}</h1>
+    <button v-on:click="clone(project)" class="float-right button--lower" v-_>clone</button>
+    <h1><span class="hide-low" v-_>Project: </span>{{project.description}}</h1>
     <section>
       <dl>
-        <dt data-appExplain="'project.client'">client</dt>
+        <dt data-appExplain="'project.client'" v-_>client</dt>
         <dd><router-link class="input" v-bind:to="client.uri||''">{{client.name}}</router-link></dd>
-        <dt data-appExplain="'project.description'" >description</dt>
+        <dt data-appExplain="'project.description'" v-_>description</dt>
         <dd><input v-model="project.description" ref="description" /></dd>
       </dl>
       <div class="position-relative">
         <label for="projectProperties"><i class="icon-cog color-button"></i></label>
         <input id="projectProperties" type="checkbox" class="reveal visually-hidden" />
         <dl>
-          <dt data-appExplain="'project.discount'">discount</dt>
+          <dt data-appExplain="'project.discount'" v-_>discount</dt>
           <dd class="discount">
             <div input-unit="%" style="flex: 0 0 75px;"><input v-model.number="project.discount" type="number" /></div>
             <currency v-if="hourlyRate" :value="project.hourlyRate - project.hourlyRate*project.discount*0.01" class="text-align-left" />
           </dd>
-          <dt data-appExplain="'project.hourlyRate'">hourly rate</dt>
+          <dt v-title v-_>hourly rate</dt>
           <dd class="hourly-rate">
             <label class="checkbox"><input v-model="hourlyRate" type="checkbox"/><span></span></label>
             <currency v-if="hourlyRate" :value="project.hourlyRateCalculated" />
             <div v-if="hourlyRate" v-bind:input-unit="currencySymbol"><input v-model.number="project.hourlyRate" type="number"/></div>
           </dd>
-          <dt data-appExplain="'project.paid'">paid</dt>
+          <dt data-appExplain="'project.paid'" v-_>paid</dt>
           <dd><label class="checkbox"><input v-model="project.paid" type="checkbox"/><span></span></label></dd>
-          <dt data-appExplain="'project.ignore'">ignore</dt>
+          <dt data-appExplain="'project.ignore'" v-_>ignore</dt>
           <dd><label class="checkbox"><input v-model="project.ignore" type="checkbox"/><span></span></label></dd>
         </dl>
       </div>
@@ -34,18 +34,18 @@
     
     <section>
       <header>
-        <button v-on:click="onAddLine()" class="float-right">add line</button>
-        <h3>lines</h3>
+        <button v-on:click="onAddLine()" class="float-right" v-_>add line</button>
+        <h3 v-_>lines</h3>
       </header>
       <table>
         <thead>
         <tr>
           <th></th>
-          <th width="60%">description</th>
-          <th v-if="hourlyRate" width="5%" class="hide-low">hours</th>
+          <th width="60%" v-_>description</th>
+          <th v-if="hourlyRate" width="5%" class="hide-low" v-_>hours</th>
           <th v-if="hourlyRate" class="hide-low text-align-center" v-on:click="onClickLineCalculations(project)">⇥</th>
-          <th>amount</th>
-          <th>VAT</th>
+          <th v-_>amount</th>
+          <th v-_>VAT</th>
           <th></th>
         </tr>
         </thead>
@@ -67,7 +67,7 @@
         <tfoot>
           <tr>
             <td></td>
-            <td>total ex VAT</td>
+            <td v-_>total ex VAT</td>
             <td v-if="hourlyRate" class="hide-low"><div class="input mono">{{project.totalHours}}</div></td>
             <td v-if="hourlyRate" class="hide-low"><currency :value="project.totalHours*project.hourlyRate"/></td>
             <td><currency class="float-right" :value="project.total"/></td>
@@ -76,7 +76,7 @@
           </tr>
           <tr v-if="project.discount">
             <td></td>
-            <td>discount {{project.discount}}%</td>
+            <td><span v-_>discount</span> {{project.discount}}%</td>
             <td v-if="hourlyRate" class="hide-low"></td>
             <td v-if="hourlyRate" class="hide-low"><currency :value="project.totalHours*project.hourlyRateDiscounted"/></td>
             <td><currency class="float-right" :value="project.totalDiscounted"/></td>
@@ -85,7 +85,7 @@
           </tr>
           <tr>
             <td></td>
-            <td>total inc VAT</td>
+            <td v-_>total inc VAT</td>
             <td v-if="hourlyRate" class="hide-low"></td>
             <td v-if="hourlyRate" class="hide-low"></td>
             <td><currency class="float-right" :value="project.totalIncDiscounted"/></td>
@@ -97,14 +97,14 @@
     </section>
     
     <tabs v-model="tabs" v-bind:index="project.invoices&&project.invoices.length&&1||0">
-      <tab selected>quotation</tab>
-      <tab>invoices</tab>
+      <tab selected v-_>quotation</tab>
+      <tab v-_>invoices</tab>
     </tabs>
   
     <input class="tabs-trigger" type="checkbox" v-model="tabs[1]" />
     <section>
       <header class="clearfix">
-        <button v-on:click="onAddInvoice()" class="float-right" v-html="`add ${project.invoices&&project.invoices.length?'reminder':'invoice'}`">add invoice</button>
+        <button v-on:click="onAddInvoice()" class="float-right" v-html="$t(project.invoices&&project.invoices.length?'addReminder':'addInvoice')">add invoice</button>
       </header>
       <ol class="list-unstyled invoices">
         <li v-for="(invoice, i) in project.invoices" v-bind:key="i" class="row no-gutters">
@@ -112,14 +112,14 @@
             <router-link
                 v-bind:to="`${project.uri}/${invoice.type}${i!==0?'/'+i:''}`"
                 v-bind:title="project.invoiceNr"
-                class="btn">{{invoice.type}}{{i!==0?'&nbsp;' + i:''}}</router-link>
+                class="btn"><span v-_>{{invoice.type}}</span>{{i!==0?'&nbsp;' + i:''}}</router-link>
           </div>
           <div class="col input hide-low">{{project.invoiceNr}}</div>
           <div class="col-3 input">{{invoice.date}}</div>
           <div class="col input">
-            <i v-if="invoice.interest" class="icon-promile" title="Legal interest was added"></i>
-            <i v-if="invoice.exhortation" class="icon-stop" title="Final exhortation"></i>
-            <i v-if="invoice.paid" class="icon-money" v-bind:title="`Paid: ${currency(invoice.paid)}`"></i>
+            <i v-if="invoice.interest" class="icon-promile" title="Legal interest was added" v-title></i>
+            <i v-if="invoice.exhortation" class="icon-stop" title="Final exhortation" v-title></i>
+            <i v-if="invoice.paid" class="icon-money" v-bind:title="$t('paid')+': '+currency(invoice.paid)"></i>
           </div>
           <div class="col text-align-right">
             <button v-if="i===project.invoices.length-1" v-on:click="onRemoveInvoice(invoice)"><i class="icon-close"></i></button>
@@ -132,11 +132,11 @@
     <input class="tabs-trigger" type="checkbox" v-model="tabs[0]" />
     <section>
       <header class="clearfix">
-        <router-link v-bind:to="`${project.uri}/quotation`" class="btn float-right">show quotation</router-link>
+        <router-link v-bind:to="`${project.uri}/quotation`" class="btn float-right" v-_>show quotation</router-link>
       </header>
       <dl>
         <template v-for="qt in quotation">
-          <dt v-explain="'project.'+qt.property"></dt>
+          <dt data-v-explain="'project.'+qt.property" v-_>{{qt.property}}</dt>
           <dd v-if="qt.type==='textarea'">
             <InterpolationUI v-model="project[qt.property]"></InterpolationUI>
           </dd>
@@ -156,7 +156,7 @@ import {track,untrack,save} from '../formState'
 import InterpolationUI from '../components/InterpolationUI'
 import Tabs from '../components/Tabs'
 import draggable from 'vuedraggable'
-import device from 'current-device'
+//import device from 'current-device'
 import {confirm,modal} from '../components/Modal'
 import moment from 'moment'
 
@@ -266,7 +266,8 @@ export default {
         }
         ,index: invoices.length
       }
-      modal('add invoice','InvoiceProperties',data,'cancel','add')
+      const $t = this.$t
+      modal($t('addInvoice'),'InvoiceProperties',data,$t('cancel'),$t('add'))
           .then(data=>this.project.addInvoice(data.invoice),noop)
           .then(()=>this.$el.dispatchEvent(new CustomEvent('change')))
     }
@@ -279,7 +280,8 @@ export default {
         invoice: invoice.clone()
         ,index: this.project.invoices.indexOf(invoice)
       }
-      modal('edit invoice','InvoiceProperties',data,'cancel','edit')
+      const $t = this.$t
+      modal($t('editInvoice'),'InvoiceProperties',data,$t('cancel'),$t('edit'))
           .then(data=>Object.assign(invoice,data.invoice),noop)
           .then(()=>this.$el.dispatchEvent(new CustomEvent('change')))
     }
@@ -293,15 +295,15 @@ export default {
       const index = invoices.indexOf(invoice)
       index!==-1&&invoices.splice(index,1)
     }
-    /**
-     * Click the invoice interest or exhortation checkbox
-     * @param {Event} e
-     * @param {boolean} isChecked
-     * @param {boolean} interest
-     */
-    ,onClickInvoiceCheck(e,isChecked,interest){
-      !isChecked&&device.mobile()&&!window.confirm(interest?'Add interest?':'Is this reminder the final exhortation?')&&e.preventDefault()
-    }
+//    /**
+//     * Click the invoice interest or exhortation checkbox
+//     * @param {Event} e
+//     * @param {boolean} isChecked
+//     * @param {boolean} interest
+//     */
+//    ,onClickInvoiceCheck(e,isChecked,interest){
+//      !isChecked&&device.mobile()&&!window.confirm(interest?$t('Add interest?'):$t('isExhortation'))&&e.preventDefault()
+//    }
     ,currency(val){ // todo: dots or commas
       let dotValue = parseFloat(val||0).toFixed(2)
       const [before,after] = dotValue.split(/\./)

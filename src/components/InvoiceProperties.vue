@@ -1,10 +1,10 @@
 <template>
   <div>
     <dl>
-      <dt>date</dt><dd><input v-model="invoice.date" type="date" /></dd>
-      <dt v-if="index>0">legal interest</dt><dd v-if="index>0"><label class="checkbox"><input v-model="invoice.interest" type="checkbox"/><span></span></label></dd>
-      <dt v-if="index>1">exhortation</dt><dd v-if="index>1"><label class="checkbox"><input v-model="invoice.exhortation" type="checkbox"/><span></span></label></dd>
-      <dt>paid</dt><dd><input v-model="invoice.paid" type="number"/></dd>
+      <dt v-_>date</dt><dd><input v-model="invoice.date" type="date" /></dd>
+      <dt v-if="index>0" v-_>legal interest</dt><dd v-if="index>0"><label class="checkbox"><input v-model="invoice.interest" type="checkbox"/><span></span></label></dd>
+      <dt v-if="index>1" v-_>exhortation</dt><dd v-if="index>1"><label class="checkbox"><input v-model="invoice.exhortation" type="checkbox"/><span></span></label></dd>
+      <dt v-_>paid</dt><dd><input v-model="invoice.paid" type="number"/></dd>
     </dl>
   </div>
 </template>
