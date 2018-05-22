@@ -146,5 +146,15 @@
   "finalExhortation": "final exhortation",
   "applicationLanguage": "application language",
   "invoiceLanguages": "invoice languages",
-  "youCurrentlyHaveNoDrafts": "You currently have no drafts... :-/"
+  "youCurrentlyHaveNoDrafts": "You currently have no drafts... :-/",
+  "clearData": "clear data",
+  "deleteAllTheData": "Delete all the data?",
+  "noWait": "no wait!",
+  "typeAName": "Type a name",
+  "theNameIsUsedAsAKey": "The name is used as a key",
+  "removeCopy": "Do you really want to remove this copy?",
+  "unsavedChanges": "unsaved changes",
+  "discardChanges": "You are about to discard your changes by leaving this page.",
+  "deleteClient": "Delete this client?",
+  "deleteProject": "Delete this project?"
 }

@@ -146,5 +146,15 @@
   "finalExhortation": "Laatste aanmaning",
   "applicationLanguage": "applicatie taal",
   "invoiceLanguages": "factuur talen",
-  "youCurrentlyHaveNoDrafts": "Je hebt op dit moment geen concepten... :-/"
+  "youCurrentlyHaveNoDrafts": "Je hebt op dit moment geen concepten... :-/",
+  "clearData": "verwijder data",
+  "deleteAllTheData": "Verwijder alle data?",
+  "noWait": "nee wacht!",
+  "typeAName": "Tiep een naam",
+  "theNameIsUsedAsAKey": "De naam wordt als sleutel gebruikt",
+  "removeCopy": "Wil je deze tekst echt verwijderen?",
+  "unsavedChanges": "wijzigingen",
+  "discardChanges": "Je staat op het punt je wijzigingen te verwijderen door deze pagina te verlaten",
+  "deleteClient": "Verwijder deze klant?",
+  "deleteProject": "Verwijder dit project?"
 }

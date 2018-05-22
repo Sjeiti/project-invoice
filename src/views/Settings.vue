@@ -115,11 +115,12 @@ export default {
     }
 
     ,onClickClear(){
+      const $t = this.$t
       confirm(
-          'clear data'
-          ,'Delete all the data?'
-          ,'no wait!'
-          ,'clear'
+          $t('clearData')
+          ,$t('deleteAllTheData')
+          ,$t('noWait')
+          ,$t('clear')
       )
           .then(()=>{
             model.data = null

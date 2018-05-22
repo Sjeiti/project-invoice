@@ -43,7 +43,7 @@
           this.saveable&&revert()
           next()
         }
-        this.saveable&&confirm('unsaved changes','You are about to discard your changes by leaving this page.','cancel','leave')
+        this.saveable&&confirm($t('unsavedChanges'),$t('discardChanges'),'cancel','leave')
             .then(nxt,()=>next(false))||nxt()
       })
       // sync
