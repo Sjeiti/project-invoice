@@ -1,5 +1,21 @@
 # Changelog
 
+## v2.3.1 (22/05/2018)
+- Refactor PrintInvoice [#155](https://github.com/Sjeiti/project-invoice/issues/155)
+- Implement prompt dialog (used in Copy) [#153](https://github.com/Sjeiti/project-invoice/issues/153)
+- Projectlist transition-group key warning [#152](https://github.com/Sjeiti/project-invoice/issues/152)
+- Use Modal design pattern in Notification [#149](https://github.com/Sjeiti/project-invoice/issues/149)
+- Interpolation issue on empty strings [#146](https://github.com/Sjeiti/project-invoice/issues/146)
+- Hide project properties behind reveal [#142](https://github.com/Sjeiti/project-invoice/issues/142)
+- Draggable lines prevent text selection on input elements [#139](https://github.com/Sjeiti/project-invoice/issues/139)
+- When adding lines in project add button between hours and amounts to apply all lines [#129](https://github.com/Sjeiti/project-invoice/issues/129)
+- implement project setting for hourly rate or project rate [#106](https://github.com/Sjeiti/project-invoice/issues/106)
+- Improve/clarify settings backup/restore methods [#82](https://github.com/Sjeiti/project-invoice/issues/82)
+- Add feed back line at empty project list on client [#73](https://github.com/Sjeiti/project-invoice/issues/73)
+- Add page-break positions on quotations  [#70](https://github.com/Sjeiti/project-invoice/issues/70)
+
+---
+
 ## v2.2.21 (07/04/2018)
 - Animated home jumbotron [#151](https://github.com/Sjeiti/project-invoice/issues/151)
 - Better explanation in settings [#148](https://github.com/Sjeiti/project-invoice/issues/148)
@@ -19,7 +35,6 @@
 - Written e2e and unit tests [#5](https://github.com/Sjeiti/project-invoice/issues/5)
 - JSDoc all the things! [#4](https://github.com/Sjeiti/project-invoice/issues/4)
 - Bugfixes [#134](https://github.com/Sjeiti/project-invoice/issues/134), [#119](https://github.com/Sjeiti/project-invoice/issues/119), [#103](https://github.com/Sjeiti/project-invoice/issues/103), [#16](https://github.com/Sjeiti/project-invoice/issues/16)
-
 
 ---
 
