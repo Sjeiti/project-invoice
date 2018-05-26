@@ -59,7 +59,7 @@ export default {
     }
     ,deleteClient(){
       const client = model.getClientByNr(parseInt(this.$route.params.clientNr,10))
-      confirm($t('deleteClient'))
+      confirm(this.$t('deleteClient'))
           .then(()=>{
             model.deleteClient(client)
             save()

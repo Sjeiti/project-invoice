@@ -156,5 +156,6 @@
   "unsavedChanges": "unsaved changes",
   "discardChanges": "You are about to discard your changes by leaving this page.",
   "deleteClient": "Delete this client?",
-  "deleteProject": "Delete this project?"
+  "deleteProject": "Delete this project?",
+  "leave": "leave"
 }

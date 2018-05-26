@@ -43,7 +43,7 @@ export default {
   }
   ,methods: {
     onAddCopy(){
-      prompt($t('typeAName'),$t('theNameIsUsedAsAKey')).then(key=>{
+      prompt(this.$t('typeAName'),this.$t('theNameIsUsedAsAKey')).then(key=>{
         if (key&&!this.copy.hasOwnProperty(key)){
           this.copy[key] = this.config.langs.reduce((o,s)=>(o[s]='',o),{index:-1})
           this.forceUpdate()
@@ -51,7 +51,7 @@ export default {
       },()=>{})
     }
     ,onRemoveCopy(key){
-      confirm($t('delete'),$t('removeCopy'))
+      confirm(this.$t('delete'),this.$t('removeCopy'))
           .then(()=>{
             delete this.copy[key]
             this.forceUpdate()

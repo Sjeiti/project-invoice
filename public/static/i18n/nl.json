@@ -156,5 +156,6 @@
   "unsavedChanges": "wijzigingen",
   "discardChanges": "Je staat op het punt je wijzigingen te verwijderen door deze pagina te verlaten",
   "deleteClient": "Verwijder deze klant?",
-  "deleteProject": "Verwijder dit project?"
+  "deleteProject": "Verwijder dit project?",
+  "leave": "pagina verlaten"
 }

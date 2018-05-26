@@ -244,7 +244,7 @@ export default {
      */
     ,deleteProject(){
       const project = this.client.projects[parseInt(this.$route.params.projectIndex,10)]
-      confirm($t(deleteProject))
+      confirm(this.$t('deleteProject'))
           .then(()=>{
             this.client.deleteProject(project)
             save()

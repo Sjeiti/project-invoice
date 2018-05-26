@@ -1,10 +1,11 @@
 {
   "name": "ProjectInvoice",
-  "version": "2.3.13",
+  "version": "2.3.14",
   "private": true,
   "scripts": {
     "serve": "npm run i18n & vue-cli-service serve",
     "serve:build": "node ./task/serve dist 8765",
+    "serve:webrtc": "node ./task/sorve temp 8970",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "test": "cypress run",

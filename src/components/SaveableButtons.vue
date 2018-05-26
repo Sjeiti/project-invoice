@@ -43,7 +43,8 @@
           this.saveable&&revert()
           next()
         }
-        this.saveable&&confirm($t('unsavedChanges'),$t('discardChanges'),'cancel','leave')
+        const $t = this.$t
+        this.saveable&&confirm($t('unsavedChanges'),$t('discardChanges'),$t('cancel'),$t('leave'))
             .then(nxt,()=>next(false))||nxt()
       })
       // sync
