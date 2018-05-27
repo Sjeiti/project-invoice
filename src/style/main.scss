@@ -258,7 +258,7 @@ table {
   thead { border-bottom: 1px solid #CCC; }
   tfoot { border-top: 1px solid #CCC; }
   &.hoverable {
-    tr {
+    tbody tr {
       transition: background-color 200ms linear, box-shadow 200ms linear;
       box-shadow: 0 1px 0 0 transparent inset, 0 -1px 0 0 transparent inset;
       @media #{$breakpointHigh} {
@@ -319,7 +319,6 @@ dt {
     font-weight: bold;
     line-height: $infoSize;
     text-align: center;
-    //text-transform: uppercase;
     color: white;
     background-color: #CCC;
     border-radius: $infoSize;
