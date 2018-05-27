@@ -1,13 +1,13 @@
 <template>
   <div class="project-list" v-bind:class="{'project-list':true,'empty':projects.length===0}">
     <p v-if="projects.length===0&&empty"><em v-_>{{empty}}</em></p>
-    <table v-if="projects.length>0||!empty">
+    <table class="hoverable" v-if="projects.length>0||!empty">
       <thead><tr>
         <th v-for="col in columns" v-on:click="onClickOrder(col)" v-bind:class="'th-'+col" v-_="colName[col]">{{colName[col]}}</th>
       </tr></thead>
       <!--<tbody>-->
       <transition-group v-bind:name="animate?'animate-row':'a'+Date.now()" tag="tbody">
-     
+      
         <tr
             v-for="project in projects"
             :key="project.id"
@@ -203,27 +203,7 @@ export default {
     }
   }
   table {
-    thead { border-bottom: 1px solid #CCC; }
-    tfoot { border-top: 1px solid #CCC; }
-    tbody tr {
-      transition: background-color 200ms linear, box-shadow 200ms linear;
-      box-shadow: 0 1px 0 0 transparent inset, 0 -1px 0 0 transparent inset;
-      &:nth-child(even) {
-        background-color: #f8f8f8;
-      }
-      @media #{$breakpointHigh} {
-        &:hover {
-          background-color: lighten($colorButton,54%);
-          box-shadow: 0 1px 0 0 lighten($colorButton,30%) inset, 0 -1px 0 0 lighten($colorButton,30%) inset;
-        }
-      }
-    }
-    td, th {
-      max-width: 20vw;
-      white-space: nowrap;
-      overflow: hidden;
-      
-    }
+    td, th { max-width: 20vw; }
     th {
       &:last-child { text-align: right; }
       &.th- {

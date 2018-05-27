@@ -36,6 +36,7 @@ export default {
     text-decoration: none;
   }
   .icon-github {
+    padding-left: 4px;
     display: inline-block;
     transform: translateY(3px);
   }
