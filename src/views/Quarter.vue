@@ -2,8 +2,8 @@
   <div class="page-quarter">
     <header>
       <nav>
-        <ul class="list-unstyled list-inline">
-          <li v-for="y in years" v-bind:class="{current:y===year}"><router-link v-bind:to="`/overview/quarter/${y}`">{{y}}</router-link></li>
+        <ul class="list-unstyled list-inline tabs">
+          <li v-for="y in years" v-bind:class="{selected:y===year}"><router-link v-bind:to="`/overview/quarter/${y}`">{{y}}</router-link></li>
         </ul>
       </nav>
     </header>
@@ -107,16 +107,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  nav {
-    padding: 0.5rem 0;
-    a {
-      text-decoration: none;
-      padding-right: 10px;
+  ul.tabs {
+    margin-top: 0;
+    li {
+      padding: 0.25rem 0.5rem 0;
+      &.selected {
+        font-weight: bold;
+        cursor: default;
+      }
     }
-  }
-  .current {
-    font-weight: bold;
-    cursor: default;
+    a { text-decoration: none; }
   }
   .page-quarter.page-quarter .alert-paid, .page-quarter.page-quarter .alert-paid * { color: inherit; }
 </style>
