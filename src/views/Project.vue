@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button v-on:click="clone(project)" class="float-right button--lower" v-_>clone</button>
+    <button v-on:click="clone(project)" :disabled="saveable" class="float-right button--lower" v-_>clone</button>
     <h1><span class="hide-low" v-_>Project: </span>{{project.description}}</h1>
     <section>
       <dl>
@@ -152,7 +152,7 @@ import BaseView from './BaseView'
 import model from '../model'
 import Currency from '../components/Currency'
 import {notify} from '../components/Notification'
-import {track,untrack,save} from '../formState'
+import {track,untrack,save,saveable} from '../formState'
 import InterpolationUI from '../components/InterpolationUI'
 import Tabs from '../components/Tabs'
 import draggable from 'vuedraggable'
@@ -180,6 +180,7 @@ export default {
       ]
       ,currencySymbol: model.config.currencySymbol
       ,tabs: []
+      ,saveable: false
     }
   }
   ,components: { Currency,InterpolationUI,Tabs,draggable }
@@ -188,6 +189,9 @@ export default {
     this.project = track(this.$el,this.client.getProject(parseInt(this.$route.params.projectIndex,10)),this.deleteProject)
     const { lines } = this.project
     lines&&(lines.length===0||!lines[0].description)&&this.$refs.description.focus()
+    saveable.add(isSaveable=>{
+        this.saveable = isSaveable
+    })
   }
   ,destroyed: untrack
   ,methods: {

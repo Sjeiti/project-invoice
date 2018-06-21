@@ -25,7 +25,9 @@
       }
     }
     ,mounted(){
-      saveable.add(isSaveable=>this.saveable = isSaveable)
+      saveable.add(isSaveable=>{
+          this.saveable = isSaveable
+      })
       tracked.add((isTracked,isDeletable)=>{
         this.tracked = isTracked
         this.deletable = isDeletable
