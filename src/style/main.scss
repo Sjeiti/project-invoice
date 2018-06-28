@@ -343,7 +343,7 @@ code {
   min-height: 100vh;
   flex-direction: column;
   >.layout {
-    flex: 1;
+    flex: 1 0 auto;
     >div {
       padding-top: $headerHeight + $padding;
       padding-bottom: $padding;
