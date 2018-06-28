@@ -1,6 +1,7 @@
 import 'dialog-polyfill'
 import 'dialog-polyfill/dialog-polyfill.css'
 import 'current-device'
+import 'whatwg-fetch'
 
 import Vue from 'vue'
 
