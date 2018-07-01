@@ -4,6 +4,7 @@ import {storageInitialised,modelReplaced} from '../util/signal'
 import storageService from '../service/storage'
 import defaultData from '../data/data'
 import {VERSION} from '../config'
+import CryptoJS from 'crypto-js'
 
 import { create as createClient } from './client'
 import { create as createCopy } from './copy'
@@ -129,7 +130,23 @@ modelSaved.add(()=>{
  * @returns {object}
  */
 function getStored(name,defaultsTo){
-  const rawData = localStorage.getItem(name)
+  let rawData = localStorage.getItem(name)
+  //
+  ///
+  ////
+  console.log('rawData',rawData.substr(0,50)) // todo: remove log
+  console.log('CryptoJS.AES.decrypt',CryptoJS.AES.decrypt) // todo: remove log
+  console.log('CryptoJS.AES.encrypt',CryptoJS.AES.encrypt) // todo: remove log
+  try {
+    rawData = CryptoJS.AES.decrypt(rawData,getPassword(),'').toString(CryptoJS.enc.Utf8)
+  } catch(err){
+    console.log('err',err) // todo: remove log
+  }
+  console.log('\t',rawData.substr(0,50)) // todo: remove log
+  console.log('\t',tryParse(rawData)) // todo: remove log
+  ////
+  ///
+  //
   let data = tryParse(rawData)
   return rawData&&data||defaultsTo
 }
@@ -145,7 +162,40 @@ function setStored(name,data){
   data.version = VERSION
   let stringData = tryStringify(data)
   //
+  ///
+  ////
+  stringData = CryptoJS.AES.encrypt(stringData,getPassword(),'').toString()
+  ////
+  ///
+  //
   storageService.authorised&&storageService.write(fileName,stringData)
   //
   localStorage.setItem(name,stringData)
 }
+
+let password
+
+/**
+ * Get the password
+ * @returns {string}
+ */
+function getPassword(){ // eslint-disable-line no-unused-vars
+  if (!password) password = prompt('pasword')
+  return password
+}
+
+/////////////////////////////////
+/////////////////////////////////
+//
+console.log('CryptoJS',CryptoJS) // todo: remove log
+const encrypted = CryptoJS.AES.encrypt('data is belangrijk','maar goede password nog veel belangrijkerder')
+console.log('encrypted',encrypted) // todo: remove log
+console.log('encrypted',encrypted.toString()) // todo: remove log
+const encryptedString = encrypted.toString()
+/////////////////////////////////
+const decrypted = CryptoJS.AES.decrypt(encryptedString,'maar goede password nog veel belangrijkerder')
+const decryptedString = decrypted.toString(CryptoJS.enc.Utf8)
+console.log('decryptedString',decryptedString) // todo: remove log
+//
+/////////////////////////////////
+/////////////////////////////////
