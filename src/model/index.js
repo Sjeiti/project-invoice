@@ -11,6 +11,7 @@ import { create as createCopy } from './copy'
 import { create as createConfig } from './config'
 import { create as createCloneable } from './cloneable'
 import { modelSaved } from '../formState'
+import { prompt } from '../components/Modal'
 
 const ns = location.host.replace(/^localhost.*/,'local.projectinvoice.nl').split(/\./g).reverse().join('.')
 const fileName = `${ns}.data.json`
@@ -134,16 +135,20 @@ function getStored(name,defaultsTo){
   //
   ///
   ////
-  console.log('rawData',rawData.substr(0,50)) // todo: remove log
-  console.log('CryptoJS.AES.decrypt',CryptoJS.AES.decrypt) // todo: remove log
-  console.log('CryptoJS.AES.encrypt',CryptoJS.AES.encrypt) // todo: remove log
-  try {
-    rawData = CryptoJS.AES.decrypt(rawData,getPassword(),'').toString(CryptoJS.enc.Utf8)
-  } catch(err){
-    console.log('err',err) // todo: remove log
+  const isEncrypted = rawData&&rawData.substr(0,1)!=='{'
+  console.log('isEncrypted',isEncrypted) // todo: remove log
+  if (rawData&&isEncrypted){
+    // console.log('rawData',rawData.substr(0,50)) // todo: remove log
+    // console.log('CryptoJS.AES.decrypt',CryptoJS.AES.decrypt) // todo: remove log
+    // console.log('CryptoJS.AES.encrypt',CryptoJS.AES.encrypt) // todo: remove log
+    try {
+      rawData = CryptoJS.AES.decrypt(rawData,getPassword()).toString(CryptoJS.enc.Utf8)
+    } catch(err){
+      console.log('err',err) // todo: remove log
+    }
+    // console.log('\t',rawData.substr(0,50)) // todo: remove log
+    // console.log('\t',tryParse(rawData)) // todo: remove log
   }
-  console.log('\t',rawData.substr(0,50)) // todo: remove log
-  console.log('\t',tryParse(rawData)) // todo: remove log
   ////
   ///
   //
@@ -164,7 +169,10 @@ function setStored(name,data){
   //
   ///
   ////
-  stringData = CryptoJS.AES.encrypt(stringData,getPassword(),'').toString()
+  let rawData = localStorage.getItem(name)
+  console.log('rawData',rawData) // todo: remove log
+  const isEncrypted = rawData&&rawData.substr(0,1)!=='{'
+  isEncrypted&&(stringData = CryptoJS.AES.encrypt(stringData,getPassword()).toString())
   ////
   ///
   //
@@ -183,19 +191,3 @@ function getPassword(){ // eslint-disable-line no-unused-vars
   if (!password) password = prompt('pasword')
   return password
 }
-
-/////////////////////////////////
-/////////////////////////////////
-//
-console.log('CryptoJS',CryptoJS) // todo: remove log
-const encrypted = CryptoJS.AES.encrypt('data is belangrijk','maar goede password nog veel belangrijkerder')
-console.log('encrypted',encrypted) // todo: remove log
-console.log('encrypted',encrypted.toString()) // todo: remove log
-const encryptedString = encrypted.toString()
-/////////////////////////////////
-const decrypted = CryptoJS.AES.decrypt(encryptedString,'maar goede password nog veel belangrijkerder')
-const decryptedString = decrypted.toString(CryptoJS.enc.Utf8)
-console.log('decryptedString',decryptedString) // todo: remove log
-//
-/////////////////////////////////
-/////////////////////////////////
