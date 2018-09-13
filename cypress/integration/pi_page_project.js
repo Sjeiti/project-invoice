@@ -37,13 +37,15 @@ describeResponsive('Project page',()=>{
 
     it('should change price indication when hourly rate is set',()=>{
       isDirty(false)
-      cy.get('dt').contains('hourly rate').find('+dd input').focus().type('77')
-      cy.get('tbody > :nth-child(1) div.input.mono').should('contain','231')
+      cy.get('label[for=projectProperties]').click()
+      cy.get('dt').contains('hourly rate').find('+dd input[type=number]').focus().type('300')
+      cy.get('.discount > .input').should('contain','255')
       isDirty(true)
     })
 
     it('should not change price indication when discount is set',()=>{
       isDirty(false)
+      cy.get('label[for=projectProperties]').click()
       cy.get('dt').contains('discount').find('+dd input').focus().type('10')
       cy.get('tbody > :nth-child(1) div.input.mono').should('contain','0')
       isDirty(true)
@@ -51,6 +53,7 @@ describeResponsive('Project page',()=>{
 
     it('should not change price indication when discount is set',()=>{
       isDirty(false)
+      cy.get('label[for=projectProperties]').click()
       cy.get('dt').contains('paid').find('+dd label').click()
       isDirty(true)
     })
@@ -98,56 +101,68 @@ describeResponsive('Project page',()=>{
 
   context('invoices',()=>{
 
-    const header = ()=>cy.get('header').contains('invoices').parent()
+    const header = ()=>cy.get('.tabs').next().next()
 
     it('should add invoices',()=>{
       header().scrollIntoView()
-      header().next().find('li').should('have.length',4)
-      header().find('button').click()
-      header().next().find('li').should('have.length',5)
+      header().find('li').should('have.length',4)
+      header().find('header>button').click()
+      cy.get('[type="submit"]').click()
+      header().find('li').should('have.length',5)
     })
 
     it('should not be dirty when invoices are added',()=>{
       isDirty(false)
-      header().scrollIntoView().find('button').click()
+      header().scrollIntoView()
+      header().find('header>button').click()
+      cy.get('[type="submit"]').click()
       isDirty(false)
     })
 
     it('should be dirty when date is changed',()=>{
       isDirty(false)
-      header().next().find('li:first-child input[type=date]').focus().type('2017-05-05')
+      cy.get(':nth-child(1) > .text-align-right > button')
+      header().find('li:first-child button').click()
+      cy.get('dialog input[type=date]').focus().type('2017-05-05')
+      cy.get('[type="submit"]').click()
       isDirty(true)
     })
 
     it('should be dirty when checkboxes are changed',()=>{
       isDirty(false)
-      header().next().find('li:nth-child(2) .checkbox').click()
+      cy.get(':nth-child(1) > .text-align-right > button')
+      header().find('li:nth-child(2) button').click()
+      cy.get('dialog .checkbox').click()
+      cy.get('[type="submit"]').click()
       isDirty(true)
     })
 
     it('should delete invoices',()=>{
       isDirty(false)
       header().scrollIntoView()
-      header().next().find('li').should('have.length',4)
-      header().next().find('li:first-child button').click()
-      header().next().find('li').should('have.length',3)
+      header().find('li').should('have.length',4)
+      header().find('li:last-child() button:first-child').click()
+      header().find('li').should('have.length',3)
       isDirty(true)
     })
 
     it('should have no checkboxes on first invoice',()=>{
-      header().next().find('li:nth-child(1) .checkbox').should('have.length',0)
+      header().find('li:nth-child(1) button').click()
+      cy.get('dialog .checkbox').should('have.length',0)
     })
 
     it('should have one checkbox on second invoice',()=>{
-      header().next().find('li:nth-child(2) .checkbox').should('have.length',1)
+      header().find('li:nth-child(2) button').click()
+      cy.get('dialog .checkbox').should('have.length',1)
     })
 
     it('should have two checkboxes on third invoice and up',()=>{
-      header().next().find('li:nth-child(3) .checkbox').should('have.length',2)
+      header().find('li:nth-child(3) button').click()
+      cy.get('dialog .checkbox').should('have.length',2)
     })
 
     it('should link to invoice print page',()=>{
-      header().scrollIntoView().next().find('li:first-child a').click()
+      header().find('li:first-child a').click()
       assertPathname('/client/22/1/invoice')
     })
 
