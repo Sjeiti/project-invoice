@@ -350,6 +350,7 @@ export default {
     right: 0;
     top: 0.4rem;
     z-index: 1;
+    cursor: pointer;
   }
   
   div.display-flex dl { margin-bottom: 0; }

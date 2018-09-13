@@ -123,6 +123,7 @@ export default {
   ,mounted(){
     dialogPolyfill.registerDialog(this.$el)
     sgModal.add(this.onModal.bind(this))
+    this.$el.addEventListener('transitionend',this.onTransitionEnd.bind(this))
   }
   ,components: {
     InvoiceProperties
@@ -141,6 +142,7 @@ export default {
       // document.body.style.overflow = 'hidden' // todo: cleanup befor using, width of scrollbar must be replaced with temporary margin if page is scrollable
       setTimeout(()=>isPrompt?this.$refs.input.focus():this.$refs.confirm.focus())
       this.$el.showModal()
+      setTimeout(()=>this.$el.classList.add('show'))
     }
     ,onSubmit(e){
       sgConfirm.dispatch(this.value)
@@ -157,8 +159,16 @@ export default {
       // document.body.style.removeProperty('overflow') // todo: cleanup befor using, width of scrollbar must be replaced with temporary margin if page is scrollable
     }
     ,close(){
-      setTimeout(this.$el.close.bind(this.$el))
-      this.onClose()
+      this.$el.classList.add('hide')
+    }
+    ,onTransitionEnd(e){
+      const {propertyName} = e
+      if (propertyName==='transform'&&this.$el.classList.contains('hide')){
+        this.$el.classList.remove('hide')
+        this.$el.classList.remove('show')
+        this.$el.close()
+        this.onClose()
+      }
     }
   }
 }
@@ -205,7 +215,6 @@ export default {
         box-shadow: none;
         color: #8298b3!important; // $colorText!important; // $colorLink!important;
         margin: 0;
-        /*ttransform: translateX(6px);*/
       }
     }
     section {
@@ -223,36 +232,21 @@ export default {
     background: rgba(0, 0, 0, 0.2);
   }
 
-  
-  
-  dialog[open] {
-    animation: show-dialog 200ms ease normal;
-  }
-  dialog.hide {
-    animation: show-dialog 200ms ease reverse;
-  }
-  dialog::backdrop {
-    animation: none;
-  }
-  dialog[open]::backdrop {
-    animation: show-backdrop 200ms ease normal;
-  }
-  dialog.hide::backdrop {
-    animation: show-bacdrop 200ms ease reverse;
-  }
-  @keyframes show-dialog {
-    from {
-      opacity: 0;
-      transform: translate(-50%,-50%) scale(0.1);
+  dialog {
+    &[open] { transition: opacity 200ms linear, transform 200ms linear; }
+    &::backdrop {
+      transition: opacity 200ms linear;
     }
-    to {
+    &.show {
       opacity: 1;
       transform: translate(-50%,-50%) scale(1);
+      &::backdrop { opacity: 1; }
     }
-  }
-  @keyframes show-backdrop {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    &, &.hide {
+      opacity: 0;
+      transform: translate(-50%,-50%) scale(0.1);
+      &::backdrop { opacity: 0; }
+    }
   }
   
 </style>
