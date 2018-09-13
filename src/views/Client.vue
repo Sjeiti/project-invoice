@@ -24,6 +24,8 @@
       <project-list
           :projects="client.projects"
           :cols="'paid nr date dateLatest description totalIncDiscounted'"
+          :sort="'date'"
+          :asc="false"
           :empty="'This client has no projects :-/'"
       ></project-list>
     </section>
