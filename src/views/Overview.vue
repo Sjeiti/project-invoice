@@ -2,7 +2,7 @@
   <div>
     <section>
       <h1 class="hide-low">Overview</h1>
-      <project-list :projects="projects"></project-list>
+      <project-list :projects="projects" :sort="'date'"></project-list>
     </section>
   </div>
 </template>

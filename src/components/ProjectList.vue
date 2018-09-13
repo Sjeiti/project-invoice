@@ -103,7 +103,7 @@ export default {
     const hasExclame = this.sort.substr(0,1)==='!'
     this.sortValue = hasExclame && this.sort.substr(1) || this.sort
     this.asc = hasExclame // should be negated but will be on next order call
-    setTimeout(this.onClickOrder.bind(this,this.sortValue))
+    setTimeout(this.onClickOrder.bind(this,this.sortValue)) // setTimeout is inefficient
   }
   ,components: {
     Currency
