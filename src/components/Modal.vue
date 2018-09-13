@@ -22,7 +22,7 @@
 
 <script>
 import dialogPolyfill from 'dialog-polyfill'
-//import {nextTick} from '../util'
+import {scroll} from '../util'
 import {signal} from '../util/signal'
 import InvoiceProperties from '../components/InvoiceProperties'
 
@@ -139,7 +139,9 @@ export default {
       this.data = data||null
       this.value = data||''
       const isPrompt = this.type==='prompt'
-      // document.body.style.overflow = 'hidden' // todo: cleanup befor using, width of scrollbar must be replaced with temporary margin if page is scrollable
+      //
+      scroll.lock()
+      //
       setTimeout(()=>isPrompt?this.$refs.input.focus():this.$refs.confirm.focus())
       this.$el.showModal()
       setTimeout(()=>this.$el.classList.add('show'))
@@ -156,7 +158,7 @@ export default {
     ,onClose(){
       this.component = null
       this.data = null
-      // document.body.style.removeProperty('overflow') // todo: cleanup befor using, width of scrollbar must be replaced with temporary margin if page is scrollable
+      scroll.unlock()
     }
     ,close(){
       this.$el.classList.add('hide')
