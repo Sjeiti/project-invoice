@@ -23,9 +23,7 @@
               <router-link class="small" :to="project.uri">{{project.invoiceNr}}</router-link>
             </template>
             <template v-else-if="col==='date'||col==='dateLatest'">
-              
               <date v-if="hasTime(project[col])" class="small nowrap" :value="project[col]" /><span v-else>-</span>
-              
             </template>
             <template v-else-if="col==='totalDiscounted'||col==='totalVatDiscounted'||col==='totalIncDiscounted'">
               <currency :value="project[col]" />
