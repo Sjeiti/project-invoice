@@ -23,7 +23,9 @@
               <router-link class="small" :to="project.uri">{{project.invoiceNr}}</router-link>
             </template>
             <template v-else-if="col==='date'||col==='dateLatest'">
-              <date class="small nowrap" :value="project[col]" />
+              
+              <date v-if="hasTime(project[col])" class="small nowrap" :value="project[col]" /><span v-else>-</span>
+              
             </template>
             <template v-else-if="col==='totalDiscounted'||col==='totalVatDiscounted'||col==='totalIncDiscounted'">
               <currency :value="project[col]" />
@@ -174,6 +176,14 @@ export default {
         }
       }
       return returnValue
+    }
+    /**
+     * Checks if the time really exists, ie not is unix timestamp 0
+     * @param {string} s
+     * @returns {boolean}
+     */
+    ,hasTime(s){
+      return (new window.Date(s)).getTime()>0
     }
   }
 }
