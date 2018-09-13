@@ -1,5 +1,5 @@
 {
   "projectId": "projectInvoice",
-  "videoRecording": false,
+  "video": false,
   "ignoreTestFiles": ["pi.js","example_spec.js"]
 }
