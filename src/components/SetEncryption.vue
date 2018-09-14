@@ -5,7 +5,7 @@
         <input v-model="password1" v-bind:type="showChars&&'text'||'password'" />
         <button type="button" class="icon-stop" v-on:click="showChars=!showChars"></button>
       </dd>
-      <dt v-if="enable" v-_>again</dt><dd class="display-flex">
+      <dt v-if="enable" v-_>again</dt><dd v-if="enable" class="display-flex">
         <input v-model="password2" v-bind:type="showChars&&'text'||'password'" />
         <span v-bind:class="'icon-'+(validate()&&'mark'||'close')"></span>
       </dd>
@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import {valueSignal} from './Modal'
 export default {
   name: 'SetEncryption'
   ,props: ['data']
@@ -33,6 +34,11 @@ export default {
   ,methods: {
     validate(){
         return this.password1===this.password2&&this.password1.length>2
+    }
+  }
+  ,watch: {
+    password1: function(password){
+      valueSignal.dispatch(password)
     }
   }
 }

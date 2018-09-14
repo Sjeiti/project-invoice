@@ -4,15 +4,13 @@ import {storageInitialised,modelReplaced} from '../util/signal'
 import storageService from '../service/storage'
 import defaultData from '../data/data'
 import {VERSION} from '../config'
-import CryptoJS from 'crypto-js'
-
 import { create as createClient } from './client'
 import { create as createCopy } from './copy'
 import { create as createConfig } from './config'
 import { create as createCloneable } from './cloneable'
 import { modelSaved } from '../formState'
-import { prompt } from '../components/Modal'
-import {decryptObject, encrypt, encryptObject, isEncrypted} from "../service/encryption";
+import { prompt,alert } from '../components/Modal'
+import {decrypt,decryptObject,encrypt,encryptObject,isEncrypted} from '../service/encryption'
 
 const ns = location.host.replace(/^localhost.*/,'local.projectinvoice.nl').split(/\./g).reverse().join('.')
 const fileName = `${ns}.data.json`
@@ -20,9 +18,9 @@ const fileName = `${ns}.data.json`
 const data = getStored('data',defaultData)
 
 // config removal: 2.1.22 -> 2.2
-const oldConfig = getStored('config')
+const oldConfig = localStorage.getItem('config')
 if (oldConfig){
-  data.config = oldConfig
+  data.config = tryParse(oldConfig)
   delete localStorage.config
   setStored('data',data)
 }
@@ -115,6 +113,19 @@ const model = Object.create({
     createCloneable(data.copy)
     createCloneable(data.personal)
   }
+  ,isEncrypted(){
+    return isEncrypted(localStorage.getItem('data'))
+  }
+  ,unEncrypt(password){
+    const data = localStorage.getItem('data')
+    const decrypted = decrypt(data,password)
+    decrypted ? localStorage.setItem('data',decrypted) : setTimeout(()=>alert('decryption failed'),1000)
+  }
+  ,encrypt(password){
+    const data = localStorage.getItem('data')
+    const encrypted = encrypt(data,password)
+    encrypted ? localStorage.setItem('data',encrypted) : setTimeout(()=>alert('encryption failed'),1000)
+  }
 })
 
 export default model
@@ -132,16 +143,20 @@ modelSaved.add(()=>{
  * @returns {object}
  */
 function getStored(name,defaultsTo){
-  //////////////////////////////////////////////
-  //   if (!isEncrypted(localStorage.getItem(name))) {
-  //       const aaaa = encrypt(localStorage.getItem(name),'asdf')
-  //       console.log('aaaa',aaaa); // todo: remove log
-  //       localStorage.setItem(name,aaaa)
-  //       console.log('getPassword',getPassword,getPassword()); // todo: remove log
-  //   }
-  //////////////////////////////////////////////
+  ////////////////////////////////////////////
+  // if (localStorage.getItem(name)&&!isEncrypted(localStorage.getItem(name))){
+  //   const aaaa = encrypt(localStorage.getItem(name),'asdf')
+  //   console.log('aaaa',aaaa) // todo: remove log
+  //   localStorage.setItem(name,aaaa)
+  // }
+  ////////////////////////////////////////////
   const rawData = localStorage.getItem(name)
-  return rawData&&(isEncrypted(rawData)&&decryptObject(rawData,getPassword())||tryParse(rawData))||defaultsTo
+  return rawData
+      &&(isEncrypted(rawData)
+          &&(decryptObject(rawData,getPassword())
+          ||setTimeout(()=>alert('Invalid password','Reload to try again','ok'),40))
+          &&tryParse(rawData))
+      ||defaultsTo
 }
 
 /**
@@ -154,16 +169,8 @@ function setStored(name,data){
   data.timestamp = Date.now()
   data.version = VERSION
   let stringData = tryStringify(data)
-  //
-  ///
-  ////
-  // let rawData = localStorage.getItem(name)
-  // isEncrypted(rawData)&&(stringData = CryptoJS.AES.encrypt(stringData,getPassword()).toString())
-  ////
-  ///
-  //
+  isEncrypted(localStorage.getItem(name))&&(stringData = encrypt(stringData,getPassword()))
   storageService.authorised&&storageService.write(fileName,stringData)
-  //
   localStorage.setItem(name,stringData)
 }
 
@@ -173,7 +180,7 @@ let password
  * Get the password
  * @returns {string}
  */
-function getPassword(){ // eslint-disable-line no-unused-vars
-  if (!password) password = window.prompt('pasword')
+function getPassword(reset=false){ // eslint-disable-line no-unused-vars
+  if (!password||reset) password = window.prompt('pasword')
   return password
 }

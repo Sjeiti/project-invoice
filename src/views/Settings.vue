@@ -54,8 +54,8 @@
     <section class="row no-gutters">
       <h2 class="col-12 col-sm-3" v-_>encryption</h2>
       <div class="col-12 col-sm-9">
-        <button v-on:click="disenableEncryption(!storageService.encryption)" v-bind:disabled="storageService.encryption" v-_>enable</button>
-        <button v-on:click="disenableEncryption(!storageService.encryption)" v-bind:disabled="!storageService.encryption" v-_>disable</button>
+        <button v-on:click="disenableEncryption(!isModelEncrypted())" v-bind:disabled="isModelEncrypted()" v-_>enable</button>
+        <button v-on:click="disenableEncryption(!isModelEncrypted())" v-bind:disabled="!isModelEncrypted()" v-_>disable</button>
         <p v-_="'encryptionExplain|full'">If you really must have a password you can enable encryption. But use with care: since no servers are used there is no way to reset your password if you forget it.</p>
       </div>
     </section>
@@ -69,7 +69,7 @@ import {track,untrack,save} from '../formState'
 import {I18N_ISO as isos} from '../config/i18n'
 import {CURRENCY_ISO} from '../config/currencyISO'
 import InterpolationUI from '../components/InterpolationUI'
-import {confirm,modal} from '../components/Modal'
+import {confirm,modal,prompt} from '../components/Modal'
 import storageService from '../service/storage'
 import {storageInitialised} from '../util/signal'
 
@@ -142,10 +142,16 @@ export default {
       save()
     }
 
+    ,isModelEncrypted(){
+      return model.isEncrypted()
+    }
+
     ,disenableEncryption(enable){
       const $t = this.$t
-      modal((enable?$t('enable'):$t('disable'))+' '+$t('encryption'),'SetEncryption',{enable},$t('cancel'),enable?$t('enable'):$t('disable'))
-          .then()
+      modal(enable?$t('enable encryption'):$t('disable encryption'),'SetEncryption',{enable},$t('cancel'),enable?$t('enable'):$t('disable'))
+          .then(enable?model.encrypt:model.unEncrypt)
+          .then(this.$forceUpdate.bind(this))
+      // prompt('asdf','asdf').then(console.log.bind(console,'asdf'),console.log.bind(console,'zxcv'))
     }
 
   }

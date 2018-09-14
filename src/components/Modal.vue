@@ -30,6 +30,9 @@ import SetEncryption from '../components/SetEncryption' // todo inject mapping
 const sgModal = signal()
 const sgCancel = signal()
 const sgConfirm = signal()
+const sgValue = signal()
+
+export const valueSignal = sgValue
 
 /**
  * Show confirmation modal
@@ -124,6 +127,7 @@ export default {
   ,mounted(){
     dialogPolyfill.registerDialog(this.$el)
     sgModal.add(this.onModal.bind(this))
+    sgValue.add(this.onValue.bind(this)) // todo add detach when unmounted
     this.$el.addEventListener('transitionend',this.onTransitionEnd.bind(this))
   }
   ,components: {
@@ -147,6 +151,9 @@ export default {
       setTimeout(()=>isPrompt?this.$refs.input.focus():this.$refs.confirm.focus())
       this.$el.showModal()
       setTimeout(()=>this.$el.classList.add('show'))
+    }
+    ,onValue(value){
+      this.value = value
     }
     ,onSubmit(e){
       sgConfirm.dispatch(this.value)
