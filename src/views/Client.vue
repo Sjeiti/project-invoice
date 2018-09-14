@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1><span class="hide-low" v-_>Client: </span>{{client.name}}</h1>
+    <h1><span class="hide-low" v-_><span v-_>Client</span>: </span>{{client.name}}</h1>
     <section>
       <dl>
         <dt v-_>name</dt><dd><input v-model="client.name"/></dd>
@@ -24,6 +24,8 @@
       <project-list
           :projects="client.projects"
           :cols="'paid nr date dateLatest description totalIncDiscounted'"
+          :sort="'date'"
+          :asc="false"
           :empty="'This client has no projects :-/'"
       ></project-list>
     </section>

@@ -1,3 +1,5 @@
+import model from '../model'
+
 /**
  * @typedef {object} invoice
  * @property {string} date
@@ -31,7 +33,7 @@ const proto = {
    */
   ,get total(){
     return this.interest
-        ?this.project.totalIncDiscountedInterest
+        ?this.project.totalIncDiscountedInterest + parseFloat(model.personal.administrationCosts||0)
         :this.project.totalIncDiscounted
   }
 

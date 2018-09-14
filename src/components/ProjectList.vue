@@ -23,7 +23,7 @@
               <router-link class="small" :to="project.uri">{{project.invoiceNr}}</router-link>
             </template>
             <template v-else-if="col==='date'||col==='dateLatest'">
-              <date class="small nowrap" :value="project[col]" />
+              <date v-if="hasTime(project[col])" class="small nowrap" :value="project[col]" /><span v-else>-</span>
             </template>
             <template v-else-if="col==='totalDiscounted'||col==='totalVatDiscounted'||col==='totalIncDiscounted'">
               <currency :value="project[col]" />
@@ -69,6 +69,7 @@ export default {
   ,props: {
     projects:{default:null}
     ,cols:{default:null}
+    ,sort:{default:'paid'}
     ,totals:{default:true}
     ,animate:{default:false}
     ,empty:{default:''}
@@ -76,7 +77,7 @@ export default {
   ,data(){
     return {
       columns: ['paid','invoiceNr','date','dateLatest','clientName','description','totalIncDiscounted']
-      ,sort: 'paid'
+      ,sortValue: 'paid'
       ,asc: true
       ,colName: {
         paid: 'paid'
@@ -99,7 +100,10 @@ export default {
     if (this.totals===undefined){
       this.totals = true
     }
-    this.projects.sort((a,b)=>a.date>b.date?-1:1)
+    const hasExclame = this.sort.substr(0,1)==='!'
+    this.sortValue = hasExclame && this.sort.substr(1) || this.sort
+    this.asc = hasExclame // should be negated but will be on next order call
+    setTimeout(this.onClickOrder.bind(this,this.sortValue)) // setTimeout is inefficient
   }
   ,components: {
     Currency
@@ -111,8 +115,8 @@ export default {
      * @param {string} key
      */
     onClickOrder(key){
-      if (this.sort===key) this.asc = !this.asc
-      else this.sort = key
+      if (this.sortValue===key) this.asc = !this.asc
+      else this.sortValue = key
       const gt = this.asc?-1:1
       const lt = this.asc?1:-1
       this.projects.sort((a,b)=>a[key]>b[key]?gt:lt)
@@ -170,6 +174,14 @@ export default {
         }
       }
       return returnValue
+    }
+    /**
+     * Checks if the time really exists, ie not is unix timestamp 0
+     * @param {string} s
+     * @returns {boolean}
+     */
+    ,hasTime(s){
+      return (new window.Date(s)).getTime()>0
     }
   }
 }

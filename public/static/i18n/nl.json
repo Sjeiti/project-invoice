@@ -158,5 +158,6 @@
   "deleteClient": "Verwijder deze klant?",
   "deleteProject": "Verwijder dit project?",
   "leave": "pagina verlaten",
-  "last": "laatste"
+  "last": "laatste",
+  "totals": "totalen"
 }

@@ -81,7 +81,7 @@
             
             <!--total-->
             <tbody>
-            <tr v-if="invoice.interest">
+            <tr v-if="invoice.interest&&parseFloat(personal.administrationCosts||0)>0">
               <td>{{__('administrationCosts')}}</td>
               <td><currency :value="personal.administrationCosts" /></td>
               <td></td>

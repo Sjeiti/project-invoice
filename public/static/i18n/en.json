@@ -158,5 +158,6 @@
   "deleteClient": "Delete this client?",
   "deleteProject": "Delete this project?",
   "leave": "leave",
-  "last": "last"
+  "last": "last",
+  "totals": "totals"
 }

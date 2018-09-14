@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueI18n from 'vue-i18n'
-import en from 'json-loader!../public/static/i18n/en.json'
+import en from '../public/static/i18n/en.json'
 import model from './model'
 import { modelSaved } from './formState'
 
