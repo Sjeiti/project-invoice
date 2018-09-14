@@ -12,6 +12,7 @@ import { create as createConfig } from './config'
 import { create as createCloneable } from './cloneable'
 import { modelSaved } from '../formState'
 import { prompt } from '../components/Modal'
+import {decryptObject, encrypt, encryptObject, isEncrypted} from "../service/encryption";
 
 const ns = location.host.replace(/^localhost.*/,'local.projectinvoice.nl').split(/\./g).reverse().join('.')
 const fileName = `${ns}.data.json`
@@ -131,29 +132,16 @@ modelSaved.add(()=>{
  * @returns {object}
  */
 function getStored(name,defaultsTo){
-  let rawData = localStorage.getItem(name)
-  //
-  ///
-  ////
-  const isEncrypted = rawData&&rawData.substr(0,1)!=='{'
-  console.log('isEncrypted',isEncrypted) // todo: remove log
-  if (rawData&&isEncrypted){
-    // console.log('rawData',rawData.substr(0,50)) // todo: remove log
-    // console.log('CryptoJS.AES.decrypt',CryptoJS.AES.decrypt) // todo: remove log
-    // console.log('CryptoJS.AES.encrypt',CryptoJS.AES.encrypt) // todo: remove log
-    try {
-      rawData = CryptoJS.AES.decrypt(rawData,getPassword()).toString(CryptoJS.enc.Utf8)
-    } catch(err){
-      console.log('err',err) // todo: remove log
-    }
-    // console.log('\t',rawData.substr(0,50)) // todo: remove log
-    // console.log('\t',tryParse(rawData)) // todo: remove log
-  }
-  ////
-  ///
-  //
-  let data = tryParse(rawData)
-  return rawData&&data||defaultsTo
+  //////////////////////////////////////////////
+  //   if (!isEncrypted(localStorage.getItem(name))) {
+  //       const aaaa = encrypt(localStorage.getItem(name),'asdf')
+  //       console.log('aaaa',aaaa); // todo: remove log
+  //       localStorage.setItem(name,aaaa)
+  //       console.log('getPassword',getPassword,getPassword()); // todo: remove log
+  //   }
+  //////////////////////////////////////////////
+  const rawData = localStorage.getItem(name)
+  return rawData&&(isEncrypted(rawData)&&decryptObject(rawData,getPassword())||tryParse(rawData))||defaultsTo
 }
 
 /**
@@ -169,10 +157,8 @@ function setStored(name,data){
   //
   ///
   ////
-  let rawData = localStorage.getItem(name)
-  console.log('rawData',rawData) // todo: remove log
-  const isEncrypted = rawData&&rawData.substr(0,1)!=='{'
-  isEncrypted&&(stringData = CryptoJS.AES.encrypt(stringData,getPassword()).toString())
+  // let rawData = localStorage.getItem(name)
+  // isEncrypted(rawData)&&(stringData = CryptoJS.AES.encrypt(stringData,getPassword()).toString())
   ////
   ///
   //
@@ -188,6 +174,6 @@ let password
  * @returns {string}
  */
 function getPassword(){ // eslint-disable-line no-unused-vars
-  if (!password) password = prompt('pasword')
+  if (!password) password = window.prompt('pasword')
   return password
 }

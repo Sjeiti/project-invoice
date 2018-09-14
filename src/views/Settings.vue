@@ -56,8 +56,6 @@
       <div class="col-12 col-sm-9">
         <button v-on:click="disenableEncryption(!storageService.encryption)" v-bind:disabled="storageService.encryption" v-_>enable</button>
         <button v-on:click="disenableEncryption(!storageService.encryption)" v-bind:disabled="!storageService.encryption" v-_>disable</button>
-        <!--<button v-on:click="storageService.init(config.cloudSelected)" v-bind:disabled="storageService.authorised" v-_>authorise</button>-->
-        <!--<button v-on:click="onClickRevoke" v-bind:disabled="!storageService.authorised" v-_>revoke</button>-->
         <p v-_="'encryptionExplain|full'">If you really must have a password you can enable encryption. But use with care: since no servers are used there is no way to reset your password if you forget it.</p>
       </div>
     </section>
@@ -146,10 +144,8 @@ export default {
 
     ,disenableEncryption(enable){
       const $t = this.$t
-      modal($t('encription'),'SetEncryption',{enable},$t('cancel'),enable?$t('enable'):$t('disable'))
-      // modal($t('encription'),'InvoiceProperties',data,$t('cancel'),$t('add'))
-      //     .then(data=>this.project.addInvoice(data.invoice),noop)
-      //     .then(()=>this.$el.dispatchEvent(new CustomEvent('change')))
+      modal((enable?$t('enable'):$t('disable'))+' '+$t('encryption'),'SetEncryption',{enable},$t('cancel'),enable?$t('enable'):$t('disable'))
+          .then()
     }
 
   }
