@@ -18,6 +18,25 @@
           :empty="'No projects in this quarter'"
       ></project-list>
     </section>
+    <section>
+      
+      <header><h3 v-_>totals</h3></header>
+      <table class="totals">
+        <thead><tr>
+          <th></th>
+          <th v-_>ex</th>
+          <th v-_>VAT</th>
+          <th v-_>total</th>
+        </tr></thead>
+        <tbody><tr>
+          <td></td>
+          <td><currency :value="totals('totalDiscounted')" /></td>
+          <td><currency :value="totals('totalVatDiscounted')" /></td>
+          <td><currency :value="totals('totalIncDiscounted')" /></td>
+        </tr></tbody>
+      </table>
+      
+    </section>
     <textarea class="visually-hidden" ref="csv"></textarea>
   </div>
 </template>
@@ -36,6 +55,7 @@ export default {
       projects: []
       ,year: new Date().getFullYear()
       ,years: []
+      ,allyear: []
       ,quarters: [[],[],[],[]]
       ,csvTemplate: ''
       ,elmCsv: document.createElement('div')
@@ -70,8 +90,9 @@ export default {
 
     setQuarters(){
       this.quarters = this.quarters.map(()=>[]) // setting length to 0 doesn't work because Vue doesn't see any (deep) change
-      this.projects
+      this.allyear = this.projects
           .filter(project=>project.invoices.length&&project.year===this.year)
+      this.allyear
           .forEach(project=>{
             const monthNumber = project.date.getMonth()
             const quarter = Math.ceil((monthNumber+1)/3)
@@ -101,6 +122,9 @@ export default {
       }
     }
 
+    ,totals(property){
+      return this.allyear.map(p=>p[property]).reduce((acc,i)=>acc+i,0)
+    }
 
   }
 }
@@ -119,4 +143,15 @@ export default {
     a { text-decoration: none; }
   }
   .page-quarter.page-quarter .alert-paid, .page-quarter.page-quarter .alert-paid * { color: inherit; }
+  
+  .totals {
+    th, td { &:first-child { width: 55vw; } }
+    thead th { text-align: right; }
+    td { font-weight: bold; }
+    .input.mono {
+      float: right;
+      padding-right: 0;
+    }
+  }
+  
 </style>
