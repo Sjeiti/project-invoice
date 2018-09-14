@@ -51,6 +51,16 @@
         <p v-_="'cloudExplain|full'">By default <em>Project Invoice</em> does not send or receive any data. But cloud synchronisation can be convenient if you want to use this application on multiple machines and/or devices. If you authorise a cloud provider the application will check the cloud for newer data when it loads, and save to the cloud every time you save to localStorage.</p>
       </div>
     </section>
+    <section class="row no-gutters">
+      <h2 class="col-12 col-sm-3" v-_>encryption</h2>
+      <div class="col-12 col-sm-9">
+        <button v-on:click="disenableEncryption(!storageService.encryption)" v-bind:disabled="storageService.encryption" v-_>enable</button>
+        <button v-on:click="disenableEncryption(!storageService.encryption)" v-bind:disabled="!storageService.encryption" v-_>disable</button>
+        <!--<button v-on:click="storageService.init(config.cloudSelected)" v-bind:disabled="storageService.authorised" v-_>authorise</button>-->
+        <!--<button v-on:click="onClickRevoke" v-bind:disabled="!storageService.authorised" v-_>revoke</button>-->
+        <p v-_="'encryptionExplain|full'">If you really must have a password you can enable encryption. But use with care: since no servers are used there is no way to reset your password if you forget it.</p>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -61,9 +71,9 @@ import {track,untrack,save} from '../formState'
 import {I18N_ISO as isos} from '../config/i18n'
 import {CURRENCY_ISO} from '../config/currencyISO'
 import InterpolationUI from '../components/InterpolationUI'
+import {confirm,modal} from '../components/Modal'
 import storageService from '../service/storage'
 import {storageInitialised} from '../util/signal'
-import {confirm} from '../components/Modal'
 
 const noop = ()=>{}
 
@@ -132,6 +142,14 @@ export default {
       this.config.cloudSelected = ''
       storageService.revoke()
       save()
+    }
+
+    ,disenableEncryption(enable){
+      const $t = this.$t
+      modal($t('encription'),'SetEncryption',{enable},$t('cancel'),enable?$t('enable'):$t('disable'))
+      // modal($t('encription'),'InvoiceProperties',data,$t('cancel'),$t('add'))
+      //     .then(data=>this.project.addInvoice(data.invoice),noop)
+      //     .then(()=>this.$el.dispatchEvent(new CustomEvent('change')))
     }
 
   }

@@ -70,7 +70,7 @@
   "moreToCome": "(binnenkort meer)",
   "authorise": "authoriseer",
   "revoke": "intrekken",
-  "cloudExplain": "Uit zichzelf dat <em>Project Invoice</em> nooit data versturen of ontvangen. Maar cloud synchronisatie kan heel handig zijn wanneer je deze applicatie op meerdere machines of devices gebruiken wilt. Wanneer je een cloud aanbieder authoriseert zal de applicatie testen op nieuwe data wanneer de applicatie start, and naar de cloud opslaan elke keer dat je iets in de applicatie bewaart.",
+  "cloudExplain": "Uit zichzelf zal <em>Project Invoice</em> nooit data versturen of ontvangen. Maar cloud synchronisatie kan heel handig zijn wanneer je deze applicatie op meerdere machines of devices gebruiken wilt. Wanneer je een cloud aanbieder authoriseert zal de applicatie testen op nieuwe data wanneer de applicatie start, and naar de cloud opslaan elke keer dat je iets in de applicatie bewaart.",
   "showHomeMessage": "toon hoofdpagina bericht",
   "actions": "acties",
   "clone": "kloon",
@@ -159,5 +159,11 @@
   "deleteProject": "Verwijder dit project?",
   "leave": "pagina verlaten",
   "last": "laatste",
-  "totals": "totalen"
+  "totals": "totalen",
+  "recent": "recent",
+  "ex": "ex",
+  "encryption": "encryptie",
+  "enable": "zet aan",
+  "disable": "zet uit",
+  "encryptionExplain": "Als je per se een wachtwoord wilt kun je encryptie aan zetten. Maar let op: omdat er geen servers gebruikt worden kan je wachtwoord niet worden gereset wanneer je deze vergeet."
 }

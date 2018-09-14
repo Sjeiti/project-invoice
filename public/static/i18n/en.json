@@ -159,5 +159,11 @@
   "deleteProject": "Delete this project?",
   "leave": "leave",
   "last": "last",
-  "totals": "totals"
+  "totals": "totals",
+  "recent": "recent",
+  "ex": "ex",
+  "encryption": "encryption",
+  "enable": "enable",
+  "disable": "disable",
+  "encryptionExplain": "If you really must have a password you can enable encryption. But use with care: since no servers are used there is no way to reset your password if you forget it."
 }

@@ -24,7 +24,8 @@
 import dialogPolyfill from 'dialog-polyfill'
 import {scroll} from '../util'
 import {signal} from '../util/signal'
-import InvoiceProperties from '../components/InvoiceProperties'
+import InvoiceProperties from '../components/InvoiceProperties' // todo inject mapping
+import SetEncryption from '../components/SetEncryption' // todo inject mapping
 
 const sgModal = signal()
 const sgCancel = signal()
@@ -126,7 +127,8 @@ export default {
     this.$el.addEventListener('transitionend',this.onTransitionEnd.bind(this))
   }
   ,components: {
-    InvoiceProperties
+    InvoiceProperties // todo inject mapping
+    ,SetEncryption // todo inject mapping
   }
   ,methods: {
     onModal(title,body,cancel='cancel',confirm='confirm',type='confirm',component=null,data=null){
