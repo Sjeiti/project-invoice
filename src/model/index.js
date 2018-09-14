@@ -10,7 +10,7 @@ import { create as createConfig } from './config'
 import { create as createCloneable } from './cloneable'
 import { modelSaved } from '../formState'
 import { prompt,alert } from '../components/Modal'
-import {decrypt,decryptObject,encrypt,encryptObject,isEncrypted} from '../service/encryption'
+import {decrypt,decryptObject,encrypt,isEncrypted} from '../service/encryption'
 
 const ns = location.host.replace(/^localhost.*/,'local.projectinvoice.nl').split(/\./g).reverse().join('.')
 const fileName = `${ns}.data.json`
@@ -33,11 +33,7 @@ storageInitialised.add(success=>{
       .then(
           json=>{ // file read
             if (json){ // can fail
-              const parsed = JSON.parse(json)
-            /*console.log('firstRead'
-                ,'\n\tserver',parsed.timestamp
-                ,'\n\tlocall',data.timestamp
-                ,parsed.timestamp>data.timestamp,{parsed}); // todo: remove log*/
+              const parsed = JSON.parse(json) // todo implement encryption check
             if (parsed.timestamp>data.timestamp){
                 model.data = parsed
                 modelReplaced.dispatch(model.data)
@@ -45,7 +41,6 @@ storageInitialised.add(success=>{
             }
           }
           ,()=>{ // file not found
-            // console.log('file not found',nameData); // todo: remove log
             let stringData = tryStringify(data)
             storageService
                 .write(fileName,stringData)
@@ -154,7 +149,7 @@ function getStored(name,defaultsTo){
   return rawData
       &&(isEncrypted(rawData)
           &&(decryptObject(rawData,getPassword())
-          ||setTimeout(()=>alert('Invalid password','Reload to try again','ok'),40))
+            ||setTimeout(()=>alert('Invalid password','Reload to try again','ok'),40))
           &&tryParse(rawData))
       ||defaultsTo
 }
@@ -180,7 +175,7 @@ let password
  * Get the password
  * @returns {string}
  */
-function getPassword(reset=false){ // eslint-disable-line no-unused-vars
-  if (!password||reset) password = window.prompt('pasword')
+function getPassword(){ // eslint-disable-line no-unused-vars
+  if (!password) password = window.prompt('pasword')
   return password
 }
