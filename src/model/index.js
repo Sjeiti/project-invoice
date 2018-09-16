@@ -9,7 +9,7 @@ import { create as createCopy } from './copy'
 import { create as createConfig } from './config'
 import { create as createCloneable } from './cloneable'
 import { modelSaved } from '../formState'
-import { prompt,alert } from '../components/Modal'
+import { /*prompt,*/alert } from '../components/Modal'
 import {decrypt,decryptObject,encrypt,isEncrypted} from '../service/encryption'
 
 const ns = location.host.replace(/^localhost.*/,'local.projectinvoice.nl').split(/\./g).reverse().join('.')
@@ -33,7 +33,7 @@ storageInitialised.add(success=>{
       .then(
           json=>{ // file read
             if (json){ // can fail
-              const parsed = JSON.parse(json) // todo implement encryption check
+              const parsed = decryptAndOrParse(json)
             if (parsed.timestamp>data.timestamp){
                 model.data = parsed
                 modelReplaced.dispatch(model.data)
@@ -114,12 +114,12 @@ const model = Object.create({
   ,unEncrypt(password){
     const data = localStorage.getItem('data')
     const decrypted = decrypt(data,password)
-    decrypted ? localStorage.setItem('data',decrypted) : setTimeout(()=>alert('decryption failed'),1000)
+    decrypted ? storeLocalAndService('data',decrypted) : setTimeout(()=>alert('decryption failed'),1000)
   }
   ,encrypt(password){
     const data = localStorage.getItem('data')
     const encrypted = encrypt(data,password)
-    encrypted ? localStorage.setItem('data',encrypted) : setTimeout(()=>alert('encryption failed'),1000)
+    encrypted ? storeLocalAndService('data',encrypted) : setTimeout(()=>alert('encryption failed'),1000)
   }
 })
 
@@ -138,20 +138,21 @@ modelSaved.add(()=>{
  * @returns {object}
  */
 function getStored(name,defaultsTo){
-  ////////////////////////////////////////////
-  // if (localStorage.getItem(name)&&!isEncrypted(localStorage.getItem(name))){
-  //   const aaaa = encrypt(localStorage.getItem(name),'asdf')
-  //   console.log('aaaa',aaaa) // todo: remove log
-  //   localStorage.setItem(name,aaaa)
-  // }
-  ////////////////////////////////////////////
   const rawData = localStorage.getItem(name)
   return rawData
-      &&(isEncrypted(rawData)
-          &&(decryptObject(rawData,getPassword())
-            ||setTimeout(()=>alert('Invalid password','Reload to try again','ok'),40))
-          &&tryParse(rawData))
+      &&decryptAndOrParse(rawData)
       ||defaultsTo
+}
+
+/**
+ * Either decrypt and parse or just parse a string
+ * @param {String} rawData
+ * @returns {Object}
+ */
+function decryptAndOrParse(rawData){
+  return isEncrypted(rawData)
+      &&(decryptObject(rawData,getPassword())||(setTimeout(()=>alert('Invalid password','Reload to try again','ok'),40),false))
+      ||tryParse(rawData)
 }
 
 /**
@@ -165,8 +166,19 @@ function setStored(name,data){
   data.version = VERSION
   let stringData = tryStringify(data)
   isEncrypted(localStorage.getItem(name))&&(stringData = encrypt(stringData,getPassword()))
-  storageService.authorised&&storageService.write(fileName,stringData)
-  localStorage.setItem(name,stringData)
+  storeLocalAndService(name,stringData)
+}
+
+/**
+ * Set localStorage JSON
+ * And possibly save cloud
+ * But don't check for encryption or set timestamp
+ * @param {string} name
+ * @param {object} data
+ */
+function storeLocalAndService(name,data){
+  storageService.authorised&&storageService.write(fileName,data)
+  localStorage.setItem(name,data)
 }
 
 let password

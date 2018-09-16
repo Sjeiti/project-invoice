@@ -14,7 +14,7 @@
       </section>
       <footer>
         <button v-if="cancel!==''" v-on:click="onCancel" type="button">{{cancel}}</button>
-        <button ref="confirm" type="submit">{{confirm}}</button>
+        <button ref="confirm" v-bind:disabled="!valid" type="submit">{{confirm}}</button>
       </footer>
     </form>
   </dialog>
@@ -30,9 +30,12 @@ import SetEncryption from '../components/SetEncryption' // todo inject mapping
 const sgModal = signal()
 const sgCancel = signal()
 const sgConfirm = signal()
+
 const sgValue = signal()
+const sgValid = signal()
 
 export const valueSignal = sgValue
+export const validSignal = sgValid
 
 /**
  * Show confirmation modal
@@ -122,12 +125,14 @@ export default {
       ,value: ''
       ,component: null
       ,data: null
+      ,valid: true
     }
   }
   ,mounted(){
     dialogPolyfill.registerDialog(this.$el)
     sgModal.add(this.onModal.bind(this))
     sgValue.add(this.onValue.bind(this)) // todo add detach when unmounted
+    sgValid.add(this.onValid.bind(this)) // todo add detach when unmounted
     this.$el.addEventListener('transitionend',this.onTransitionEnd.bind(this))
   }
   ,components: {
@@ -154,6 +159,9 @@ export default {
     }
     ,onValue(value){
       this.value = value
+    }
+    ,onValid(valid){
+      this.valid = valid
     }
     ,onSubmit(e){
       sgConfirm.dispatch(this.value)

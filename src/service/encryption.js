@@ -1,36 +1,57 @@
 import CryptoJS from 'crypto-js'
 import {tryParse} from '../util'
 
-console.log('zxcv',CryptoJS.AES.encrypt('asdf','qwer').toString()) // todo: remove log
-const asdf = encryptObject({asdf:23},'qwer')
-console.log('asdf',asdf) // todo: remove log
-const qwer = decryptObject(asdf,'qwer')
-console.log('qwer',qwer) // todo: remove log
-
-export function isEncrypted(string){ // or rather isNotJsonString
-    return string&&string.match(/^[\w+/=]+$/)
-    // return string&&string.substr(0,1)!=='{'
+/**
+ * Test if supposed JSON string is an encryption by regex char check.
+ * @param {string} string
+ * @returns {boolean}
+ */
+export function isEncrypted(string){
+  return !!(string && string.match(/^[\w+/=]+$/))
 }
 
+/**
+ * Decrypt to JSON string
+ * @param {string} hash
+ * @param {string} key
+ * @returns {string}
+ */
 export function decrypt(hash,key){
-    let rawData
-    try {
-      rawData = CryptoJS.AES.decrypt(hash,key).toString(CryptoJS.enc.Utf8)
-      // console.log('rawData',rawData) // todo: remove log
-    } catch(err){
-      // console.warn('err',err) // todo: remove log
-    }
-    return rawData
+  let rawData
+  try {
+    rawData = CryptoJS.AES.decrypt(hash,key).toString(CryptoJS.enc.Utf8)
+  } catch (err){
+    // console.warn('err',err)
+  }
+  return rawData
 }
 
+/**
+ * Encrypt
+ * @param {string} string
+ * @param {string} key
+ * @returns {string}
+ */
 export function encrypt(string,key){
-    return CryptoJS.AES.encrypt(string,key).toString()
+  return CryptoJS.AES.encrypt(string,key).toString()
 }
 
+/**
+ * Decrypt and parse JSON string to object
+ * @param {string} hash
+ * @param {string} key
+ * @returns {Object}
+ */
 export function decryptObject(hash,key){
-    return tryParse(decrypt(hash,key))
+  return tryParse(decrypt(hash,key))
 }
 
+/**
+ * Stringify object and encrypt
+ * @param {object} obj
+ * @param {string} key
+ * @returns {string}
+ */
 export function encryptObject(obj,key){
-    return encrypt(JSON.stringify(obj),key)
+  return encrypt(JSON.stringify(obj),key)
 }

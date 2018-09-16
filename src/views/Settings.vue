@@ -69,7 +69,7 @@ import {track,untrack,save} from '../formState'
 import {I18N_ISO as isos} from '../config/i18n'
 import {CURRENCY_ISO} from '../config/currencyISO'
 import InterpolationUI from '../components/InterpolationUI'
-import {confirm,modal,prompt} from '../components/Modal'
+import {confirm,modal/*,prompt*/} from '../components/Modal'
 import storageService from '../service/storage'
 import {storageInitialised} from '../util/signal'
 
