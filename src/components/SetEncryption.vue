@@ -29,7 +29,7 @@ export default {
   }
   ,mounted(){
     this.enable = this.data.enable
-    this.enable&&validSignal.dispatch(false)
+    this.enable&&validSignal.dispatch(false)||validSignal.dispatch(true)
   }
   ,methods: {
     validate(){
