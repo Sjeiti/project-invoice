@@ -101,7 +101,7 @@ export default {
 
     ,onClickDownload(e,type){
       const currentTarget = e.currentTarget
-          ,dataString = JSON.stringify(model.data)
+          ,dataString = localStorage.getItem('data') // JSON.stringify(model.data) //
       currentTarget.setAttribute('href',`data:text/json,${encodeURIComponent(dataString)}`)
       currentTarget.setAttribute('download',`${type}.json`)
     }
@@ -113,8 +113,10 @@ export default {
       fileReader.readAsText(file)
       fileReader.addEventListener('load',()=>{
         const result = fileReader.result
-            ,resultData = JSON.parse(result)
+            ,resultData = model.decryptAndOrParse(result)
+
         if (resultData.hasOwnProperty('clients')&&resultData.hasOwnProperty('copy')&&resultData.hasOwnProperty('personal')){
+          model.storeLocalAndService('data',result)
           model.data = resultData
           this.init()
         }
@@ -132,6 +134,7 @@ export default {
       )
           .then(()=>{
             model.data = null
+            save()
             this.init()
           },noop)
     }

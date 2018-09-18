@@ -121,6 +121,8 @@ const model = Object.create({
     const encrypted = encrypt(data,password)
     encrypted ? storeLocalAndService('data',encrypted) : setTimeout(()=>alert('encryption failed'),1000)
   }
+  ,decryptAndOrParse
+  ,storeLocalAndService
 })
 
 export default model
