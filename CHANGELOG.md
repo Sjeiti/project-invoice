@@ -1,5 +1,22 @@
 # Changelog
 
+## v2.4.2 (28/12/2018)
+- Update packages with vulnerability dependencies [#169](https://github.com/Sjeiti/project-invoice/issues/169)
+- Cloning should be disabled when project is dirty [#168](https://github.com/Sjeiti/project-invoice/issues/168)
+- Project listing on client page should be reversed [#167](https://github.com/Sjeiti/project-invoice/issues/167)
+- It should be visible from the client projects list which have been invoiced [#156](https://github.com/Sjeiti/project-invoice/issues/156)
+- Application localisation [#154](https://github.com/Sjeiti/project-invoice/issues/154)
+- Confirm modal styling [#150](https://github.com/Sjeiti/project-invoice/issues/150)
+- Fix sorting in several lists [#143](https://github.com/Sjeiti/project-invoice/issues/143)
+- Project lines should not be draggable when there is only one [#140](https://github.com/Sjeiti/project-invoice/issues/140)
+- Give year list a tabbed feel and add scroll behaviour [#137](https://github.com/Sjeiti/project-invoice/issues/137)
+- research storage encryption  [#107](https://github.com/Sjeiti/project-invoice/issues/107)
+- Add some extra data to client overview page [#60](https://github.com/Sjeiti/project-invoice/issues/60)
+- Add title 'totals' to bottom of quarter page [#59](https://github.com/Sjeiti/project-invoice/issues/59)
+- Bugfixes [#165](https://github.com/Sjeiti/project-invoice/issues/165), [#164](https://github.com/Sjeiti/project-invoice/issues/164), [#162](https://github.com/Sjeiti/project-invoice/issues/162), [#158](https://github.com/Sjeiti/project-invoice/issues/158), [#133](https://github.com/Sjeiti/project-invoice/issues/133), [#126](https://github.com/Sjeiti/project-invoice/issues/126)
+
+---
+
 ## v2.3.1 (22/05/2018)
 - Refactor PrintInvoice [#155](https://github.com/Sjeiti/project-invoice/issues/155)
 - Implement prompt dialog (used in Copy) [#153](https://github.com/Sjeiti/project-invoice/issues/153)
@@ -13,7 +30,6 @@
 - Improve/clarify settings backup/restore methods [#82](https://github.com/Sjeiti/project-invoice/issues/82)
 - Add feed back line at empty project list on client [#73](https://github.com/Sjeiti/project-invoice/issues/73)
 - Add page-break positions on quotations  [#70](https://github.com/Sjeiti/project-invoice/issues/70)
-
 ---
 
 ## v2.2.21 (07/04/2018)
