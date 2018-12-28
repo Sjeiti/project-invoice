@@ -5,7 +5,8 @@
  */
 
 import {loadScript} from '../util'
-import {notify} from '../components/Notification'
+// import {notify} from '../components/Notification'
+import {notify} from '../util/signal'
 import base64 from '../util/base64'
 
 const name = 'Google Drive'
@@ -201,7 +202,8 @@ function mapFile(file){
  */
 function handleRejection(response){
   const {error} = response.result
-  error&&notify(`Error ${error.code}: ${error.message}`)
+  error&&notify.dispatch(`Error ${error.code}: ${error.message}`)
+  // error&&notify(`Error ${error.code}: ${error.message}`)
 }
 
 export default {

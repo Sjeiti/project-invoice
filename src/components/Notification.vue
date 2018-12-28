@@ -21,13 +21,14 @@
 <script>
 //import {notify} from '../util/signal'
 
-import {signal} from '../util/signal'
-const sgNotify = signal()
+import {signal,notify as sgNotify} from '../util/signal'
+// const sgNotify = signal()
 
 /**
  * Show notification
  * @param {string} notification
- * @returns {Promise}
+ * @returns {Promise}\
+ * @todo refactor away, replace by using signals only
  */
 export function notify(notification){
   return new Promise((resolve,reject)=>{

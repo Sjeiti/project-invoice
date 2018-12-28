@@ -1,6 +1,6 @@
 import projectSort from '../util/projectSort'
 import {tryParse,tryStringify} from '../util'
-import {storageInitialised,modelReplaced} from '../util/signal'
+import {storageInitialised,modelReplaced,alert} from '../util/signal'
 import storageService from '../service/storage'
 import defaultData from '../data/data'
 import {VERSION} from '../config'
@@ -9,7 +9,7 @@ import { create as createCopy } from './copy'
 import { create as createConfig } from './config'
 import { create as createCloneable } from './cloneable'
 import { modelSaved } from '../formState'
-import { /*prompt,*/alert } from '../components/Modal'
+// import { /*prompt,*/alert } from '../components/Modal'
 import {decrypt,decryptObject,encrypt,isEncrypted} from '../service/encryption'
 
 const ns = location.host.replace(/^localhost.*/,'local.projectinvoice.nl').split(/\./g).reverse().join('.')
@@ -114,12 +114,14 @@ const model = Object.create({
   ,unEncrypt(password){
     const data = localStorage.getItem('data')
     const decrypted = decrypt(data,password)
-    decrypted ? storeLocalAndService('data',decrypted) : setTimeout(()=>alert('decryption failed'),1000)
+    decrypted ? storeLocalAndService('data',decrypted) : setTimeout(()=>alert.dispatch('decryption failed'),1000)
+    // decrypted ? storeLocalAndService('data',decrypted) : setTimeout(()=>alert('decryption failed'),1000)
   }
   ,encrypt(password){
     const data = localStorage.getItem('data')
     const encrypted = encrypt(data,password)
-    encrypted ? storeLocalAndService('data',encrypted) : setTimeout(()=>alert('encryption failed'),1000)
+    encrypted ? storeLocalAndService('data',encrypted) : setTimeout(()=>alert.dispatch('encryption failed'),1000)
+    // encrypted ? storeLocalAndService('data',encrypted) : setTimeout(()=>alert('encryption failed'),1000)
   }
   ,decryptAndOrParse
   ,storeLocalAndService
@@ -153,7 +155,8 @@ function getStored(name,defaultsTo){
  */
 function decryptAndOrParse(rawData){
   return isEncrypted(rawData)
-      &&(decryptObject(rawData,getPassword())||(setTimeout(()=>alert('Invalid password','Reload to try again','ok'),40),false))
+      &&(decryptObject(rawData,getPassword())||(setTimeout(()=>alert.dispatch('Invalid password','Reload to try again','ok'),40),false))
+      // &&(decryptObject(rawData,getPassword())||(setTimeout(()=>alert('Invalid password','Reload to try again','ok'),40),false))
       ||tryParse(rawData)
 }
 

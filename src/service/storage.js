@@ -1,7 +1,7 @@
 // import local from './storageLocal'
 import drive from './storageDrive'
-import {storageInitialised,sync} from '../util/signal'
-import {notify} from '../components/Notification'
+import {storageInitialised,sync,notify} from '../util/signal'
+// import {notify} from '../components/Notification'
 
 const providers = {drive}
 const syncOn = sync.dispatch.bind(sync,true)
@@ -34,7 +34,8 @@ function initSuccess(){
  */
 function initFailed(){
   storageInitialised.dispatch(false)
-  notify(`Authentication for ${provider.name} failed. Go to settings to authorise.`)
+  notify.dispatch(`Authentication for ${provider.name} failed. Go to settings to authorise.`)
+  // notify(`Authentication for ${provider.name} failed. Go to settings to authorise.`)
 }
 
 /**

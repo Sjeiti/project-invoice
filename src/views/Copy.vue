@@ -43,7 +43,7 @@ export default {
   }
   ,methods: {
     onAddCopy(){
-      prompt(this.$t('typeAName'),this.$t('theNameIsUsedAsAKey')).then(key=>{
+      window.prompt(this.$t('typeAName'),this.$t('theNameIsUsedAsAKey')).then(key=>{
         if (key&&!this.copy.hasOwnProperty(key)){
           this.copy[key] = this.config.langs.reduce((o,s)=>(o[s]='',o),{index:-1})
           this.forceUpdate()

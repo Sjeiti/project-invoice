@@ -1,5 +1,6 @@
 {
   "projectId": "projectInvoice",
   "video": false,
-  "ignoreTestFiles": ["pi.js","example_spec.js"]
+  "ignoreTestFiles": ["components/*.spec*.js","!*.spec*.js"],
+  "integrationFolder": "src"
 }

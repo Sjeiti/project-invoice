@@ -1,5 +1,5 @@
-import data from '../../../../src/data/data'
-import {create} from '../../../../src/model/config'
+import {create} from './config'
+import data from '../data/data'
 
 describe('config',() => {
 
