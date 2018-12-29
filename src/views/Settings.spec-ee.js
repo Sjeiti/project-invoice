@@ -16,7 +16,7 @@ describeResponsive('Settings',()=>{
       })
       .get('h2').contains('encryption')
       .parent().find('button').contains('disable').then($but=>{
-        if (!$but.get(0).disabled) {
+        if (!$but.get(0).disabled){
           cy.wrap($but).click()
         }
       })

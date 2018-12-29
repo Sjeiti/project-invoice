@@ -11,16 +11,16 @@
 import Footer from './Footer.vue'
 const mountVue = require('cypress-vue-unit-test')
 
-describe('Footer', () => {
+describe('Footer',() => {
   const template = `<div>
     <footer></footer>
   </div>`
-  const components = { Footer, footer:Footer }
-  beforeEach(mountVue({ template, components }))
+  const components = { Footer,footer:Footer }
+  beforeEach(mountVue({ template,components }))
 
   describe('create',() => {
-    it('should parse', () => {
-      cy.get('div').should('contain', '123')
+    it('should parse',() => {
+      cy.get('div').should('contain','123')
     })
   })
 })

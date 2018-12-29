@@ -6,7 +6,7 @@ import Lang from '../components/Lang.vue'
 import InterpolationUI from '../components/InterpolationUI'
 import defaultData from '../data/data'
 import draggable from 'vuedraggable'
-import {confirm,prompt} from '../components/Modal'
+import {confirm/*,prompt*/} from '../components/Modal'
 
 const noop = ()=>{}
 

@@ -21,7 +21,7 @@
 <script>
 //import {notify} from '../util/signal'
 
-import {signal,notify as sgNotify} from '../util/signal'
+import {/*signal,*/notify as sgNotify} from '../util/signal'
 // const sgNotify = signal()
 
 /**
