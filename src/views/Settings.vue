@@ -80,6 +80,7 @@ import {CURRENCY_ISO} from '../config/currencyISO'
 import InterpolationUI from '../components/InterpolationUI'
 import {confirm,modal/*,prompt*/} from '../components/Modal'
 import storageService from '../service/storage'
+import notificationService from '../service/notificationService'
 import {storageInitialised} from '../util/signal'
 
 const noop = ()=>{}
@@ -162,7 +163,11 @@ export default {
     }
 
     ,onClickMsg(){
-      notificationService.message({body:'test'}).then(console.log.bind(console),console.warn.bind(console))
+      notificationService.message({
+        title: 'Test title'
+        ,body: 'body test body'
+        ,uri: location.origin+'/settings'
+      }).then(console.log.bind(console),console.warn.bind(console))
     }
 
     ,onClickRevoke(){

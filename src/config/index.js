@@ -1,2 +1,2 @@
 export const NAME = 'Project Invoice'
-export const VERSION = '2.4.3'
+export const VERSION = '2.5.0'

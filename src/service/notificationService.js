@@ -2,6 +2,7 @@
 
 import {message as sgMessage} from '../util/signal'
 import model from '../model'
+import router from '../router'
 
 // const serviceWorkerUri = '/static/js/swNotification.js'
 const serviceWorkerUri = '/swNotification.js'
@@ -22,10 +23,18 @@ if (hasServiceWorker&&hasPushManager){
   notificationsEnabled&&requestAndEnable()
 }
 
+/**
+ * Request notification permission and disenable
+ * @returns {Promise<T>}
+ */
 function requestAndEnable(){
   return requestPermission().then(disenable,disenable)
 }
 
+/**
+ * Request Notification permission wrapped in a Promise
+ * @returns {Promise<any>}
+ */
 function requestPermission(){
   console.log('requestPermission') // todo: remove log
   return new Promise((resolve,reject)=>{
@@ -33,6 +42,11 @@ function requestPermission(){
   })
 }
 
+/**
+ * Enable or disable the use of notifications
+ * @param {boolean} [enable=true]
+ * @returns {ServiceWorkerRegistration}
+ */
 function disenable(enable = true){
   console.log('disenable',enable) // todo: remove log
   const eventMethod = (enable?serviceWorker.addEventListener:serviceWorker.removeEventListener).bind(serviceWorker)
@@ -46,6 +60,10 @@ function disenable(enable = true){
         })
 }
 
+/**
+ * Register the service worker
+ * @returns {Promise<T>}
+ */
 function registerServiceWorker(){
   console.log('registerServiceWorker') // todo: remove log
   return serviceWorker.register(serviceWorkerUri)
@@ -58,6 +76,10 @@ function registerServiceWorker(){
     },console.warn.bind(console,'Unable to register service worker.'))
 }
 
+/**
+ * Unegister the service worker
+ * @returns {Promise<T>}
+ */
 function unRegisterServiceWorker(){
   return (registration&&Promise.resolve(registration)||serviceWorker.getRegistration('pi'))
     .then(registration => {
@@ -65,29 +87,50 @@ function unRegisterServiceWorker(){
     })
 }
 
-function onMessage(event){ // :NotificationEvent
+/**
+ * Message handler for notification
+ * @param {NotificationEvent} event
+ */
+function onMessage(event){
   console.log('onMessage:\n\t Received a message from service worker: ',{event}
     ,'\n\ttitle',event.data.title
     ,'\n\tbody',event.data.body
+    ,'\n\ttype',event.data.type
   )
   const {data} = event
   const {type} = data
-  type==='navigate'&&router.navigateByUrl(data.uri.replace(location.origin,''))
+  type==='navigate'&&router.push(data.uri.replace(location.origin,''))
   ||type==='message'&&sgMessage.dispatch(data)
 }
 
+/**
+ * Send a message
+ * @param {object} msg
+ * @returns {Promise<any>}
+ */
 function message(msg){
-  // console.log('message',msg) // todo: remove log
+  console.log('message',msg) // todo: remove log
   return postMessage(Object.assign({},{
     type: 'message'
+    ,badge: '/static/img/icon-128x128.png'
     ,delay: 3000
   },msg))
 }
 
+/**
+ * Unmessage
+ * @param {object} message
+ * @returns {Promise<any>}
+ */
 function unmessage(message){
   return postMessage(Object.assign({},{type: 'unmessage'},message))
 }
 
+/**
+ * Promise wrapped notification message
+ * @param {object} message
+ * @returns {Promise<any>}
+ */
 function postMessage(message){
   return new Promise(function(resolve,reject){
     console.log('postMessage',{message,serviceWorker,registration}) // todo: remove log
