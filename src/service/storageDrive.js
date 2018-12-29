@@ -210,8 +210,8 @@ export default {
   name
   ,init
   ,get authorised(){
- return isAuthorised
-}
+    return isAuthorised
+  }
   ,read
   ,write
 }
