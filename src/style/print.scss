@@ -1,5 +1,7 @@
 @import "./variables";
 
+.html-print-start { content: 'START'; }
+
 html {
   --main-bg-color: white;
   --main-fg-color: black;
@@ -8,8 +10,10 @@ html {
   --font-main: "Istok Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-currency: 'Droid Sans Mono', monospace;
   --base-font-size: 14px;
+  font-size: var(--base-font-size);
 }
 
+/////////////////////
 @page {
   size: A4;
   margin: 0;
@@ -27,20 +31,46 @@ html {
 * {
   overflow: visible;
 }
+/////////////////////
+
+$A4w: 210mm;
+$A4h: 297mm;
+
+html { box-sizing: border-box; }
+*, *:before, *:after { box-sizing: inherit; }
 
 html, body {
   -webkit-print-color-adjust: exact;
+    background-color: var(--main-bg-color);
 }
 
 body {
   margin: 0;
 }
 
-@media print {
-  html, body {
-    background-color: var(--main-bg-color);
+////////////////////////
+.di:before {
+  display: inline-block;
+  content: '.';
+}
+.df {
+  display: inline-block;
+  position: relative;
+  transform: translateX(-9999rem);
+  &:before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: ',';
+    transform: translateX(9999rem);
   }
 }
+////////////////////////
+#logo {
+  background-repeat: no-repeat;
+  background-position: top right;
+}
+////////////////////////
 
 .invoice {
   width: 210mm;
@@ -53,7 +83,6 @@ body {
   margin: 0 auto;
   //font-family: "Istok Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-family: var(--font-main)!important;
-  font-size: var(--base-font-size);
   line-height: 160%;
   -webkit-print-color-adjust: exact;
   &.quotation {
@@ -70,28 +99,20 @@ body {
   }
   header {
     padding-top: 20pt;
-    margin-bottom: 30pt;
-    //font-size: 16pt;
-    > * {
-      z-index: 1;
+    margin-bottom: 15pt;
+    .wrapper {
+      display: flex;
+      justify-content: space-between;
     }
+    > * { z-index: 1; }
     .client {}
     .you { text-align: right; }
-    p {
-      margin: 0;
-    }
-    > canvas {
-      zoom: 3;
-      position: absolute;
-      left: 0;
-      top: 0;
-      z-index: 0;
-    }
+    p { margin: 0; }
   }
   footer {
     flex: 0 1 63pt;
     padding: 0;
-    font-size: 10pt;
+    font-size: 0.8rem;
     line-height: 140%;
     box-shadow: 0 10mm 0 0 var(--secondary-bg-color);
     text-align: center;
@@ -102,7 +123,7 @@ body {
 
   h1 {
     margin: 0;
-    font-size: 24pt;
+    font-size: 2rem;
     line-height: 120%;
   }
   h3.payment {
@@ -135,7 +156,7 @@ body {
   }
 
   .page .wrapper {
-    padding-bottom: 30mm;
+    padding-bottom: 10mm;
   }
 
   .type {
@@ -152,7 +173,7 @@ body {
   }
 
   small {
-    font-size: 80%;
+    font-size: 0.8rem;
     line-height: 140%;
   }
   small p {
@@ -170,7 +191,7 @@ body {
 
   .page {
     position: relative;
-    width: 80%;
+    width: $A4w - 30mm;
     margin: 0 auto;
   }
   dl {
@@ -197,7 +218,7 @@ body {
 
   dl.main {
     margin-top: 10mm;
-    font-size: 18px;
+    font-size: 1.2rem;
     font-weight: bold;
     dt {
       width: 15%;
@@ -212,6 +233,7 @@ body {
     border-collapse: collapse;
     border: none;
     line-height: 160%;
+    font-size: 1rem;
     background-color: transparent!important;
     * { background-color: inherit!important; }
   }
@@ -235,6 +257,7 @@ body {
     height: .8pt;
     background-color: var(--secondary-bg-color);
   }
+  tr.subtract td:last-child:after,
   tr.add td:last-child:after {
     content: '+';
     position: absolute;
@@ -242,45 +265,40 @@ body {
     right: -14pt;
     color: var(--secondary-bg-color);
   }
+  tr.subtract td:last-child:after {
+    content: '-';
+  }
   td, th {
     padding-right: 16pt;
     &:first-child {
       padding-right: 0;
     }
   }
-  /*app-currency {
-    padding: 0 20px 0 140px;
-  }*/
   .quotation tr.total td:last-child {
     padding-right: 15px;
   }
   th {
-    font-size: 16px;
     text-align: right;
   }
   td {
     position: relative;
-    /*border: 1px solid rgba(0,0,0,0.01);*/
   }
-  app-currency, .mono {  // todo: is .mono correct here?
-    width: 80%;
-    float: right;
-    //font-family: 'Droid Sans Mono', monospace;
+  .mono {  // todo: is .mono correct here?
     font-family: var(--font-currency)!important;
     padding-right: 0;
+    text-align: right;
+  }
+  [symbol] {
+    position: relative;
+    &:before {
+      content: attr(symbol);
+      position: absolute;
+      left: 0;
+      padding: 0 1rem;
+    }
   }
   .total {
     height: 40pt;
-    app-currency {
-      display: block;
-      width: 55%;
-      margin: 0 auto;
-      float: none;
-      transform: translateX(18pt);
-      font-weight: bold;
-      font-size: 20px;
-      text-align: center;
-    }
     td:last-child:before {
       left: 90px;
       position: static;
@@ -298,11 +316,11 @@ body {
       border-top: 0;
     }
     .input.mono {
-      font-size: 20pt;
-      width: 50%;
+      font-size: 1.5rem;
+      width: 100%;
       max-width: none;
       margin: 0 auto;
-      transform: translate(-40%, -20%);
+      transform: translate(0, -20%);
     }
   }
 
@@ -333,60 +351,57 @@ body {
   /* THEME VERTICAL */
 
   &.vertical {
-    $barWidth: 200pt;
+    $barWidth: 60mm;
+    $left: 2mm;
+    $padding: 5mm;
+
+    // beware... linear-gradient and sass sucks a bit... for instance setting background-size is not parsed at all, and declaring it after background breaks sass in weird little bits
+    background: linear-gradient(to right, var(--secondary-bg-color) $left, transparent $left, transparent #{$A4w - $barWidth}, var(--secondary-bg-color) #{$A4w - $barWidth});
+
     .page {
-      width: 100%;
-      padding: 0 $barWidth 0 20pt;
+      width: $A4w - $barWidth - $left;
+      margin: 0 0 0 $left;
+      padding: 0 $padding;
     }
     header, footer {
       color: inherit;
       background-color: transparent;
     }
     header {
-      &:before, &:after {
-        content: '';
-        display: block;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        background-color: var(--secondary-bg-color);
-      }
-      &:before {
-        width: 0.2cm;
-        left: 0;
-      }
-      &:after {
-        width: $barWidth;
-        right: 0;
-      }
       .you {
-        width: $barWidth;
         position: absolute;
-        right: - $barWidth;
+        right: - $barWidth - $padding;
+        width: $barWidth;
         text-align: left;
         color: var(--secondary-fg-color);
-        font-size: 12pt;
-        padding-left: 16pt;
+        padding: 0 $padding;
       }
     }
+    #logo { background-position: top left; }
     footer {
-      flex: 0 1 83pt;
-      padding-right: 16pt;
+      flex: 0 1 auto;
+      padding-bottom: $padding;
     }
-    .date {
-      padding-right: 16pt;
-    }
+    th:last-child, td:last-child { padding-right: 0; }
     tr.add td:last-child:after {
+      top: -3mm;
+      right: -2*$padding;
       color: var(--secondary-fg-color);
     }
     .total {
       td:last-child {
-        padding: 0;
         color: var(--secondary-fg-color);
-        transform: translateX($barWidth);
+        transform: translateX(100%);
         &:before, &:after { display: none; }
-        app-currency { margin: 0; transform: none; }
+        div {
+          width: $barWidth;
+          margin: 0;
+          padding: 0 $padding;
+          transform: translateX($padding);
+        }
       }
     }
   }
 }
+
+.html-print-end { content: 'END'; }

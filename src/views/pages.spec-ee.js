@@ -19,12 +19,12 @@ describeResponsive('Quarter page',()=>{
 
 describeResponsive('Clients page',()=>{
   beforeEach(toPage.bind(null,'/clients'))
-  context('Basics',basics.bind(null,getTitle('Clients'),'Clients',false))
+  context('Basics',basics.bind(null,getTitle('Clients'),'clients',false))
 })
 
 describeResponsive('Client page',()=>{
   beforeEach(toPage.bind(null,'/client/22'))
-  context('Basics',basics.bind(null,getTitle('Client'),'Client: McLaughlin - Graham',true))
+  context('Basics',basics.bind(null,getTitle('Client'),'client: McLaughlin - Graham',true))
 })
 
 describeResponsive('Invoice page',()=>{

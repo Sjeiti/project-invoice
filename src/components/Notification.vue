@@ -1,26 +1,47 @@
 <template>
-    <transition-group tag="ul" name="fade">
-      <li
-          v-for="notification in notifications"
-          :key="notification.key"
-          v-on:mouseenter="onMouseEnter(notification)"
-          v-on:mouseleave="onMouseLeave(notification)"
-      >
-        <div v-html="notification.text"></div><button v-on:click="onTransitionEnd(notification)">&#10006;</button>
-        <div
-            class="timer"
-            v-bind:style="notification.style"
-            v-bind:class="notification.class"
-            v-on:transitionend="onTransitionEnd(notification)"
-            v-on:animationend="onTransitionEnd(notification)"
-        ></div>
-      </li>
-    </transition-group>
+  <transition-group tag="ul" name="fade">
+    <li
+        v-for="notification in notifications"
+        :key="notification.key"
+        v-on:mouseenter="onMouseEnter(notification)"
+        v-on:mouseleave="onMouseLeave(notification)"
+    >
+      <div v-html="notification.text"></div><button v-on:click="onTransitionEnd(notification)">&#10006;</button>
+      <div
+          class="timer"
+          v-bind:style="notification.style"
+          v-bind:class="notification.class"
+          v-on:transitionend="onTransitionEnd(notification)"
+          v-on:animationend="onTransitionEnd(notification)"
+      ></div>
+    </li>
+  </transition-group>
 </template>
 
 <script>
-import {notify} from '../util/signal'
+//import {notify} from '../util/signal'
+
+import {signal,notify as sgNotify} from '../util/signal'
+// const sgNotify = signal()
+
+/**
+ * Show notification
+ * @param {string} notification
+ * @returns {Promise}\
+ * @todo refactor away, replace by using signals only
+ */
+export function notify(notification){
+  return new Promise((resolve,reject)=>{
+//    removeAll()
+//    sgConfirm.addOnce(resolve)
+//    sgCancel.addOnce(reject)
+    sgNotify.dispatch(notification)
+    resolve()||reject()
+  })
+}
+
 const playstatePaused = 'animation-play-state:paused;'
+
 export default {
   name: 'Notification'
   ,data(){
@@ -29,7 +50,7 @@ export default {
     }
   }
   ,mounted(){
-    notify.add(this.onNotify.bind(this))
+    sgNotify.add(this.onNotify.bind(this))
   }
   ,methods: {
     /**

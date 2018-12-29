@@ -1,4 +1,6 @@
 import {CURRENCY_ISO} from '../config/currencyISO'
+import defaultData from '../data/data'
+
 /**
  * @typedef {object} config
  * @property {number} timestamp
@@ -66,5 +68,12 @@ const proto = {
  * @returns {config}
  */
 export function create(config){
-    return Object.setPrototypeOf(config,proto)
+  const defaultConfig = defaultData.config
+  Object.keys(defaultConfig).forEach(key=>{
+    !config.hasOwnProperty(key)&&(config[key] = defaultConfig[key])
+  })
+  Object.keys(config).forEach(key=>{
+    !defaultConfig.hasOwnProperty(key)&&console.warn('obsolete config property:',key) // todo: remove obsolete config properties
+  })
+  return Object.setPrototypeOf(config,proto)
 }

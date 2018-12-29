@@ -1,65 +1,12 @@
-<template>
-  <div>
-    <section>
-      <header class="clearfix">
-        <lang class="float-right"></lang>
-        <h1 class="hide-low">Layout</h1>
-      </header>
-      <print-invoice class="example" :client="client" :project="project" :invoice="invoice" :settings="settings"></print-invoice>
-
-      <dl data-class="row no-gutters">
-        
-        <dt data-class="name">Theme</dt><dd>
-          <select v-model="settings.theme">
-            <option v-for="theme in settings.themes" v-bind:value="theme">{{theme}}</option>
-          </select>
-        </dd>
-        
-        <dt data-class="name">logo</dt><dd>
-          <label class="btn">add image<input accept="image/gif, image/jpg, image/jpeg, image/png, image/svg, .gif, .jpg, .jpeg, .png, .svg" type="file" v-on:change="onChangeLogo" class="visually-hidden" /></label>
-          <button v-on:click="onDeleteLogo">delete image</button>
-        </dd>
-        
-        <dt data-class="name colors">Colors</dt><dd>
-          <label><input type="color" v-on:change="onChangeVariables" v-model="settings.themeMainBgColor"/>main background</label><br/>
-          <label><input type="color" v-on:change="onChangeVariables" v-model="settings.themeMainFgColor"/>main foreground</label><br/>
-          <label><input type="color" v-on:change="onChangeVariables" v-model="settings.themeSecondaryBgColor"/>secondary background</label><br/>
-          <label><input type="color" v-on:change="onChangeVariables" v-model="settings.themeSecondaryFgColor"/>secondary foreground</label><br/>
-        </dd>
-    
-        <dt class="name font-size"><label for="font-size">base font size</label></dt><dd>
-            <input class="form-control" id="font-size" type="range" min="5" max="30" step="0.2" v-model="settings.themeFontSize" v-bind:data-reflect="settings.themeFontSize" v-on:change="onChangeVariables" />
-        </dd>
-        
-        <dt class="name"><label for="font-main">main font</label></dt><dd>
-          <select v-model="settings.themeFontMain" v-on:change="onChangeVariables">
-            <option v-for="font in fonts" v-bind:value="font.family">{{font.family}}</option>
-          </select>
-        </dd>
-        
-        <dt class="name"><label for="font-currency">currency font</label></dt><dd>
-          <select v-model="settings.themeFontCurrency" v-on:change="onChangeVariables">
-            <option v-for="font of fonts" data-array-filter=" | arrayFilter:'category=monospace'" v-bind:value="font.family">{{font.family}}</option>
-          </select>
-        </dd>
-        
-        <dt data-class="name wide">invoiceCSS</dt><dd>
-          <textarea class="sass" rows="16" v-model="settings.invoiceCSS" v-bind:change="onChangeSass(settings.invoiceCSS)"></textarea>
-        </dd>
-      </dl>
-    </section>
-  </div>
-</template>
-
 <script>
 import BaseView from './BaseView'
-import Lang from '@/components/Lang.vue'
-import PrintInvoice from '@/components/PrintInvoice.vue'
-import model from '@/model'
-import defaultData from '@/data/data'
-import {create as createClient} from '@/model/client'
-import {track,untrack} from '@/formState'
-import {sassChanged,cssVariablesChanged} from '@/model/css'
+import Lang from '../components/Lang.vue'
+import PrintInvoice from '../components/PrintInvoice.vue'
+import model from '../model'
+import defaultData from '../data/data'
+import {create as createClient} from '../model/client'
+import {track,untrack} from '../formState'
+import {sassChanged,cssVariablesChanged} from '../model/css'
 
 export default {
   name: 'layout'
@@ -139,6 +86,59 @@ export default {
   }
 }
 </script>
+
+<template>
+  <div>
+    <section>
+      <header class="clearfix">
+        <lang class="float-right"></lang>
+        <h1 class="hide-low">Layout</h1>
+      </header>
+      <print-invoice class="example" :client="client" :project="project" :invoice="invoice" :settings="settings"></print-invoice>
+
+      <dl>
+        
+        <dt v-_>Theme</dt><dd>
+          <select v-model="settings.theme">
+            <option v-for="theme in settings.themes" v-bind:value="theme">{{theme}}</option>
+          </select>
+        </dd>
+        
+        <dt v-_>logo</dt><dd>
+          <label class="btn" v-_>add image<input accept="image/gif, image/jpg, image/jpeg, image/png, image/svg, .gif, .jpg, .jpeg, .png, .svg" type="file" v-on:change="onChangeLogo" class="visually-hidden" /></label>
+          <button v-on:click="onDeleteLogo" v-_>delete image</button>
+        </dd>
+        
+        <dt v-_>Colors</dt><dd>
+          <label><input type="color" v-on:change="onChangeVariables" v-model="settings.themeMainBgColor" /><span v-_>main background</span></label><br/>
+          <label><input type="color" v-on:change="onChangeVariables" v-model="settings.themeMainFgColor" /><span v-_>main foreground</span></label><br/>
+          <label><input type="color" v-on:change="onChangeVariables" v-model="settings.themeSecondaryBgColor" /><span v-_>secondary background</span></label><br/>
+          <label><input type="color" v-on:change="onChangeVariables" v-model="settings.themeSecondaryFgColor" /><span v-_>secondary foreground</span></label><br/>
+        </dd>
+    
+        <dt class="name font-size"><label for="font-size" v-_>base font size</label></dt><dd>
+            <input class="form-control" id="font-size" type="range" min="5" max="30" step="0.2" v-model="settings.themeFontSize" v-bind:data-reflect="settings.themeFontSize" v-on:change="onChangeVariables" />
+        </dd>
+        
+        <dt class="name"><label for="font-main" v-_>main font</label></dt><dd>
+          <select v-model="settings.themeFontMain" v-on:change="onChangeVariables">
+            <option v-for="font in fonts" v-bind:value="font.family">{{font.family}}</option>
+          </select>
+        </dd>
+        
+        <dt class="name"><label for="font-currency" v-_>currency font</label></dt><dd>
+          <select v-model="settings.themeFontCurrency" v-on:change="onChangeVariables">
+            <option v-for="font of fonts" data-array-filter=" | arrayFilter:'category=monospace'" v-bind:value="font.family">{{font.family}}</option>
+          </select>
+        </dd>
+        
+        <dt v-_>CSS</dt><dd>
+          <textarea class="sass" rows="16" v-model="settings.invoiceCSS" v-bind:change="onChangeSass(settings.invoiceCSS)"></textarea>
+        </dd>
+      </dl>
+    </section>
+  </div>
+</template>
 
 <style lang="scss" scoped>
   @import '../style/variables';

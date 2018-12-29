@@ -5,6 +5,7 @@
  */
 
 import {loadScript} from '../util'
+// import {notify} from '../components/Notification'
 import {notify} from '../util/signal'
 import base64 from '../util/base64'
 
@@ -202,6 +203,7 @@ function mapFile(file){
 function handleRejection(response){
   const {error} = response.result
   error&&notify.dispatch(`Error ${error.code}: ${error.message}`)
+  // error&&notify(`Error ${error.code}: ${error.message}`)
 }
 
 export default {

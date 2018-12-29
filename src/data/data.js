@@ -190,6 +190,14 @@ Thank you`
       nl: 'korting'
       ,en: 'discount'
     }
+    ,amountPaid: {
+      nl: 'betaald'
+      ,en: 'amount paid'
+    }
+    ,remainder: {
+      nl: 'restant'
+      ,en: 'remainder'
+    }
     ,date: {
       nl: 'datum'
       ,en: 'date'
@@ -244,7 +252,7 @@ Spongebob Squarepants
     ,themeMainFgColor: '#333333'
     ,themeSecondaryBgColor: '#FFF244'
     ,themeSecondaryFgColor: '#ff0071'
-    ,themeFontSize: 26
+    ,themeFontSize: 18
     ,themeFontMain: 'Schoolbell'
     ,themeFontCurrency: 'Allan'
     ,themeLogoCSS: `.invoice #logo {
@@ -263,6 +271,8 @@ Spongebob Squarepants
       ,'nl'
     ]
     ,lang: 'en'
+    ,uilang: 'nl'
+    ,encryption: false
     ,currency: 'EUR'
     ,googleFontsAPIKey: 'AIzaSyAFYPRYJcm8kFOxnKJNpnCIPNoA1rEQ1NA'
     ,homeMessage: true

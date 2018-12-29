@@ -1,5 +1,5 @@
-import {create} from '../../../../src/model/client'
-import data from '../../../../src/data/data'
+import {create} from '../model/client'
+import data from '../data/data'
 
 const fixtureLsData = 'cypress/fixtures/localStorageData.json'
 

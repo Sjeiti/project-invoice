@@ -2,9 +2,9 @@
   <div class="saveable">
     <span v-if="syncing" class="icon-sync"></span>
     <div v-if="tracked">
-      <button v-on:click="onSave" :disabled="!saveable"><span class="icon-save hide-high"></span><span class="hide-low">save</span></button>
-      <button v-on:click="onRevert" :disabled="!saveable"><span class="icon-revert hide-high"></span><span class="hide-low">revert</span></button>
-      <button v-on:click="onDelete" v-if="deletable"><span class="icon-delete hide-high"></span><span class="hide-low">delete</span></button>
+      <button v-on:click="onSave" :disabled="!saveable"><span class="icon-save hide-high"></span><span class="hide-low" v-_>save</span></button>
+      <button v-on:click="onRevert" :disabled="!saveable"><span class="icon-revert hide-high"></span><span class="hide-low" v-_>revert</span></button>
+      <button v-on:click="onDelete" v-if="deletable"><span class="icon-delete hide-high"></span><span class="hide-low" v-_>delete</span></button>
     </div>
   </div>
 </template>
@@ -12,6 +12,8 @@
 <script>
   import {saveable,save,revert,deleteModel,tracked} from '../formState'
   import {sync} from '../util/signal'
+  import {confirm} from '../components/Modal'
+  
   export default {
     name: 'SaveableButtons'
     ,data(){
@@ -23,7 +25,9 @@
       }
     }
     ,mounted(){
-      saveable.add(isSaveable=>this.saveable = isSaveable)
+      saveable.add(isSaveable=>{
+          this.saveable = isSaveable
+      })
       tracked.add((isTracked,isDeletable)=>{
         this.tracked = isTracked
         this.deletable = isDeletable
@@ -37,12 +41,13 @@
       },false)
       // prevent route change on dirty
       this.$router.beforeEach((to,from,next)=>{
-        if (this.saveable&&!confirm('Leave unsaved changes')){
-          next(false)
-        } else {
+        const nxt = ()=>{
           this.saveable&&revert()
           next()
         }
+        const $t = this.$t
+        this.saveable&&confirm($t('unsavedChanges'),$t('discardChanges'),$t('cancel'),$t('leave'))
+            .then(nxt,()=>next(false))||nxt()
       })
       // sync
       sync.add(onoff=>{

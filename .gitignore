@@ -16,6 +16,13 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Generated files
+/i18n/base.json
+/public/static/i18n/README-en.md
+/public/static/i18n/*.html
+/src/config/i18n.js
+/output.js
+
 # Editor directories and files
 .idea
 .vscode

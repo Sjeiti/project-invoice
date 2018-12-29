@@ -1,59 +1,60 @@
 <template>
   <div class="project-list" v-bind:class="{'project-list':true,'empty':projects.length===0}">
-  <table>
-    <thead><tr>
-      <th v-for="col in columns" v-on:click="onClickOrder(col)" v-bind:class="'th-'+col">{{colName[col]}}</th>
-    </tr></thead>
-    <!--<tbody>-->
-    <transition-group v-bind:name="animate?'animate-row':'a'+Date.now()" tag="tbody">
-   
-      <tr
-          v-for="project in projects"
-          :key="project.id"
-          v-bind:class="{'row-select':true,'animate-row':animate,'alert-paid':project.paid,'alert-late':project.isLate,'alert-pending':project.isPending}"
-          v-on:click="onRowClick(project)"
-      >
-        <td v-for="col in columns" v-bind:class="'colname-'+col">
-  
-          <template v-if="col==='paid'">
-            <label v-on:click.stop class="checkbox"><input v-model="project.paid" v-on:change="onPaidChange(project)" type="checkbox" /><span></span></label>
-          </template>
-          <template v-else-if="col==='invoiceNr'">
-            <router-link class="small" :to="project.uri">{{project.invoiceNr}}</router-link>
-          </template>
-          <template v-else-if="col==='date'||col==='dateLatest'">
-            <date class="small nowrap" :value="project[col]" />
-          </template>
-          <template v-else-if="col==='totalDiscounted'||col==='totalVatDiscounted'||col==='totalIncDiscounted'">
-            <currency :value="project[col]" />
-          </template>
-          <template v-else-if="col==='actions'">
-            <button v-on:click.stop v-if="project.invoices.length===0" v-on:click="onAddInvoice(project)"><span class="hide-low">Add invoice</span><span class="icon-file icon-add-round hide-high"></span></button>
-            <button v-on:click.stop v-else-if="project.overdue" v-on:click="onAddReminder(project)"><span class="hide-low">Add reminder</span><span class="icon-file icon-add-round hide-high"></span></button>
+    <p v-if="projects.length===0&&empty"><em v-_>{{empty}}</em></p>
+    <table class="hoverable" v-if="projects.length>0||!empty">
+      <thead><tr>
+        <th v-for="col in columns" v-on:click="onClickOrder(col)" v-bind:class="'th-'+col" v-_="colName[col]">{{colName[col]}}</th>
+      </tr></thead>
+      <!--<tbody>-->
+      <transition-group v-bind:name="animate?'animate-row':'a'+Date.now()" tag="tbody">
+      
+        <tr
+            v-for="project in projects"
+            :key="project.id"
+            v-bind:class="{'row-select':true,'animate-row':animate,'alert-paid':project.paid,'alert-late':project.isLate,'alert-pending':project.isPending}"
+            v-on:click="onRowClick(project)"
+        >
+          <td v-for="col in columns" v-bind:class="'colname-'+col">
+
+            <template v-if="col==='paid'">
+              <label v-on:click.stop class="checkbox"><input v-model="project.paid" v-on:change="onPaidChange(project)" type="checkbox" /><span></span></label>
+            </template>
+            <template v-else-if="col==='invoiceNr'">
+              <router-link class="small" :to="project.uri">{{project.invoiceNr}}</router-link>
+            </template>
+            <template v-else-if="col==='date'||col==='dateLatest'">
+              <date v-if="hasTime(project[col])" class="small nowrap" :value="project[col]" /><span v-else>-</span>
+            </template>
+            <template v-else-if="col==='totalDiscounted'||col==='totalVatDiscounted'||col==='totalIncDiscounted'">
+              <currency :value="project[col]" />
+            </template>
+            <template v-else-if="col==='actions'">
+              <button v-on:click.stop v-if="project.invoices.length===0" v-on:click="onAddInvoice(project)"><span class="hide-low">Add invoice</span><span class="icon-file icon-add-round hide-high"></span></button>
+              <button v-on:click.stop v-else-if="project.overdue" v-on:click="onAddReminder(project)"><span class="hide-low">Add reminder</span><span class="icon-file icon-add-round hide-high"></span></button>
+            </template>
+            <template v-else>
+              <router-link :to="project.uri" v-ellipsis v-bind:data-text="project[col]">{{project[col]}}</router-link>
+            </template>
+            
+          </td>
+        </tr>
+        <tr :key="'empty'" v-if="projects.length===0"><td>-</td></tr>
+      
+      </transition-group>
+      <!--</tbody>-->
+      <tfoot v-if="totals"><tr>
+        <th v-for="col in columns">
+          
+          <template v-if="col==='totalDiscounted'||col==='totalVatDiscounted'||col==='totalIncDiscounted'">
+            <currency :value="getTotalValue(col)" />
           </template>
           <template v-else>
-            <router-link :to="project.uri" v-ellipsis v-bind:data-text="project[col]">{{project[col]}}</router-link>
+            {{getTotalValue(col)}}
           </template>
           
-        </td>
-      </tr>
-      <tr v-if="projects.length===0"><td>-</td></tr>
-    
-    </transition-group>
-    <!--</tbody>-->
-    <tfoot v-if="totals"><tr>
-      <th v-for="col in columns">
-        
-        <template v-if="col==='totalDiscounted'||col==='totalVatDiscounted'||col==='totalIncDiscounted'">
-          <currency :value="getTotalValue(col)" />
-        </template>
-        <template v-else>
-          {{getTotalValue(col)}}
-        </template>
-        
-      </th>
-    </tr></tfoot>
-  </table>
+        </th>
+      </tr></tfoot>
+    </table>
   </div>
 </template>
 
@@ -68,13 +69,15 @@ export default {
   ,props: {
     projects:{default:null}
     ,cols:{default:null}
+    ,sort:{default:'paid'}
     ,totals:{default:true}
     ,animate:{default:false}
+    ,empty:{default:''}
   }
   ,data(){
     return {
       columns: ['paid','invoiceNr','date','dateLatest','clientName','description','totalIncDiscounted']
-      ,sort: 'paid'
+      ,sortValue: 'paid'
       ,asc: true
       ,colName: {
         paid: 'paid'
@@ -97,7 +100,10 @@ export default {
     if (this.totals===undefined){
       this.totals = true
     }
-    this.projects.sort((a,b)=>a.date>b.date?-1:1)
+    const hasExclame = this.sort.substr(0,1)==='!'
+    this.sortValue = hasExclame && this.sort.substr(1) || this.sort
+    this.asc = hasExclame // should be negated but will be on next order call
+    setTimeout(this.onClickOrder.bind(this,this.sortValue)) // setTimeout is inefficient
   }
   ,components: {
     Currency
@@ -109,8 +115,8 @@ export default {
      * @param {string} key
      */
     onClickOrder(key){
-      if (this.sort===key) this.asc = !this.asc
-      else this.sort = key
+      if (this.sortValue===key) this.asc = !this.asc
+      else this.sortValue = key
       const gt = this.asc?-1:1
       const lt = this.asc?1:-1
       this.projects.sort((a,b)=>a[key]>b[key]?gt:lt)
@@ -169,15 +175,24 @@ export default {
       }
       return returnValue
     }
+    /**
+     * Checks if the time really exists, ie not is unix timestamp 0
+     * @param {string} s
+     * @returns {boolean}
+     */
+    ,hasTime(s){
+      return (new window.Date(s)).getTime()>0
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
   @import '../style/variables';
+  .project-list>p { color: #333; }
   .alert {
     &-paid { &, * { color: #AAA; }}
-    &-late { &, * { color: red; }}
+    &-late { &, * { color: $colorRed; }}
     &-pending { &, * { color: green; }}
     &-select { &, * { background-color: darken($colorBackground,5%); }}
   }
@@ -200,25 +215,7 @@ export default {
     }
   }
   table {
-    tbody tr {
-      transition: background-color 200ms linear, box-shadow 200ms linear;
-      box-shadow: 0 1px 0 0 transparent inset, 0 -1px 0 0 transparent inset;
-      &:nth-child(even) {
-        background-color: #f0f0f0;
-      }
-      @media #{$breakpointHigh} {
-        &:hover {
-          background-color: lighten($colorButton,54%);
-          box-shadow: 0 1px 0 0 lighten($colorButton,30%) inset, 0 -1px 0 0 lighten($colorButton,30%) inset;
-        }
-      }
-    }
-    td, th {
-      max-width: 20vw;
-      white-space: nowrap;
-      overflow: hidden;
-      
-    }
+    td, th { max-width: 20vw; }
     th {
       &:last-child { text-align: right; }
       &.th- {

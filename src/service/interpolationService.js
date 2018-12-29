@@ -39,7 +39,8 @@ export function parse(key,models={}){
     let maxInterpolations = 10
     while (rxIterpolation.test(interpolated)&&maxInterpolations--) interpolated = interpolate(interpolated,keys,values)
     interpolated = marked(interpolated)
-    interpolated.match(/<\/p>/g).length===1
+    const matchEndP = interpolated.match(/<\/p>/g)
+    matchEndP&&matchEndP.length===1
       &&(interpolated = interpolated.replace(/^\s*<p>|<\/p>\s*$/g,''))
       ||(interpolated = interpolated.replace(/\n/g,'<br/>'))
   } catch (err){

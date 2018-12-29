@@ -15,7 +15,7 @@ export const toPage = (path = '') => cy.readFile(fixtureLsData).then(json => {
 
 export const describeResponsive = (name,fn)=>{
   describe(name,()=>{
-    for (let i=0;i<2;i++) {
+    for (let i=0;i<2;i++){
       const isDesktop = i===0
       context(isDesktop?'Desktop':'Mobile',()=>{
         beforeEach(()=>isDesktop?cy.viewport(1000,660):cy.viewport(360,640))

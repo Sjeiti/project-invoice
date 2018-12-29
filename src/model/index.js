@@ -1,15 +1,16 @@
 import projectSort from '../util/projectSort'
 import {tryParse,tryStringify} from '../util'
-import {storageInitialised,modelReplaced} from '../util/signal'
+import {storageInitialised,modelReplaced,alert} from '../util/signal'
 import storageService from '../service/storage'
 import defaultData from '../data/data'
 import {VERSION} from '../config'
-
 import { create as createClient } from './client'
 import { create as createCopy } from './copy'
 import { create as createConfig } from './config'
 import { create as createCloneable } from './cloneable'
 import { modelSaved } from '../formState'
+// import { /*prompt,*/alert } from '../components/Modal'
+import {decrypt,decryptObject,encrypt,isEncrypted} from '../service/encryption'
 
 const ns = location.host.replace(/^localhost.*/,'local.projectinvoice.nl').split(/\./g).reverse().join('.')
 const fileName = `${ns}.data.json`
@@ -17,9 +18,9 @@ const fileName = `${ns}.data.json`
 const data = getStored('data',defaultData)
 
 // config removal: 2.1.22 -> 2.2
-const oldConfig = getStored('config')
+const oldConfig = localStorage.getItem('config')
 if (oldConfig){
-  data.config = oldConfig
+  data.config = tryParse(oldConfig)
   delete localStorage.config
   setStored('data',data)
 }
@@ -32,11 +33,7 @@ storageInitialised.add(success=>{
       .then(
           json=>{ // file read
             if (json){ // can fail
-              const parsed = JSON.parse(json)
-            /*console.log('firstRead'
-                ,'\n\tserver',parsed.timestamp
-                ,'\n\tlocall',data.timestamp
-                ,parsed.timestamp>data.timestamp,{parsed}); // todo: remove log*/
+              const parsed = decryptAndOrParse(json)
             if (parsed.timestamp>data.timestamp){
                 model.data = parsed
                 modelReplaced.dispatch(model.data)
@@ -44,7 +41,6 @@ storageInitialised.add(success=>{
             }
           }
           ,()=>{ // file not found
-            // console.log('file not found',nameData); // todo: remove log
             let stringData = tryStringify(data)
             storageService
                 .write(fileName,stringData)
@@ -56,24 +52,24 @@ storageInitialised.add(success=>{
 // create model
 const model = Object.create({
   get data(){
- return data
-}
+    return data
+  }
   ,set data(newData){
     this.setData(newData)
     setStored('data',data)
   }
   ,get config(){
- return data.config
-}
+    return data.config
+  }
   ,get clients(){
- return this.data.clients
-}
+    return this.data.clients
+  }
   ,get copy(){
- return this.data.copy
-}
+    return this.data.copy
+  }
   ,get personal(){
- return this.data.personal
-}
+    return this.data.personal
+  }
   ,get projects(){
     return this.clients
         .map(client => client.projects)
@@ -112,6 +108,23 @@ const model = Object.create({
     createCloneable(data.copy)
     createCloneable(data.personal)
   }
+  ,isEncrypted(){
+    return isEncrypted(localStorage.getItem('data'))
+  }
+  ,unEncrypt(password){
+    const data = localStorage.getItem('data')
+    const decrypted = decrypt(data,password)
+    decrypted ? storeLocalAndService('data',decrypted) : setTimeout(()=>alert.dispatch('decryption failed'),1000)
+    // decrypted ? storeLocalAndService('data',decrypted) : setTimeout(()=>alert('decryption failed'),1000)
+  }
+  ,encrypt(password){
+    const data = localStorage.getItem('data')
+    const encrypted = encrypt(data,password)
+    encrypted ? storeLocalAndService('data',encrypted) : setTimeout(()=>alert.dispatch('encryption failed'),1000)
+    // encrypted ? storeLocalAndService('data',encrypted) : setTimeout(()=>alert('encryption failed'),1000)
+  }
+  ,decryptAndOrParse
+  ,storeLocalAndService
 })
 
 export default model
@@ -130,8 +143,21 @@ modelSaved.add(()=>{
  */
 function getStored(name,defaultsTo){
   const rawData = localStorage.getItem(name)
-  let data = tryParse(rawData)
-  return rawData&&data||defaultsTo
+  return rawData
+      &&decryptAndOrParse(rawData)
+      ||defaultsTo
+}
+
+/**
+ * Either decrypt and parse or just parse a string
+ * @param {String} rawData
+ * @returns {Object}
+ */
+function decryptAndOrParse(rawData){
+  return isEncrypted(rawData)
+      &&(decryptObject(rawData,getPassword())||(setTimeout(()=>alert.dispatch('Invalid password','Reload to try again','ok'),40),false))
+      // &&(decryptObject(rawData,getPassword())||(setTimeout(()=>alert('Invalid password','Reload to try again','ok'),40),false))
+      ||tryParse(rawData)
 }
 
 /**
@@ -144,8 +170,29 @@ function setStored(name,data){
   data.timestamp = Date.now()
   data.version = VERSION
   let stringData = tryStringify(data)
-  //
-  storageService.authorised&&storageService.write(fileName,stringData)
-  //
-  localStorage.setItem(name,stringData)
+  isEncrypted(localStorage.getItem(name))&&(stringData = encrypt(stringData,getPassword()))
+  storeLocalAndService(name,stringData)
+}
+
+/**
+ * Set localStorage JSON
+ * And possibly save cloud
+ * But don't check for encryption or set timestamp
+ * @param {string} name
+ * @param {object} data
+ */
+function storeLocalAndService(name,data){
+  storageService.authorised&&storageService.write(fileName,data)
+  localStorage.setItem(name,data)
+}
+
+let password
+
+/**
+ * Get the password
+ * @returns {string}
+ */
+function getPassword(){ // eslint-disable-line no-unused-vars
+  if (!password) password = window.prompt('pasword')
+  return password
 }

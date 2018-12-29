@@ -6,6 +6,8 @@ This invoicing application stores all your data on your local machine.
 Your local documents are not shared between different browsers or computers.
 Project Invoice is accessible offline after the application has been loaded for the first time. You can turn it into a mobile-web-app by using the add-to-home-screen from your mobile browser.
 
+Project Invoice is an invoicing application intended for freelancers or other forms of self employed professionals.
+
 
 ## Getting Started
 
@@ -37,6 +39,7 @@ To get the application running locally you only need NodeJS, npm and GIT. If you
 ### Wait, this app is online in a browser. How is my private data not online?
 
 Every site can access something called LocalStorage which resides on your local machine or device. This is where your data is stored. Websites can never access the LocalStorage of another website. Never will data be sent from your computer to the server. The only network communication is the application logic being sent from the server to your computer. All your private data remains on your own computer.
+Unless of course you are using the cloud service, but this is turned off by default.
 
 ### Is this safe?
 
@@ -52,7 +55,7 @@ Since the data is stored locally you can only access it from one computer. Howev
 
 ### I want to clear my LocalStorage to wipe all my data.
 
-There is a button for that on the [settings page](https://projectinvoice.nl/settings).
+You can simply clear your LocalStorage from your devtools, but this app also has a button for that on the [settings page](https://projectinvoice.nl/settings).
 
 ### Is there an Android or IOS app for this?
 
@@ -66,14 +69,13 @@ Being self-employed all my life means I've been sending invoices for quite a whi
 So I created my own:
 
  - no cloud based data, everything is saved on your local machine, nothing is sent to a server
- - invoices are well designed and customizable
- - its easy to use
- - its open-source
- - its free
- - you can use the online version or run a local copy
+ - well designed and customizable invoices
+ - easy to use
+ - open-source
+ - free
+ - run it online or offline or even on a local server
 
 I cleaned it up a bit because I thought you might like it.
-
 
 ## Contributing
 

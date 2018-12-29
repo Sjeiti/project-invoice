@@ -1,30 +1,40 @@
 <template>
   <div class="page-home">
-    <section v-if="config.homeMessage" class="jumbotron clearfix">
-      <p>This invoicing application stores all your data on your local machine.<br/>
-      <em><small>Because all your data are belong to you.</small></em></p>
-      <button class="btn-link float-right" v-on:click="onHideWelcome">hide message</button>
-      <router-link v-bind:to="'/about'" class="btn btn-link float-right">read more</router-link>
-      
-      <logo :colors="['#3B596D','#356576','#2A7F8B']"></logo>
-    </section>
+    <transition-group name="jumbotron">
+      <section v-if="config.homeMessage" class="jumbotron clearfix" :key="'jumbotron'">
+        <p v-_="'homeMessage'">This invoicing application stores all your data on your local machine.<br/>
+        <em><small v-_="'homeMessageSub'">Because all your data are belong to you.</small></em></p>
+        <button class="btn-link float-right" v-on:click="onHideWelcome" v-_>hide message</button>
+        <router-link v-bind:to="'/about'" class="btn btn-link float-right" v-_>read more</router-link>
+        <logo :colors="['#3B596D','#376677','#2A7F8B']"></logo>
+      </section>
+    </transition-group>
     <div class="row no-gutters">
       <section class="col-12 col-md-5">
-        <h2>What do you want to do:</h2>
-        <p><button v-on:click="onAddClient">Create a new client</button></p>
-        <p><button v-on:click="onAddProjectForLatestClient" v-if="latestClient">Create project for '{{latestClient.name}}'</button></p>
-        <p><button v-on:click="onCloneLatestProject" v-if="latestProject">Clone project '{{latestProject.description}}'</button></p>
-        <p><router-link to="/overview/quarter" class="btn">See current quarter</router-link></p>
+        <h2 v-_>What do you want to do:</h2>
+        <p><button v-on:click="onAddClient" v-_>Create a new client</button></p>
+        <p><button v-on:click="onAddProjectForLatestClient" v-if="latestClient" v-_>Create project for <span>'{{latestClient.name}}'</span></button></p>
+        <p><button v-on:click="onCloneLatestProject" v-if="latestProject" v-_>Clone project <span>'{{latestProject.description}}'</span></button></p>
+        <p><router-link to="/overview/quarter" class="btn" v-_>See current quarter</router-link></p>
       </section>
       <section class="col-12 col-md-7">
-        <h2>Open invoices</h2>
-        <p v-if="invoices.length===0"><em>You currently have no open invoices... yay!</em></p>
-        <project-list v-if="invoices.length>0" :projects="invoices" :cols="'paid date description totalIncDiscounted actions'" :totals="false" :animate="true"></project-list>
+        <h2 v-_>Open invoices</h2>
+        <project-list
+            :projects="invoices"
+            :cols="'paid date description totalIncDiscounted actions'"
+            :empty="'You currently have no open invoices... yay!'"
+            :totals="false"
+            :animate="true"
+        ></project-list>
       </section>
       <section class="col-12 col-md-7">
-        <h2>Draft projects</h2>
-        <p v-if="drafts.length===0"><em>You currently have no drafts... :-/</em></p>
-        <project-list v-if="drafts.length>0" :projects="drafts" :cols="'clientName description totalIncDiscounted actions'" :totals="false"></project-list>
+        <h2 v-_>Draft projects</h2>
+        <project-list
+            :projects="drafts"
+            :cols="'clientName description totalIncDiscounted actions'"
+            :empty="'You currently have no drafts... :-/'"
+            :totals="false"
+        ></project-list>
       </section>
     </div>
   </div>
@@ -49,20 +59,19 @@ export default {
       ,drafts: []
       ,latestProject: []
       ,latestClient: {}
-      ,boundDelayedSetInvoices: null
+      ,boundSetInvoices: null
     }
   }
   ,mounted(){
-//    this.invoices = model.projects.filter(p=>!p.paid&&!p.ignore&&p.invoices.length)
-    this.delayedSetInvoices()
+    this.setInvoices()
     this.drafts = model.projects.filter(p=>!p.ignore&&p.invoices.length===0)
     this.latestProject = model.projects.sort((a,b)=>new Date(a.dateLatest)>new Date(b.dateLatest)?1:-1).pop()
     this.latestClient = model.getClientByNr(this.latestProject.clientNr)
-    this.boundDelayedSetInvoices = this.delayedSetInvoices.bind(this,1000)
-    projectPaid.add(this.boundDelayedSetInvoices)
+    this.boundSetInvoices = this.setInvoices.bind(this,1000)
+    projectPaid.add(this.boundSetInvoices)
   }
   ,destroyed(){
-    projectPaid.remove(this.boundDelayedSetInvoices)
+    projectPaid.remove(this.boundSetInvoices)
   }
   ,methods: {
     onAddClient(){
@@ -84,10 +93,8 @@ export default {
       this.config.homeMessage = false
       save()
     }
-    ,delayedSetInvoices(delay=0){
+    ,setInvoices(){
       this.invoices = model.projects.filter(p=>!p.paid&&!p.ignore&&p.invoices.length)
-      delay
-//      setTimeout(()=>this.invoices = model.projects.filter(p=>!p.paid&&!p.ignore&&p.invoices.length),delay)
     }
   }
 }
@@ -111,14 +118,26 @@ export default {
       top: 0;
       width: 100vw;
       height: 100%;
-      z-index: -2;
+      z-index: 0;
       transform: translateX(-50%);
       background-position: center;
       background-size: cover;
       background-color: #0cbaba;
       background-image: linear-gradient(315deg, #0cbaba 0%, $bgcolor 100%);
     }
+    &-enter, &-leave-to {
+      transition: transform 300ms linear, margin-bottom 300ms linear;
+      transform: translateY(-100%);
+      margin-bottom: -220px;
+    }
     &, * { color: white; }
+    svg {
+      z-index: 1;
+    }
+    p, button, a {
+      position: relative;
+      z-index: 2;
+    }
     p {
       padding: 40px;
     }

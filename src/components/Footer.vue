@@ -1,8 +1,8 @@
 <template>
   <footer>
-    <a href="http://ronvalstar">made with <span class="love">&#9829;</span></a>
+    <a href="http://ronvalstar" v-_>made with <span class="love">&#9829;</span></a>
     <router-link to="/changelog">Project Invoice v{{version}}</router-link>
-    <a href="https://github.com/Sjeiti/project-invoice">fork on &nbsp;<span class="icon-github"></span></a>
+    <a href="https://github.com/Sjeiti/project-invoice" v-_>fork on &nbsp;<span class="icon-github"></span></a>
   </footer>
 </template>
 
@@ -36,6 +36,7 @@ export default {
     text-decoration: none;
   }
   .icon-github {
+    padding-left: 4px;
     display: inline-block;
     transform: translateY(3px);
   }

@@ -6,6 +6,9 @@ import Lang from '../components/Lang.vue'
 import InterpolationUI from '../components/InterpolationUI'
 import defaultData from '../data/data'
 import draggable from 'vuedraggable'
+import {confirm,prompt} from '../components/Modal'
+
+const noop = ()=>{}
 
 export default {
   name: 'copy'
@@ -40,14 +43,19 @@ export default {
   }
   ,methods: {
     onAddCopy(){
-      const key = prompt('name?')
-      if (key&&!this.copy.hasOwnProperty(key)){
-        this.copy[key] = this.config.langs.reduce((o,s)=>(o[s]='',o),{index:-1})
-        this.forceUpdate()
-      }
+      window.prompt(this.$t('typeAName'),this.$t('theNameIsUsedAsAKey')).then(key=>{
+        if (key&&!this.copy.hasOwnProperty(key)){
+          this.copy[key] = this.config.langs.reduce((o,s)=>(o[s]='',o),{index:-1})
+          this.forceUpdate()
+        }
+      },()=>{})
     }
     ,onRemoveCopy(key){
-      confirm('Do you really want to remove this copy?')&&delete this.copy[key]&&this.forceUpdate()
+      confirm(this.$t('delete'),this.$t('removeCopy'))
+          .then(()=>{
+            delete this.copy[key]
+            this.forceUpdate()
+          },noop)
     }
     ,forceUpdate(){
       this.updateForcer = !this.updateForcer
@@ -75,14 +83,14 @@ export default {
     <section>
       <header>
         <lang class="float-right"></lang>
-        <h1 class="hide-low">Copy</h1>
+        <h1 class="hide-low" v-_>Copy</h1>
       </header>
       <dl>
-          <dt><strong>key</strong></dt><dd><strong>value</strong></dd>
+          <dt><strong v-_>key</strong></dt><dd><strong v-_>value</strong></dd>
       </dl>
       <dl>
         <template v-for="key in defaultKeys">
-          <dt v-explain="'copy.'+key"></dt>
+          <dt v-_="key"></dt>
           <dd><InterpolationUI v-model="copy[key][config.lang]"></InterpolationUI></dd>
         </template>
       </dl>

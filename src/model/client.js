@@ -35,6 +35,15 @@ const proto = {
   }
 
   /**
+   * Get the latest project
+   * @returns {Project}
+   */
+  ,get latestProject(){
+    return this.projects.slice(0).sort((a,b)=>a.dateLatest>b.dateLatest?1:-1).pop()
+    // return this._latestProject || (this._latestProject = this.projects.slice(0).sort((a,b)=>a.dateLatest>b.dateLatest?1:-1).pop())
+  }
+
+  /**
    * Create a new project
    * @returns {project}
    */
@@ -44,7 +53,7 @@ const proto = {
       clientNr: this.nr
       ,description: `project ${projectId}`
       ,id: projectId
-      ,hourlyRate: 90
+      ,hourlyRate: 0
       ,discount: 0
       ,invoices: []
       ,lines: []

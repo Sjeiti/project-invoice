@@ -1,3 +1,5 @@
+export const nextTick = window.requestAnimationFrame
+
 /**
  * Promise all watch several properties
  * @param {object} vm
@@ -105,4 +107,61 @@ export function tryParse(str){
     console.warn('err',err)
   }
   return obj
+}
+
+const scrollbarSizeKey = 'scrollbarSize'
+
+/**
+ * Get the scrollbar size from localStorage or do a DOM calculation over two ticks
+ * @returns {Promise}
+ */
+export function getScrollbarSize(){
+  return new Promise(resolve => {
+    let scrollbarSize = localStorage.getItem(scrollbarSizeKey)
+    if (!scrollbarSize){
+      scrollbarSize = {width: 0,height: 0}
+      const element = document.createElement('div')
+      const elementStyle = element.style
+      Object.assign(elementStyle,{
+        width: '100px',height: '100px'
+      })
+      const child = document.createElement('div')
+      Object.assign(child.style,{
+        width: '100%',height: '100%'
+      })
+      element.appendChild(child)
+      document.body.appendChild(element)
+      setTimeout(() => {
+        scrollbarSize.width = child.offsetWidth
+        scrollbarSize.height = child.offsetHeight
+        elementStyle.overflow = 'scroll'
+        setTimeout(() => {
+          scrollbarSize.width -= child.offsetWidth
+          scrollbarSize.height -= child.offsetHeight
+          localStorage.setItem(scrollbarSizeKey,JSON.stringify(scrollbarSize))
+          resolve(scrollbarSize)
+        })
+      })
+    } else {
+      resolve(JSON.parse(scrollbarSize))
+    }
+  })
+}
+
+const {body} = document
+const {classList} = body
+const scrollLock = 'scroll-lock'
+getScrollbarSize().then(result => {
+  const sheet = document.styleSheets[0]
+  sheet.insertRule(`.${scrollLock} {
+    overflow: hidden;
+    padding-right: ${result.width}px;
+  }`,0)
+  sheet.insertRule(`.${scrollLock} #app>header {
+    max-width: calc(100vw - ${result.width}px);
+  }`,0)
+})
+export const scroll = {
+  lock: DOMTokenList.prototype.add.bind(classList,scrollLock)
+  ,unlock: DOMTokenList.prototype.remove.bind(classList,scrollLock)
 }

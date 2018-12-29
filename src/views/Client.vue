@@ -1,27 +1,33 @@
 <template>
   <div>
-    <h1><span class="hide-low">Client: </span>{{client.name}}</h1>
+    <h1><span class="hide-low" v-_><span v-_>Client</span>: </span>{{client.name}}</h1>
     <section>
       <dl>
-        <dt>name</dt><dd><input v-model="client.name"/></dd>
-        <dt>nr</dt><dd><input v-model="client.nr"/></dd>
-        <dt>address</dt><dd><input v-model="client.address"/></dd>
-        <dt>city</dt><dd><input v-model="client.city"/></dd>
-        <dt>contact</dt><dd><input v-model="client.contact"/></dd>
-        <dt>paymentterm</dt><dd><input v-model="client.paymentterm"/></dd>
-        <dt>phone</dt><dd><input v-model="client.phone"/></dd>
-        <dt>postbox</dt><dd><input v-model="client.postbox"/></dd>
-        <dt>zipcode</dt><dd><input v-model="client.zipcode"/></dd>
-        <dt>zippost</dt><dd><input v-model="client.zippost"/></dd>
+        <dt v-_>name</dt><dd><input v-model="client.name"/></dd>
+        <dt v-_>nr</dt><dd><input v-model="client.nr"/></dd>
+        <dt v-_>address</dt><dd><input v-model="client.address"/></dd>
+        <dt v-_>city</dt><dd><input v-model="client.city"/></dd>
+        <dt v-_>contact</dt><dd><input v-model="client.contact"/></dd>
+        <dt v-_>paymentterm</dt><dd><input v-model="client.paymentterm"/></dd>
+        <dt v-_>phone</dt><dd><input v-model="client.phone"/></dd>
+        <dt v-_>postbox</dt><dd><input v-model="client.postbox"/></dd>
+        <dt v-_>zipcode</dt><dd><input v-model="client.zipcode"/></dd>
+        <dt v-_>zippost</dt><dd><input v-model="client.zippost"/></dd>
       </dl>
     </section>
     
     <section>
-      <header class="clearfix">
-        <button v-on:click="onAddProject()" class="float-right">add project</button>
-        <h3>Projects</h3>
+      <header>
+        <button v-on:click="onAddProject()" class="float-right" v-_>add project</button>
+        <h3 v-_>Projects</h3>
       </header>
-      <project-list :projects="client.projects||[]" :cols="'paid nr date dateLatest description totalIncDiscounted'"></project-list>
+      <project-list
+          :projects="client.projects"
+          :cols="'paid nr date dateLatest description totalIncDiscounted'"
+          :sort="'date'"
+          :asc="false"
+          :empty="'This client has no projects :-/'"
+      ></project-list>
     </section>
   </div>
 </template>
@@ -31,14 +37,15 @@ import BaseView from './BaseView'
 import model from '@/model'
 import {track,untrack,save} from '@/formState'
 import ProjectList from '../components/ProjectList'
-import {notify} from '../util/signal'
+import {notify} from '../components/Notification'
+import {confirm} from '../components/Modal'
 
 export default {
   name: 'client'
   ,extends: BaseView
   ,data(){
     return {
-      client:{}
+      client:{projects:[]}
     }
   }
   ,mounted(){
@@ -54,13 +61,13 @@ export default {
     }
     ,deleteClient(){
       const client = model.getClientByNr(parseInt(this.$route.params.clientNr,10))
-      //confirm('Delete this client?') && model.deleteClient(client) && (save(),this.$router.push('/clients'))
-      if (confirm('Delete this client?')){
-        model.deleteClient(client)
-        save()
-        this.$router.push('/clients')
-        notify.dispatch(`Client '${client.name}' has been deleted`)
-      }
+      confirm(this.$t('deleteClient'))
+          .then(()=>{
+            model.deleteClient(client)
+            save()
+            this.$router.push('/clients')
+            notify(`Client '${client.name}' has been deleted`)
+          },()=>{})
     }
   }
 }
