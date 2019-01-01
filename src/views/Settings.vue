@@ -167,11 +167,29 @@ export default {
 
     ,onClickMsg(cancel=false){
       if (!cancel){
+        const {clients:[client]} = model
+        const {projects:[project]} = client
+        const {invoices:[invoice]} = project
+        console.log('client',client) // todo: remove log
+        console.log('project',project) // todo: remove log
+        // console.log('model',model) // todo: remove log
         notificationService.message({
           id: 123
-          ,title: 'Test title'
-          ,body: 'body test body'
-          ,uri: location.origin+'/settings'
+          ,title: `Client '${client.name}' due for payment`
+          ,body: `Project '${project.description}' was invoiced on ${invoice.date}`
+          ,uri: location.origin+project.uri//location.origin+'/settings'
+          ,actions: [
+              {
+                action: 'view'
+                ,title: 'view'
+                // ,icon: location.origin+'/static/img/icon-128x128.png'
+              }
+              // ,{
+              //   action: 'reminder'
+              //   ,title: 'add reminder'
+              //   // ,icon: location.origin+'/static/img/icon-128x128.png'
+              // }
+           ]
         }).then(console.log.bind(console,'Settings::msg::success'),console.warn.bind(console,'ehrfail'))
       } else {
         notificationService.unmessage({

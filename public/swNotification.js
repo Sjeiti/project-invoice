@@ -23,7 +23,7 @@ function onMessage(event){
   const {data} = event
   const {type} = data
   log = !!data.log
-  log&&console.log('onMessage',{event})
+  log&&console.log('sw::onMessage',{event})
   //
   const sender = ( event.ports && event.ports[0] ) || event.source
   sender.postMessage('wait for ' + type)
@@ -33,14 +33,14 @@ function onMessage(event){
 }
 
 function onNotificationClick(event){
-  console.log('onNotificationClick',{event})
+  log&&console.log('sw::onNotificationClick',{event})
   const {notification} = event
   notification.data&&notification.data.uri&&openOrFocusPage(event)
   event.notification.close()
 }
 
 function onNotificationCLose(event){
-  console.log('onNotificationCLose',{event})
+  log&&console.log('sw::onNotificationCLose',{event})
   event.waitUntil(Promise.resolve())
 }
 
@@ -48,9 +48,9 @@ function onNotificationCLose(event){
 
 function doMessage(message){
   const {id,type,delay} = message
-  log&&console.log('doMessage',{id,type,delay}) // todo: remove log
+  log&&console.log('sw::doMessage',{id,type,delay}) // todo: remove log
   if (messagesMap.hasOwnProperty(id)){
-    log&&console.log('\toverwriting',id) // todo: remove log
+    log&&console.log('sw::\toverwriting',id) // todo: remove log
     unMessage({id})
   }
   const fn = ()=>{
@@ -103,11 +103,9 @@ function messageOrNotification(message){
         if (client){
           client.postMessage(message)
         } else {
-          // const {title,body,uri,badge,icon} = message
           const {title} = message
           message.uri&&(message.data = {uri:message.uri})
           self.registration.showNotification(title,message)
-          // self.registration.showNotification(title,{body,data: {uri},badge,icon})
         }
       })
 }

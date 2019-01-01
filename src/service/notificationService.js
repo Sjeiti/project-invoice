@@ -37,7 +37,7 @@ function requestPermission(){
  * @param {NotificationEvent} event
  */
 function onMessage(event){
-  console.log('onMessage:\n\t Received a message from service worker: ',{event}
+  console.log('onMessage:\n\tReceived a message from service worker: ',{event}
     ,'\n\ttitle',event.data.title
     ,'\n\tbody',event.data.body
     ,'\n\ttype',event.data.type
@@ -61,18 +61,6 @@ function message(msg){
     ,icon: location.origin+'/static/img/icon-192x192.png'
     ,delay: 3000
     ,log: !isProduction
-    ,actions: [
-        {
-          action: 'gramophone-action'
-          ,title: 'gramophone'
-          ,icon: location.origin+'/static/img/icon-128x128.png'
-        }
-        ,{
-          action: 'atom-action'
-          ,title: 'Atom'
-          ,icon: location.origin+'/static/img/icon-128x128.png'
-        }
-     ]
   },msg))
 }
 
