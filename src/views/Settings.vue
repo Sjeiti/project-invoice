@@ -45,6 +45,7 @@
         <button v-bind:disabled="config.notifications" v-on:click="onClickNotifications(true)">enable</button>
         <button v-bind:disabled="!config.notifications" v-on:click="onClickNotifications(false)">disable</button>
         <button v-bind:disabled="!config.notifications" v-on:click="onClickMsg()">msg</button>
+        <button v-bind:disabled="!config.notifications" v-on:click="onClickMsg(true)">cancel msg</button>
       </div>
     </section>
     <section class="row no-gutters">
@@ -153,8 +154,10 @@ export default {
       console.log('enable',enable) ;// todo: remove log
       // todo store setting in config
       (enable?
-          notificationService.requestAndEnable()
-          :notificationService.disenable(enable)
+          // notificationService.requestAndEnable()
+          // :notificationService.disenable(enable)
+          notificationService.requestPermission()
+          :Promise.resolve()
       ).then(()=>{
         this.config.notifications = enable
         save()
@@ -162,12 +165,19 @@ export default {
       })
     }
 
-    ,onClickMsg(){
-      notificationService.message({
-        title: 'Test title'
-        ,body: 'body test body'
-        ,uri: location.origin+'/settings'
-      }).then(console.log.bind(console),console.warn.bind(console))
+    ,onClickMsg(cancel=false){
+      if (!cancel){
+        notificationService.message({
+          id: 123
+          ,title: 'Test title'
+          ,body: 'body test body'
+          ,uri: location.origin+'/settings'
+        }).then(console.log.bind(console,'Settings::msg::success'),console.warn.bind(console,'ehrfail'))
+      } else {
+        notificationService.unmessage({
+          id: 123
+        }).then(console.log.bind(console,'Settings::msg::fail'),console.warn.bind(console,'ehrfail'))
+      }
     }
 
     ,onClickRevoke(){

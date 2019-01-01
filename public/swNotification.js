@@ -15,13 +15,15 @@ self.addEventListener('notificationclose',onNotificationCLose)
 
 const messages = []
 const messagesMap = {}
+let log = false
 
 ///////////////////////////////////////////////
 
 function onMessage(event){
-  console.log('onMessage',{event})
   const {data} = event
   const {type} = data
+  log = !!data.log
+  log&&console.log('onMessage',{event})
   //
   const sender = ( event.ports && event.ports[0] ) || event.source
   sender.postMessage('wait for ' + type)
@@ -46,9 +48,9 @@ function onNotificationCLose(event){
 
 function doMessage(message){
   const {id,type,delay} = message
-  console.log('doMessage',{id,type,delay}) // todo: remove log
+  log&&console.log('doMessage',{id,type,delay}) // todo: remove log
   if (messagesMap.hasOwnProperty(id)){
-    console.log('\toverwriting',id) // todo: remove log
+    log&&console.log('\toverwriting',id) // todo: remove log
     unMessage({id})
   }
   const fn = ()=>{
@@ -101,8 +103,11 @@ function messageOrNotification(message){
         if (client){
           client.postMessage(message)
         } else {
-          const {title,body,uri} = message
-          self.registration.showNotification(title,{body,data: {uri}})
+          // const {title,body,uri,badge,icon} = message
+          const {title} = message
+          message.uri&&(message.data = {uri:message.uri})
+          self.registration.showNotification(title,message)
+          // self.registration.showNotification(title,{body,data: {uri},badge,icon})
         }
       })
 }

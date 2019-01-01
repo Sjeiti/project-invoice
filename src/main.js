@@ -12,7 +12,7 @@ import i18n from './i18n'
 import './directives/_'
 import './directives/title'
 import './directives/middleEllipsis'
-import {appUpdated} from './util/cache'
+import {appUpdated} from './util/serviceWorker'
 import {notify} from './components/Notification'
 import {VERSION} from './config'
 

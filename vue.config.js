@@ -16,5 +16,12 @@ module.exports = {
   }
   ,pwa: {
     themeColor: '#3a5e70'
+    // configure the workbox plugin
+    ,workboxPluginMode: 'InjectManifest'
+    ,workboxOptions: {
+        // swSrc is required in InjectManifest mode.
+        swSrc: 'public/swNotification.js'
+        // ...other Workbox options...
+    }
   }
 }
