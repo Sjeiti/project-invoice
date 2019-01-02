@@ -1,9 +1,10 @@
 /* eslint-disable require-jsdoc */
 
-import {message as sgMessage} from '../util/signal'
+import {storageFinalised,message as sgMessage} from '../util/signal'
 import {appMessage} from '../util/serviceWorker'
 import router from '../router'
-// import model from '../model'
+import {promiseSignal,promiseTimeout} from '../util'
+import model from '../model'
 
 /** {ServiceWorkerContainer} */
 const {serviceWorker} = navigator
@@ -21,6 +22,17 @@ serviceWorker.ready.then(_registration=>{
   registration = _registration
 })
 
+Promise.all([
+    serviceWorker.ready
+    ,Promise.race([
+        promiseSignal(storageFinalised)
+        ,promiseTimeout(5000)
+    ]).then(promiseTimeout.bind())
+])
+.then(onFiveSecondsElapsed)
+// setTimeout(onFiveSecondsElapsed,5000)
+// modelReplaced
+
 /**
  * Request Notification permission wrapped in a Promise
  * @returns {Promise<any>}
@@ -29,6 +41,37 @@ function requestPermission(){
   console.log('requestPermission') // todo: remove log
   return new Promise((resolve,reject)=>{
     Notification.requestPermission(result=>result==='granted'?resolve(true):reject(false))
+  })
+}
+
+/**
+ * The Data has been parsed
+ */
+function onFiveSecondsElapsed(){
+  console.log('onFiveSecondsElapsed') // todo: remove log
+  // console.log('model.projects.daysLate',model.projects.map(p=>p.isLate)) // todo: remove log
+  model.projects.filter(project=>
+      !project.paid
+      &&!project.isLate
+      &&project.invoices.length>0
+      &&!project.notified
+  ).forEach(project=>{
+    const {client,invoices:[invoice]} = project
+    const delay = (client.paymentterm - project.daysLate)*1000*60*60*24
+    console.log('\tproject.description',project.description,client.paymentterm - project.daysLate) // todo: remove log
+    message({
+      id: project.id
+      ,title: `Client '${client.name}' due for payment`
+      ,body: `Project '${project.description}' was invoiced on ${invoice.date}`
+      ,uri: location.origin+project.uri
+      ,actions: [
+          {
+            action: 'view'
+            ,title: 'view'
+          }
+       ]
+      ,delay
+    })
   })
 }
 

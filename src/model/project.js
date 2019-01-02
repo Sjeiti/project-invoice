@@ -37,6 +37,8 @@ const base = {
   ,quotationDuration: 2
   ,quotationStartDate: ''
   ,quotationSubject: ''
+
+  ,notified: false
 }
 
 const proto = {
@@ -203,7 +205,7 @@ const proto = {
     let today = new Date
       ,diffMillis = today.getTime()-this.date.getTime()
       ,day = 1000*60*60*24
-    return diffMillis/day<<0
+    return Math.floor(diffMillis/day)
   }
 
   /**

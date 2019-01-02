@@ -109,6 +109,24 @@ export function tryParse(str){
   return obj
 }
 
+/**
+ * Promise wrapped timeout
+ * @param {number} millis
+ * @returns {Promise<any>}
+ */
+export function promiseTimeout(millis){
+  return new Promise(resolve=>setTimeout(resolve,millis))
+}
+
+/**
+ * Promise wrapped signal
+ * @param {signal} signal
+ * @returns {Promise<any>}
+ */
+export function promiseSignal(signal){
+  return new Promise(resolve=>signal.addOnce(resolve))
+}
+
 const scrollbarSizeKey = 'scrollbarSize'
 
 /**

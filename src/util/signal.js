@@ -5,6 +5,7 @@ export const notify = signal()
 export const alert = signal()
 
 export const storageInitialised = signal()
+export const storageFinalised = signal()
 export const sync = signal()
 export const modelReplaced = signal()
 export const projectPaid = signal(/**{project}*/)

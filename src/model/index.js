@@ -1,6 +1,6 @@
 import projectSort from '../util/projectSort'
 import {tryParse,tryStringify} from '../util'
-import {storageInitialised,modelReplaced,alert} from '../util/signal'
+import {storageInitialised,storageFinalised,modelReplaced,alert} from '../util/signal'
 import storageService from '../service/storage'
 import defaultData from '../data/data'
 import {VERSION} from '../config'
@@ -34,7 +34,7 @@ storageInitialised.add(success=>{
           json=>{ // file read
             if (json){ // can fail
               const parsed = decryptAndOrParse(json)
-            if (parsed.timestamp>data.timestamp){
+              if (parsed.timestamp>data.timestamp){
                 model.data = parsed
                 modelReplaced.dispatch(model.data)
               }
@@ -47,6 +47,7 @@ storageInitialised.add(success=>{
                 .then(console.log.bind(console,'write success'))
           }
       )
+      .then(storageFinalised.dispatch.bind())
 })
 
 // create model
