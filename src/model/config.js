@@ -72,7 +72,8 @@ export function create(config){
     !config.hasOwnProperty(key)&&(config[key] = defaultConfig[key])
   })
   Object.keys(config).forEach(key=>{
-    !defaultConfig.hasOwnProperty(key)&&console.warn('obsolete config property:',key) // todo: remove obsolete config properties
+    // todo: remove obsolete config properties
+    !defaultConfig.hasOwnProperty(key)&&console.warn('obsolete config property:',key) // eslint-disable-line no-console
   })
   return Object.setPrototypeOf(config,proto)
 }

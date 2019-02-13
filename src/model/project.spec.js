@@ -8,17 +8,17 @@ describe('project',() => {
   beforeEach(() => {
     cy.readFile(fixtureLsData).then(json => {
       const client = create(json.clients[0],{
-        config: data.config ,personal: data.personal,get projects() {
+        config: data.config,personal: data.personal,get projects(){
           return client.projects.slice(0)
         }
       })
       global.project = client.projects[2]
       const projectProto = Object.getPrototypeOf(global.project)
       Object.defineProperty(projectProto,'daysLate',{
-        get() {
-          return 200;
+        get(){
+          return 200
         }
-      });
+      })
     })
   })
 
@@ -27,11 +27,11 @@ describe('project',() => {
       assert.notEqual(Object.getPrototypeOf(project),Object.getPrototypeOf({}))
     })
     it('should not have enumerable circular references',() => {
-      let pass;
+      let pass
       try {
         JSON.stringify(project)
         pass = true
-      } catch (err) {
+      } catch (err){
         pass = false
       }
       assert(pass)

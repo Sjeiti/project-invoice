@@ -4,7 +4,7 @@ import data from '../data/data'
 describe('config',() => {
 
   beforeEach(() => {
-    global.config = create(data.config);
+    global.config = create(data.config)
   })
 
   describe('create',() => {
@@ -12,11 +12,11 @@ describe('config',() => {
       assert.notEqual(Object.getPrototypeOf(config),Object.getPrototypeOf({}))
     })
     it('should not have enumerable circular references',() => {
-      let pass;
+      let pass
       try {
         JSON.stringify(config)
         pass = true
-      } catch (err) {
+      } catch (err){
         pass = false
       }
       assert(pass)

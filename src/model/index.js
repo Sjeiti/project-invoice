@@ -39,7 +39,6 @@ storageInitialised.add(success=>{
                 modelReplaced.dispatch(model.data)
               }
             }
-            console.log('foofoo') // todo: remove log
             //
             ////////////////////////////////////
             // console.log('project number indexing') // todo: remove log
@@ -61,7 +60,6 @@ storageInitialised.add(success=>{
             let stringData = tryStringify(data)
             storageService
                 .write(fileName,stringData)
-                .then(console.log.bind(console,'write success'))
           }
       )
 })
