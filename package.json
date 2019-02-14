@@ -1,11 +1,11 @@
 {
   "name": "ProjectInvoice",
-  "version": "2.4.5",
+  "version": "2.4.6",
   "private": true,
   "scripts": {
     "serve": "npm run i18n & vue-cli-service serve",
     "serve:build": "node ./task/serve dist 8765",
-    "build": "npm run build:init & npm run build",
+    "build": "npm run build:init & npm run build:dev",
     "build:dev": "vue-cli-service build",
     "build:init": "npm run i18n & npm run icons & npm run favicon & npm run icomoon",
     "lint": "vue-cli-service lint",
