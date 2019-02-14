@@ -168,8 +168,8 @@ export default {
     while (this.signalBindings.length) this.signalBindings.pop().detach()
   }
   ,watch: {
-    'config.theme': function(newVal,oldVal){
-      console.log('value changed from ' + oldVal + ' to ' + newVal)
+    'config.theme': function(/*newVal,oldVal*/){
+      // console.log('value changed from ' + oldVal + ' to ' + newVal)
       this.populateIframe()
     }
   }
