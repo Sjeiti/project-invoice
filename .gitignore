@@ -20,6 +20,7 @@ yarn-error.log*
 /i18n/base.json
 /public/static/i18n/README-en.md
 /public/static/i18n/*.html
+/public/static/img/*.png
 /src/config/i18n.js
 /output.js
 

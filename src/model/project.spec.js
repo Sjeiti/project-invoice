@@ -120,8 +120,8 @@ describe('project',() => {
 
   describe('interest',() => {
     it('should return the interest amount',() => {
-      const amnt = (2280+960+360)*0.90//*1.21
-      const intr = 158.7945205479452//(200/365)*(0.01*8.05)*amnt
+      // const amnt = (2280+960+360)*0.90//*1.21
+      // const intr = 158.7945205479452//(200/365)*(0.01*8.05)*amnt
       assert.strictEqual(project.interest<<0,158)
     })
   })
