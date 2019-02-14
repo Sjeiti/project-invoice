@@ -5,7 +5,9 @@
   "scripts": {
     "serve": "npm run i18n & vue-cli-service serve",
     "serve:build": "node ./task/serve dist 8765",
-    "build": "vue-cli-service build",
+    "build": "npm run build:init & npm run build",
+    "build:dev": "vue-cli-service build",
+    "build:init": "npm run i18n & npm run icons & npm run favicon & npm run icomoon",
     "lint": "vue-cli-service lint",
     "test": "cypress run",
     "version": "next-version package.json src/config/index.js",
