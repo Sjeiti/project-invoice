@@ -78,7 +78,7 @@ function onAuthorisationSuccess(){
  * @param {object} err
  */
 function onAuthorisationFail(err){
-  console.warn('Drive authorisation failed',err)
+  console.warn('Drive authorisation failed',err) // eslint-disable-line no-console
   isAuthorised = false
   clientLoadReject()
 }
@@ -210,8 +210,8 @@ export default {
   name
   ,init
   ,get authorised(){
- return isAuthorised
-}
+    return isAuthorised
+  }
   ,read
   ,write
 }

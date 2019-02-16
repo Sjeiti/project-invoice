@@ -45,7 +45,7 @@ export function parse(key,models={}){
       ||(interpolated = interpolated.replace(/\n/g,'<br/>'))
   } catch (err){
     interpolated = '[interpolation error]'
-    console.warn('Interpolation error',{key,models,err})
+    console.warn('Interpolation error',{key,models,err}) // eslint-disable-line no-console
   }
   return interpolated
 }

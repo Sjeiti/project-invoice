@@ -39,12 +39,27 @@ storageInitialised.add(success=>{
                 modelReplaced.dispatch(model.data)
               }
             }
+            //
+            ////////////////////////////////////
+            // console.log('project number indexing') // todo: remove log
+            // let ind = 0
+            // model.data.clients.reduce(
+            //     (acc,client)=>(acc.push(...client.projects),acc)
+            //     ,[]
+            // ).sort((a,b)=>a.id>b.id?1:-1)
+            // .forEach(project=>{
+            //   let {id} = project
+            //   id===ind&&console.log('\tcorrection',project.id) // todo: remove log
+            //   if (id===ind) project.id = ind + 1
+            //   ind = project.id
+            // })
+            // modelReplaced.dispatch(model.data)
+            ////////////////////////////////////
           }
           ,()=>{ // file not found
             let stringData = tryStringify(data)
             storageService
                 .write(fileName,stringData)
-                .then(console.log.bind(console,'write success'))
           }
       )
       .then(storageFinalised.dispatch.bind())
@@ -157,7 +172,6 @@ function getStored(name,defaultsTo){
 function decryptAndOrParse(rawData){
   return isEncrypted(rawData)
       &&(decryptObject(rawData,getPassword())||(setTimeout(()=>alert.dispatch('Invalid password','Reload to try again','ok'),40),false))
-      // &&(decryptObject(rawData,getPassword())||(setTimeout(()=>alert('Invalid password','Reload to try again','ok'),40),false))
       ||tryParse(rawData)
 }
 

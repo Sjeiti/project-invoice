@@ -89,7 +89,7 @@ export function tryStringify(obj){
   try {
     stringData = JSON.stringify(obj)
   } catch(err){
-    console.warn('err',err)
+    console.warn('err',err) // eslint-disable-line no-console
   }
   return stringData
 }
@@ -104,7 +104,7 @@ export function tryParse(str){
   try {
     obj = JSON.parse(str)
   } catch(err){
-    console.warn('err',err)
+    console.warn('err',err) // eslint-disable-line no-console
   }
   return obj
 }
