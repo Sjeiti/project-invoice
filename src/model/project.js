@@ -77,8 +77,8 @@ const proto = {
    * @returns {string}
    */
   ,calculateInvoiceNr(){
-      // ${client.nr}.${project.indexOnClient+1}.${project.dateYear.substr(2,2)}.${project.indexOnYear+1}
-      return (new Function('project','client','return `'+this.model.config.projectNumberTemplate+'`'))(this,this.client)
+    // ${client.nr}.${project.indexOnClient+1}.${project.dateYear.substr(2,2)}.${project.indexOnYear+1}
+    return (new Function('project','client','return `'+this.model.config.projectNumberTemplate+'`'))(this,this.client)
   }
 
   /**
@@ -86,7 +86,7 @@ const proto = {
    * @returns {string}
    */
   ,get invoiceNr(){
-      return this.calculateInvoiceNr()
+    return this.calculateInvoiceNr()
   }
 
   /**
@@ -94,7 +94,7 @@ const proto = {
    * @returns {number}
    */
   ,get invoiceNum(){
-      return this.invoices.length
+    return this.invoices.length
   }
 
   /**
@@ -102,7 +102,7 @@ const proto = {
    * @returns {number}
    */
   ,get total(){
-      return this.lines.reduce((acc,line) => acc + line.amount,0)
+    return this.lines.reduce((acc,line) => acc + line.amount,0)
   }
 
   /**
@@ -110,7 +110,7 @@ const proto = {
    * @returns {any}
    */
   ,get totalVat(){
-      return this.lines.reduce((acc,line) => acc + line.amount * 0.01 * line.vat,0)
+    return this.lines.reduce((acc,line) => acc + line.amount * 0.01 * line.vat,0)
   }
 
   /**
@@ -118,7 +118,7 @@ const proto = {
    * @returns {number}
    */
   ,get totalDiscount(){
-      return this.total * 0.01 * this.discount
+    return this.total * 0.01 * this.discount
   }
 
   /**
@@ -126,7 +126,7 @@ const proto = {
    * @returns {number}
    */
   ,get totalVatDiscount(){
-      return this.totalVat * 0.01 * this.discount
+    return this.totalVat * 0.01 * this.discount
   }
 
   /**
@@ -134,7 +134,7 @@ const proto = {
    * @returns {number}
    */
   ,get totalDiscounted(){
-      return this.total - this.totalDiscount
+    return this.total - this.totalDiscount
   }
 
   /**
@@ -142,7 +142,7 @@ const proto = {
    * @returns {number}
    */
   ,get totalVatDiscounted(){
-      return this.totalVat - this.totalVatDiscount
+    return this.totalVat - this.totalVatDiscount
   }
 
   /**
@@ -150,7 +150,7 @@ const proto = {
    * @returns {number}
    */
   ,get totalIncDiscounted(){
-      return this.totalDiscounted + this.totalVatDiscounted
+    return this.totalDiscounted + this.totalVatDiscounted
   }
 
   /**
@@ -158,7 +158,7 @@ const proto = {
    * @returns {number}
    */
   ,get totalIncDiscountedInterest(){
-      return this.totalIncDiscounted + this.interest
+    return this.totalIncDiscounted + this.interest
   }
 
   /**
@@ -174,7 +174,7 @@ const proto = {
    * @returns {Date}
    */
   ,get date(){
-      return this.invoices.length!==0?new Date(this.invoices[0].date):new Date()
+    return this.invoices.length!==0?new Date(this.invoices[0].date):new Date()
   }
 
   /**
@@ -413,8 +413,8 @@ export function create(project,client,model){
   //
   // create model getter on prototype once
   !proto.hasOwnProperty('model') && Object.defineProperty(proto,'model',{ get: function(){
-return model
-} })
+    return model
+  } })
   //
   // create non-enumerable properties
   Object.defineProperty(project,'client',{ value: client,enumerable: false })

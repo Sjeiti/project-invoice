@@ -1,6 +1,6 @@
 {
   "name": "ProjectInvoice",
-  "version": "2.4.6",
+  "version": "2.4.8",
   "private": true,
   "scripts": {
     "serve": "npm run i18n & vue-cli-service serve",

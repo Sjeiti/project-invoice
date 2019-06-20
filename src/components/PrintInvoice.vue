@@ -26,7 +26,7 @@
       <div class="page">
         <div class="wrapper block clearfix">
           <dl class="float-right date">
-            <dt>{{__('date')}}</dt>
+            <dt>{{__('date')}}&nbsp;</dt>
             <dd>{{isQuotation?project.quotationDate:invoice.date}}</dd><!-- todo implement | date:copy.dateFormat[config.lang] -->
           </dl>
           <dl class="list">
@@ -94,12 +94,12 @@
             <tr class="separate add"><td colspan="3"></td></tr>
             <tr v-bind:class="{total:invoice.alreadyPaid===0}">
               <td>{{__('total')}}</td>
-              <td colspan="2"><currency :value="invoice.total" /></td>
+              <td colspan="2"><currency :value="project.totalIncDiscounted" /></td>
             </tr>
             </tbody>
             
             <!--already paid / remainder-->
-            <tbody v-if="invoice.alreadyPaid!==0">
+            <tbody v-if="!isQuotation&&invoice.alreadyPaid!==0&&invoice.alreadyPaid!==undefined">
             <tr>
               <td>{{__('amountPaid')}}</td>
               <td colspan="2"><currency :value="invoice.alreadyPaid" /></td>

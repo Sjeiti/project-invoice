@@ -87,7 +87,7 @@ aMatch&&aMatch.forEach(function(block){
 			+'}'
 		+'}\n';
 	} else {
-		sIconMixins += '@mixin icon-'+sIcon+'(){'
+		sIconMixins += '@mixin icon-'+sIcon+'(){'x
 			+'&:before{'
 				+'@include '+sIconPrefix+'-icon();'
 				+'content: $icon-'+sIcon+';'
