@@ -1,7 +1,7 @@
 <template>
-  <div class="project-list" v-bind:class="{'project-list':true,'empty':projects.length===0}">
-    <p v-if="projects.length===0&&empty"><em v-_>{{empty}}</em></p>
-    <table class="hoverable" v-if="projects.length>0||!empty">
+  <div class="project-list" v-bind:class="{'project-list':true,'empty':sortedProjects.length===0}">
+    <p v-if="sortedProjects.length===0&&empty"><em v-_>{{empty}}</em></p>
+    <table class="hoverable" v-if="sortedProjects.length>0||!empty">
       <thead><tr>
         <th v-for="col in columns" v-on:click="onClickOrder(col)" v-bind:class="'th-'+col" v-_="colName[col]">{{colName[col]}}</th>
       </tr></thead>
@@ -9,7 +9,7 @@
       <transition-group v-bind:name="animate?'animate-row':'a'+Date.now()" tag="tbody">
       
         <tr
-            v-for="project in projects"
+            v-for="project in sortedProjects"
             :key="project.id"
             v-bind:class="{'row-select':true,'animate-row':animate,'alert-paid':project.paid,'alert-late':project.isLate,'alert-pending':project.isPending}"
             v-on:click="onRowClick(project)"
@@ -38,7 +38,7 @@
             
           </td>
         </tr>
-        <tr :key="'empty'" v-if="projects.length===0"><td>-</td></tr>
+        <tr :key="'empty'" v-if="sortedProjects.length===0"><td>-</td></tr>
       
       </transition-group>
       <!--</tbody>-->
@@ -93,6 +93,13 @@ export default {
       }
     }
   }
+  ,computed: {
+    sortedProjects: function(){
+      const gt = this.asc?-1:1
+      const lt = this.asc?1:-1
+      return this.projects.slice(0).sort((a,b)=>a[this.sortValue]>b[this.sortValue]?gt:lt)
+    }
+  }
   ,mounted(){
     if (this.cols){
       this.columns = this.cols.split(/[\s,]/g)
@@ -117,9 +124,6 @@ export default {
     onClickOrder(key){
       if (this.sortValue===key) this.asc = !this.asc
       else this.sortValue = key
-      const gt = this.asc?-1:1
-      const lt = this.asc?1:-1
-      this.projects.sort((a,b)=>a[key]>b[key]?gt:lt)
     }
     /**
      * Action click handler to add a reminder to a project
@@ -165,12 +169,12 @@ export default {
      */
     ,getTotalValue(property){
       let returnValue = ''
-      if (this.projects&&this.projects.length){
-        const propertyType = typeof this.projects[0][property]
+      if (this.sortedProjects&&this.sortedProjects.length){
+        const propertyType = typeof this.sortedProjects[0][property]
         if (propertyType==='number'){
-          returnValue = this.projects.map(p=>p[property]).reduce((amt,v)=>amt+v,0)
+          returnValue = this.sortedProjects.map(p=>p[property]).reduce((amt,v)=>amt+v,0)
         } else if (propertyType==='boolean'){
-          returnValue = this.projects.map(p=>p[property]).reduce((amt,v)=>amt+(v&&1||0),0)
+          returnValue = this.sortedProjects.map(p=>p[property]).reduce((amt,v)=>amt+(v&&1||0),0)
         }
       }
       return returnValue
