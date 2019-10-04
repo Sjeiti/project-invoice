@@ -1,11 +1,15 @@
 <template>
   <div>
-    <button v-on:click="clone(project)" :disabled="saveable" class="float-right button--lower" v-_>clone</button>
-    <h1><span class="hide-low" v-_>Project: </span>{{project.description}}</h1>
+    <header class="project-header">
+      <button v-on:click="clone(project)" :disabled="saveable" class="float-right button--lower" v-_>clone</button>
+      <router-link v-bind:to="buttonNext.uri" v-bind:title="buttonNext.title" class="float-right btn button--lower">&gt;</router-link>
+      <router-link v-bind:to="buttonPrev.uri" v-bind:title="buttonPrev.title" class="float-right btn button--lower">&lt;</router-link>
+      <h1><span class="hide-low" v-_>Project: </span>{{project.description}}</h1>
+    </header>
     <section>
       <dl>
         <dt data-appExplain="'project.client'" v-_>client</dt>
-        <dd><router-link class="input" v-bind:to="client.uri||''">{{client.name}}</router-link></dd>
+        <dd><router-link class="input client-name" v-bind:to="client.uri||''">{{client.name}}</router-link></dd>
         <dt data-appExplain="'project.description'" v-_>description</dt>
         <dd><input v-model="project.description" ref="description" /></dd>
       </dl>
@@ -32,7 +36,7 @@
       </div>
     </section>
     
-    <section>
+    <section class="section-lines">
       <header>
         <button v-on:click="onAddLine()" class="float-right" v-_>add line</button>
         <h3 v-_>lines</h3>
@@ -42,8 +46,8 @@
         <tr>
           <th></th>
           <th width="60%" v-_>description</th>
-          <th v-if="hourlyRate" width="5%" class="hide-low" v-_>hours</th>
-          <th v-if="hourlyRate" class="hide-low text-align-center" v-on:click="onClickLineCalculations(project)">⇥</th>
+          <th v-if="hourlyRate" width="5%" v-_>hours</th>
+          <th v-if="hourlyRate" class="text-align-center" v-on:click="onClickLineCalculations(project)">⇥</th>
           <th v-_>amount</th>
           <th v-_>VAT</th>
           <th></th>
@@ -53,8 +57,8 @@
           <tr v-for="(line, index) in project.lines" :key="index">
             <td><i class="icon-drag" v-if="project.lines.length>1"></i></td>
             <td><input v-model="line.description" ref="lineDescription" /></td>
-            <td v-if="hourlyRate" class="hide-low"><input v-model.number="line.hours" type="number"/></td>
-            <td v-if="hourlyRate" class="hide-low"><currency @click.native="onClickLineCalculation(project,line)" :value="line.hours*project.hourlyRate"/></td>
+            <td v-if="hourlyRate"><input v-model.number="line.hours" type="number"/></td>
+            <td v-if="hourlyRate"><currency @click.native="onClickLineCalculation(project,line)" :value="line.hours*project.hourlyRate"/></td>
             <td><input v-model.number="line.amount" type="number" step="0.01"/></td>
             <td>
               <select v-model="line.vat" class="mono">
@@ -68,8 +72,8 @@
           <tr>
             <td></td>
             <td v-_>total ex VAT</td>
-            <td v-if="hourlyRate" class="hide-low"><div class="input mono">{{project.totalHours}}</div></td>
-            <td v-if="hourlyRate" class="hide-low"><currency :value="project.totalHours*project.hourlyRate"/></td>
+            <td v-if="hourlyRate"><div class="input mono">{{project.totalHours}}</div></td>
+            <td v-if="hourlyRate"><currency :value="project.totalHours*project.hourlyRate"/></td>
             <td><currency class="float-right" :value="project.total"/></td>
             <td></td>
             <td></td>
@@ -77,8 +81,8 @@
           <tr v-if="project.discount">
             <td></td>
             <td><span v-_>discount</span> {{project.discount}}%</td>
-            <td v-if="hourlyRate" class="hide-low"></td>
-            <td v-if="hourlyRate" class="hide-low"><currency :value="project.totalHours*project.hourlyRateDiscounted"/></td>
+            <td v-if="hourlyRate"></td>
+            <td v-if="hourlyRate"><currency :value="project.totalHours*project.hourlyRateDiscounted"/></td>
             <td><currency class="float-right" :value="project.totalDiscounted"/></td>
             <td></td>
             <td></td>
@@ -86,8 +90,8 @@
           <tr>
             <td></td>
             <td v-_>total inc VAT</td>
-            <td v-if="hourlyRate" class="hide-low"></td>
-            <td v-if="hourlyRate" class="hide-low"></td>
+            <td v-if="hourlyRate"></td>
+            <td v-if="hourlyRate"></td>
             <td><currency class="float-right" :value="project.totalIncDiscounted"/></td>
             <td></td>
             <td></td>
@@ -148,6 +152,7 @@
 </template>
 
 <script>
+// import Vue from 'vue'
 import BaseView from './BaseView'
 import model from '../model'
 import Currency from '../components/Currency'
@@ -181,25 +186,44 @@ export default {
       ,currencySymbol: model.config.currencySymbol
       ,tabs: []
       ,saveable: false
+      ,buttonPrev: {uri:'#',title:''}
+      ,buttonNext: {uri:'#',title:''}
+    }
+  }
+  ,watch:{
+    $route(to,from){
+      to.params.projectIndex !== from.params.projectIndex && this.initialiseVariables()
     }
   }
   ,components: { Currency,InterpolationUI,Tabs,draggable }
   ,mounted(){
-    this.client = model.getClientByNr(parseInt(this.$route.params.clientNr,10))
-    this.project = track(this.$el,this.client.getProject(parseInt(this.$route.params.projectIndex,10)),this.deleteProject)
-    const { lines } = this.project
-    lines&&(lines.length===0||!lines[0].description)&&this.$refs.description.focus()
-    saveable.add(isSaveable=>{
-        this.saveable = isSaveable
-    })
+    this.initialiseVariables()
   }
   ,destroyed: untrack
   ,methods: {
+    initialiseVariables(){
+      this.client = model.getClientByNr(parseInt(this.$route.params.clientNr,10))
+      const projectIndex = parseInt(this.$route.params.projectIndex,10)
+      const getProject = this.client.getProject.bind(this.client)
+      this.project = track(this.$el,getProject(projectIndex),this.deleteProject)
+      const { lines } = this.project
+      lines&&(lines.length===0||!lines[0].description)&&this.$refs.description.focus()
+      saveable.add(isSaveable=>{
+          this.saveable = isSaveable
+      })
+      //
+      const projectPrev = getProject(projectIndex-1)
+      const projectNext = getProject(projectIndex+1)
+      this.buttonPrev.uri = projectPrev&&projectPrev.uri||'#'
+      this.buttonNext.uri = projectNext&&projectNext.uri||'#'
+      this.buttonPrev.title = projectPrev&&projectPrev.description||'First project'
+      this.buttonNext.title = projectNext&&projectNext.description||'Last project'
+    }
     /**
      * Remove a project line
      * @param {projectLine} line
      */
-    onRemoveLine(line){
+    ,onRemoveLine(line){
       const lines = this.project.lines
           ,i = lines.indexOf(line)
       i!==-1&&lines.splice(i,1)
@@ -331,10 +355,36 @@ export default {
 <style lang="scss" scoped>
   @import '../style/variables';
   @import '../style/icons';
+  @import '../style/main';
   
   dl:first-child {
     margin-bottom: 0;
   }
+  
+  .project-header {
+    button {
+      margin-left: 2rem;
+      @media #{$breakpointLow} {
+        margin-left: 1rem;
+      }
+    }
+    .btn {
+      &[href$="#"] {
+        @extend .btn[disabled];
+        cursor: default;
+      }
+    }
+    @media #{$breakpointLow} {
+      position: absolute;
+      top: 3rem;
+      right: 0.5rem;
+      h1 { display: none; }
+      +section>dl {
+        margin-top: 0;
+      }
+    }
+  }
+  
   
   .invoices {
     .btn { white-space: nowrap; }
@@ -351,10 +401,35 @@ export default {
     top: 0.4rem;
     z-index: 1;
     cursor: pointer;
+    @media #{$breakpointLow} {
+      top: -2rem;
+    }
   }
   
   div.display-flex dl { margin-bottom: 0; }
   
+  @media #{$breakpointLow} {
+    dt {
+      flex: 0 0 15%;
+      white-space: nowrap;
+    }
+    dd { flex: 0 0 75%; }
+    .client-name {
+      display: inline-block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 40vw;
+    }
+    
+    .section-lines {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      header button {
+        margin: 1rem 0 0;
+      }
+    }
+  }
   
   .hourly-rate, .discount {
     display: flex;
