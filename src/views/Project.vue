@@ -1,7 +1,11 @@
 <template>
   <div>
-    <button v-on:click="clone(project)" :disabled="saveable" class="float-right button--lower" v-_>clone</button>
-    <h1><span class="hide-low" v-_>Project: </span>{{project.description}}</h1>
+    <header>
+      <button v-on:click="clone(project)" :disabled="saveable" class="float-right button--lower" v-_>clone</button>
+      <router-link v-bind:to="buttonNext.uri" v-bind:title="buttonNext.title" class="float-right btn button--lower">&gt;</router-link>
+      <router-link v-bind:to="buttonPrev.uri" v-bind:title="buttonPrev.title" class="float-right btn button--lower">&lt;</router-link>
+      <h1><span class="hide-low" v-_>Project: </span>{{project.description}}</h1>
+    </header>
     <section>
       <dl>
         <dt data-appExplain="'project.client'" v-_>client</dt>
@@ -148,6 +152,7 @@
 </template>
 
 <script>
+// import Vue from 'vue'
 import BaseView from './BaseView'
 import model from '../model'
 import Currency from '../components/Currency'
@@ -181,25 +186,44 @@ export default {
       ,currencySymbol: model.config.currencySymbol
       ,tabs: []
       ,saveable: false
+      ,buttonPrev: {uri:'#',title:''}
+      ,buttonNext: {uri:'#',title:''}
+    }
+  }
+  ,watch:{
+    $route(to,from){
+      to.params.projectIndex !== from.params.projectIndex && this.initialiseVariables()
     }
   }
   ,components: { Currency,InterpolationUI,Tabs,draggable }
   ,mounted(){
-    this.client = model.getClientByNr(parseInt(this.$route.params.clientNr,10))
-    this.project = track(this.$el,this.client.getProject(parseInt(this.$route.params.projectIndex,10)),this.deleteProject)
-    const { lines } = this.project
-    lines&&(lines.length===0||!lines[0].description)&&this.$refs.description.focus()
-    saveable.add(isSaveable=>{
-        this.saveable = isSaveable
-    })
+    this.initialiseVariables()
   }
   ,destroyed: untrack
   ,methods: {
+    initialiseVariables(){
+      this.client = model.getClientByNr(parseInt(this.$route.params.clientNr,10))
+      const projectIndex = parseInt(this.$route.params.projectIndex,10)
+      const getProject = this.client.getProject.bind(this.client)
+      this.project = track(this.$el,getProject(projectIndex),this.deleteProject)
+      const { lines } = this.project
+      lines&&(lines.length===0||!lines[0].description)&&this.$refs.description.focus()
+      saveable.add(isSaveable=>{
+          this.saveable = isSaveable
+      })
+      //
+      const projectPrev = getProject(projectIndex-1)
+      const projectNext = getProject(projectIndex+1)
+      this.buttonPrev.uri = projectPrev&&projectPrev.uri||'#'
+      this.buttonNext.uri = projectNext&&projectNext.uri||'#'
+      this.buttonPrev.title = projectPrev&&projectPrev.description||'First project'
+      this.buttonNext.title = projectNext&&projectNext.description||'Last project'
+    }
     /**
      * Remove a project line
      * @param {projectLine} line
      */
-    onRemoveLine(line){
+    ,onRemoveLine(line){
       const lines = this.project.lines
           ,i = lines.indexOf(line)
       i!==-1&&lines.splice(i,1)
@@ -331,10 +355,22 @@ export default {
 <style lang="scss" scoped>
   @import '../style/variables';
   @import '../style/icons';
+  @import '../style/main';
   
   dl:first-child {
     margin-bottom: 0;
   }
+  
+  header {
+    button {
+      margin-left: 2rem;
+    }
+    .btn[href$="#"] {
+      @extend .btn[disabled];
+      cursor: default;
+    }
+  }
+  
   
   .invoices {
     .btn { white-space: nowrap; }

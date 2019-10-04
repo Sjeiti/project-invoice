@@ -2,7 +2,7 @@
   <div id="app">
     <app-header></app-header>
     <div class="layout">
-      <router-view/>
+      <router-view />
     </div>
     <app-footer></app-footer>
     <notification></notification>
