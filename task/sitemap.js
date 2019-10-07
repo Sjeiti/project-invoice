@@ -3,7 +3,7 @@ const save = utils.save
 const read = utils.read
 
 const base = 'https://projectinvoice.nl'
-const date = (new Date).toString()
+const date = (new Date).toISOString().split('T').shift()
 // :clientNr :projectIndex :year
 // const replaces = {clientNr:1,projectIndex:0,year:2018}
 // :clientNr :projectIndex :year
