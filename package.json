@@ -34,7 +34,7 @@
     "current-device": "^0.7.2",
     "dialog-polyfill": "^0.4.9",
     "json-parse-better-errors": "^1.0.2",
-    "marked": "^0.3.12",
+    "marked": "^0.3.18",
     "moment": "^2.20.1",
     "register-service-worker": "^1.1.0",
     "sass.js": "^0.10.9",
