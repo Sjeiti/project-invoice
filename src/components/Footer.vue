@@ -1,6 +1,6 @@
 <template>
   <footer>
-    <a href="http://ronvalstar" v-_>made with <span class="love">&#9829;</span></a>
+    <a href="https://ronvalstar.nl/" v-_>made with <span class="love">&#9829;</span></a>
     <router-link to="/changelog">Project Invoice v{{version}}</router-link>
     <a href="https://github.com/Sjeiti/project-invoice" v-_>fork on &nbsp;<span class="icon-github"></span></a>
   </footer>
