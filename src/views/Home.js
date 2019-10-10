@@ -1,7 +1,6 @@
 import React from 'react'
-
-const version = '_VERSION'
+import {VERSION} from '../config'
 
 export const Home = () => {
-  return <>asdf _VERSION {version}</>
+  return <>asdf _VERSION {VERSION}</>
 }

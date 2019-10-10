@@ -1,10 +1,14 @@
-import defaultModel from './default'
 import {STORE_DATA} from './actions'
+import {getInitialState, storeState} from '../storage'
 
-export function personal(state = defaultModel, action){
+const dataName = 'personal'
+const initialState = getInitialState(dataName)
+const save = storeState.bind(null, dataName)
+
+export function personal(state = initialState, action){
   switch (action.type){
     case STORE_DATA:
-      return {...state, ...action.data}
+      return save({...state, ...action.data})
 
     default:
       return state

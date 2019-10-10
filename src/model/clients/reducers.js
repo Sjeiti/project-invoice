@@ -6,21 +6,22 @@ import {
   STORE_PROJECT,
   REMOVE_PROJECT
 } from './actions'
-import defaultModel from './default'
+import {getInitialState, storeState} from '../storage'
 
-const initialState = getStorage('clients') || defaultModel
-const storeClients = setStorage.bind(null, 'clients')
+const dataName = 'clients'
+const initialState = getInitialState(dataName)
+const save = storeState.bind(null, dataName)
 
 export function clients(state = initialState, action){
   console.log('R_', action.type.toString(), action)
 
   switch (action.type){
     case ADD_CLIENT:
-      return storeClients([action.client, ...state])
+      return save([action.client, ...state])
 
     case STORE_CLIENT:
       const clientToStore = action.client
-      return storeClients(
+      return save(
         state.map(client => {
           client.nr === clientToStore.nr && Object.assign(client, clientToStore)
           return client
@@ -29,11 +30,11 @@ export function clients(state = initialState, action){
 
     case REMOVE_CLIENT:
       const { clientNr } = action
-      return storeClients(state.filter(client => client.nr !== clientNr))
+      return save(state.filter(client => client.nr !== clientNr))
 
     case ADD_PROJECT:
       const { project } = action
-      return storeClients(
+      return save(
         state.map(client => {
           client.nr === project.clientNr && client.projects.push(project)
           return client
@@ -45,7 +46,7 @@ export function clients(state = initialState, action){
         project: projectToStore,
         project: { id, clientNr }
       } = action
-      return storeClients(
+      return save(
         state.map(client => {
           client.nr === clientNr &&
             client.projects.forEach(project => {
@@ -58,7 +59,7 @@ export function clients(state = initialState, action){
 
     case REMOVE_PROJECT:
       const { projectId } = action
-      return storeClients(
+      return save(
         state.map(client => {
           client.projects = client.projects.filter(project => project.id !== projectId)
           return client
@@ -68,25 +69,4 @@ export function clients(state = initialState, action){
     default:
       return state
   }
-}
-
-/**
- * Get and parse localStorage content
- * @param {string} name
- * @todo clean and move to service/facade/whatever
- */
-function getStorage(name){
-  const stringData = window.localStorage.getItem(name)
-  return stringData && JSON.parse(stringData)
-}
-
-/**
- * Set localStorage
- * @param {string} name
- * @param {object} data
- * @todo clean and move to service/facade/whatever
- */
-function setStorage(name, data){
-  data && window.localStorage.setItem(name, JSON.stringify(data))
-  return data
 }
