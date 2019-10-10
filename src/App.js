@@ -1,11 +1,12 @@
 import React from 'react'
 import { Provider, connect } from 'react-redux'
 import { BrowserRouter as Router } from 'react-router-dom'
-import { Header } from './components/Header'
-import { Routes } from './Routes'
 import { hot } from 'react-hot-loader'
+import { Routes } from './Routes'
+import { Header } from './components/Header'
+import { Footer } from './components/Footer'
 
-const Appp = connect()(({ store }) => (
+export const App = hot(module)(connect()(({ store }) => (
   <Provider store={store}>
     <Router>
       <Header />
@@ -14,8 +15,7 @@ const Appp = connect()(({ store }) => (
           <Routes />
         </div>
       </div>
+      <Footer />
     </Router>
   </Provider>
-))
-
-export const App = hot(module)(Appp);
+)))

@@ -1,7 +1,8 @@
 import {getStorage, setStorage} from '../localStorageService'
 import {data as defaultData} from './default'
+import {STORAGE_NAME} from '../config'
 
-const data = getStorage('pi') || defaultData
+const data = getStorage(STORAGE_NAME) || defaultData
 
 /**
  * Get the initial state for a data property
@@ -18,9 +19,10 @@ export function getInitialState(key){
  * @param {string} key
  * @param {object} subData
  * @return {object}
+ * @todo maybe refactor to higher order factory
  */
 export function storeState(key, subData){
   data[key] = subData
-  setStorage('pi', data)
+  setStorage(STORAGE_NAME, data)
   return subData
 }

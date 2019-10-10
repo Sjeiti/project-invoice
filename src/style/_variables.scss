@@ -28,12 +28,15 @@ $breakpointHigh: '(min-width: 599px)';
 //$breakpointLow: '(max-width: $breakpoint)';
 //$breakpointHigh: '(max-width: $breakpoint+1px)';
 
+// background-color: lighten($colorButton,54%);
+// box-shadow: 0 1px 0 0 lighten($colorButton,30%) inset, 0 -1px 0 0 lighten($colorButton,30%) inset;
+
 :root {
+  --color-header: #{$colorHeader};
+  --color-red: #{$colorRed};
   --color-lighterBut: lighten($colorButton,54%);
   --color-lightBut: lighten($colorButton,30%);
 }
-// background-color: lighten($colorButton,54%);
-// box-shadow: 0 1px 0 0 lighten($colorButton,30%) inset, 0 -1px 0 0 lighten($colorButton,30%) inset;
 
 // below old
 
