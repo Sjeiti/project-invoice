@@ -1,0 +1,55 @@
+
+$colorRed: #F04;
+$colorGreen: #582;
+$colorBlue: #1d85b4;
+$colorYellow: #EFAC4E;
+$colorGrayDark: #444;
+$colorGray: #888;
+$colorGrayLight: #CCC;
+
+$colorBackground: #F8F8F8;
+$colorHeader: #444;
+$colorError: $colorRed;
+$colorLink: #1c93be;
+$colorButton: $colorBlue;
+$colorButtonHigh: $colorYellow;
+$colorBorder: #BBB;
+$colorTable: #EEE;
+$colorShade: rgba(0,0,0,0.1);
+
+$padding: 8px;
+
+$inputPaddingHorizontalHigh: 14px;
+$inputPaddingHorizontalLow: 8px;
+
+$breakpoint: 598px;
+$breakpointLow: '(max-width: 598px)';
+$breakpointHigh: '(min-width: 599px)';
+//$breakpointLow: '(max-width: $breakpoint)';
+//$breakpointHigh: '(max-width: $breakpoint+1px)';
+
+:root {
+  --color-lighterBut: lighten($colorButton,54%);
+  --color-lightBut: lighten($colorButton,30%);
+}
+// background-color: lighten($colorButton,54%);
+// box-shadow: 0 1px 0 0 lighten($colorButton,30%) inset, 0 -1px 0 0 lighten($colorButton,30%) inset;
+
+// below old
+
+$shadeFlat: 2px 3px 1px rgba(0, 0, 0, 0.2);
+
+$colorMain: #444; //#748274;
+$colorMainDark: darken($colorMain,5%);
+$colorMainDarker: darken($colorMain,10%);
+$colorHeading: lighten($colorMain,5%);
+$colorText: #332;
+$colorBackground: #f5f5f5;
+$colorFormBackground: #ffffff;
+$colorAmountPositive: #7eb743;
+$colorAmountNegative: #d8a771;
+
+$colorPrintBackground: #f8fffd;
+
+$headerHeight: 40px;
+$footerHeight: 20px;

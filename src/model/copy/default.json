@@ -1,0 +1,73 @@
+{
+  "sender": {
+    "nl": "**${data.name}**\n${data.address}\n${data.zipcode} ${data.city}\n${data.vatNumber}\nkvk ${data.kvkNumber}",
+    "en": "**${data.name}**\n${data.address}\n${data.zipcode} ${data.city}\n${data.vatNumber}\nkvk ${data.kvkNumber}",
+    "index": 0
+  },
+  "receiver": {
+    "nl": "**${client.name}**\n${client.address}\n${client.zipcode} ${client.city}\n${client.contact}",
+    "en": "**${client.name}**\n${client.address}\n${client.zipcode} ${client.city}\n${client.contact}",
+    "index": 1
+  },
+  "footer": {
+    "nl": "Gelieve binnen **${client.paymentterm}** dagen over te maken op bankrekeningnummer (IBAN) **${data.iban}** t.n.v. ${data.name} onder vermelding van factuurnummer **${project.invoiceNr}**. Bij het verstrijken van de betalingstermijn worden administratiekosten en wettelijke rente in rekening gebracht.",
+    "en": "Please transfer within ${data.reminderPeriod} days to IBAN ${data.iban}, ${data.bic}, bank name: ${data.bankName} quoting the invoice number. Upon expiry of the payment, administration costs and legal interest will be charged.",
+    "index": 2
+  },
+  "invoice": { "nl": "factuur", "en": "invoice", "index": 3 },
+  "reminder": { "nl": "herinnering", "en": "reminder", "index": 4 },
+  "quotation": { "nl": "offerte", "en": "quotation", "index": 5 },
+  "reminder1": {
+    "nl": "Uit de administratie blijkt dat factuur **${project.invoiceNr}** van *${project.dateFormatted}* al **${project.daysLate}** dagen geleden betaald had moeten zijn. Vanaf de tweede herinnering zal **€${data.administrationCosts}** administratiekosten  in rekening gebracht worden, alsmede de wettelijke rente. Mocht u de factuur inmiddels hebben betaald dan kunt u deze herinnering als niet verzonden beschouwen.",
+    "en": "We've noticed that invoice **${project.invoiceNr}** from *${project.dateFormatted}* should have been paid **${project.daysLate}** days ago. From the second reminder administration costs (**€${data.administrationCosts}**) and legal interest may be added.",
+    "index": 6
+  },
+  "reminder2": {
+    "nl": "Uit de administratie blijkt dat factuur **${project.invoiceNr}** van *${project.dateFormatted}* al **${project.daysLate}** dagen geleden betaald had moeten zijn. Er zijn **€${data.administrationCosts}** administratiekosten in rekening gebracht, alsmede de wettelijke rente. Mocht u de factuur inmiddels hebben betaald dan kunt u deze herinnering als niet verzonden beschouwen.",
+    "en": "We've noticed that invoice **${project.invoiceNr}** from *${project.dateFormatted}* should have been paid **${project.daysLate}** days ago. Administration costs (**€${data.administrationCosts}**) and legal interest have been added.",
+    "index": 7
+  },
+  "exhortation": { "nl": "Aanmanging", "en": "Exhortation", "index": 8 },
+  "exhortation_": {
+    "nl": "Uit de administratie blijkt dat factuur **${project.invoiceNr}** van *${project.dateFormatted}* al **${project.daysLate}** dagen geleden betaald had moeten zijn.\n<strong>De betaling dient uiterlijk binnen **${client.paymentterm}** dagen na dagtekening te zijn bijgeschreven. Wanneer deze termijn verstreken is zal de vordering uit handen worden gegeven.</strong>\nMocht u de factuur inmiddels hebben betaald dan kunt u deze aanmaning als niet verzonden beschouwen.\nDeze aanmaning zal u zowel per e-mail als per aangetekende post toekomen.",
+    "en": "We've noticed that invoice **${project.invoiceNr}** from *${project.dateFormatted}* should have been paid **${project.daysLate}** days ago. **Payment must be fullfilled within **${client.paymentterm}** days after this writing.** If this term is exceeded a debt-collection agency will be called in; the client is liable for any associated costs.",
+    "index": 9
+  },
+  "dateFormat": { "nl": "DD-MM-YYYY", "en": "MM/DD/YYYY", "index": 10 },
+  "amount": { "nl": "bedrag", "en": "amount", "index": 11 },
+  "vat": { "nl": "BTW", "en": "VAT", "index": 12 },
+  "total": { "nl": "totaal", "en": "total", "index": 13 },
+  "subtotal": { "nl": "subtotaal", "en": "subtotal", "index": 14 },
+  "payment": { "nl": "betaling", "en": "payment", "index": 15 },
+  "discount": { "nl": "korting", "en": "discount", "index": 16 },
+  "amountPaid": { "nl": "betaald", "en": "amount paid", "index": 17 },
+  "remainder": { "nl": "restant", "en": "remainder", "index": 18 },
+  "date": { "nl": "datum", "en": "date", "index": 19 },
+  "concerns": { "nl": "betreft", "en": "concerns", "index": 20 },
+  "number": { "nl": "nummer", "en": "number", "index": 21 },
+  "legalInterest": {
+    "nl": "wettelijke rente",
+    "en": "legal interest",
+    "index": 22
+  },
+  "administrationCosts": {
+    "nl": "administratie kosten",
+    "en": "administration costs",
+    "index": 23
+  },
+  "pagebreak": {
+    "nl": "<div class='page-break'></div>",
+    "en": "<div class='page-break'></div>",
+    "index": 24
+  },
+  "planning": {
+    "nl": "Bij acceptatie van de offerte kan vanaf ${project.quotationStartDate} worden gestart met de uitvoer. De looptijd bedraagt ongeveer ${project.quotationDuration} weken.\nVoor oplevering worden de onderdelen getest op gebruiksvriendelijkheid en technisch correct functioneren. Eventuele punten van verbetering (binnen redelijke grenzen) worden verwerkt in het eindproduct.",
+    "en": "Before delivery, the components are tested on usability and technical functioning. Possible areas for improvement (within reasonable limits) are processed into the final product.",
+    "index": 25
+  },
+  "finally": {
+    "nl": "Deze offerte valt onder deze algemene voorwaarden: ${data.terms}. Gaarne acceptatie van de offerte per mail bevestigen. Mochten er nog vragen zijn dan verneem ik dat graag. Ik hoop een gepast voorstel te hebben gedaan en ben benieuwd naar uw reactie.\n\n\nMet vriendelijke groet,\n\nSpongebob Squarepants\n*‎Fry cook*",
+    "en": "This quotation is subject to: ${data.terms}. Please confirm acceptance of the quotation by email. If you have any questions then let me know. I hope the proposal is appropriate and I'm looking forward to your response.\n\n\nMet vriendelijke groet,\n\nSpongebob Squarepants\n*‎Fry cook*",
+    "index": 26
+  }
+}

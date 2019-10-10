@@ -1,0 +1,158 @@
+[
+  {
+    "nr": 1,
+    "name": "Krusty Krab",
+    "address": "831 Bottomfeeder Lane",
+    "zipcode": "1000 DG",
+    "postbox": "",
+    "zippost": "",
+    "city": "Bikini Bottom",
+    "phone": "",
+    "paymentterm": 21,
+    "contact": "",
+    "projects": [
+      {
+        "clientNr": 1,
+        "id": 0,
+        "description": "One gazillion Krabby Patties",
+        "hourlyRate": 33,
+        "discount": 5,
+        "lines": [
+          {
+            "description": "Krabby Patties",
+            "hours": 55,
+            "vat": 21,
+            "amount": 1234
+          },
+          {
+            "description": "spatula greese",
+            "hours": 14,
+            "vat": 21,
+            "amount": 444
+          }
+        ],
+        "invoices": [
+          { "date": "2019-05-04", "type": "invoice" },
+          { "date": "2019-05-25", "type": "reminder" },
+          { "date": "2019-06-08", "type": "reminder" },
+          { "date": "2019-06-22", "type": "reminder", "interest": true }
+        ],
+        "paid": false,
+        "quotationDate": "2019-04-27",
+        "quotationStartDate": "2019-04-27",
+        "quotationDuration": 7,
+        "quotationSubject": "Krabby Patties",
+        "quotationBefore": "### project\nI, Spongebob Squarepants, hereby solemly swear to make one gazillion Krabby Patties.",
+        "quotationAfter": "### finally\nThank you",
+        "ignore": false
+      },
+      {
+        "clientNr": 1,
+        "id": 1,
+        "description": "Two gazillion Krabby Patties",
+        "hourlyRate": 33,
+        "discount": 5,
+        "lines": [
+          {
+            "description": "Krabby Patties",
+            "hours": 55,
+            "vat": 21,
+            "amount": 1234
+          },
+          {
+            "description": "spatula greese",
+            "hours": 14,
+            "vat": 21,
+            "amount": 444
+          }
+        ],
+        "invoices": [
+          { "date": "2019-05-04", "type": "invoice" },
+          { "date": "2019-05-25", "type": "reminder" },
+          { "date": "2019-06-08", "type": "reminder" },
+          { "date": "2019-06-22", "type": "reminder", "interest": true }
+        ],
+        "paid": false,
+        "quotationDate": "2019-04-27",
+        "quotationStartDate": "2019-04-27",
+        "quotationDuration": 7,
+        "quotationSubject": "Krabby Patties",
+        "quotationBefore": "### project\nI, Spongebob Squarepants, hereby solemly swear to make two gazillion Krabby Patties.",
+        "quotationAfter": "### finally\nThank you",
+        "ignore": false
+      },
+      {
+        "clientNr": 1,
+        "id": 21,
+        "description": "Krusty Krab spring-cleaning",
+        "hourlyRate": 33,
+        "discount": 5,
+        "lines": [
+          {
+            "description": "Krabby Patties",
+            "hours": 823,
+            "vat": 21,
+            "amount": 12345
+          }
+        ],
+        "invoices": [],
+        "paid": false,
+        "ignore": false,
+        "quotationAfter": "",
+        "quotationBefore": "",
+        "quotationDate": "",
+        "quotationDuration": 2,
+        "quotationStartDate": "",
+        "quotationSubject": ""
+      },
+      {
+        "clientNr": 1,
+        "id": 22,
+        "description": "Krusty Krab spring-cleaning",
+        "hourlyRate": 33,
+        "discount": 5,
+        "lines": [
+          {
+            "description": "Krabby Patties",
+            "hours": 823,
+            "vat": 21,
+            "amount": 12345
+          }
+        ],
+        "invoices": [{ "date": "2018-06-23", "type": "invoice" }],
+        "paid": false,
+        "ignore": false,
+        "quotationAfter": "",
+        "quotationBefore": "",
+        "quotationDate": "",
+        "quotationDuration": 2,
+        "quotationStartDate": "",
+        "quotationSubject": ""
+      },
+      {
+        "clientNr": 1,
+        "id": 23,
+        "description": "Krusty Krab spring-cleaning",
+        "hourlyRate": 33,
+        "discount": 5,
+        "lines": [
+          {
+            "description": "Krabby Patties",
+            "hours": 823,
+            "vat": 21,
+            "amount": 12345
+          }
+        ],
+        "invoices": [{ "date": "2017-06-24", "type": "invoice" }],
+        "paid": false,
+        "ignore": false,
+        "quotationAfter": "",
+        "quotationBefore": "",
+        "quotationDate": "",
+        "quotationDuration": 2,
+        "quotationStartDate": "",
+        "quotationSubject": ""
+      }
+    ]
+  }
+]
