@@ -11,8 +11,9 @@ const StyledHeaderLink = styled(Link)`
   `}
 `
 
-export const HeaderLink = withRouter(attr => {
-  const { children, to, location: { pathname } } = attr
+export const HeaderLink = withRouter(props => {
+  const { children, to, location: { pathname }} = props
+  const { staticContext, ...attr } = props
   const isCurrent = to === pathname
   return <StyledHeaderLink current={isCurrent.toString()} {...attr}>{children}</StyledHeaderLink>
 })

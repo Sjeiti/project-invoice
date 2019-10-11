@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { HeaderLink } from '../components/HeaderLink'
 import './header.scss'
 import { SaveableButtons } from './SaveableButtons'
+import {Logo} from './Logo'
 
 export const Header = () => {
   const [hamburger, setHamburger] = useState(false)
@@ -9,7 +10,7 @@ export const Header = () => {
     <header>
       <nav>
         <HeaderLink to="/" className="home-icon">
-          #{/*<logo />*/}
+          <Logo/>
         </HeaderLink>
         <h2 className="page-title hide-high">pageTitle</h2>
         <ul className="list-unstyled list-inline">
