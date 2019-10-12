@@ -69,50 +69,50 @@ button, .btn, input, button, select, textarea, .input {
   }
 }
 
-button, .btn {
-  display: inline-block;
-  margin-bottom: $padding;
-  box-shadow: 0 0 0 1px darken($colorButton,5%) inset,
-    1px 1px 0 1px lighten($colorButton,3%) inset,
-    0 -2px 8px $colorShade inset;
-  background-color: $colorButton;
-  //color: #FFF!important;
-  color: #FFF;
-  text-decoration: none;
-  transition: background-color 200ms linear;
-  cursor: pointer;
-  &:hover {
-    background-color: lighten($colorButton,5%);
-  }
-  &:focus {
-    box-shadow: 0 0 0 1px darken($colorButton,10%) inset,
-      1px 1px 0 1px lighten($colorButton,20%) inset,
-      0 -2px 8px $colorShade inset,
-      $shadeFlat;
-  }
-  &[disabled], &[disabled]:hover {
-    opacity: 0.3;
-    background-color: $colorButton;
-    //background-color: mix($colorButton,#888,10%);
-  }
-  &-sm {
-    font-size: 12px;
-    padding: 6px;
-  }
-  &-link {
-    background-color: transparent;
-    box-shadow: none;
-    text-decoration: underline;
-    &:hover { background-color: transparent; }
-    &:focus { box-shadow: none; }
-  }
-  i:first-child:last-child {
-    margin: 0 -5.5px;
-    @media #{$breakpointLow} {
-      margin: 0 -1.5px;
-    }
-  }
-}
+//button, .btn {
+//  display: inline-block;
+//  margin-bottom: $padding;
+//  box-shadow: 0 0 0 1px darken($colorButton,5%) inset,
+//    1px 1px 0 1px lighten($colorButton,3%) inset,
+//    0 -2px 8px $colorShade inset;
+//  background-color: $colorButton;
+//  //color: #FFF!important;
+//  color: #FFF;
+//  text-decoration: none;
+//  transition: background-color 200ms linear;
+//  cursor: pointer;
+//  &:hover {
+//    background-color: lighten($colorButton,5%);
+//  }
+//  &:focus {
+//    box-shadow: 0 0 0 1px darken($colorButton,10%) inset,
+//      1px 1px 0 1px lighten($colorButton,20%) inset,
+//      0 -2px 8px $colorShade inset,
+//      $shadeFlat;
+//  }
+//  &[disabled], &[disabled]:hover {
+//    opacity: 0.3;
+//    background-color: $colorButton;
+//    //background-color: mix($colorButton,#888,10%);
+//  }
+//  &-sm {
+//    font-size: 12px;
+//    padding: 6px;
+//  }
+//  &-link {
+//    background-color: transparent;
+//    box-shadow: none;
+//    text-decoration: underline;
+//    &:hover { background-color: transparent; }
+//    &:focus { box-shadow: none; }
+//  }
+//  i:first-child:last-child {
+//    margin: 0 -5.5px;
+//    @media #{$breakpointLow} {
+//      margin: 0 -1.5px;
+//    }
+//  }
+//}
 
 .col {
   .btn, button {
@@ -346,7 +346,7 @@ code {
   >.layout {
     flex: 1 0 auto;
     >div {
-      padding-top: $headerHeight + $padding;
+      padding-top: $headerHeight;// + $padding;
       padding-bottom: $padding;
     }
   }

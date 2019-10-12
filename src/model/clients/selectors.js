@@ -91,3 +91,42 @@ export const getProjectDateLatest = project => {
 
 export const getTotalIncDiscounted = project =>
   project.lines.reduce((acc, { amount }) => acc + amount, 0)
+
+function allProjects(clients){
+  return clients.reduce((acc,client)=>(acc.push(...client.projects), acc), [])
+}
+
+/**
+ * Get all projects sorted by date
+ * @param {client[]} clients
+ * @returns {project[]}
+ */
+function allProjectsByDate(clients) {
+  return allProjects(clients).sort((a,b)=>new Date(a.dateLatest)>new Date(b.dateLatest)?1:-1)
+}
+
+/**
+ * Get the last project
+ * @param {client[]} clients
+ * @returns {project}
+ */
+export function getLatestProject(clients) {
+  return allProjectsByDate(clients).pop()
+}
+
+/**
+ * Get the latest client
+ * @param {client[]} clients
+ * @return {client}
+ */
+export function getLatestClient(clients) {
+  return getClient(clients, getLatestProject(clients).clientNr)
+}
+
+export function getOpenProjects(clients) {
+  return allProjectsByDate(clients).filter(project => !project.paid&&project.invoices.length)
+}
+
+export function getDraftProjects(clients) {
+  return allProjectsByDate(clients).filter(project => !project.invoices.length)
+}

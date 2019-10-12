@@ -9,7 +9,7 @@ export const Header = () => {
   return (
     <header>
       <nav>
-        <HeaderLink to="/" className="home-icon">
+        <HeaderLink to="/" className="home-icon" style={{backgroundColor:'transparent'}}>
           <Logo/>
         </HeaderLink>
         <h2 className="page-title hide-high">pageTitle</h2>

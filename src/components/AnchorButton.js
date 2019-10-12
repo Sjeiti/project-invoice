@@ -1,5 +1,8 @@
 import styled from 'styled-components'
 
+/**
+ * A button that looks like an anchor
+ */
 export const AnchorButton = styled.button`
   display: inline;
   padding: 0;

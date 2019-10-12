@@ -3,7 +3,7 @@ import anime from 'animejs'
 
 const triRad = Math.PI/3
 
-export const Logo = ({ size=32 }) => {
+export const Logo = ({ size=32, colors, ...attrs }) => {
   //xmlns:xlink="http://www.w3.org/1999/xlink"
 
   const sizeh = size/2
@@ -38,11 +38,11 @@ export const Logo = ({ size=32 }) => {
     rhoAnim(0, 0)
   }, [])
 
-  return <svg width={size} height={size}>
+  return <svg width={size} height={size} {...attrs}>
     <g transform={transformGroup}>
-      <polygon style={{fill:'#666'}} points={pointWrap(hexPoints)} />
-      <polygon style={{fill:'#999'}} points={getRhombusPoints(hexPoints)}         ref={rhoRef} transform={rhoState} />
-      <polygon style={{fill:'#CCC'}} points={getTrianglePoints(hexPoints, sizeh)} ref={triRef} transform={triState} />
+      <polygon style={{fill:colors?.[0]||'#666'}} points={pointWrap(hexPoints)} />
+      <polygon style={{fill:colors?.[1]||'#999'}} points={getRhombusPoints(hexPoints)}         ref={rhoRef} transform={rhoState} />
+      <polygon style={{fill:colors?.[2]||'#CCC'}} points={getTrianglePoints(hexPoints, sizeh)} ref={triRef} transform={triState} />
     </g>
   </svg>
 }

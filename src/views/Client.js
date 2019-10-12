@@ -5,7 +5,6 @@ import { isEqual } from '../utils'
 import {
   getClients,
   getClient,
-  getNextProjectNr,
   getProjectHref,
   getProjectNr,
   getProjectDate,
@@ -13,11 +12,13 @@ import {
   getTotalIncDiscounted
 } from '../model/clients/selectors'
 import { Label } from '../components/Label'
+import { ButtonAnchor } from '../components/ButtonAnchor'
 import { Price } from '../components/Price'
 import { saveable } from '../saveable'
 import { storeClient, removeClient, addProject } from '../model/clients/actions'
 import { ProjectList } from '../components/ProjectList'
 import {Input} from '../components/Input'
+import {getNewProjectEvents} from '../model/eventFactory'
 
 const editablePropNames = [
   'name'
@@ -40,8 +41,6 @@ export const Client = withRouter(
     const client = getClient(clients, parseInt(match.params.client, 10))
     const isClient = !!client
     const editableProps = isClient && editablePropNames.map(key => [key, ...useState(client[key])])
-    const nextProjectNr = getNextProjectNr(clients)
-    const addClientProject = isClient && addProject.bind(null, client.nr, nextProjectNr)
 
     useEffect(()=>{setTimeout(()=>saveable.dispatch(true))}, [])
     if (isClient){
@@ -68,6 +67,8 @@ export const Client = withRouter(
       , totalIncDiscounted: <Price symbol="€" amount={getTotalIncDiscounted(project)} separator="," />
     }))
 
+    const newProjectEvents = getNewProjectEvents(clients, client, addProject)
+
     return (
       (isClient && (
         <>
@@ -83,21 +84,16 @@ export const Client = withRouter(
                 )
             )}
           </form>
+          <hr/>
           <section>
-            <Link
-              onClick={addClientProject}
-              to={getProjectHref({ clientNr: client.nr, id: nextProjectNr })}
-              className="btn float-right"
-            >
-              New project
-            </Link>
+            <ButtonAnchor {...newProjectEvents} className="float-right">New project</ButtonAnchor>
             <h3>projects</h3>
             <ProjectList
               cols="paid nr date dateLatest description totalIncDiscounted"
               projects={projectListProjects}
               sort="date" // todo
               asc="false" // todo
-              empty="This client has no projects :-/"
+              empty={['This client has no projects :-/, ', <Link {...newProjectEvents}>create one</Link>]}
             />
           </section>
         </>
