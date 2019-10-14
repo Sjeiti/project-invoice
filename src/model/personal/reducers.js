@@ -1,14 +1,13 @@
 import {STORE_DATA} from './actions'
-import {getInitialState, storeState} from '../storage'
+import {getInitialState} from '../storage'
 
 const dataName = 'personal'
 const initialState = getInitialState(dataName)
-const save = storeState.bind(null, dataName)
 
 export function personal(state = initialState, action){
   switch (action.type){
     case STORE_DATA:
-      return save({...state, ...action.data})
+      return {...state, ...action.data}
 
     default:
       return state

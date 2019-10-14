@@ -1,10 +1,14 @@
-//import { ADD_TODO } from '../actions/types'
-import defaultModel from './default'
+import {getInitialState} from '../storage'
+import {STAMP_TIME} from './actions'
 
-export function pi(state = defaultModel, action){
+const initialState = getInitialState('pi')
+
+export function pi(state = initialState, action){
   switch (action.type){
-    //case ADD_TODO:
-    //return state
+
+    case STAMP_TIME:
+      return state // todo
+
     default:
       return state
   }

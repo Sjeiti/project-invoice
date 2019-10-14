@@ -1,17 +1,41 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import {color, formElement, icon} from '../cssService'
 
-const InputElement = styled.input`
-  display: block;
-  // margin: 0;
-  // padding: 0;
+export const InputElement = styled.input`
+  ${formElement}
+  box-shadow: 0 0 0 1px ${color.colorBorder} inset,  0 4px 16px ${color.colorShade} inset;
+  &[type=checkbox] {
+    width: 0;
+  height: 0;
+    margin: 0;
+    padding: 0;
+    +span {
+      ${formElement}
+      display: inline-block;
+      margin: 0;
+      padding: 8px;
+      overflow: hidden;
+      background-color: #e8e8e8;
+      box-shadow: inset 0 0 0 1px #bbb;
+      color: #BBB;
+      text-align: center;
+      font-size: 1rem;
+      &:before { 
+        ${icon}
+        content: '\uE907';
+        color: inherit;
+      }
+    }
+    &:checked+span { color: ${color.colorButton}; }
+  }
 `
 
 export const InputText = attr => <InputElement {...attr} type="text" />
 
 export const InputNumber = attr => <InputElement {...attr} type="number" />
 
-export const InputBoolean = attr => <InputElement {...attr} type="checkbox" />
+export const InputBoolean = attr => <><InputElement {...attr} type="checkbox" /><span/></>
 
 export const InputDate = attr => <InputElement {...attr} type="date" />
 

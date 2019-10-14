@@ -5,7 +5,7 @@ import { getClients, getClientHref } from '../model/clients/selectors'
 import { addClient } from '../model/clients/actions'
 import {Input} from '../components/Input'
 import {Label} from '../components/Label'
-import {ButtonAnchor} from '../components/ButtonAnchor'
+import {ButtonLink} from '../components/ButtonLink'
 import {AnchorButton} from '../components/AnchorButton'
 import {getNewClientEvents} from '../model/eventFactory'
 
@@ -18,7 +18,7 @@ export const Clients = connect(
   const newClientEvents = getNewClientEvents(clients, addClient)
   return (
     <>
-      <ButtonAnchor {...newClientEvents} className="float-right">new client</ButtonAnchor>
+      <ButtonLink {...newClientEvents} className="float-right">new client</ButtonLink>
       <h1>
         clients <small>({clients.length})</small>
       </h1>

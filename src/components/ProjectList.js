@@ -4,12 +4,10 @@ import styled from 'styled-components'
 const Tr = styled.tr`
   cursor: pointer;
   &:hover {
-    background: var(--color-lighterBut);
-    box-shadow: 0 1px 0 0 var(--color-lightBut) inset, 0 -1px 0 0 var(--color-lightBut) inset;
     background: #e9f6fb;
     box-shadow: 0 1px 0 0 #80c9ea inset, 0 -1px 0 0 #80c9ea inset;
   }
-` // #80c9ea #e9f6fb
+`
 
 export const ProjectList = ({ cols, projects, empty }) => {
   const colNames = cols.split(/\s/g)

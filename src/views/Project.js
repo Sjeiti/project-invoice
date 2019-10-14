@@ -29,7 +29,7 @@ export const Project = withRouter(
       const isProject = !!project
 
       const editableProps =
-        isProject && editablePropNames.map(key => [key, ...useState(project[key])])
+        isProject && editablePropNames.map(key => [key, ...useState(project[key])]) || null
       const editablePropsMap =
         editableProps?.reduce((acc, [key, val]) => ((acc[key] = val), acc), {})
 

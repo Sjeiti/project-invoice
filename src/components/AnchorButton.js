@@ -13,6 +13,8 @@ export const AnchorButton = styled.button`
   text-decoration: underline;
   transition: none;
   cursor: pointer;
+  border: 0;
+  font-family: inherit;
   &:hover {
     background-color: inherit;
     color: inherit;

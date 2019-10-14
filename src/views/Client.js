@@ -12,7 +12,7 @@ import {
   getTotalIncDiscounted
 } from '../model/clients/selectors'
 import { Label } from '../components/Label'
-import { ButtonAnchor } from '../components/ButtonAnchor'
+import { ButtonLink } from '../components/ButtonLink'
 import { Price } from '../components/Price'
 import { saveable } from '../saveable'
 import { storeClient, removeClient, addProject } from '../model/clients/actions'
@@ -36,8 +36,8 @@ const editablePropNames = [
 export const Client = withRouter(
   connect(
     state => ({ clients: getClients(state) }),
-    { storeCLient: storeClient, removeClient, addProject }
-  )(({ history, match, clients, storeCLient, removeClient, addProject }) => {
+    { storeClient, removeClient, addProject }
+  )(({ history, match, clients, storeClient, removeClient, addProject }) => {
     const client = getClient(clients, parseInt(match.params.client, 10))
     const isClient = !!client
     const editableProps = isClient && editablePropNames.map(key => [key, ...useState(client[key])])
@@ -50,7 +50,7 @@ export const Client = withRouter(
       }
       const isDirty = !isEqual(client, newClient)
       const revert = isDirty && (() => editableProps.forEach(([key, val, set]) => set(client[key]))) || null
-      const save = isDirty && storeCLient.bind(null, newClient) || null
+      const save = isDirty && storeClient.bind(null, newClient) || null
       const deleet = removeClient.bind(null, client.nr)
       saveable.dispatch(true, save, revert, deleet)
     } else {
@@ -86,14 +86,14 @@ export const Client = withRouter(
           </form>
           <hr/>
           <section>
-            <ButtonAnchor {...newProjectEvents} className="float-right">New project</ButtonAnchor>
+            <ButtonLink {...newProjectEvents} className="float-right">New project</ButtonLink>
             <h3>projects</h3>
             <ProjectList
               cols="paid nr date dateLatest description totalIncDiscounted"
               projects={projectListProjects}
               sort="date" // todo
               asc="false" // todo
-              empty={['This client has no projects :-/, ', <Link {...newProjectEvents}>create one</Link>]}
+              empty={['This client has no projects :-/, ', <Link {...newProjectEvents} key={0}>create one</Link>]}
             />
           </section>
         </>

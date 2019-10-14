@@ -1,10 +1,14 @@
-//import { FOO } from '../actions'
-import defaultModel from './default'
+import { STORE_CONFIG } from './actions'
+import {getInitialState} from '../storage'
 
-export function config(state = defaultModel, action){
+const dataName = 'config'
+const initialState = getInitialState(dataName)
+
+export function config(state = initialState, action){
   switch (action.type){
-    //case FOO:
-    //return state
+    case STORE_CONFIG:
+      return state
+
     default:
       return state
   }

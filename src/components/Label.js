@@ -5,7 +5,10 @@ const Element = styled.label`
   display: block;
   margin: 0;
   padding: 0;
-  & input {
+  & select, & [type=checkbox]+span {
+    float: right;
+  }
+  & input, & textarea {
     float: right;
     width: 70%;
   }

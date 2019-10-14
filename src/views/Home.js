@@ -1,5 +1,5 @@
 import React from 'react'
-import { withRouter, Link } from 'react-router-dom'
+import {withRouter, Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import styled from 'styled-components'
 import {absolute, clearfix} from '../cssService'
@@ -16,7 +16,7 @@ import {addClient, addProject} from '../model/clients/actions'
 import {getNewClientEvents, getNewProjectEvents} from '../model/eventFactory'
 import {Logo} from '../components/Logo'
 import {AnchorButton} from '../components/AnchorButton'
-import {ButtonAnchor} from '../components/ButtonAnchor'
+import {ButtonLink} from '../components/ButtonLink'
 import {Button} from '../components/Button'
 import {Price} from '../components/Price'
 import {ProjectList} from '../components/ProjectList'
@@ -101,10 +101,10 @@ export const Home = withRouter(connect(
     <div className="row no-gutters">
       <section className="col-12 col-md-5">
         <h2>What do you want to do:</h2>
-        <p><ButtonAnchor {...getNewClientEvents(clients, addClient)}>New client</ButtonAnchor></p>
-        {latestClient&&<p><ButtonAnchor {...getNewProjectEvents(clients, latestClient, addProject)}>Create project for <span>'{latestClient.name}'</span></ButtonAnchor></p>}
+        <p><ButtonLink {...getNewClientEvents(clients, addClient)}>New client</ButtonLink></p>
+        {latestClient&&<p><ButtonLink {...getNewProjectEvents(clients, latestClient, addProject)}>Create project for <span>'{latestClient.name}'</span></ButtonLink></p>}
         {latestProject&&<p><Button data-click="onCloneLatestProject">Clone project <span>'{latestProject.description}'</span></Button></p>}
-        <p><ButtonAnchor to="/overview/quarter">See current quarter</ButtonAnchor></p>
+        <p><ButtonLink to="/overview/quarter">See current quarter</ButtonLink></p>
       </section>
       <section className="col-12 col-md-7">
         <h2>Open invoices</h2>
