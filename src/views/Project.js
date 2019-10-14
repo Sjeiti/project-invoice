@@ -5,7 +5,7 @@ import { getClient, getProject, getClients, getClientHref } from '../model/clien
 import { Link, withRouter } from 'react-router-dom'
 import { Label } from '../components/Label'
 import { Input } from '../components/Input'
-import { isEqual } from '../utils'
+import {isEqual,nbsp} from '../utils'
 import { saveable } from '../saveable'
 
 const editablePropNames = ['description', 'id', 'hourlyRate', 'discount', 'paid', 'quotationDate']
@@ -52,9 +52,9 @@ export const Project = withRouter(
         (isProject && (
           <>
             <h3>
-              <Link to={getClientHref(client)}>{client.name}</Link>
+              <Link to={getClientHref(client)}>{client.name||nbsp}</Link>
             </h3>
-            <h2>{editablePropsMap.description}</h2>
+            <h2>{editablePropsMap.description||nbsp}</h2>
             <form>
               {editableProps.map(
                 ([key, value, setValue], index) =>

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
-import { isEqual } from '../utils'
+import {isEqual,nbsp} from '../utils'
 import {
   getClients,
   getClient,
@@ -72,7 +72,7 @@ export const Client = withRouter(
     return (
       (isClient && (
         <>
-          <h3>{editableProps[0][1]}</h3>
+          <h3>{editableProps[0][1]||nbsp}</h3>
           <form>
             {editableProps.map(
               ([key, value, setValue], index) =>

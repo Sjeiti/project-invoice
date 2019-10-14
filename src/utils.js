@@ -26,3 +26,8 @@ export function isEqual(source, target, ignoreKeys = []){
  * A noop
  */
 export const noop = () => {}
+
+/**
+ * Non breaking space
+ */
+export const nbsp = '\u00A0'
