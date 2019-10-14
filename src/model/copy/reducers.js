@@ -1,7 +1,8 @@
-//import { FOO } from '../actions'
-import defaultModel from './default'
+import {getInitialState} from '../storage'
 
-export function copy(state = defaultModel, action){
+const initialState = getInitialState('copy')
+
+export function copy(state = initialState, action){
   switch (action.type){
     //case FOO:
     //return state
