@@ -4,11 +4,31 @@
 
 import {css} from 'styled-components'
 
+export const breakpoint = {
+  breakpoint: '598px'
+  , breakpointLow: '(max-width: 598px)'
+  , breakpointHigh: '(min-width: 599px)'
+}
+
 export const color = {
   colorButton: '#1d85b4'
   , colorShade: 'rgba(0,0,0,0.1)'
   , shadeFlat: '2px 3px 1px rgba(0, 0, 0, 0.2)'
   , colorBorder: '#BBB'
+  , colorHeader: '#444'
+}
+
+export const size = {
+  headerHeight: '40px'
+  ,padding: '8px'
+  ,sum(...numbers){
+    const unit = numbers[0].replace(/^\d+/, '')
+    return numbers.reduce((acc, number)=>acc+(parseFloat(number.replace(/[^\d]+$/, ''))||0), 0) + unit;
+  }
+  ,multiply(...numbers){
+    const unit = numbers[0].replace(/^\d+/, '')
+    return numbers.reduce((acc, number)=>acc*(typeof number === 'number' ? number : (parseFloat(number.replace(/[^\d]+$/, ''))||0)), 1) + unit;
+  }
 }
 
 export const clearfix = css`

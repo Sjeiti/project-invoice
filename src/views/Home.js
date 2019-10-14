@@ -2,7 +2,7 @@ import React from 'react'
 import {withRouter, Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import styled from 'styled-components'
-import {absolute, clearfix} from '../cssService'
+import {absolute,clearfix,size} from '../cssService'
 import {
   getOpenProjects,
   getClients,
@@ -26,8 +26,7 @@ const bgcolor = '#3f5267'
 const Jumbotron = styled.div`
     display: block;
     position: relative;
-    //top: - var(--padding);
-    //overflow: hidden;
+    top:  -${size.padding};
     padding-bottom: 1rem;
     margin-bottom: 40px;
     font-size: 2rem;

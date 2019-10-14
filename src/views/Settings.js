@@ -61,10 +61,9 @@ export const Settings =   connect(
               </React.Fragment>
             })}
           </section>
-          <hr/>
           <section>
-            <h2 className="col-12 col-sm-3">data</h2>
-            <div className="col-12 col-sm-9">
+            <h2 className="col-12 col-sm-3 float-left">data</h2>
+            <div className="col-12 col-sm-9 float-left">
               <ButtonAnchor href={downloadString} download={`data_${getDateString()}.json`}>download</ButtonAnchor>
               <ButtonLabel htmlFor="restore">restore</ButtonLabel>
               <input accept="application/json, text/json, .json" onChange={onChangeRestore} type="file" id="restore" className="visually-hidden"/>

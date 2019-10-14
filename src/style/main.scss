@@ -20,6 +20,12 @@ body {
   background-color: $colorBackground;
 }
 
+#app {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
 body, h1, h2, h3, h4, h5, h6, p, ol, ul {
   margin: 0;
   padding: 0;
@@ -34,9 +40,9 @@ h1, h2, h3, h4, h5, h6 {
 h1:first-letter { text-transform: capitalize; }
 h3 { font-size: 22px; }
 
-ol, ul {
-  list-style: none;
-}
+a { color: $colorLink; }
+
+ol, ul { list-style: none; }
 
 section+section {
   margin-top: 40px;
@@ -56,146 +62,11 @@ img {
   height: auto;
 }
 
-/*button, .btn, input, button, select, textarea, .input {
-  margin: 0 2px 4px 0;
-  padding: 8px $inputPaddingHorizontalHigh;
-  border: 0;
-  line-height: 100%;
-  &:last-child, &.float-right:first-child {
-    margin-right: 0;
-  }
-  @media #{$breakpointLow} {
-    padding: 6px $inputPaddingHorizontalLow;
-  }
-}*/
-
-//button, .btn {
-//  display: inline-block;
-//  margin-bottom: $padding;
-//  box-shadow: 0 0 0 1px darken($colorButton,5%) inset,
-//    1px 1px 0 1px lighten($colorButton,3%) inset,
-//    0 -2px 8px $colorShade inset;
-//  background-color: $colorButton;
-//  //color: #FFF!important;
-//  color: #FFF;
-//  text-decoration: none;
-//  transition: background-color 200ms linear;
-//  cursor: pointer;
-//  &:hover {
-//    background-color: lighten($colorButton,5%);
-//  }
-//  &:focus {
-//    box-shadow: 0 0 0 1px darken($colorButton,10%) inset,
-//      1px 1px 0 1px lighten($colorButton,20%) inset,
-//      0 -2px 8px $colorShade inset,
-//      $shadeFlat;
-//  }
-//  &[disabled], &[disabled]:hover {
-//    opacity: 0.3;
-//    background-color: $colorButton;
-//    //background-color: mix($colorButton,#888,10%);
-//  }
-//  &-sm {
-//    font-size: 12px;
-//    padding: 6px;
-//  }
-//  &-link {
-//    background-color: transparent;
-//    box-shadow: none;
-//    text-decoration: underline;
-//    &:hover { background-color: transparent; }
-//    &:focus { box-shadow: none; }
-//  }
-//  i:first-child:last-child {
-//    margin: 0 -5.5px;
-//    @media #{$breakpointLow} {
-//      margin: 0 -1.5px;
-//    }
-//  }
-//}
-
-.col {
-  .btn, button {
-    &:first-child, &:last-child {
-      margin-left: 0;
-    }
-  }
-}
-
-/*input, button, select, textarea, .input {
-  font-family: inherit;
-  font-size: inherit;
-  border-radius: 3px;
-  &:focus {
-    outline: none;
-  }
-}
-
-input, textarea {
-  border: 0;
-  margin-bottom: 4px;
-  box-shadow: 0 0 0 1px $colorBorder inset,  0 4px 16px $colorShade inset;
-  &[readonly] {
-    box-shadow: 0 0 0 1px lighten($colorBorder,20%);
-  }
-  &:focus {
-    box-shadow: 0 0 0 1px $colorButton inset,  0 4px 16px $colorShade inset;
-  }
-}*/
-
 textarea {
   width: 100%;
   min-height: 70px;
   line-height: 130%;
 }
-
-/*input {
-  width: 100%;
-  &[type=radio], &[type=checkbox] {
-    width: 16px;
-    height: 16px;
-  }
-  &[type=number] {
-    font-family: 'Source Code Pro', monospace;
-    &::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-    }
-  }
-  &[readonly] {
-    font-family: 'Source Code Pro', monospace;
-    background: transparent;
-  }
-  &[type=color] {
-    padding: 0;
-    width: 2rem;
-    display: inline-block;
-    margin-right: 0.5em;
-  }
-  &[type=date] {
-    @media #{$breakpointLow} {
-      max-width: 100px;
-      &::-webkit-clear-button,
-      &::-webkit-inner-spin-button,
-      &::-webkit-calendar-picker-indicator {
-        display: none;
-        -webkit-appearance: none;
-      }
-    }
-  }
-  &[type=range] {
-    position: relative;
-    box-shadow: none;
-    width: 90%;
-    &:after {
-      content: attr(data-reflect);
-      position: absolute;
-      right: -10%;
-      top: 8px;
-      color: #333;
-      font-family: 'Source Code Pro', monospace;
-    }
-  }
-}*/
 
 .mono { font-family: 'Source Code Pro', monospace; }
 
@@ -233,23 +104,6 @@ textarea {
       }
     }
   }
-}
-
-//.btn { @extend .input; }
-
-select {
-  padding: 6px 6px;
-  border: 1px solid $colorBorder;
-  &:focus {
-    border: 1px solid $colorButton;
-  }
-  @media #{$breakpointLow} {
-    padding: 4px 6px;
-  }
-}
-
-a {
-  color: $colorLink;
 }
 
 table {
@@ -332,35 +186,15 @@ dd {
 
 code {
   padding: 0.2rem 0.4rem;
-  font-family: 'Source Code Pro', mono;
+  font-family: 'Source Code Pro', monospace;
   font-size: 90%;
   color: #bd4147;
   background-color: #f7f7f9;
   border-radius: 0.25rem;
 }
 
-#app {
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
-  >.layout {
-    flex: 1 0 auto;
-    >div {
-      padding-top: $headerHeight;// + $padding;
-      padding-bottom: $padding;
-    }
-  }
-}
-
 .small, small {
   font-size: 80%;
-}
-
-.layout {
-  width: 100%;
-  max-width: 1024px;
-  margin: 0 auto;
-  padding: 0 $padding;
 }
 
 .visually-hidden {
@@ -377,10 +211,7 @@ code {
   clear: both;
 }
 
-.list-inline {
-  >li { display: inline-block; }
-}
-
+.list-inline>li { display: inline-block; }
 .position-relative { position: relative; }
 .float-left { float: left; }
 .float-right { float: right; }
@@ -408,36 +239,6 @@ code {
   }
 }
 
-label.checkbox {
-  margin: 0 2px 4px 0;
-  padding: 0;
-  cursor: pointer;
-  input { @extend .visually-hidden; }
-  span {
-    //@extend .input;
-    position: relative;
-    display: inline-block;
-    margin: 0;
-    padding: 8px;
-    overflow: hidden;
-    background-color: #E0E0E0;
-    text-align: center;
-    box-shadow: 0 0 0 1px $colorBorder inset;
-    @include icon-mark;
-    font-size: 1rem;
-    @media #{$breakpointLow} {
-      padding: 6px;
-    }
-  }
-  input+span:before {
-    display: inline-block;
-    transform-origin: 50%;
-    transform: scale(1.4);
-    color: #F8F8F8;
-  }
-  input:checked+span:before { color: $colorButton; }
-}
-
 @media #{$breakpointLow} { .hide-low { display: none!important; }}
 @media #{$breakpointHigh} { .hide-high { display: none!important; }}
 
@@ -459,49 +260,8 @@ label.checkbox {
     top: -4px;
     font-size: 7px;
     color: white;
-    //width: $size;
-    //height: $size;
-    //color: $colorButton;
-    //background-color: white;
-    //border-radius: 50%;
-    //font-size: 9px;
-    //line-height: $size;
-    //box-shadow: 0 0 0 1px $colorButton;
   }
 }
-
-//.icon {
-//  $size: 16px;
-//  &-save {
-//    position: relative;
-//    width: $size;
-//    height: $size;
-//    display: inline-block;
-//    background-color: #000;
-//    border-radius: 1px;
-//    background: radial-gradient(circle at 50%, transparent, transparent 20%, #000 20%);
-//    background-position: 50%;
-//    &:before, &:after {
-//      content: '';
-//      position: absolute;
-//      display: block;
-//    }
-//    &:before {
-//      left: 50%;
-//      top: 1px;
-//      width: 8px;
-//      height: 4px;
-//      background-color: #fff;
-//      transform: translateX(-50%);
-//    }
-//    &:after {
-//      right: 0;
-//      top: 0;
-//      border: 1.5px solid #000;
-//      border-color: #fff #fff #000 #000;
-//    }
-//  }
-//}
 
 input.reveal {
   &+* {
@@ -522,7 +282,6 @@ input.reveal {
 
 ul.tabs {
   margin: 2.5rem 0 0.5rem;
-  //border-bottom: 1px solid $colorBorder;
   &:after {
     content: '';
     display: table;

@@ -4,8 +4,14 @@ import { saveable } from '../saveable'
 import { withRouter } from 'react-router-dom'
 import { noop } from '../utils'
 import styled from 'styled-components'
+import {size} from '../cssService'
+
+const {padding} = size
 
 const Nav = styled.nav`
+  position: absolute;
+  right: ${padding};
+  top: 0;
   padding: 4px 4px 0 0;
 `
 
@@ -31,7 +37,7 @@ export const SaveableButtons = withRouter(props => {
   }, [])
 
   return (
-    <Nav className="saveable-buttons" style={{ display: isSaveable ? 'block' : 'none' }}>
+    <Nav style={{ display: isSaveable ? 'block' : 'none' }}>
       <Button onClick={save} disabled={!save}>save</Button>
       <Button onClick={revert} disabled={!revert}>revert</Button>
       <Button onClick={deleet} disabled={!deleet}>delete</Button>
