@@ -9,7 +9,7 @@ const Tr = styled.tr`
   }
 `
 
-export const ProjectList = ({ cols, projects, empty }) => {
+export const Table = ({ cols, projects: subjects, empty }) => {
   const colNames = cols.split(/\s/g)
   return (
     <table>
@@ -21,11 +21,11 @@ export const ProjectList = ({ cols, projects, empty }) => {
         </tr>
       </thead>
       <tbody>
-        {(projects.length &&
-          projects.map(project => (
-            <Tr onClick={project.onClick} key={project.id}>
+        {(subjects.length &&
+          subjects.map((subject,index) => (
+            <Tr onClick={subject.onClick} key={index}>
               {colNames.map((name, index) => (
-                <td key={index}>{project[name]}</td>
+                <td key={index}>{subject[name]}</td>
               ))}
             </Tr>
           ))) || (

@@ -3,6 +3,8 @@
  * @param {object} state
  * @returns {client[]}
  */
+import {project} from './project'
+
 export const getClients = state => [...state.clients]
 
 /**
@@ -111,6 +113,13 @@ function allProjectsByDate(clients) {
  * @returns {project}
  */
 export function getLatestProject(clients) {
+  //###########################
+  const allP = allProjectsByDate(clients)
+  if (allP.length>1) {
+    console.log('allP',allP) // todo: remove log
+    console.log('\t',[...allP].pop()) // todo: remove log
+  }
+  //#############################
   return allProjectsByDate(clients).pop()
 }
 
@@ -129,4 +138,15 @@ export function getOpenProjects(clients) {
 
 export function getDraftProjects(clients) {
   return allProjectsByDate(clients).filter(project => !project.invoices.length)
+}
+
+/**
+ * Calculate the invoice number by interpolating the template
+ * @returns {string}
+ */
+export function getProjectNumber(_project, state){
+  const {clients, config:{projectNumberTemplate}} = state
+  const client = getClient(clients, _project.clientNr)
+  const betterProject = project(_project, {_client:client, model:state})
+  return (new Function('project', 'client', 'return `'+projectNumberTemplate+'`'))(betterProject, client)
 }

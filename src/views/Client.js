@@ -16,7 +16,7 @@ import { ButtonLink } from '../components/ButtonLink'
 import { Price } from '../components/Price'
 import { saveable } from '../saveable'
 import { storeClient, removeClient, addProject } from '../model/clients/actions'
-import { ProjectList } from '../components/ProjectList'
+import { Table } from '../components/Table'
 import {Input} from '../components/Input'
 import {getNewProjectEvents} from '../model/eventFactory'
 
@@ -88,7 +88,7 @@ export const Client = withRouter(
           <section>
             <ButtonLink {...newProjectEvents} className="float-right">New project</ButtonLink>
             <h3>projects</h3>
-            <ProjectList
+            <Table
               cols="paid nr date dateLatest description totalIncDiscounted"
               projects={projectListProjects}
               sort="date" // todo

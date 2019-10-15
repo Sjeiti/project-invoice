@@ -19,7 +19,7 @@ import {AnchorButton} from '../components/AnchorButton'
 import {ButtonLink} from '../components/ButtonLink'
 import {Button} from '../components/Button'
 import {Price} from '../components/Price'
-import {ProjectList} from '../components/ProjectList'
+import {Table} from '../components/Table'
 import {Input} from '../components/Input'
 
 const bgcolor = '#3f5267'
@@ -107,7 +107,7 @@ export const Home = withRouter(connect(
       </section>
       <section className="col-12 col-md-7">
         <h2>Open invoices</h2>
-        <ProjectList
+        <Table
             pprojects="invoices"
               cols="paid date description totalIncDiscounted actions"
               projects={openInvoices}
@@ -120,7 +120,7 @@ export const Home = withRouter(connect(
       </section>
       <section className="col-12 col-md-7">
         <h2>Draft projects</h2>
-        <ProjectList
+        <Table
             pprojects="drafts"
               cols="clientName description totalIncDiscounted actions"
               projects={draftProjects}

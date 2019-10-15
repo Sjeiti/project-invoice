@@ -16,6 +16,9 @@ export const color = {
   , shadeFlat: '2px 3px 1px rgba(0, 0, 0, 0.2)'
   , colorBorder: '#BBB'
   , colorHeader: '#444'
+
+  , colorRed: '#F04'
+  , colorGray: '#CCC'
 }
 
 export const size = {
