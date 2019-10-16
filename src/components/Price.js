@@ -56,6 +56,6 @@ const currency = (amount, separator) => {
   )
 }
 
-export const Price = ({ amount, symbol = '€', separator = ',' }) => (
-  <PriceDiv data-symbol={symbol}>{currency(amount, separator)}</PriceDiv>
+export const Price = ({ amount, symbol = '€', separator = ',', ...attr }) => (
+  <PriceDiv data-symbol={symbol} {...attr}>{currency(amount, separator)}</PriceDiv>
 )

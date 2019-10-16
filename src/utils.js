@@ -41,7 +41,18 @@ export function isFunction(fn) {
  return fn && {}.toString.call(fn) === '[object Function]';
 }
 
+/**
+ * Get the getter function that sets the key/value onto a model
+ * @param {object} data
+ * @param {Function} setter
+ * @return {function(*=): function(*): *}
+ */
 export function getGetSetter(data, setter){
-  return key => value =>
-      setter({...data, ...[key, value].reduce((acc, v)=>(acc[key]=v, acc), {})})
+  const newData = {...data}
+  return key => value => (
+    newData[key] = value
+    , setter(newData)
+  )
+  // return key => value =>
+  //     setter({...data, ...[key, value].reduce((acc, v)=>(acc[key]=v, acc), {})})
 }

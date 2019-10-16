@@ -41,9 +41,15 @@ export const SaveableButtons = withRouter(props => {
   // CTRL save
   useEffect(()=>{
     function onKeyDown(e){
-      if ((e.metaKey||e.ctrlKey)&&e.key==='s'){
-        e.preventDefault()
-        save&&save()
+      const {metaKey, ctrlKey, key} = e
+      if (metaKey||ctrlKey){
+        if (key==='s'){
+          e.preventDefault()
+          save&&save()
+        } else if (key==='z') {
+          e.preventDefault()
+          revert&&revert()
+        }
       }
     }
     document.addEventListener('keydown', onKeyDown, false)

@@ -9,6 +9,9 @@ const Tr = styled.tr`
     box-shadow: 0 1px 0 0 #80c9ea inset, 0 -1px 0 0 #80c9ea inset;
   }
   th { white-space: nowrap; }
+  th, td {
+    >* { margin: 0; }
+  }
 `
 
 export const Table = ({ cols, subjects, empty }) => {
