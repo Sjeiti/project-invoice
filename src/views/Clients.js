@@ -51,7 +51,6 @@ export const Clients = connect(
       style={{display:'inline-block', margin:'0 0 0 1rem', padding:'0.125rem 0.5rem'}}
     />
   </>
-  // console.log('cols',cols) // todo: remove log
   return (
     <>
       <ButtonLink {...newClientEvents} className="float-right"><T>new client</T></ButtonLink>
@@ -60,7 +59,7 @@ export const Clients = connect(
       </h1>
       <Table
         cols={cols}
-        projects={filteredClients}
+        subjects={filteredClients}
         empty={[t('No clients found')+': ', filter
             &&<AnchorButton onClick={()=>setFilter('')}><T>clear filter</T></AnchorButton>
             ||<Link {...newClientEvents}><T>create one</T></Link>

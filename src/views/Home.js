@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import {withRouter, Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import styled from 'styled-components'
@@ -127,25 +127,23 @@ export const Home = withRouter(connect(
       <section className="col-12 col-md-7">
         <h2>Open invoices</h2>
         <Table
-            pprojects="invoices"
               cols="paid date description totalIncDiscounted actions"
-              projects={openInvoices}
+              subjects={openInvoices}
               sort="date" // todo
               asc="false" // todo
-            ttotals="false"
-            aanimate="true"
+            ttotals="false" // todo
+            aanimate="true" // todo
               empty="There are no open invoices :-)"
             />
       </section>
       <section className="col-12 col-md-7">
         <h2>Draft projects</h2>
         <Table
-            pprojects="drafts"
               cols="clientName description totalIncDiscounted actions"
-              projects={draftProjects}
+              subjects={draftProjects}
               sort="date" // todo
               asc="false" // todo
-            ttotals="false"
+            ttotals="false" // todo
               empty="You currently have no drafts... :-/"
             />
       </section>

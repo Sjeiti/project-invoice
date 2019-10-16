@@ -11,7 +11,7 @@ const Tr = styled.tr`
   th { white-space: nowrap; }
 `
 
-export const Table = ({ cols, projects: subjects, empty, headers }) => {
+export const Table = ({ cols, subjects, empty }) => {
   const {t} = useTranslation()
   !Array.isArray(cols)&&(cols = cols.split(' ').map(key=>({key,th:t(key)})))
   return (
@@ -27,13 +27,11 @@ export const Table = ({ cols, projects: subjects, empty, headers }) => {
         {(subjects.length &&
           subjects.map((subject, index) => (
             <Tr onClick={subject.onClick} key={index}>
-              {cols.map(({key}, index) => (
-                <td key={index}>{subject[key]}</td>
-              ))}
+              {cols.map(({key}, index) => <td key={index}>{subject[key]}</td>)}
             </Tr>
           ))) || (
           <tr>
-            <td colSpan={cols.length}>{empty}</td>
+            <td colSpan={cols.length}>{empty||'-'}</td>
           </tr>
         )}
       </tbody>

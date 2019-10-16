@@ -177,5 +177,7 @@
   "dateLatest": "aangepast",
   "made with": "gemaakt met",
   "fork on": "vork op",
-  "clientName": "klant naam"
+  "clientName": "klant naam",
+  "clientNoProjects": "Deze klant heeft geen projecten :-/",
+  "new line": "nieuwe regel"
 }

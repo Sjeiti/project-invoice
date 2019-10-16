@@ -177,5 +177,7 @@
   "dateLatest": "changed",
   "made with": "made with",
   "fork on": "fork on",
-  "clientName": "client name"
+  "clientName": "client name",
+  "clientNoProjects": "This client has no projects :-/",
+  "new line": "new line"
 }

@@ -39,26 +39,26 @@ export const Client = withRouter(
     state => ({ clients: getClients(state) }),
     { storeClient, removeClient, addProject }
   )(({ history, match, clients, storeClient, removeClient, addProject }) => {
-    const client = getClient(clients, parseInt(match.params.client, 10))
-    const isClient = !!client
-    const editableProps = isClient && editablePropNames.map(key => [key, ...useState(client[key])])
+    const clientOld = getClient(clients, parseInt(match.params.client, 10))
+    const isClient = !!clientOld
+    const editableProps = isClient && editablePropNames.map(key => [key, ...useState(clientOld[key])])
+
+    const [client, setClient] = useState(clientOld)
 
     useEffect(()=>{setTimeout(()=>saveable.dispatch(true))}, [])
     if (isClient){
-      const newClient = {
-        ...client
-        , ...editableProps.reduce((acc, [key, val]) => ((acc[key] = val), acc), {})
-      }
-      const isDirty = !isEqual(client, newClient)
-      const revert = isDirty && (() => editableProps.forEach(([key, val, set]) => set(client[key]))) || null
-      const save = isDirty && storeClient.bind(null, newClient) || null
-      const deleet = removeClient.bind(null, client.nr)
-      saveable.dispatch(true, save, revert, deleet)
+      const isDirty = !isEqual(clientOld, client)
+      saveable.dispatch(
+          true
+          , isDirty && storeClient.bind(null, client) || null
+          , isDirty && (() => setClient(clientOld)) || null
+          , removeClient.bind(null, clientOld.nr)
+      )
     } else {
       history.push('/clients')
     }
 
-    const projectListProjects = client.projects.map(project => ({
+    const projectListProjects = clientOld.projects.map(project => ({
       ...project
       , onClick: () => history.push(getProjectHref(project))
       // todo: make paid click functional
@@ -69,19 +69,22 @@ export const Client = withRouter(
       , totalIncDiscounted: <Price symbol="€" amount={getTotalIncDiscounted(project)} separator="," />
     }))
 
-    const newProjectEvents = getNewProjectEvents(clients, client, addProject)
+    const newProjectEvents = getNewProjectEvents(clients, clientOld, addProject)
+
+    const getSetter = key => value =>
+        setClient({...client, ...[key, value].reduce((acc, v)=>(acc[key]=v, acc), {})})
 
     return (
       (isClient && (
         <>
           <h3>{editableProps[0][1]||nbsp}</h3>
           <form>
-            {editableProps.map(
-              ([key, value, setValue], index) =>
+            {editablePropNames.map(
+              (key, index) =>
                 key !== 'nr' && (
                   <Label key={index}>
                     <T>{key}</T>
-                    <Input value={value} setter={setValue} />
+                    <Input value={client[key]} setter={getSetter(key)} />
                   </Label>
                 )
             )}
@@ -92,10 +95,10 @@ export const Client = withRouter(
             <h3><T>projects</T></h3>
             <Table
               cols="paid nr date dateLatest description totalIncDiscounted"
-              projects={projectListProjects}
+              subjects={projectListProjects}
               sort="date" // todo
               asc="false" // todo
-              empty={['This client has no projects :-/, ', <Link {...newProjectEvents} key={0}>create one</Link>]}
+              empty={[<T>clientNoProjects</T>,', ', <Link {...newProjectEvents} key={0}><T>create one</T></Link>]}
             />
           </section>
         </>

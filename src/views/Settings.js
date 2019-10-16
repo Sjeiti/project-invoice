@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 import i18next from 'i18next'
 import {Trans} from 'react-i18next'
-import {getDateString, isEqual} from '../utils'
+import {getDateString,getGetSetter,isEqual} from '../utils'
 import {I18N_ISO as isos} from '../config/i18n'
 import {CURRENCY_ISO} from '../config/currencyISO'
 import { saveable } from '../saveable'
@@ -31,41 +31,39 @@ const varMap = {
 }
 
 export const Settings = connect(
-    state => ({ config: getConfig(state), clients: getClients(state), state }),
+    state => ({ configOld: getConfig(state), clients: getClients(state), state }),
     { storeConfig, restoreState }
-  )((props) => {
-
-    const { state, config, storeConfig, restoreState, clients } = props
+  )(({ state, configOld, storeConfig, restoreState, clients }) => {
+    const [config, setConfig] = useState(configOld)
+    const getSetter = getGetSetter(config, setConfig)
     const downloadString = 'data:text/json;charset=utf-8,'+encodeURIComponent(JSON.stringify(state))
 
-    const editableProps = Object.entries(varMap).map(([key, obj])=>[key, ...(obj.state = useState(config[key]))])
-    const newConfig = {
-      ...config
-      , ...editableProps.reduce((acc, [key, val]) => ((acc[key] = val), acc), {})
-    }
-    const isDirty = !isEqual(config, newConfig)
+    const isDirty = !isEqual(configOld, config)
     saveable.dispatch(
         true
         , isDirty && (()=>{
-            storeConfig(newConfig)
-            config.uilang!==newConfig.uilang&&i18next.changeLanguage(newConfig.uilang)
+            storeConfig(config)
+            configOld.uilang!==config.uilang&&i18next.changeLanguage(config.uilang)
           }) || null
-        , isDirty && (() => editableProps.forEach(([key, val, set]) => set(config[key]))) || null
+        , isDirty && (() => setConfig(configOld)) || null
         , null
     )
 
     return (
         <>
           <section>
-            <h1 className="hide-low"><T>settings</T> ({clients.length})</h1>
-            {Object.entries(varMap).map(([key, {Element, title, state:[value, setter], map, attrs={}}], i)=>
+            <h1 className="hide-low"><T>settings</T></h1>
+            {Object.entries(varMap).map(([key, {Element, title, map, attrs={}}], i)=>
               <React.Fragment key={i}>
-                <Label><T>{title||key}</T> <Element value={value} setter={map&&(v=>setter(map(v)))||setter} {...attrs}></Element></Label>
+                <Label>
+                  <T>{title||key}</T>
+                  <Element value={config[key]} setter={map&&(v=>getSetter(key)(map(v)))||getSetter(key)} {...attrs}></Element>
+                </Label>
               </React.Fragment>
             )}
           </section>
           <section>
-            <h2 className="col-12 col-sm-3 float-left"><T>data</T></h2>
+            <h2 className="col-12 col-sm-3 float-left"><T>data</T> <small>({clients.length})</small></h2>
             <div className="col-12 col-sm-9 float-left">
               <ButtonAnchor href={downloadString} download={`data_${getDateString()}.json`}><T>download</T></ButtonAnchor>
               <ButtonLabel htmlFor="restore"><T>restore</T></ButtonLabel>

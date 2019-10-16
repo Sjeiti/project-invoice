@@ -31,3 +31,17 @@ export const noop = () => {}
  * Non breaking space
  */
 export const nbsp = '\u00A0'
+
+/**
+ * Test if value is a function
+ * @param fn
+ * @return {boolean}
+ */
+export function isFunction(fn) {
+ return fn && {}.toString.call(fn) === '[object Function]';
+}
+
+export function getGetSetter(data, setter){
+  return key => value =>
+      setter({...data, ...[key, value].reduce((acc, v)=>(acc[key]=v, acc), {})})
+}
