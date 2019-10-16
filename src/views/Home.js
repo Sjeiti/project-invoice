@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import {withRouter, Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import styled from 'styled-components'
+import {CSSTransition} from 'react-transition-group'
 import {absolute, clearfix, size} from '../cssService'
 import {getConfig} from '../model/config/selectors'
 import {storeConfig} from '../model/config/actions'
@@ -69,6 +70,13 @@ const Jumbotron = styled.div`
       font-size: 12px;
       line-height: 130%;
     }
+    &.jumbotron-exit {
+      margin: 0 0 1rem;
+    }
+    &.jumbotron-exit-active {
+      margin: -15.5rem 0 1rem;
+      transition: margin-top 500ms ease;
+    }
 `
 
 export const Home = withRouter(connect(
@@ -92,16 +100,22 @@ export const Home = withRouter(connect(
     , totalIncDiscounted: <Price symbol="€" amount={getTotalIncDiscounted(project)} separator="," />
     , actions: 'todo' // todo
   }))
-  // const [homeMessage, hideHomeMessage] = useState(config.homeMessage)
   const hideHomeMessage = storeConfig.bind(null, {...config, ...{homeMessage:false}})
   return <div>
-    {config.homeMessage?<Jumbotron data-v-if="config.homeMessage" data-kkey="'jumbotron'">
-      <p data-v-_="'homeMessage'">This invoicing application stores all your data on your local machine.<br/>
-      <em><small data-v-_="'homeMessageSub'">Because all your data are belong to you.</small></em></p>
-      <AnchorButton className="float-right" onClick={hideHomeMessage}>hide message</AnchorButton>{/* todo */}
-      <Link to={'/about'} className="float-right" style={{marginRight:'1rem'}}>read more</Link>
-      <Logo size="256" colors={['#3B596D', '#376677', '#2A7F8B']} style={absolute(-3, -4)} />
-    </Jumbotron>:''}
+    <CSSTransition
+        classNames="jumbotron"
+        timeout={500}
+        in={config.homeMessage}
+        unmountOnExit
+    >
+      <Jumbotron data-v-if="config.homeMessage" data-kkey="'jumbotron'">
+        <p data-v-_="'homeMessage'">This invoicing application stores all your data on your local machine.<br/>
+        <em><small data-v-_="'homeMessageSub'">Because all your data are belong to you.</small></em></p>
+        <AnchorButton className="float-right" onClick={hideHomeMessage}>hide message</AnchorButton>{/* todo */}
+        <Link to={'/about'} className="float-right" style={{marginRight:'1rem'}}>read more</Link>
+        <Logo size="256" colors={['#3B596D', '#376677', '#2A7F8B']} style={absolute(-3, -4)} />
+      </Jumbotron>
+    </CSSTransition>
     <div className="row no-gutters">
       <section className="col-12 col-md-5">
         <h2>What do you want to do:</h2>
