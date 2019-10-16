@@ -1,22 +1,32 @@
-
+const {localStorage} = window
 
 /**
  * Get and parse localStorage content
  * @param {string} name
- * @todo clean and move to service/facade/whatever
  */
 export function getStorage(name){
-  const stringData = window.localStorage.getItem(name)
-  return stringData && JSON.parse(stringData)
+  const stringData = localStorage.getItem(name)
+  let data
+  try {
+    data = JSON.parse(stringData)
+  } catch (err) {
+    console.error('JSON parse error', err, stringData)
+  }
+  return data
 }
 
 /**
  * Set localStorage
  * @param {string} name
  * @param {object} data
- * @todo clean and move to service/facade/whatever
  */
 export function setStorage(name, data){
-  data && window.localStorage.setItem(name, JSON.stringify(data))
+  let stringData
+  try {
+    stringData = JSON.stringify(data)
+  } catch (err) {
+    console.error('JSON stringify error', err, data)
+  }
+  stringData && localStorage.setItem(name, stringData)
   return data
 }
