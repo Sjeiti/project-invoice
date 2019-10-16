@@ -176,5 +176,6 @@
   "totalIncDiscounted": "totals",
   "dateLatest": "changed",
   "made with": "made with",
-  "fork on": "fork on"
+  "fork on": "fork on",
+  "clientName": "client name"
 }

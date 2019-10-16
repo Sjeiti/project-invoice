@@ -1,16 +1,19 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {withRouter, Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import styled from 'styled-components'
-import {absolute,clearfix,size} from '../cssService'
+import {absolute, clearfix, size} from '../cssService'
+import {getConfig} from '../model/config/selectors'
+import {storeConfig} from '../model/config/actions'
 import {
-  getOpenProjects,
-  getClients,
-  getLatestClient,
-  getLatestProject,
-  getProjectHref,
-  getTotalIncDiscounted,
-  getDraftProjects,getClient
+  getOpenProjects
+  , getClients
+  , getLatestClient
+  , getLatestProject
+  , getProjectHref
+  , getTotalIncDiscounted
+  , getDraftProjects
+  , getClient
 } from '../model/clients/selectors'
 import {addClient, addProject} from '../model/clients/actions'
 import {getNewClientEvents, getNewProjectEvents} from '../model/eventFactory'
@@ -67,11 +70,11 @@ const Jumbotron = styled.div`
       line-height: 130%;
     }
 `
-//className="page-home"
+
 export const Home = withRouter(connect(
-  state => ({ clients: getClients(state) }),
-  { addClient, addProject }
-)(({history, clients, addClient, addProject}) => {
+  state => ({ clients: getClients(state), config: getConfig(state) }),
+  { addClient, addProject, storeConfig }
+)(({history, clients, config, addClient, addProject, storeConfig}) => {
   const latestClient = getLatestClient(clients)
   const latestProject = getLatestProject(clients)
   const openInvoices = getOpenProjects(clients).map(project => ({
@@ -89,14 +92,16 @@ export const Home = withRouter(connect(
     , totalIncDiscounted: <Price symbol="€" amount={getTotalIncDiscounted(project)} separator="," />
     , actions: 'todo' // todo
   }))
+  // const [homeMessage, hideHomeMessage] = useState(config.homeMessage)
+  const hideHomeMessage = storeConfig.bind(null, {...config, ...{homeMessage:false}})
   return <div>
-    <Jumbotron data-v-if="config.homeMessage" data-kkey="'jumbotron'">
+    {config.homeMessage?<Jumbotron data-v-if="config.homeMessage" data-kkey="'jumbotron'">
       <p data-v-_="'homeMessage'">This invoicing application stores all your data on your local machine.<br/>
       <em><small data-v-_="'homeMessageSub'">Because all your data are belong to you.</small></em></p>
-      <AnchorButton className="float-right" data-v-oncclick="onHideWelcome">hide message</AnchorButton>{/* todo */}
+      <AnchorButton className="float-right" onClick={hideHomeMessage}>hide message</AnchorButton>{/* todo */}
       <Link to={'/about'} className="float-right" style={{marginRight:'1rem'}}>read more</Link>
       <Logo size="256" colors={['#3B596D', '#376677', '#2A7F8B']} style={absolute(-3, -4)} />
-    </Jumbotron>
+    </Jumbotron>:''}
     <div className="row no-gutters">
       <section className="col-12 col-md-5">
         <h2>What do you want to do:</h2>

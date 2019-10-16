@@ -25,18 +25,9 @@ export const SaveableButtons = withRouter(props => {
 
   const { history } = props
 
-  useEffect(()=>{
-    // CTRL save
-    document.addEventListener('keydown', e=>{
-      if ((e.metaKey||e.ctrlKey)&&e.key==='s'){
-        e.preventDefault()
-        this.saveable&&save()
-      }
-    }, false)
-  }, [])
-
   history.listen(()=>setSaveable(false))
 
+  // saveable signal binding
   useEffect(() => {
     const binding = saveable.add((saveable, save, revert, deleet) => {
       setSave(() => save) // methods cannot be set directly, only as return value
@@ -46,6 +37,18 @@ export const SaveableButtons = withRouter(props => {
     })
     return ::binding.detach
   }, [])
+
+  // CTRL save
+  useEffect(()=>{
+    function onKeyDown(e){
+      if ((e.metaKey||e.ctrlKey)&&e.key==='s'){
+        e.preventDefault()
+        save&&save()
+      }
+    }
+    document.addEventListener('keydown', onKeyDown, false)
+    return ()=>document.removeEventListener('keydown', onKeyDown, false)
+  }) // , []
 
   return (
     <Nav style={{ display: isSaveable ? 'block' : 'none' }}>
