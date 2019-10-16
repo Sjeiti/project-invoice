@@ -64,7 +64,7 @@
   "download": "download",
   "restore": "herstel",
   "clear": "verwijderen",
-  "dataExplain": "Alles wat je in deze applicatie doet wordt opgeslagen in je LocalStorage. Je kan deze data backuppen door een JSON bestand te <em>downloaden</em>. Dit bestand kan je weer gebruiken om je data op een andere machine of device <em>herstellen</em>.<br/>Wanneer je de date <em>verwijdert</em> wordt het vervangen met standaard data.",
+  "dataExplain": "Alles wat je in deze applicatie doet wordt opgeslagen in je LocalStorage. Je kan deze data backuppen door een JSON bestand te <em>downloaden</em>. Dit bestand kan je weer gebruiken om je data op een andere machine of device <em>herstellen</em>.<br/>Wanneer je de date <em>verwijderd</em> wordt het vervangen met standaard data.",
   "cloudSync": "cloud sync",
   "selectCloud": "selecteer cloud",
   "moreToCome": "(binnenkort meer)",
@@ -165,5 +165,16 @@
   "encryption": "encryptie",
   "enable": "zet aan",
   "disable": "zet uit",
-  "encryptionExplain": "Als je per se een wachtwoord wilt kun je encryptie aan zetten. Maar let op: omdat er geen servers gebruikt worden kan je wachtwoord niet worden gereset wanneer je deze vergeet."
+  "encryptionExplain": "Als je per se een wachtwoord wilt kun je encryptie aan zetten. Maar let op: omdat er geen servers gebruikt worden kan je wachtwoord niet worden gereset wanneer je deze vergeet.",
+  "filter": "filter",
+  "No clients found": "Geen klanten gevonden",
+  "allPaid": "betaald",
+  "new client": "nieuwe klant",
+  "new project": "nieuw project",
+  "clear filter": "filter legen",
+  "create one": "maak er een",
+  "totalIncDiscounted": "totaal",
+  "dateLatest": "aangepast",
+  "made with": "gemaakt met",
+  "fork on": "vork op"
 }

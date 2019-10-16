@@ -1,3 +1,4 @@
 import React from 'react'
+import {T} from '../components/T'
 
-export const Overview = () => <h3>overview</h3>
+export const Overview = () => <h3><T>overview</T></h3>

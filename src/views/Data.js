@@ -1,15 +1,16 @@
 import React, {useEffect, useState} from 'react'
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
+import {isEqual} from '../utils'
+import {saveable} from '../saveable'
 import {getData} from '../model/personal/selectors'
 import {storeData} from '../model/personal/actions'
-import { Label } from '../components/Label'
-import { Input } from '../components/Input'
-import {saveable} from '../saveable'
-import {isEqual} from '../utils'
+import {Label} from '../components/Label'
+import {Input} from '../components/Input'
+import {T} from '../components/T'
 
 export const Data = connect(
-  state => ({ data: getData(state) }),
-    {storeData}
+  state => ({ data: getData(state) })
+  , {storeData}
 )(({data, storeData}) => {
 
   const editableProps = Object.entries(data).map(([key, value])=>[key, ...useState(value)])
@@ -22,10 +23,10 @@ export const Data = connect(
   useEffect(()=>{setTimeout(()=>saveable.dispatch(true))}, [])
 
   return <>
-    <h1>Data</h1>
+    <h1><T>data</T></h1>
     {editableProps.map(([key, value, setter])=>
         <Label key={key}>
-          {key}
+          <T>{key}</T>
           <Input value={value} setter={setter} />
         </Label>
     )}

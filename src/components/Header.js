@@ -4,6 +4,7 @@ import styled, {css} from 'styled-components'
 // import './header.scss'
 import { SaveableButtons } from './SaveableButtons'
 import {Logo} from './Logo'
+import {T} from './T'
 import {size, color, breakpoint} from '../cssService'
 
 const {breakpointLow, breakpointHigh} = breakpoint
@@ -156,7 +157,7 @@ const DropLiStyled = styled.li`
       min-height: ${headerHeight};
       margin: 0;
       padding: 0;
-      background-color: red;
+      //background-color: red;
     }
     ul {
       position: absolute;
@@ -175,7 +176,7 @@ const DropLiStyled = styled.li`
   }
 `
 const DropLi = ({to,title,children}) => <DropLiStyled>
-  <label htmlFor={'drop'+to}><HeaderLink to={to}>{title}</HeaderLink></label>
+  <label htmlFor={'drop'+to}><HeaderLink to={to}><T>{title}</T></HeaderLink></label>
   <input className="visually-hidden" id={'drop'+to} type="checkbox" />
   {children}
 </DropLiStyled>
@@ -199,21 +200,21 @@ export const Header = () => {
             />
             <label htmlFor="hamburger"><span /></label>
             <ul onClick={() => setHamburger(!hamburger)} className="list-inline">
-              <li className="hide-high"><HeaderLink to="/">home</HeaderLink></li>
+              <li className="hide-high"><HeaderLink to="/"><T>home</T></HeaderLink></li>
               <DropLi to="/overview" title="overview">
                 <ul>
-                  <li><HeaderLink to="/overview/quarter">quarter</HeaderLink></li>
+                  <li><HeaderLink to="/overview/quarter"><T>quarter</T></HeaderLink></li>
                 </ul>
               </DropLi>
-              <li><HeaderLink to="/clients">clients</HeaderLink></li>
+              <li><HeaderLink to="/clients"><T>clients</T></HeaderLink></li>
               <DropLi to="/settings" title="settings">
                 <ul>
-                  <li><HeaderLink to="/layout">layout</HeaderLink></li>
-                  <li><HeaderLink to="/data">data</HeaderLink></li>
-                  <li><HeaderLink to="/copy">copy</HeaderLink></li>
+                  <li><HeaderLink to="/layout"><T>layout</T></HeaderLink></li>
+                  <li><HeaderLink to="/data"><T>data</T></HeaderLink></li>
+                  <li><HeaderLink to="/copy"><T>copy</T></HeaderLink></li>
                 </ul>
               </DropLi>
-              <li><HeaderLink to="/about">about</HeaderLink></li>
+              <li><HeaderLink to="/about"><T>about</T></HeaderLink></li>
             </ul>
           </li>
         </ul>

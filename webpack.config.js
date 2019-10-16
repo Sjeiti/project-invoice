@@ -27,6 +27,10 @@ module.exports = {
           ,'sass-loader'
         ]
       }
+      ,{
+        test: /\.html/
+        ,use: ['raw-loader']
+      }
     ]
   }
   ,resolve: {
@@ -34,6 +38,7 @@ module.exports = {
       '.js'
       ,'.jsx'
       ,'.json'
+      ,'.html'
     ]
   }
   ,plugins: [

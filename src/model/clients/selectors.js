@@ -113,13 +113,13 @@ function allProjectsByDate(clients) {
  * @returns {project}
  */
 export function getLatestProject(clients) {
-  //###########################
-  const allP = allProjectsByDate(clients)
-  if (allP.length>1) {
-    console.log('allP',allP) // todo: remove log
-    console.log('\t',[...allP].pop()) // todo: remove log
-  }
-  //#############################
+  // //###########################
+  // const allP = allProjectsByDate(clients)
+  // if (allP.length>1) {
+  //   console.log('allP',allP) // todo: remove log
+  //   console.log('\t',[...allP].pop()) // todo: remove log
+  // }
+  // //#############################
   return allProjectsByDate(clients).pop()
 }
 

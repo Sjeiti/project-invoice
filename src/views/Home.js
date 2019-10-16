@@ -76,18 +76,18 @@ export const Home = withRouter(connect(
   const latestProject = getLatestProject(clients)
   const openInvoices = getOpenProjects(clients).map(project => ({
     ...project
-    , paid: <Input value={project.paid} />
+    , paid: <Input value={project.paid} style={{margin:'0.25rem 0 0'}} />
     , date: project.invoices.slice(0).pop().date
     , onClick: () => history.push(getProjectHref(project))
     , totalIncDiscounted: <Price symbol="€" amount={getTotalIncDiscounted(project)} separator="," />
-    ,actions: 'todo' // todo
+    , actions: 'todo' // todo
   }))
   const draftProjects = getDraftProjects(clients).map(project => ({
     ...project
     , clientName: getClient(clients, project.clientNr).name
     , onClick: () => history.push(getProjectHref(project))
     , totalIncDiscounted: <Price symbol="€" amount={getTotalIncDiscounted(project)} separator="," />
-    ,actions: 'todo' // todo
+    , actions: 'todo' // todo
   }))
   return <div>
     <Jumbotron data-v-if="config.homeMessage" data-kkey="'jumbotron'">

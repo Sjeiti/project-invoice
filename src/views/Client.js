@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
-import {isEqual,nbsp} from '../utils'
+import {isEqual, nbsp} from '../utils'
 import {
   getClients,
   getClient,
@@ -11,14 +11,15 @@ import {
   getProjectDateLatest,
   getTotalIncDiscounted
 } from '../model/clients/selectors'
+import {getNewProjectEvents} from '../model/eventFactory'
+import { storeClient, removeClient, addProject } from '../model/clients/actions'
+import { saveable } from '../saveable'
 import { Label } from '../components/Label'
 import { ButtonLink } from '../components/ButtonLink'
 import { Price } from '../components/Price'
-import { saveable } from '../saveable'
-import { storeClient, removeClient, addProject } from '../model/clients/actions'
 import { Table } from '../components/Table'
 import {Input} from '../components/Input'
-import {getNewProjectEvents} from '../model/eventFactory'
+import {T} from '../components/T'
 
 const editablePropNames = [
   'name'
@@ -60,7 +61,8 @@ export const Client = withRouter(
     const projectListProjects = client.projects.map(project => ({
       ...project
       , onClick: () => history.push(getProjectHref(project))
-      , paid: project.paid ? 'v' : 'x'
+      // todo: make paid click functional
+      , paid: <Input value={project.paid} style={{margin:'0.25rem 0 0'}} />
       , nr: getProjectNr(project)
       , date: getProjectDate(project)
       , dateLatest: getProjectDateLatest(project)
@@ -78,7 +80,7 @@ export const Client = withRouter(
               ([key, value, setValue], index) =>
                 key !== 'nr' && (
                   <Label key={index}>
-                    {key}
+                    <T>{key}</T>
                     <Input value={value} setter={setValue} />
                   </Label>
                 )
@@ -86,8 +88,8 @@ export const Client = withRouter(
           </form>
           <hr/>
           <section>
-            <ButtonLink {...newProjectEvents} className="float-right">New project</ButtonLink>
-            <h3>projects</h3>
+            <ButtonLink {...newProjectEvents} className="float-right"><T>new project</T></ButtonLink>
+            <h3><T>projects</T></h3>
             <Table
               cols="paid nr date dateLatest description totalIncDiscounted"
               projects={projectListProjects}

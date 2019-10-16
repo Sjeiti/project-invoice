@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { Button } from './Button'
-import { saveable } from '../saveable'
 import { withRouter } from 'react-router-dom'
-import { noop } from '../utils'
 import styled from 'styled-components'
+import { saveable } from '../saveable'
+import { noop } from '../utils'
 import {size} from '../cssService'
+import { Button } from './Button'
+import { T } from './T'
 
 const {padding} = size
 
@@ -24,6 +25,16 @@ export const SaveableButtons = withRouter(props => {
 
   const { history } = props
 
+  useEffect(()=>{
+    // CTRL save
+    document.addEventListener('keydown', e=>{
+      if ((e.metaKey||e.ctrlKey)&&e.key==='s'){
+        e.preventDefault()
+        this.saveable&&save()
+      }
+    }, false)
+  }, [])
+
   history.listen(()=>setSaveable(false))
 
   useEffect(() => {
@@ -38,9 +49,9 @@ export const SaveableButtons = withRouter(props => {
 
   return (
     <Nav style={{ display: isSaveable ? 'block' : 'none' }}>
-      <Button onClick={save} disabled={!save}>save</Button>
-      <Button onClick={revert} disabled={!revert}>revert</Button>
-      <Button onClick={deleet} disabled={!deleet}>delete</Button>
+      <Button onClick={save} disabled={!save}><T>save</T></Button>
+      <Button onClick={revert} disabled={!revert}><T>revert</T></Button>
+      <Button onClick={deleet} disabled={!deleet}><T>delete</T></Button>
     </Nav>
   )
 })

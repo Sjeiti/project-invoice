@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import {VERSION} from '../config'
+import {T} from './T'
 
 const StyledFooter = styled.footer`
   display: flex;
@@ -38,8 +39,8 @@ const Love = styled.span`
 `
 
 export const Footer = attr => <StyledFooter {...attr}>
-  <a href="https://ronvalstar.nl/">made with <Love>&#9829;</Love></a>
+  <a href="https://ronvalstar.nl/"><T>made with</T> <Love>&#9829;</Love></a>
   <Link to="/changelog">Project Invoice v{VERSION}</Link>
-  <a href="https://github.com/Sjeiti/project-invoice">fork on &nbsp;<span className="icon-github"></span></a>
+  <a href="https://github.com/Sjeiti/project-invoice"><T>fork on</T> &nbsp;<span className="icon-github"></span></a>
 </StyledFooter>
 

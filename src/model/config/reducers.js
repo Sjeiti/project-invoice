@@ -7,7 +7,7 @@ const initialState = getInitialState(dataName)
 export function config(state = initialState, action){
   switch (action.type){
     case STORE_CONFIG:
-      return state
+      return {...state, ...action.config}
 
     default:
       return state

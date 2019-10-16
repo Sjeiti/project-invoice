@@ -39,7 +39,8 @@ export const InputBoolean = attr => <><InputElement {...attr} type="checkbox" />
 
 export const InputDate = attr => <InputElement {...attr} type="date" />
 
-export const Input = ({ value, onChange, setter }) => {
+export const Input = props => {
+  const { value, onChange, setter, ...attr } = props
   const [Element] = useState(() => {
     const isBoolean = value === true || value === false
     const isString = typeof value === 'string'
@@ -58,5 +59,14 @@ export const Input = ({ value, onChange, setter }) => {
       InputElement
     )
   })
-  return <Element value={value} onChange={onChange || setter && (({ target: { value } }) => setter(value)) || (() => {})} />
+  return <Element value={value} onChange={onChange || setter && (({ target: { value } }) => setter(value)) || (() => {})} {...attr} />
+}
+
+
+export const InputCheckbox = ({value, setter, onChange}) => {
+  return <><InputElement
+      onChange={onChange || setter && (({ target: { checked } }) => setter(checked)) || (() => {})}
+      checked={value}
+      type="checkbox"
+  /><span/></>
 }

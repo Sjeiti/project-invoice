@@ -165,5 +165,16 @@
   "encryption": "encryption",
   "enable": "enable",
   "disable": "disable",
-  "encryptionExplain": "If you really must have a password you can enable encryption. But use with care: since no servers are used there is no way to reset your password if you forget it."
+  "encryptionExplain": "If you really must have a password you can enable encryption. But use with care: since no servers are used there is no way to reset your password if you forget it.",
+  "filter": "filter",
+  "No clients found": "No clients found",
+  "allPaid": "paid",
+  "new client": "new client",
+  "new project": "new project",
+  "clear filter": "clear filter",
+  "create one": "create one",
+  "totalIncDiscounted": "totals",
+  "dateLatest": "changed",
+  "made with": "made with",
+  "fork on": "fork on"
 }

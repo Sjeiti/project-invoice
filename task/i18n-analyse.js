@@ -9,7 +9,7 @@ const globFiles = './public/static/i18n/*.json'
 const rxMatch = /\$t\('([^|']+)'\)|v-_="'[^|'"]*|v-__?[^>]*>[^<]*/g
 const rxReplace = /^\$t\('|'\)$|v-_="'|v-__?[^>]*>/g
 
-// todo: add [title] when [v-title] and no node.textcontent
+// todo: fix for react
 
 Promise.all([readSrc(globSrc,fileBase),readExisting(globFiles)])
     .then(([keys,[paths,contents]]) => {
