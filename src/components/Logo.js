@@ -33,9 +33,10 @@ export const Logo = ({ size=32, colors, ...attrs }) => {
       ,(...arg)=>triAnim(2, time, ...arg)
       ,(...arg)=>rhoAnim(0, time, ...arg)
     ]
-    let timelineIndex = 0
-    triAnim(2, 0, timeline, timelineIndex)
     rhoAnim(0, 0)
+    const anim = triAnim(2, 0, timeline, 0)
+    // todo fix state update on an unmounted component
+    return ()=>anim.anim.pause()
   }, [])
 
   return <svg width={size} height={size} {...attrs}>
@@ -62,7 +63,8 @@ function rotateElement(setState, points, index, t=150, timeline, timelineIndex){
   const startRotation = (index+3)%numPoints*60
   setState(getTransform(points, index, startRotation))
   const obj = { val: startRotation }
-  return anime({
+  const anim = {}
+  anim.anim = anime({
     targets: obj
     , val: startRotation-60
     , duration: t
@@ -70,9 +72,10 @@ function rotateElement(setState, points, index, t=150, timeline, timelineIndex){
     , update: ()=>setState(getTransform(points, index, obj.val))
     , complete: ()=>{
       timeline&&timelineIndex<timeline.length
-        &&timeline[timelineIndex++%timeline.length](timeline, timelineIndex)
+        &&Object.assign(anim, timeline[timelineIndex++%timeline.length](timeline, timelineIndex))
     }
   })
+  return anim
 }
 
 /**
