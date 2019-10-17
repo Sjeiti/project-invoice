@@ -8,14 +8,14 @@ import {storeProject, removeProject} from '../model/clients/actions'
 import {getClient, getProject, getClients, getClientHref, getProjectHref, getProjectNumber} from '../model/clients/selectors'
 import {Label} from '../components/Label'
 import {Button, IconButton} from '../components/Button'
-import {ButtonAnchor} from '../components/ButtonAnchor'
+import {ButtonLink} from '../components/ButtonLink'
 import {InputText, InputNumber, InputCheckbox} from '../components/Input'
 import {Table} from '../components/Table'
 import {Icon} from '../components/Icon'
 import {Price} from '../components/Price'
 import {Select} from '../components/Select'
 import {T} from '../components/T'
-import {useTranslation} from 'react-i18next/src/index'
+import {useTranslation} from 'react-i18next'
 
 const editablePropNames = [
   {key:'description', input:InputText}
@@ -174,14 +174,14 @@ export const Project = withRouter(
               <ol>
                 {project.invoices.map((invoice, index)=><li className="row no-gutters" key={index}>
                   <div className="col-4">
-                    <ButtonAnchor to={`${getProjectHref(project)}/${invoice.type}${index!==0?'/'+index:''}`}>
+                    <ButtonLink to={`${getProjectHref(project)}/${invoice.type}${index!==0?'/'+index:''}`}>
                       <T>{invoice.type}</T>{index!==0?nbsp + index:''}
-                  </ButtonAnchor>
+                  </ButtonLink>
                   </div>
                   <div className="col hide-low">{getProjectNumber(project, state)}</div>
                   <div className="col-3">{invoice.date}</div>
                   <div className="col">
-                    {invoice.interest&&<Icon type="promile" title={t('legalInterestWasAdded')} />}
+                    {invoice.interest&&<Icon type="promile" title={t('legalInterestWasAdded')}><T>legalInterestWasAdded</T></Icon>}
                     {invoice.exhortation&&<Icon type="stop" title={t('finalExhortation')} />}
                     {invoice.paid&&<Icon type="money" title={t('paid')+': '+invoice.paid} />}{/*todo: format amount*/}
                   </div>
