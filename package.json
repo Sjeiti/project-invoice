@@ -21,9 +21,7 @@
     "cypress": "cypress open",
     "svg": "svgo -f design",
     "sitemap": "node task/sitemap",
-    "i18n": "npm run i18n:config & npm run i18n:about",
-    "i18n:config": "node task/i18n-config",
-    "i18n:about": "node task/i18n-about",
+    "i18n": "node task/i18n-about",
     "i18n:analyse": "node task/i18n-analyse"
   },
   "dependencies": {
