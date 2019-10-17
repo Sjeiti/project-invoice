@@ -7,7 +7,7 @@ export const Logo = ({ size=32, colors, ...attrs }) => {
   //xmlns:xlink="http://www.w3.org/1999/xlink"
 
   const sizeh = size/2
-  const hexPoints = Array.from(new Array(6)).map((o,i)=>[sizeh*Math.cos(i*triRad),sizeh*Math.sin(i*triRad)])
+  const hexPoints = Array.from(new Array(6)).map((o, i)=>[sizeh*Math.cos(i*triRad), sizeh*Math.sin(i*triRad)])
 
   getRhombusPoints(hexPoints)
 
@@ -24,20 +24,19 @@ export const Logo = ({ size=32, colors, ...attrs }) => {
     const time = 300
     const timeline = [
        (...arg)=>triAnim(3, time, ...arg)
-      ,(...arg)=>triAnim(4, time, ...arg)
-      ,(...arg)=>rhoAnim(2, time, ...arg)
-      ,(...arg)=>triAnim(5, time, ...arg)
-      ,(...arg)=>triAnim(0, time, ...arg)
-      ,(...arg)=>rhoAnim(4, time, ...arg)
-      ,(...arg)=>triAnim(1, time, ...arg)
-      ,(...arg)=>triAnim(2, time, ...arg)
-      ,(...arg)=>rhoAnim(0, time, ...arg)
+      , (...arg)=>triAnim(4, time, ...arg)
+      , (...arg)=>rhoAnim(2, time, ...arg)
+      , (...arg)=>triAnim(5, time, ...arg)
+      , (...arg)=>triAnim(0, time, ...arg)
+      , (...arg)=>rhoAnim(4, time, ...arg)
+      , (...arg)=>triAnim(1, time, ...arg)
+      , (...arg)=>triAnim(2, time, ...arg)
+      , (...arg)=>rhoAnim(0, time, ...arg)
     ]
     rhoAnim(0, 0)
     const anim = triAnim(2, 0, timeline, 0)
-    // todo fix state update on an unmounted component
     return ()=>anim.anim.pause()
-  }, [])
+  }, [rhoAnim, triAnim])
 
   return <svg width={size} height={size} {...attrs}>
     <g transform={transformGroup}>
@@ -56,14 +55,14 @@ export const Logo = ({ size=32, colors, ...attrs }) => {
  * @param {number} [t=150]
  * @param {Function[]} timeline
  * @param {number} timelineIndex
+ * @param {object} anim
  * @returns {object}
  */
-function rotateElement(setState, points, index, t=150, timeline, timelineIndex){
+function rotateElement(setState, points, index, t=150, timeline, timelineIndex, anim={}){
   const numPoints = points.length
   const startRotation = (index+3)%numPoints*60
   setState(getTransform(points, index, startRotation))
   const obj = { val: startRotation }
-  const anim = {}
   anim.anim = anime({
     targets: obj
     , val: startRotation-60
@@ -72,7 +71,7 @@ function rotateElement(setState, points, index, t=150, timeline, timelineIndex){
     , update: ()=>setState(getTransform(points, index, obj.val))
     , complete: ()=>{
       timeline&&timelineIndex<timeline.length
-        &&Object.assign(anim, timeline[timelineIndex++%timeline.length](timeline, timelineIndex))
+        &&timeline[timelineIndex++%timeline.length](timeline, timelineIndex, anim)
     }
   })
   return anim
