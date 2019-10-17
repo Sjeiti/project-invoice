@@ -36,7 +36,7 @@ export const Logo = ({ size=32, colors, ...attrs }) => {
     rhoAnim(0, 0)
     const anim = triAnim(2, 0, timeline, 0)
     return ()=>anim.anim.pause()
-  }, [rhoAnim, triAnim])
+  }, [])
 
   return <svg width={size} height={size} {...attrs}>
     <g transform={transformGroup}>
