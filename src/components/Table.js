@@ -83,7 +83,7 @@ export const Table = ({ cols, subjects, empty, children }) => {
           </tr>
         )}
       </tbody>
-      {!hasTFoot&&<tfoot><tr><td colspan={length}></td></tr></tfoot>}
+      {!hasTFoot&&<tfoot><tr><td colSpan={length}></td></tr></tfoot>}
       {children}
     </StyledTable>
   )

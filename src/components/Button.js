@@ -1,6 +1,8 @@
+import React from 'react'
 import styled from 'styled-components'
 import {lighten, darken} from 'polished'
 import {color, formElement} from '../cssService'
+import {Icon} from './Icon'
 
 const {
   colorButton
@@ -33,3 +35,9 @@ export const Button = styled.button`
     cursor: default;
   }
 `
+
+const StyledIconButton = styled(Button)`
+  padding: 8px;
+`
+
+export const IconButton = ({type, ...props}) => <StyledIconButton {...props}><Icon type={type} /></StyledIconButton>

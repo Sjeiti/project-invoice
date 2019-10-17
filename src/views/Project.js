@@ -5,15 +5,17 @@ import {isEqual, cloneDeep} from 'lodash'
 import {nbsp, getGetSetter} from '../utils'
 import {saveable} from '../saveable'
 import {storeProject, removeProject} from '../model/clients/actions'
-import {getClient, getProject, getClients, getClientHref} from '../model/clients/selectors'
+import {getClient, getProject, getClients, getClientHref, getProjectHref, getProjectNumber} from '../model/clients/selectors'
 import {Label} from '../components/Label'
-import {Button} from '../components/Button'
+import {Button, IconButton} from '../components/Button'
+import {ButtonAnchor} from '../components/ButtonAnchor'
 import {InputText, InputNumber, InputCheckbox} from '../components/Input'
 import {Table} from '../components/Table'
 import {Icon} from '../components/Icon'
 import {Price} from '../components/Price'
 import {Select} from '../components/Select'
 import {T} from '../components/T'
+import {useTranslation} from 'react-i18next/src/index'
 
 const editablePropNames = [
   {key:'description', input:InputText}
@@ -27,18 +29,20 @@ const PriceRight = props => <Price {...props} className="float-right" />
 
 export const Project = withRouter(
   connect(
-    state => ({ clients: getClients(state) }),
+    state => ({ state, clients: getClients(state) }),
     { storeProject, removeProject }
   )(
     ({
-      history,
-      match: {
+      history
+      , match: {
         params: { client: clientNr, project: projectId }
-      },
-      storeProject,
-      removeProject,
-      clients
+      }
+      , storeProject
+      , removeProject
+      , state
+      , clients
     }) => {
+      const {t} = useTranslation()
 
       const client = getClient(clients, clientNr)
       const projectOld = client && getProject(client.projects, projectId)
@@ -98,11 +102,11 @@ export const Project = withRouter(
           , times: <Price amount={hours*hourlyRate} onClick={amountSetter.bind(null, hours*hourlyRate)} />
           , amount: <InputNumber value={amount} setter={amountSetter} />
           , vat: <Select value={vat} options={vatOptions} setter={lineSetter('vat', parseFloat)} />
-          , action: <Button onClick={()=>{
+          , action: <IconButton onClick={()=>{
             const p = cloneDeep(project)
             p.lines.splice(index, 1)
             setProject(p)
-          }}><Icon type="close" /></Button>
+          }} type="close" />
         }
       })
 
@@ -140,28 +144,53 @@ export const Project = withRouter(
               >
                 <tfoot>
                   <tr>
-                    <td></td>
+                    <td />
                     <td><T>totalExVAT</T></td>
                     <td>{totalHours}</td>
                     <td><PriceRight amount={totalHours*hourlyRate} /></td>
                     <td><PriceRight amount={totalAmount} /></td>
-                    <td colSpan="2"></td>
+                    <td colSpan="2" />
                   </tr>
                   {!!project.discount&&<tr>
-                    <td></td>
+                    <td />
                     <td colSpan="2"><T>discount</T> {project.discount}%</td>
                     <td><PriceRight amount={discount*totalHours*hourlyRate} /></td>
                     <td><PriceRight amount={discount*totalAmount} /></td>
-                    <td colSpan="2"></td>
+                    <td colSpan="2" />
                   </tr>}
                   <tr>
-                    <td></td>
+                    <td />
                     <td colSpan="3"><T>totalIncVAT</T></td>
                     <td><PriceRight amount={discount*totalAmountVAT} style={{fontWeight:'bold'}} /></td>
-                    <td colSpan="2"></td>
+                    <td colSpan="2" />
                   </tr>
                 </tfoot>
               </Table>
+            </section>
+
+            <section>
+              <Button onClick={()=>{}} className="float-right"><T>{project.invoices.length&&'addReminder'||'addInvoice'}</T></Button>
+              <h3><T>invoices</T></h3>
+              <ol>
+                {project.invoices.map((invoice, index)=><li className="row no-gutters" key={index}>
+                  <div className="col-4">
+                    <ButtonAnchor to={`${getProjectHref(project)}/${invoice.type}${index!==0?'/'+index:''}`}>
+                      <T>{invoice.type}</T>{index!==0?nbsp + index:''}
+                  </ButtonAnchor>
+                  </div>
+                  <div className="col hide-low">{getProjectNumber(project, state)}</div>
+                  <div className="col-3">{invoice.date}</div>
+                  <div className="col">
+                    {invoice.interest&&<Icon type="promile" title={t('legalInterestWasAdded')} />}
+                    {invoice.exhortation&&<Icon type="stop" title={t('finalExhortation')} />}
+                    {invoice.paid&&<Icon type="money" title={t('paid')+': '+invoice.paid} />}{/*todo: format amount*/}
+                  </div>
+                  <div className="col text-align-right">
+                    {index===project.invoices.length-1&&<IconButton type="close" onClick={console.log.bind(console, 'todo onRemoveInvoice(invoice)')} />}{/*todo onRemoveInvoice(invoice)*/}
+                    <IconButton type="pencil" onClick={console.log.bind(console, 'todo onEditInvoice(invoice)')} />{/*todo onEditInvoice(invoice)*/}
+                  </div>
+                </li>)}
+              </ol>
             </section>
           </>
         )) || <p><T>project not found</T></p>

@@ -6,7 +6,7 @@ import {
   getClients,
   getClient,
   getProjectHref,
-  getProjectNr,
+  getProjectNumber,
   getProjectDate,
   getProjectDateLatest,
   getTotalIncDiscounted
@@ -35,9 +35,9 @@ const editablePropNames = [
 
 export const Client = withRouter(
   connect(
-    state => ({ clients: getClients(state) }),
+    state => ({ state, clients: getClients(state) }),
     { storeClient, removeClient, addProject }
-  )(({ history, match, clients, storeClient, removeClient, addProject }) => {
+  )(({ history, match, state, clients, storeClient, removeClient, addProject }) => {
 
     const clientOld = getClient(clients, parseInt(match.params.client, 10))
     const isClient = !!clientOld
@@ -61,7 +61,7 @@ export const Client = withRouter(
       , onClick: () => history.push(getProjectHref(project))
       // todo: make paid click functional
       , paid: <InputCheckbox value={project.paid} style={{margin:'0.25rem 0 0'}} />
-      , nr: getProjectNr(project)
+      , nr: getProjectNumber(project, state)
       , date: getProjectDate(project)
       , dateLatest: getProjectDateLatest(project)
       , totalIncDiscounted: <Price symbol="€" amount={getTotalIncDiscounted(project)} separator="," />

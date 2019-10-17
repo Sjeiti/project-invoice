@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { saveable } from '../saveable'
 import { noop } from '../utils'
 import {size} from '../cssService'
-import { Button } from './Button'
+import { Button, IconButton } from './Button'
 import { T } from './T'
 
 const {padding} = size
@@ -58,9 +58,12 @@ export const SaveableButtons = withRouter(props => {
 
   return (
     <Nav style={{ display: isSaveable ? 'block' : 'none' }}>
-      <Button onClick={save} disabled={!save}><T>save</T></Button>
-      <Button onClick={revert} disabled={!revert}><T>revert</T></Button>
-      <Button onClick={deleet} disabled={!deleet}><T>delete</T></Button>
+      <Button className="hide-low" onClick={save} disabled={!save}><T>save</T></Button>
+      <Button className="hide-low" onClick={revert} disabled={!revert}><T>revert</T></Button>
+      <Button className="hide-low" onClick={deleet} disabled={!deleet}><T>delete</T></Button>
+      <IconButton type="save" className="hide-high" onClick={save} disabled={!save} />
+      <IconButton type="revert" className="hide-high" onClick={revert} disabled={!revert} />
+      <IconButton type="delete" className="hide-high" onClick={deleet} disabled={!deleet} />
     </Nav>
   )
 })
