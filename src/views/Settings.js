@@ -12,7 +12,7 @@ import {getConfig} from '../model/config/selectors'
 import {data as defaultData} from '../model/default'
 import {getClients} from '../model/clients/selectors'
 import {Select} from '../components/Select'
-import {Input, InputCheckbox} from '../components/Input'
+import {InputText, InputCheckbox} from '../components/Input'
 import {Label} from '../components/Label'
 import {ButtonAnchor} from '../components/ButtonAnchor'
 import {ButtonLabel} from '../components/ButtonLabel'
@@ -23,11 +23,11 @@ const currencies = Object.keys(CURRENCY_ISO).map(key=>CURRENCY_ISO[key])
 
 const varMap = {
   uilang: {Element:Select, title:'applicationLanguage', attrs:{options:isos.map(iso=>({value:iso, text:iso}))}}
-  , projectNumberTemplate: {Element:Input}
-  , csvTemplate: {Element:Input}
+  , projectNumberTemplate: {Element:InputText}
+  , csvTemplate: {Element:InputText}
   , currency: {Element:Select, attrs:{options:currencies.map(({code, name, symbol})=>({value:code, text:`${name} (${symbol})`}))}}
   , homeMessage: {Element:InputCheckbox, title:'showHomeMessage'}
-  , langs: {Element:Input, title:'invoiceLanguages', map:v=>v.toString().split(',')}
+  , langs: {Element:InputText, title:'invoiceLanguages', map: v=>v.toString().split(',')}
 }
 
 export const Settings = connect(

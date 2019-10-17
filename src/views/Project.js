@@ -8,7 +8,7 @@ import {storeProject, removeProject} from '../model/clients/actions'
 import {getClient, getProject, getClients, getClientHref} from '../model/clients/selectors'
 import {Label} from '../components/Label'
 import {Button} from '../components/Button'
-import {Input} from '../components/Input'
+import {InputText, InputNumber, InputCheckbox} from '../components/Input'
 import {Table} from '../components/Table'
 import {Icon} from '../components/Icon'
 import {Price} from '../components/Price'
@@ -16,12 +16,14 @@ import {Select} from '../components/Select'
 import {T} from '../components/T'
 
 const editablePropNames = [
-    'description'
-    , 'hourlyRate'
-    , 'discount'
-    , 'paid'
-    , 'quotationDate'
+  {key:'description', input:InputText}
+    , {key:'hourlyRate', input:InputNumber}
+    , {key:'discount', input:InputNumber}
+    , {key:'paid', input:InputCheckbox}
+    , {key:'quotationDate', input:InputText}
 ]
+
+const PriceRight = props => <Price {...props} className="float-right" />
 
 export const Project = withRouter(
   connect(
@@ -73,9 +75,9 @@ export const Project = withRouter(
       const projectLineCols = [
         {key:'drag'}
         , {key:'description', th:<T>description</T>}
-        , {key:'hours', th:<T>hours</T>, tf: lines.reduce((acc, {hours})=>acc+hours, 0)}
-        , {key:'times', th:'⇥', tf: <Price amount={lines.reduce((acc, {hours})=>acc+hours*hourlyRate, 0)} />}
-        , {key:'amount', th:<T>amount</T>, tf: <Price amount={lines.reduce((acc, {amount})=>acc+amount, 0)} />}
+        , {key:'hours', th:<T>hours</T>}
+        , {key:'times', th:'⇥'}
+        , {key:'amount', th:<T>amount</T>}
         , {key:'vat', th:<T>vat</T>}
         , {key:'action'}
       ]
@@ -91,10 +93,10 @@ export const Project = withRouter(
         const amountSetter = lineSetter('amount', parseFloat)
         return {
           drag: <Icon type="drag" />
-          , description: <Input value={description} setter={lineSetter('description')} />
-          , hours: <Input value={hours} setter={lineSetter('hours', parseFloat)} />
+          , description: <InputText value={description} setter={lineSetter('description')} />
+          , hours: <InputNumber value={hours} setter={lineSetter('hours', parseFloat)} />
           , times: <Price amount={hours*hourlyRate} onClick={amountSetter.bind(null, hours*hourlyRate)} />
-          , amount: <Input value={amount} setter={amountSetter} />
+          , amount: <InputNumber value={amount} setter={amountSetter} />
           , vat: <Select value={vat} options={vatOptions} setter={lineSetter('vat', parseFloat)} />
           , action: <Button onClick={()=>{
             const p = cloneDeep(project)
@@ -103,6 +105,14 @@ export const Project = withRouter(
           }}><Icon type="close" /></Button>
         }
       })
+
+      console.log('project', project) // todo: remove log
+
+      const totalHours = lines.reduce((acc, {hours}) => acc + hours, 0)
+      const totalAmount = lines.reduce((acc, {amount}) => acc + amount, 0)
+      const totalAmountVAT = lines.reduce((acc, {amount, vat}) => acc + amount*vat, 0)
+      const discount = 1 - project.discount/100
+      // const vat = 1 - project.vat/100
 
       return (
         (isProject && (
@@ -113,7 +123,7 @@ export const Project = withRouter(
 
             <section>
               {editablePropNames.map(
-                (key, index) =>
+                ({key, input:Input}, index) =>
                   <Label key={index}>
                     <T>{key}</T>
                     <Input value={project[key]} setter={getSetter(key)} />
@@ -127,7 +137,31 @@ export const Project = withRouter(
               <Table
                   cols={projectLineCols}
                   subjects={projectLineSubjects}
-              />
+              >
+                <tfoot>
+                  <tr>
+                    <td></td>
+                    <td><T>totalExVAT</T></td>
+                    <td>{totalHours}</td>
+                    <td><PriceRight amount={totalHours*hourlyRate} /></td>
+                    <td><PriceRight amount={totalAmount} /></td>
+                    <td colSpan="2"></td>
+                  </tr>
+                  {!!project.discount&&<tr>
+                    <td></td>
+                    <td colSpan="2"><T>discount</T> {project.discount}%</td>
+                    <td><PriceRight amount={discount*totalHours*hourlyRate} /></td>
+                    <td><PriceRight amount={discount*totalAmount} /></td>
+                    <td colSpan="2"></td>
+                  </tr>}
+                  <tr>
+                    <td></td>
+                    <td colSpan="3"><T>totalIncVAT</T></td>
+                    <td><PriceRight amount={discount*totalAmountVAT} style={{fontWeight:'bold'}} /></td>
+                    <td colSpan="2"></td>
+                  </tr>
+                </tfoot>
+              </Table>
             </section>
           </>
         )) || <p><T>project not found</T></p>

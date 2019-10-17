@@ -1,11 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 // import {formElement} from '../cssService'
-import {InputElement} from './Input'
+import {StyledInput} from './Input'
 
 // export const Select = styled.select`${InputElement.componentStyle.rules}`
 const StyledSelect = styled.select`
-  ${InputElement.componentStyle.rules} 
+  ${StyledInput.componentStyle.rules} 
 `
 
 export const Select = ({ value, onChange, setter, options }) => {

@@ -5,7 +5,7 @@ import {saveable} from '../saveable'
 import {getData} from '../model/personal/selectors'
 import {storeData} from '../model/personal/actions'
 import {Label} from '../components/Label'
-import {Input} from '../components/Input'
+import {InputText} from '../components/Input'
 import {T} from '../components/T'
 
 export const Data = connect(
@@ -31,7 +31,7 @@ export const Data = connect(
     {Object.entries(data).map(([key, value])=>
         <Label key={key}>
           <T>{key}</T>
-          <Input value={value} setter={getSetter(key)} />
+          <InputText value={value} setter={getSetter(key)} />
         </Label>
     )}
   </>

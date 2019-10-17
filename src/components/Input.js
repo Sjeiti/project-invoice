@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
+import {noop} from '../utils'
 import {color, formElement, icon} from '../cssService'
 
-export const InputElement = styled.input`
+export const StyledInput = styled.input`
   ${formElement}
   box-shadow: 0 0 0 1px ${color.colorBorder} inset,  0 4px 16px ${color.colorShade} inset;
   &[type=checkbox] {
@@ -31,42 +32,29 @@ export const InputElement = styled.input`
   }
 `
 
-export const InputText = attr => <InputElement {...attr} type="text" />
-
-export const InputNumber = attr => <InputElement {...attr} type="number" />
-
-export const InputBoolean = attr => <><InputElement {...attr} type="checkbox" /><span/></>
-
-export const InputDate = attr => <InputElement {...attr} type="date" />
-
-export const Input = props => {
-  const { value, onChange, setter, ...attr } = props
-  const [Element] = useState(() => {
-    const isBoolean = value === true || value === false
-    const isString = typeof value === 'string'
-    const isNumber = typeof value === 'number'
-    const isDate =
-      (isString &&
-        value.match(/([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/) &&
-        true) ||
-      false
-    // console.log('asdf', {value, isBoolean, isString, isNumber}) // todo: remove log
-    return (
-      (isBoolean && InputBoolean) ||
-      (isNumber && InputNumber) ||
-      (isDate && InputDate) ||
-      (isString && InputText) ||
-      InputElement
-    )
-  })
-  return <Element value={value} onChange={onChange || setter && (({ target: { value } }) => setter(value)) || (() => {})} {...attr} />
+export const InputText = ({ value, onChange:_onChange, setter, ...attr}) => {
+  return <StyledInput
+      value={value}
+      onChange={_onChange || setter && (({ target: { value } }) => setter(value)) || noop}
+      {...attr}
+      type="text"
+  />
 }
 
+export const InputNumber = ({ value, onChange:_onChange, setter, ...attr}) => {
+  return <StyledInput
+      value={value}
+      onChange={_onChange || setter && (({ target: { value } }) => setter(parseFloat(value))) || noop}
+      {...attr}
+      type="number"
+  />
+}
 
-export const InputCheckbox = ({value, setter, onChange}) => {
-  return <><InputElement
-      onChange={onChange || setter && (({ target: { checked } }) => setter(checked)) || (() => {})}
+export const InputCheckbox = ({value, setter, onChange, ...attr}) => {
+  return <><StyledInput
+      onChange={onChange || setter && (({ target: { checked } }) => setter(checked)) || noop}
       checked={value}
+      {...attr}
       type="checkbox"
   /><span/></>
 }

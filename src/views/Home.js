@@ -24,7 +24,7 @@ import {ButtonLink} from '../components/ButtonLink'
 import {Button} from '../components/Button'
 import {Price} from '../components/Price'
 import {Table} from '../components/Table'
-import {Input} from '../components/Input'
+import {InputText} from '../components/Input'
 
 const bgcolor = '#3f5267'
 const Jumbotron = styled.div`
@@ -87,7 +87,7 @@ export const Home = withRouter(connect(
   const latestProject = getLatestProject(clients)
   const openInvoices = getOpenProjects(clients).map(project => ({
     ...project
-    , paid: <Input value={project.paid} style={{margin:'0.25rem 0 0'}} />
+    , paid: <InputText value={project.paid} style={{margin:'0.25rem 0 0'}} />
     , date: project.invoices.slice(0).pop().date
     , onClick: () => history.push(getProjectHref(project))
     , totalIncDiscounted: <Price symbol="€" amount={getTotalIncDiscounted(project)} separator="," />

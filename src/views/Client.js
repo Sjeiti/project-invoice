@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
-import { connect } from 'react-redux'
-import { Link, withRouter } from 'react-router-dom'
+import {connect} from 'react-redux'
+import {Link, withRouter} from 'react-router-dom'
 import {isEqual, nbsp} from '../utils'
 import {
   getClients,
@@ -12,26 +12,25 @@ import {
   getTotalIncDiscounted
 } from '../model/clients/selectors'
 import {getNewProjectEvents} from '../model/eventFactory'
-import { storeClient, removeClient, addProject } from '../model/clients/actions'
-import { saveable } from '../saveable'
-import { Label } from '../components/Label'
-import { ButtonLink } from '../components/ButtonLink'
-import { Price } from '../components/Price'
-import { Table } from '../components/Table'
-import {Input} from '../components/Input'
+import {storeClient, removeClient, addProject} from '../model/clients/actions'
+import {saveable} from '../saveable'
+import {Label} from '../components/Label'
+import {ButtonLink} from '../components/ButtonLink'
+import {Price} from '../components/Price'
+import {Table} from '../components/Table'
+import {InputCheckbox, InputText, InputNumber} from '../components/Input'
 import {T} from '../components/T'
 
 const editablePropNames = [
-  'name'
-  , 'nr'
-  , 'address'
-  , 'city'
-  , 'contact'
-  , 'paymentterm'
-  , 'phone'
-  , 'postbox'
-  , 'zipcode'
-  , 'zippost'
+  {key:'name', input:InputText}
+  , {key:'address', input:InputText}
+  , {key:'city', input:InputText}
+  , {key:'contact', input:InputText}
+  , {key:'paymentterm', input:InputNumber}
+  , {key:'phone', input:InputText}
+  , {key:'postbox', input:InputText}
+  , {key:'zipcode', input:InputText}
+  , {key:'zippost', input:InputText}
 ]
 
 export const Client = withRouter(
@@ -39,10 +38,9 @@ export const Client = withRouter(
     state => ({ clients: getClients(state) }),
     { storeClient, removeClient, addProject }
   )(({ history, match, clients, storeClient, removeClient, addProject }) => {
+
     const clientOld = getClient(clients, parseInt(match.params.client, 10))
     const isClient = !!clientOld
-    const editableProps = isClient && editablePropNames.map(key => [key, ...useState(clientOld[key])])
-
     const [client, setClient] = useState(clientOld)
 
     useEffect(()=>{setTimeout(()=>saveable.dispatch(true))}, [])
@@ -62,7 +60,7 @@ export const Client = withRouter(
       ...project
       , onClick: () => history.push(getProjectHref(project))
       // todo: make paid click functional
-      , paid: <Input value={project.paid} style={{margin:'0.25rem 0 0'}} />
+      , paid: <InputCheckbox value={project.paid} style={{margin:'0.25rem 0 0'}} />
       , nr: getProjectNr(project)
       , date: getProjectDate(project)
       , dateLatest: getProjectDateLatest(project)
@@ -77,16 +75,14 @@ export const Client = withRouter(
     return (
       (isClient && (
         <>
-          <h3>{editableProps[0][1]||nbsp}</h3>
+          <h3>{client.name||nbsp}</h3>
           <form>
             {editablePropNames.map(
-              (key, index) =>
-                key !== 'nr' && (
-                  <Label key={index}>
-                    <T>{key}</T>
-                    <Input value={client[key]} setter={getSetter(key)} />
-                  </Label>
-                )
+              ({key, input:Input}, index) =>
+                <Label key={index}>
+                  <T>{key}</T>
+                  <Input value={client[key]} setter={getSetter(key)} />
+                </Label>
             )}
           </form>
           <hr/>
@@ -98,7 +94,7 @@ export const Client = withRouter(
               subjects={projectListProjects}
               sort="date" // todo
               asc="false" // todo
-              empty={[<T>clientNoProjects</T>,', ', <Link {...newProjectEvents} key={0}><T>create one</T></Link>]}
+              empty={[<T>clientNoProjects</T>, ', ', <Link {...newProjectEvents} key={0}><T>create one</T></Link>]}
             />
           </section>
         </>

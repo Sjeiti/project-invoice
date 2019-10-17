@@ -106,52 +106,6 @@ textarea {
   }
 }
 
-table {
-  width: 100%;
-  border-top: 1px solid $colorBorder;
-  border-bottom: 1px solid $colorBorder;
-  thead { border-bottom: 1px solid #CCC; }
-  tfoot { border-top: 1px solid #CCC; }
-  &.hoverable {
-    tbody tr {
-      transition: background-color 200ms linear, box-shadow 200ms linear;
-      box-shadow: 0 1px 0 0 transparent inset, 0 -1px 0 0 transparent inset;
-      @media #{$breakpointHigh} {
-        &:hover {
-          background-color: lighten($colorButton,54%);
-          box-shadow: 0 1px 0 0 lighten($colorButton,30%) inset, 0 -1px 0 0 lighten($colorButton,30%) inset;
-        }
-      }
-    }
-  }
-}
-thead,tfoot { background-color: $colorTable; }
-table, tbody, tfoot, tr, td, th {
-  margin:0;
-  padding:0;
-  border-collapse:collapse;
-  border-spacing:0;
-}
-tr {
-  &:nth-child(even) {
-    background-color: #f8f8f8;
-  }
-}
-th {
-  font-size: 1.1em;
-  line-height: 180%;
-  font-weight: normal;
-  text-align: left;
-}
-td, th {
-      height: 38px;
-      white-space: nowrap;
-      overflow: hidden;
-  padding: 0 1px;
-  &:first-child { padding-left: 0; }
-  &:last-child { padding-right: 0; }
-}
-
 dl {
   display: flex;
   flex-wrap: wrap;

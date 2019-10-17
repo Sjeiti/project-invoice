@@ -6,7 +6,7 @@ import {
   getClients,getClientHref,getLatestProject,getProjectDate,getProjectNumber,getProjectHref
 } from '../model/clients/selectors'
 import { addClient } from '../model/clients/actions'
-import {Input} from '../components/Input'
+import {InputText} from '../components/Input'
 import {ButtonLink} from '../components/ButtonLink'
 import {AnchorButton} from '../components/AnchorButton'
 import {getNewClientEvents} from '../model/eventFactory'
@@ -44,7 +44,7 @@ export const Clients = connect(
   const cols = 'nr name invoices recent last allPaid'.split(' ').map(key=>({key,th:t(key)}))
   cols[1].th = <>
     <T>name</T>
-    <Input
+    <InputText
       placeholder={t('filter')}
       value={filter}
       setter={setFilter}
