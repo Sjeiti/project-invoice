@@ -1,10 +1,11 @@
-import React, {useState, createRef, forwardRef, useEffect} from 'react'
+import React, {createRef, forwardRef, useEffect} from 'react'
 import styled from 'styled-components'
 import {breakpoint} from '../cssService'
 import {getProjectNumber} from '../model/clients/selectors'
+import {Parse as ParseUnbound} from './Parse'
 import {T as TUnbound} from './T'
 
-import print from '../../temp/print.css'
+import print from '../../temp/print.css' // todo: not this of course
 
 const {breakpointHigh} = breakpoint
 const breakpointHigher = '(min-width: 850px)'
@@ -25,16 +26,12 @@ const dividerSize = '0.3%';
 const dividerSize_ = '99.7%';
 const dividerWidth = `${1.02*A4w}mm`
 
-const Parse = styled.span`` // todo write parser
-// const Currency = styled.span`` // todo write currency
+
 const Currency = ({children:val}) => {
   let dotValue = parseFloat(val||0).toFixed(2)
   const [before, after] = dotValue.split(/\./)
   const reg3 = /(\d)(?=(\d\d\d)+(?!\d))/g
-  return `${before.replace(reg3,'$1.')},${after}`
-  // return before.replace(reg3,'$1<span class="di"></span>')+'<span class="df">.</span>'+after
-  // console.log('children',children,typeof children) // todo: remove log
-  // return <>{children}</>
+  return `${before.replace(reg3, '$1.')},${after}` // todo: fix comma-or-dot
 }
 
 const StyledPrintInvoice = styled.div`
@@ -152,6 +149,15 @@ export const PrintInvoice = forwardRef(({state, project, client, invoiceIndex, l
   // rewire T to be bound to set language
   const T = ({children})=><TUnbound lang={lang}>{children}</TUnbound>
 
+  // bind parser
+  const Parse = ({children})=><ParseUnbound
+      state={state}
+      project={project}
+      client={client}
+      invoice={invoice}
+      lang={lang}
+  >{children}</ParseUnbound>
+
   useEffect(()=>{
     const {current:{contentWindow, contentDocument, contentDocument:{body:contentBody}}} = iframeRef
     const {current:{outerHTML:html}} = invoiceRef
@@ -165,14 +171,14 @@ export const PrintInvoice = forwardRef(({state, project, client, invoiceIndex, l
   })
 
   return <StyledPrintInvoice ref={ref}>
-    <div xref="shade" className="invoice-shade"><div></div></div>
+    <div xref="shade" className="invoice-shade"><div /></div>
 
     <div xref="pageDividers" className="page-dividers" v-bind-data-foo="pageBreaks.join(',')">
       <div v-for="pageHeight in pageBreaks" v-bind-style="`height:${pageHeight}px;`">&nbsp;</div>
     </div>
 
     <div xref="iframeWrapper" className="iframe-wrapper">
-      <iframe ref={iframeRef}></iframe>
+      <iframe ref={iframeRef} />
     </div>
 
     <div ref={invoiceRef} className="invoice print-invoice" className="config.theme||''">

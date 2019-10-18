@@ -143,6 +143,7 @@ export function getDraftProjects(clients) {
 /**
  * Calculate the invoice number by interpolating the template
  * @returns {string}
+ * @todo maybe only interpolate like this at one single point
  */
 export function getProjectNumber(_project, state){
   const {clients, config:{projectNumberTemplate}} = state

@@ -57,14 +57,14 @@ const proto = {
   //   })
   // }
 
-  // /**
-  //  * Calculate the invoice number by interpolating the template
-  //  * @returns {string}
-  //  */
-  // ,calculateInvoiceNr(){
-  //   // ${client.nr}.${project.indexOnClient+1}.${project.dateYear.substr(2,2)}.${project.indexOnYear+1}
-  //   return (new Function('project','client','return `'+this.model.config.projectNumberTemplate+'`'))(this,this.client)
-  // }
+  /**
+   * Calculate the invoice number by interpolating the template
+   * @returns {string}
+   */
+  ,calculateInvoiceNr(){
+    // ${client.nr}.${project.indexOnClient+1}.${project.dateYear.substr(2,2)}.${project.indexOnYear+1}
+    return (new Function('project','client','return `'+this.model.config.projectNumberTemplate+'`'))(this,this.client)
+  }
 
   /**
    * A getter for the invoice number
