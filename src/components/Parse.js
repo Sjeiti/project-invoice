@@ -1,12 +1,13 @@
 import React from 'react'
 import marked from 'marked'
 import {project as enhanceProject} from '../model/clients/project'
+import {Trans} from 'react-i18next'
 
 marked.setOptions({
   renderer: new marked.Renderer()
   , gfm: true
   , tables: true
-  , breaks: true // false,
+  , breaks: true
   , pedantic: false
   , sanitize: false
   , smartLists: true
@@ -25,8 +26,11 @@ export const Parse = ({children, state, project:_project, client, invoice, lang}
 
   const parsed =  (new Function(...stringParams, 'return `'+string+'`'))(...arrayParams)
 
-  // copy.includes(children)&&copy[children][lang]||
-  return <>{marked(parsed)}</>
+  // todo using Trans here is not really what we want, but it does the job... for now
+  return <Trans>{decode(marked(parsed))}</Trans>
 }
 
-
+function decode(s){
+	return s
+      .replace(/&#39;/, '\'')
+}

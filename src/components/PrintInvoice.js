@@ -162,7 +162,7 @@ export const PrintInvoice = forwardRef(({state, project, client, invoiceIndex, l
     const {current:{contentWindow, contentDocument, contentDocument:{body:contentBody}}} = iframeRef
     const {current:{outerHTML:html}} = invoiceRef
     contentDocument.title = getProjectNumber(project, state)
-    contentBody.innerHTML = `<style>${print}</style>` + html
+    contentBody.innerHTML = `<style>${print}</style>` + html.replace('visually-hidden', '')
     // todo onResize
     // todo calculatePagebreaks
     // expose print method
@@ -181,7 +181,7 @@ export const PrintInvoice = forwardRef(({state, project, client, invoiceIndex, l
       <iframe ref={iframeRef} />
     </div>
 
-    <div ref={invoiceRef} className="invoice print-invoice" className="config.theme||''">
+    <div ref={invoiceRef} className="invoice print-invoice visually-hidden" data-classname="config.theme||''">
       {/*<link href='https://fonts.googleapis.com/css?family=Droid+Sans+Mono|Istok+Web:400,400italic,700,700italic' rel='stylesheet' type='text/css'/>*/}
       {/*<style>{{config.invoiceCSS}}</style>*/}
       <link v-bind-href="fontsURI" rel='stylesheet' type='text/css'/>
