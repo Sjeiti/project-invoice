@@ -45,6 +45,7 @@
   "address": "adres",
   "city": "plaats",
   "contact": "contact",
+  "payment": "betaling",
   "paymentterm": "betalingstermijn",
   "phone": "telefoon",
   "postbox": "postbus",

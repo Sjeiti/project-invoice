@@ -1,7 +1,7 @@
 import React from 'react'
 import {useTranslation} from 'react-i18next'
 
-export const T = ({children}) => {
+export const T = ({children, lang:lng}) => {
   const {t} = useTranslation()
-  return <>{t(children)}</>
+  return <>{t(children,{lng})}</>
 }

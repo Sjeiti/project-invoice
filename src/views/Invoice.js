@@ -50,6 +50,7 @@ export const Invoice = withRouter(
           client={client}
           project={project}
           invoiceIndex={invoiceIndex}
+          lang={lang}
         />
         {/*<print-invoice ref="invoice" client="client" project="project" invoice="invoice" />*/}
       </section>
