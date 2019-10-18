@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, createRef} from 'react'
 import {connect} from 'react-redux'
 import {Link, withRouter} from 'react-router-dom'
 import {getClient, getProject, getClients, getProjectNumber, getProjectHref} from '../model/clients/selectors'
@@ -14,7 +14,8 @@ export const Invoice = withRouter(
     ({
       history
       , match: {
-        params: { client: clientNr, project: projectId }
+        params: { client: clientNr, project: projectId, reminder:reminderIndex }
+        , url
       }
       , state
       , clients
@@ -23,7 +24,15 @@ export const Invoice = withRouter(
       const client = getClient(clients, clientNr)
       const project = client && getProject(client.projects, projectId)
 
+      const isQuotation = /quotation$/.test(url)
+      const invoiceIndex = reminderIndex||isQuotation&&-1||0
+
       const [lang, setLang] = useState(config.lang)
+
+      const piRef = createRef()
+      function onClickPrint(){
+        piRef.current.printInvoice()
+      }
 
       return <section>
         <header>
@@ -32,13 +41,15 @@ export const Invoice = withRouter(
           </div>
           <h1><span className="hide-low"><T>invoice</T> </span><Link to={getProjectHref(project)}>{getProjectNumber(project, state)}</Link></h1>
           {/*<div className="invoice-options">*/}
-            <Button onClick={console.log.bind(console, 'print')} style={{margin:'0 auto'}}><T>print</T></Button>
+            <Button onClick={onClickPrint} style={{margin:'0 auto'}}><T>print</T></Button>
           {/*</div>*/}
         </header>
         <PrintInvoice
+          ref={piRef}
           state={state}
           client={client}
           project={project}
+          invoiceIndex={invoiceIndex}
         />
         {/*<print-invoice ref="invoice" client="client" project="project" invoice="invoice" />*/}
       </section>

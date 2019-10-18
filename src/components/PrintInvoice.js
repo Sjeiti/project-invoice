@@ -1,9 +1,10 @@
-import React from 'react'
+import React, {useState, createRef, forwardRef, useEffect} from 'react'
 import styled from 'styled-components'
 import {breakpoint} from '../cssService'
 import {T} from './T'
 
 import print from '../../temp/print.css'
+import {getProjectNumber} from '../model/clients/selectors'
 const style = document.createElement('style')
 style.textContent = print
 document.body.appendChild(style)
@@ -24,7 +25,6 @@ const colorDivider = '#1d85b4';
 const dividerSize = '0.3%';
 const dividerSize_ = '99.7%';
 const dividerWidth = `${1.02*A4w_}mm`
-
 
 const Parse = styled.span`` // todo write parser
 const Currency = styled.span`` // todo write currency
@@ -118,15 +118,29 @@ const StyledPrintInvoice = styled.div`
   .print-invoice { display: none; }
 `
 
-export const PrintInvoice = ({state, project, client}) => {
+export const PrintInvoice = forwardRef(({state, project, client, invoiceIndex}, ref) => {
   const {personal} = state
-  const isQuotation = false // todo
+  const isQuotation = invoiceIndex===-1
 
   const {discount, invoices} = project
-  const invoice = invoices[0]
-  console.log('invoice',invoice) // todo: remove log
+  const invoice = invoiceIndex>=0&&invoices[invoiceIndex]
 
-  return <StyledPrintInvoice>
+  const iframeRef = createRef()
+  const invoiceRef = createRef()
+
+  useEffect(()=>{
+    const {current:{contentWindow, contentDocument, contentDocument:{body:contentBody}}} = iframeRef
+    const {current:{outerHTML:html}} = invoiceRef
+    contentDocument.title = getProjectNumber(project, state)
+    contentBody.innerHTML = `<style>${print}</style>` + html
+    // todo onResize
+    // todo calculatePagebreaks
+    // expose print method
+    ref.current.printInvoice = contentWindow.print.bind(contentWindow)
+
+  })
+
+  return <StyledPrintInvoice ref={ref}>
     <div xref="shade" className="invoice-shade"><div></div><div></div></div>
 
     <div xref="pageDividers" className="page-dividers" v-bind-data-foo="pageBreaks.join(',')">
@@ -134,10 +148,10 @@ export const PrintInvoice = ({state, project, client}) => {
     </div>
 
     <div xref="iframeWrapper" className="iframe-wrapper">
-      <iframe xref="iframe"></iframe>
+      <iframe ref={iframeRef}></iframe>
     </div>
 
-    <div xref="invoice" className="invoice print-invoice" className="config.theme||''">
+    <div ref={invoiceRef} className="invoice print-invoice" className="config.theme||''">
       {/*<link href='https://fonts.googleapis.com/css?family=Droid+Sans+Mono|Istok+Web:400,400italic,700,700italic' rel='stylesheet' type='text/css'/>*/}
       {/*<style>{{config.invoiceCSS}}</style>*/}
       <link v-bind-href="fontsURI" rel='stylesheet' type='text/css'/>
@@ -254,3 +268,4 @@ export const PrintInvoice = ({state, project, client}) => {
 
   </StyledPrintInvoice>
 }
+)
