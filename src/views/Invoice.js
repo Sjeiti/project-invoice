@@ -34,15 +34,16 @@ export const Invoice = withRouter(
         piRef.current.printInvoice()
       }
 
+      const user = 23
+
       return <section>
-        <header>
-          <div className="float-right">
+
+        <header className="clearfix" style={{marginBottom:'1rem'}}>
+          <div className="float-right text-align-right">
             {config.langs.map(iso=><Button key={iso} onClick={()=>setLang(iso)} disabled={iso===lang}>{iso}</Button>)}
+            <br/><Button onClick={onClickPrint} style={{margin:'0 auto'}}><T>print</T></Button>
           </div>
-          <h1><span className="hide-low"><T>invoice</T> </span><Link to={getProjectHref(project)}>{getProjectNumber(project, state)}</Link></h1>
-          {/*<div className="invoice-options">*/}
-            <Button onClick={onClickPrint} style={{margin:'0 auto'}}><T>print</T></Button>
-          {/*</div>*/}
+          <h1><span className="hide-low"><T>project</T> </span><Link to={getProjectHref(project)}>{getProjectNumber(project, state)}</Link></h1>
         </header>
         <PrintInvoice
           ref={piRef}
@@ -52,7 +53,6 @@ export const Invoice = withRouter(
           invoiceIndex={invoiceIndex}
           lang={lang}
         />
-        {/*<print-invoice ref="invoice" client="client" project="project" invoice="invoice" />*/}
       </section>
     }
   )

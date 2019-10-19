@@ -180,5 +180,6 @@
   "fork on": "vork op",
   "clientName": "klant naam",
   "clientNoProjects": "Deze klant heeft geen projecten :-/",
-  "new line": "nieuwe regel"
+  "new line": "nieuwe regel",
+  "concerns": "betreft"
 }

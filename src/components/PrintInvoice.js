@@ -1,6 +1,8 @@
-import React, {createRef, forwardRef, useEffect} from 'react'
+import React, {createRef, forwardRef, useState, useEffect} from 'react'
+import {getCSSVariables, nbsp} from '../utils'
 import styled from 'styled-components'
 import {breakpoint} from '../cssService'
+import {project as enhanceProject} from '../model/clients/project'
 import {getProjectNumber} from '../model/clients/selectors'
 import {Parse as ParseUnbound} from './Parse'
 import {T as TUnbound} from './T'
@@ -26,12 +28,12 @@ const dividerSize = '0.3%';
 const dividerSize_ = '99.7%';
 const dividerWidth = `${1.02*A4w}mm`
 
-
 const Currency = ({children:val}) => {
   let dotValue = parseFloat(val||0).toFixed(2)
   const [before, after] = dotValue.split(/\./)
   const reg3 = /(\d)(?=(\d\d\d)+(?!\d))/g
-  return `${before.replace(reg3, '$1.')},${after}` // todo: fix comma-or-dot
+  return <div symbol="€" className="mono">{`${before.replace(reg3, '$1.')},${after}`}</div> // todo: fix comma-or-dot
+  // return `${before.replace(reg3, '$1.')},${after}` // todo: fix comma-or-dot
 }
 
 const StyledPrintInvoice = styled.div`
@@ -137,40 +139,46 @@ const StyledPrintInvoice = styled.div`
 `
 
 export const PrintInvoice = forwardRef(({state, project, client, invoiceIndex, lang}, ref) => {
-  const {personal} = state
+  const {personal, config} = state
   const isQuotation = invoiceIndex===-1
 
   const {discount, invoices} = project
   const invoice = invoiceIndex>=0&&invoices[invoiceIndex]
 
+  const [CSSVariables] = useState(getCSSVariables.bind(null, config))
+
   const iframeRef = createRef()
   const invoiceRef = createRef()
+
+  const fontsURI =  `https://fonts.googleapis.com/css?family=${config.themeFontMain}|${config.themeFontCurrency}`
 
   // rewire T to be bound to set language
   const T = ({children})=><TUnbound lang={lang}>{children}</TUnbound>
 
   // bind parser
   const Parse = ({children})=><ParseUnbound
-      state={state}
-      project={project}
-      client={client}
-      invoice={invoice}
-      lang={lang}
+    state={state}
+    lang={lang}
+    values={{ data:state.personal, project, client, invoice, lang }}
   >{children}</ParseUnbound>
+
 
   useEffect(()=>{
     const {current:{contentWindow, contentDocument, contentDocument:{body:contentBody}}} = iframeRef
     const {current:{outerHTML:html}} = invoiceRef
     contentDocument.title = getProjectNumber(project, state)
-    contentBody.innerHTML = `<style>${print}</style>` + html.replace('visually-hidden', '')
+    contentBody.innerHTML = html.replace('visually-hidden', '')
+    // contentBody.innerHTML = `<style>${print}${CSSVariables}</style>` + html.replace('visually-hidden', '')
     // todo onResize
     // todo calculatePagebreaks
-    // expose print method
+    // expose print method (todo we could do this only once)
     ref.current.printInvoice = contentWindow.print.bind(contentWindow)
-
   })
 
+  project = enhanceProject(project)
+
   return <StyledPrintInvoice ref={ref}>
+
     <div xref="shade" className="invoice-shade"><div /></div>
 
     <div xref="pageDividers" className="page-dividers" v-bind-data-foo="pageBreaks.join(',')">
@@ -181,31 +189,31 @@ export const PrintInvoice = forwardRef(({state, project, client, invoiceIndex, l
       <iframe ref={iframeRef} />
     </div>
 
-    <div ref={invoiceRef} className="invoice print-invoice visually-hidden" data-classname="config.theme||''">
-      {/*<link href='https://fonts.googleapis.com/css?family=Droid+Sans+Mono|Istok+Web:400,400italic,700,700italic' rel='stylesheet' type='text/css'/>*/}
-      {/*<style>{{config.invoiceCSS}}</style>*/}
-      <link v-bind-href="fontsURI" rel='stylesheet' type='text/css'/>
-      {/*############################################################*/}
+    {/*############################################################*/}
+    <div ref={invoiceRef} className={`invoice print-invoice visually-hidden ${config.theme||''}`}>
+      <style>{print+CSSVariables}</style>
+      <link href={fontsURI} rel='stylesheet' type='text/css'/>
+      {/*####*/}
       <header>
         <div className="page">
           <div className="wrapper">
-            <div className="client" v-html="parse('receiver')" />
+            <div className="client"><Parse>receiver</Parse></div>
             <div className="you">
               <div id="logo" />
-              <div v-html="parse('sender')" />
+              <div><Parse>sender</Parse></div>
             </div>
           </div>
         </div>
       </header>
       <div className="page">
         <div className="wrapper block clearfix">
-          <dl className="float-right">
-            <dt><T>date</T> </dt>
+          <dl className="float-right date">
+            <dt><T>date</T>{nbsp}</dt>
             <dd>{isQuotation?project.quotationDate:invoice.date}</dd>{/*todo implement | date:copy.dateFormat[config.lang]*/}
           </dl>
           <dl className="list">
             <dt className="type">{isQuotation?<T>quotation</T>:(invoiceIndex>0?(invoice.exhortation?<T>exhortation</T>:[invoiceIndex, 'e ', <T key="1">reminder</T>]):<T>invoice</T>)}</dt>
-            {isQuotation&&<dd><T>number</T> {project.invoiceNr}</dd>}
+            {!isQuotation&&<dd><T>number</T> {getProjectNumber(project, state)}</dd>}
           </dl>
           <dl className="list concerns">
             <dt><T>concerns</T></dt>
@@ -268,7 +276,7 @@ export const PrintInvoice = forwardRef(({state, project, client, invoiceIndex, l
             <tr className="separate add"><td colSpan="3" /></tr>
             <tr className={{total:invoice.alreadyPaid===0}}>
               <td><T>total</T></td>
-              <td colSpan="2"><Currency>project.totalIncDiscounted</Currency></td>
+              <td colSpan="2"><Currency>{project.totalIncDiscounted}</Currency></td>
             </tr>
             </tbody>
 
@@ -276,12 +284,12 @@ export const PrintInvoice = forwardRef(({state, project, client, invoiceIndex, l
             {!isQuotation&&invoice.alreadyPaid!==0&&invoice.alreadyPaid!==undefined&&<tbody>
             <tr>
               <td><T>amountPaid</T></td>
-              <td colSpan="2"><Currency>invoice.alreadyPaid</Currency></td>
+              <td colSpan="2"><Currency>{invoice.alreadyPaid}</Currency></td>
             </tr>
             <tr className="separate subtract"><td colSpan="3" /></tr>
             <tr className="total">
               <td><T>remainder</T></td>
-              <td colSpan="2"><Currency>invoice.remainder</Currency></td>
+              <td colSpan="2"><Currency>{invoice.remainder}</Currency></td>
             </tr>
             </tbody>}
 

@@ -180,5 +180,6 @@
   "fork on": "fork on",
   "clientName": "client name",
   "clientNoProjects": "This client has no projects :-/",
-  "new line": "new line"
+  "new line": "new line",
+  "concerns": "concerns"
 }

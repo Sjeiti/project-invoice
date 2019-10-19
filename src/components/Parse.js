@@ -1,7 +1,7 @@
 import React from 'react'
 import marked from 'marked'
 import {project as enhanceProject} from '../model/clients/project'
-import {Trans} from 'react-i18next'
+import {interpolate} from '../utils'
 
 marked.setOptions({
   renderer: new marked.Renderer()
@@ -14,20 +14,16 @@ marked.setOptions({
   , smartypants: false
 })
 
-export const Parse = ({children, state, project:_project, client, invoice, lang}) => {
-  const {personal:data, copy} = state
+/**
+ * @todo: rename and make generic by removing project related shizzle etc...
+ */
+export const Parse = ({children, state, values, lang}) => {
+  const {copy} = state
   const string = copy.hasOwnProperty(children)&&copy[children][lang]||children
 
-  const project = enhanceProject(_project, {_client:client, model:state})
+  values.project = enhanceProject(values.project, {_client:values.client, model:state})
 
-  const params = {data, project, client, invoice, lang}
-  const stringParams = Object.keys(params)
-  const arrayParams = Object.values(params)
-
-  const parsed =  (new Function(...stringParams, 'return `'+string+'`'))(...arrayParams)
-
-  // todo using Trans here is not really what we want, but it does the job... for now
-  return <Trans>{decode(marked(parsed))}</Trans>
+  return <span dangerouslySetInnerHTML={{ __html: decode(marked(interpolate(string, values))) }} />
 }
 
 function decode(s){

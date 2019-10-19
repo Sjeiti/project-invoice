@@ -56,3 +56,37 @@ export function getGetSetter(data, setter){
   // return key => value =>
   //     setter({...data, ...[key, value].reduce((acc, v)=>(acc[key]=v, acc), {})})
 }
+
+/**
+ * Updates the variables css
+ * @param {config} config
+ * @returns {Promise.<string>}
+ */
+export function getCSSVariables(config){
+  const cssVariables = `html {
+    --main-bg-color: ${config.themeMainBgColor};
+    --main-fg-color: ${config.themeMainFgColor};
+    --secondary-bg-color: ${config.themeSecondaryBgColor};
+    --secondary-fg-color: ${config.themeSecondaryFgColor};
+    --font-main: "${config.themeFontMain}", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --font-currency: "${config.themeFontCurrency}", monospace;
+    --base-font-size: ${config.themeFontSize}px;
+  }
+  ${config.themeLogoCSS||''}`
+  return cssVariables
+}
+
+/**
+ * Safe interpolation
+ * @param {string} text
+ * @param {object} context
+ * @param {RegExp} pattern
+ * @return {string}
+ */
+export function interpolate(text, context, pattern = /\$\{(.+?)\}/g) {
+  return text.replace(pattern, (_, key) => {
+    let value = context
+    for (const p of key.split('.')) value = value[p] || ''
+    return value || ''
+  })
+}
