@@ -24,7 +24,7 @@ export const getClient = (clients, clientNr) => {
  * @returns {number}
  */
 export const getHighestClientNr = clients => {
-  return clients && Math.max(...clients.map(client => client.nr))
+  return clients && Math.max(0, ...clients.map(client => client.nr))
 }
 
 /**
