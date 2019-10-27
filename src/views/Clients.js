@@ -14,6 +14,7 @@ import {Table} from '../components/Table'
 import {T} from '../components/T'
 import {Icon} from '../components/Icon'
 import {color} from '../cssService'
+import {keyMap} from '../utils'
 
 const {colorGray, colorRed} = color
 
@@ -63,7 +64,7 @@ export const Clients = connect(
         empty={[t('No clients found')+': ', filter
             &&<AnchorButton onClick={()=>setFilter('')}><T>clear filter</T></AnchorButton>
             ||<Link {...newClientEvents}><T>create one</T></Link>
-        ]}
+        ].map(keyMap)}
       />
     </>
   )

@@ -1,4 +1,5 @@
 import { isEqual as _isEqual } from 'lodash'
+import React from 'react'
 
 /**
  * Return a date string of format 'yyyy-mm-dd'
@@ -107,4 +108,18 @@ export function deepFreeze(object) {
     }
   }
   return Object.freeze(object)
+}
+
+/**
+ * Add key to array of nodes
+ * Since this clones you should preferably cache by `useState(()=>[...])`
+ * @param {ReactElement} node
+ * @param {number} key
+ * @return {ReactElement|Node}
+ */
+export function keyMap(node, key){
+  // console.log('node,key', node, key) // todo: remove log
+	return React.isValidElement(node) && React.cloneElement(
+    node, Object.assign({}, node.props, {key} )
+  ) || node
 }

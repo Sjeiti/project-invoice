@@ -148,6 +148,7 @@
   "applicationLanguage": "applicatie taal",
   "invoiceLanguages": "factuur talen",
   "youCurrentlyHaveNoDrafts": "Je hebt op dit moment geen concepten... :-/",
+  "youCurrentlyHaveNoOpenInvoices": "Je hebt geen opestaande facturen :-)",
   "clearData": "verwijder data",
   "deleteAllTheData": "Verwijder alle data?",
   "noWait": "nee wacht!",
@@ -181,5 +182,7 @@
   "clientName": "klant naam",
   "clientNoProjects": "Deze klant heeft geen projecten :-/",
   "new line": "nieuwe regel",
-  "concerns": "betreft"
+  "concerns": "betreft",
+  "Open invoices": "Openstaande facturen",
+  "Draft projects": "Concepten"
 }

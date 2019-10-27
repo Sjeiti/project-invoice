@@ -129,7 +129,7 @@ export function getLatestProject(clients) {
  * @return {client}
  */
 export function getLatestClient(clients) {
-  return getClient(clients, getLatestProject(clients).clientNr)
+  return getClient(clients, getLatestProject(clients)?.clientNr)
 }
 
 export function getOpenProjects(clients) {

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 import {Link, withRouter} from 'react-router-dom'
-import {isEqual, nbsp} from '../utils'
+import {isEqual,keyMap,nbsp} from '../utils'
 import {
   getClients,
   getClient,
@@ -42,6 +42,8 @@ export const Client = withRouter(
     const clientOld = getClient(clients, parseInt(match.params.client, 10))
     const isClient = !!clientOld
     const [client, setClient] = useState(clientOld)
+    const newProjectEvents = getNewProjectEvents(clients, clientOld, addProject)
+    const [emptyMsg] = useState(()=>[<T>clientNoProjects</T>, ', ', <Link {...newProjectEvents}><T>create one</T></Link>].map(keyMap))
 
     useEffect(()=>{setTimeout(()=>saveable.dispatch(true))}, [])
     if (isClient){
@@ -56,7 +58,7 @@ export const Client = withRouter(
       history.push('/clients')
     }
 
-    const projectListProjects = clientOld.projects.map(project => ({
+    const projectListProjects = clientOld?.projects.map(project => ({
       ...project
       , onClick: () => history.push(getProjectHref(project))
       // todo: make paid click functional
@@ -66,8 +68,6 @@ export const Client = withRouter(
       , dateLatest: getProjectDateLatest(project)
       , totalIncDiscounted: <Price symbol="€" amount={getTotalIncDiscounted(project)} separator="," />
     }))
-
-    const newProjectEvents = getNewProjectEvents(clients, clientOld, addProject)
 
     const getSetter = key => value =>
         setClient({...client, ...[key, value].reduce((acc, v)=>(acc[key]=v, acc), {})})
@@ -94,7 +94,8 @@ export const Client = withRouter(
               subjects={projectListProjects}
               sort="date" // todo
               asc="false" // todo
-              empty={[<T>clientNoProjects</T>, ', ', <Link {...newProjectEvents} key={0}><T>create one</T></Link>]}
+              empty={emptyMsg}
+              // empty={[<T key={0}>clientNoProjects</T>, ', ', <Link {...newProjectEvents} key={1}><T key={2}>create one</T></Link>]}
             />
           </section>
         </>

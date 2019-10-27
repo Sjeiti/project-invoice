@@ -148,6 +148,7 @@
   "applicationLanguage": "application language",
   "invoiceLanguages": "invoice languages",
   "youCurrentlyHaveNoDrafts": "You currently have no drafts... :-/",
+  "youCurrentlyHaveNoOpenInvoices": "There are no open invoices :-)",
   "clearData": "clear data",
   "deleteAllTheData": "Delete all the data?",
   "noWait": "no wait!",
@@ -181,5 +182,7 @@
   "clientName": "client name",
   "clientNoProjects": "This client has no projects :-/",
   "new line": "new line",
-  "concerns": "concerns"
+  "concerns": "concerns",
+  "Open invoices": "Open invoices",
+  "Draft projects": "Draft projects"
 }

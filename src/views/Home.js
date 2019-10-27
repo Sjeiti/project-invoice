@@ -24,7 +24,8 @@ import {ButtonLink} from '../components/ButtonLink'
 import {Button} from '../components/Button'
 import {Price} from '../components/Price'
 import {Table} from '../components/Table'
-import {InputCheckbox,InputText} from '../components/Input'
+import {T} from '../components/T'
+import {InputCheckbox, InputText} from '../components/Input'
 
 const bgcolor = '#3f5267'
 const Jumbotron = styled.div`
@@ -118,14 +119,14 @@ export const Home = withRouter(connect(
     </CSSTransition>
     <div className="row no-gutters">
       <section className="col-12 col-md-5">
-        <h2>What do you want to do:</h2>
-        <p><ButtonLink {...getNewClientEvents(clients, addClient)}>New client</ButtonLink></p>
+        <h2><T>whatDoYouWantToDo</T></h2>
+        <p><ButtonLink {...getNewClientEvents(clients, addClient)}><T>createANewClient</T></ButtonLink></p>
         {latestClient&&<p><ButtonLink {...getNewProjectEvents(clients, latestClient, addProject)}>Create project for <span>'{latestClient.name}'</span></ButtonLink></p>}
         {latestProject&&<p><Button data-click="onCloneLatestProject">Clone project <span>'{latestProject.description}'</span></Button></p>}
-        <p><ButtonLink to="/overview/quarter">See current quarter</ButtonLink></p>
+        <p><ButtonLink to="/overview/quarter"><T>seeCurrentQuarter</T></ButtonLink></p>
       </section>
       <section className="col-12 col-md-7">
-        <h2>Open invoices</h2>
+        <h2><T>Open invoices</T></h2>
         <Table
               cols="paid date description totalIncDiscounted actions"
               subjects={openInvoices}
@@ -133,18 +134,18 @@ export const Home = withRouter(connect(
               asc="false" // todo
             ttotals="false" // todo
             aanimate="true" // todo
-              empty="There are no open invoices :-)"
+              empty={<T>youCurrentlyHaveNoOpenInvoices</T>}
             />
       </section>
       <section className="col-12 col-md-7">
-        <h2>Draft projects</h2>
+        <h2><T>Draft projects</T></h2>
         <Table
               cols="clientName description totalIncDiscounted actions"
               subjects={draftProjects}
               sort="date" // todo
               asc="false" // todo
             ttotals="false" // todo
-              empty="You currently have no drafts... :-/"
+              empty={<T>youCurrentlyHaveNoDrafts</T>}
             />
       </section>
     </div>
