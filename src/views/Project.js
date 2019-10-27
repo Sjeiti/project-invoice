@@ -110,7 +110,7 @@ export const Project = withRouter(
         }
       })
 
-      console.log('project', project) // todo: remove log
+      // console.log('project', project) // todo: remove log
 
       const totalHours = lines.reduce((acc, {hours}) => acc + hours, 0)
       const totalAmount = lines.reduce((acc, {amount}) => acc + amount, 0)

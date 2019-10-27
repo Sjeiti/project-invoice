@@ -57,10 +57,10 @@ export const Table = ({ cols, subjects, empty, children }) => {
   const {t} = useTranslation()
   !Array.isArray(cols)&&(cols = cols.split(' ').map(key=>({key,th:t(key)})))
   const isHoverable = !!subjects?.[0]?.onClick
-  console.log('children', children) // todo: remove log
-  if (children) {
-
-  }
+  // console.log('children', children) // todo: remove log
+  //   // if (children) {
+  //   //
+  //   // }
   const hasTFoot = children&&(Array.isArray(children)&&children.filter(c=>c.type==='tfoot').length||children.type==='tfoot')
   return (
     <StyledTable className={isHoverable&&'hoverable'||''}>
@@ -83,7 +83,7 @@ export const Table = ({ cols, subjects, empty, children }) => {
           </tr>
         )}
       </tbody>
-      {!hasTFoot&&<tfoot><tr><td colSpan={length}></td></tr></tfoot>}
+      {!hasTFoot&&<tfoot><tr><td colSpan={length} /></tr></tfoot>}
       {children}
     </StyledTable>
   )
