@@ -5,8 +5,8 @@ import {freeze} from './middleWare/freeze'
 import {rootReducer} from './rootReducer'
 import {MODE_DEVELOPMENT} from '../config'
 
-const middleware = [logger, storeState]
-MODE_DEVELOPMENT && middleware.push(freeze)
+const middleware = [storeState]
+MODE_DEVELOPMENT && middleware.push(logger, freeze)
 
 /**
  * The store
