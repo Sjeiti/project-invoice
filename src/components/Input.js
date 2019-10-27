@@ -56,5 +56,5 @@ export const InputCheckbox = ({value, setter, onChange, ...attr}) => {
       checked={value}
       {...attr}
       type="checkbox"
-  /><span/></>
+  /><span onClick={attr.onClick||noop} /></>
 }

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 import {Link, withRouter} from 'react-router-dom'
-import {isEqual,keyMap,nbsp} from '../utils'
+import {isEqual, keyMap, nbsp} from '../utils'
 import {
   getClients,
   getClient,
@@ -12,7 +12,7 @@ import {
   getTotalIncDiscounted
 } from '../model/clients/selectors'
 import {getNewProjectEvents} from '../model/eventFactory'
-import {storeClient, removeClient, addProject} from '../model/clients/actions'
+import {storeClient, removeClient, addProject, storeProject} from '../model/clients/actions'
 import {saveable} from '../saveable'
 import {Label} from '../components/Label'
 import {ButtonLink} from '../components/ButtonLink'
@@ -20,6 +20,7 @@ import {Price} from '../components/Price'
 import {Table} from '../components/Table'
 import {InputCheckbox, InputText, InputNumber} from '../components/Input'
 import {T} from '../components/T'
+import {onClickPaid} from '../model/clients/util'
 
 const editablePropNames = [
   {key:'name', input:InputText}
@@ -36,8 +37,8 @@ const editablePropNames = [
 export const Client = withRouter(
   connect(
     state => ({ state, clients: getClients(state) }),
-    { storeClient, removeClient, addProject }
-  )(({ history, match, state, clients, storeClient, removeClient, addProject }) => {
+    { storeClient, removeClient, addProject, storeProject }
+  )(({ history, match, state, clients, storeClient, removeClient, addProject, storeProject }) => {
 
     const clientOld = getClient(clients, parseInt(match.params.client, 10))
     const isClient = !!clientOld
@@ -47,7 +48,7 @@ export const Client = withRouter(
 
     useEffect(()=>{setTimeout(()=>saveable.dispatch(true))}, [])
     if (isClient){
-      const isDirty = !isEqual(clientOld, client)
+      const isDirty = !isEqual(clientOld, client, ['projects'])
       saveable.dispatch(
           true
           , isDirty && storeClient.bind(null, client) || null
@@ -62,7 +63,11 @@ export const Client = withRouter(
       ...project
       , onClick: () => history.push(getProjectHref(project))
       // todo: make paid click functional
-      , paid: <InputCheckbox value={project.paid} style={{margin:'0.25rem 0 0'}} />
+      , paid: <InputCheckbox
+          value={project.paid}
+          style={{margin:'0.25rem 0 0'}}
+          onClick={onClickPaid.bind(null, project, storeProject)}
+        />
       , nr: getProjectNumber(project, state)
       , date: getProjectDate(project)
       , dateLatest: getProjectDateLatest(project)

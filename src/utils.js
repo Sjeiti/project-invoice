@@ -123,3 +123,12 @@ export function keyMap(node, key){
     node, Object.assign({}, node.props, {key} )
   ) || node
 }
+
+/**
+ * Stop event propagation
+ * @param {Event} e
+ */
+export function stopPropagation(e){
+  e.stopPropagation()
+  e.nativeEvent.stopImmediatePropagation()
+}
