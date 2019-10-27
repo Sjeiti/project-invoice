@@ -114,7 +114,7 @@ export const Project = withRouter(
 
       const totalHours = lines.reduce((acc, {hours}) => acc + hours, 0)
       const totalAmount = lines.reduce((acc, {amount}) => acc + amount, 0)
-      const totalAmountVAT = lines.reduce((acc, {amount, vat}) => acc + amount*vat, 0)
+      const totalAmountVAT = lines.reduce((acc, {amount, vat}) => acc + amount*(1+0.01*vat), 0)
       const discount = 1 - project.discount/100
       // const vat = 1 - project.vat/100
 
