@@ -90,3 +90,21 @@ export function interpolate(text, context, pattern = /\$\{(.+?)\}/g) {
     return value || ''
   })
 }
+
+/**
+ * Deepfreeze from MDN
+ * @param {object} object
+ * @return {ReadonlyArray<any>}
+ */
+export function deepFreeze(object) {
+  const propNames = Object.getOwnPropertyNames(object)
+  for (let name of propNames) {
+    let value = object[name]
+    if (!Object.isFrozen(object[name])) {
+      object[name] = value && typeof value==='object'
+          ?deepFreeze(value)
+          :value
+    }
+  }
+  return Object.freeze(object)
+}

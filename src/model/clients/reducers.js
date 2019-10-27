@@ -23,10 +23,9 @@ export function clients(state = initialState, action){
 
     case STORE_CLIENT:
       const clientToStore = action.client
-      return state.map(client => {
-          client.nr === clientToStore.nr && Object.assign(client, clientToStore)
-          return client
-        })
+      return state.map(client =>
+          client.nr === clientToStore.nr && Object.assign({}, client, clientToStore) || client
+        )
 
     case REMOVE_CLIENT:
       const { clientNr } = action
@@ -38,18 +37,22 @@ export function clients(state = initialState, action){
           client.nr === project.clientNr && client.projects.push(project)
           return client
         })
-    case STORE_PROJECT:{
+
+    case STORE_PROJECT: {
       const {
         project: projectToStore,
         project: { id, clientNr }
       } = action
       return state.map(client => {
-          client.nr === clientNr &&
-            client.projects.forEach(project => {
-              project.id === id && Object.assign(project, projectToStore)
-            })
-          return client
-        })    }
+        if (client.nr === clientNr) {
+          client = Object.assign({}, client)
+          client.projects = client.projects.map(project =>
+            project.id === id && Object.assign({}, project, projectToStore) || project
+          )
+        }
+        return client
+      })
+    }
 
     case REMOVE_PROJECT:
       const { projectId } = action
@@ -57,6 +60,7 @@ export function clients(state = initialState, action){
           client.projects = client.projects.filter(project => project.id !== projectId)
           return client
         })
+
     default:
       return state
   }
