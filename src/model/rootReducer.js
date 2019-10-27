@@ -12,6 +12,8 @@ const appReducer = combineReducers({
   , copy
   , personal
   , pi
+  , timestamp: (state = 0) => state
+  , version: (state = '0.0.0') => state
 })
 
 export const rootReducer = (state, action) => {
