@@ -45,8 +45,8 @@ export const clearfix = css`
 
 export const formElement = css`
   display: block;
-  margin: 0 2px 4px 0;
-  padding: 8px 14px;
+  margin: 0 0.125rem 0.25rem 0;
+  padding: 0.5rem 0.75rem;
   border: 0;
   border-radius: 3px;
   line-height: 100%;

@@ -8,14 +8,13 @@ export const StyledInput = styled.input`
   box-shadow: 0 0 0 1px ${color.colorBorder} inset,  0 4px 16px ${color.colorShade} inset;
   &[type=checkbox] {
     width: 0;
-  height: 0;
-    margin: 0;
+    height: 0;
+    margin: 0!important;
     padding: 0;
     +span {
       ${formElement}
       display: inline-block;
-      margin: 0;
-      padding: 8px;
+      padding: 0.5rem;
       overflow: hidden;
       background-color: #e8e8e8;
       box-shadow: inset 0 0 0 1px #bbb;

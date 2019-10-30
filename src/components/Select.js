@@ -1,11 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
-// import {formElement} from '../cssService'
 import {StyledInput} from './Input'
 
-// export const Select = styled.select`${InputElement.componentStyle.rules}`
 const StyledSelect = styled.select`
-  ${StyledInput.componentStyle.rules} 
+  ${StyledInput.componentStyle.rules}
+  padding: 0.4375rem 0 0.4375rem 0.25rem;
+  
 `
 
 export const Select = ({ value, onChange, setter, options }) => {

@@ -34,10 +34,14 @@ export const Button = styled.button`
     background-color: ${colorButton};
     cursor: default;
   }
+  +button {
+    margin-left: 0.25rem;
+  }
 `
 
 const StyledIconButton = styled(Button)`
   padding: 8px;
+  font-size: 1rem;
 `
 
 export const IconButton = ({type, ...props}) => <StyledIconButton {...props}><Icon type={type} /></StyledIconButton>

@@ -99,6 +99,7 @@ export const Home = withRouter(connect(
     , onClick: () => history.push(getProjectHref(project))
     , totalIncDiscounted: <Price symbol="€" amount={getTotalIncDiscounted(project)} separator="," />
     , actions: 'todo' // todo
+    , key: project.id
   }))
 
   const draftProjects = getDraftProjects(clients).map(project => ({

@@ -16,6 +16,7 @@ import {Price} from '../components/Price'
 import {Select} from '../components/Select'
 import {T} from '../components/T'
 import {useTranslation} from 'react-i18next'
+import {color} from '../cssService'
 
 const editablePropNames = [
   {key:'description', input:InputText}
@@ -96,7 +97,7 @@ export const Project = withRouter(
         const lineSetter = getLineSetter(index)
         const amountSetter = lineSetter('amount', parseFloat)
         return {
-          drag: <Icon type="drag" />
+          drag: <Icon type="drag" style={{color:color.colorButton}} />
           , description: <InputText value={description} setter={lineSetter('description')} />
           , hours: <InputNumber value={hours} setter={lineSetter('hours', parseFloat)} />
           , times: <Price amount={hours*hourlyRate} onClick={amountSetter.bind(null, hours*hourlyRate)} />

@@ -5,6 +5,7 @@ const Element = styled.label`
   display: block;
   margin: 0;
   padding: 0;
+  line-height: 2.25rem;
   & select, & [type=checkbox]+span {
     float: right;
   }
