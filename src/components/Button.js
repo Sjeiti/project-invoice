@@ -37,6 +37,16 @@ export const Button = styled.button`
   +button {
     margin-left: 0.25rem;
   }
+  ${props => props.invert?`
+    background-color: transparent;
+    color: #666;
+    box-shadow: none;
+    &:hover, &:focus {
+      box-shadow: none;
+      background-color: transparent;
+      color: ${colorButton}
+    }
+  `:''}
 `
 
 const StyledIconButton = styled(Button)`

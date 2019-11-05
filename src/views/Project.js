@@ -2,14 +2,14 @@ import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 import {Link, withRouter} from 'react-router-dom'
 import {isEqual, cloneDeep} from 'lodash'
-import {nbsp, getGetSetter} from '../utils'
+import {nbsp,getGetSetter,getDateString} from '../utils'
 import {saveable} from '../saveable'
 import {storeProject, removeProject} from '../model/clients/actions'
 import {getClient, getProject, getClients, getClientHref, getProjectHref, getProjectNumber} from '../model/clients/selectors'
 import {Label} from '../components/Label'
 import {Button, IconButton} from '../components/Button'
 import {ButtonLink} from '../components/ButtonLink'
-import {InputText, InputNumber, InputCheckbox} from '../components/Input'
+import {InputText, InputDate, InputNumber, InputCheckbox} from '../components/Input'
 import {Table} from '../components/Table'
 import {Icon} from '../components/Icon'
 import {Price} from '../components/Price'
@@ -17,6 +17,7 @@ import {Select} from '../components/Select'
 import {T} from '../components/T'
 import {useTranslation} from 'react-i18next'
 import {color} from '../cssService'
+import {Dialog} from '../components/Dialog'
 
 const editablePropNames = [
   {key:'description', input:InputText}
@@ -50,10 +51,41 @@ export const Project = withRouter(
       const isProject = !!projectOld
 
       const [project, setProject] = useState(projectOld)
+      const {hourlyRate, lines} = project
       const getSetter = getGetSetter(project, setProject)
 
-      const {hourlyRate, lines} = project
+      // invoices
+      const [invoiceDialogOpen, setInvoiceDialog] = useState(false)
+      const [invoice, setInvoice] = useState({})
+      const getInvoiceSetter = key => value => {
+        const invoiceTemp = {...invoice}
+        invoiceTemp[key] = value
+        setInvoice(invoiceTemp)
+      }
+      const [invoiceSubmit, setInvoiceSubmit] = useState(()=>()=>{})
+      const onClickEditInvoiceButton = index=>{
+        setInvoice({...project.invoices[index]})
+        setInvoiceDialog(true)
+        setInvoiceSubmit(()=>invoice=>{
+          const p = cloneDeep(project)
+          p.invoices[index] = invoice
+          setProject(p)
+          setInvoiceDialog(false)
+        })
+      }
+      const onClickDeleteInvoiceButton = () => {
+        const p = cloneDeep(project)
+        p.invoices.pop()
+        setProject(p)
+      }
+      const onClickAddInvoiceButton = () => {
+        const p = cloneDeep(project)
+        const {invoices, invoices: {length}} = p
+        invoices.push({...invoices[length-1], ...{date:getDateString(), paid:''}})
+        setProject(p)
+      }
 
+      // saveable
       useEffect(()=>{setTimeout(()=>saveable.dispatch(true))}, [])
       if (isProject){
         const isDirty = !isEqual(projectOld, project)
@@ -68,7 +100,7 @@ export const Project = withRouter(
       }
 
       const addLine = ()=>{
-        const p = cloneDeep(project)
+        const p = cloneDeep(project)//{...project}//
         p.lines.push({
           description:''
           , hours: 0
@@ -87,7 +119,7 @@ export const Project = withRouter(
         , {key:'action'}
       ]
       const getLineSetter = index => (key, format) => value => {
-        const p = cloneDeep(project)
+        const p = cloneDeep(project)//{...project}//
         p.lines[index][key] = format?format(value):value
         setProject(p)
       }
@@ -110,8 +142,6 @@ export const Project = withRouter(
           }} type="close" />
         }
       })
-
-      // console.log('project', project) // todo: remove log
 
       const totalHours = lines.reduce((acc, {hours}) => acc + hours, 0)
       const totalAmount = lines.reduce((acc, {amount}) => acc + amount, 0)
@@ -170,7 +200,7 @@ export const Project = withRouter(
             </section>
 
             <section>
-              <Button onClick={()=>{}} className="float-right"><T>{project.invoices.length&&'addReminder'||'addInvoice'}</T></Button>
+              <Button onClick={onClickAddInvoiceButton} className="float-right"><T>{project.invoices.length&&'addReminder'||'addInvoice'}</T></Button>
               <h3><T>invoices</T></h3>
               <ol>
                 {project.invoices.map((invoice, index)=><li className="row no-gutters" key={index}>
@@ -182,17 +212,26 @@ export const Project = withRouter(
                   <div className="col hide-low">{getProjectNumber(project, state)}</div>
                   <div className="col-3">{invoice.date}</div>
                   <div className="col">
-                    {invoice.interest&&<Icon type="promile" title={t('legalInterestWasAdded')}><T>legalInterestWasAdded</T></Icon>}
+                    {invoice.interest&&<Icon type="promile" title={t('legalInterestWasAdded')}></Icon>}
                     {invoice.exhortation&&<Icon type="stop" title={t('finalExhortation')} />}
                     {invoice.paid&&<Icon type="money" title={t('paid')+': '+invoice.paid} />}{/*todo: format amount*/}
                   </div>
                   <div className="col text-align-right">
-                    {index===project.invoices.length-1&&<IconButton type="close" onClick={console.log.bind(console, 'todo onRemoveInvoice(invoice)')} />}{/*todo onRemoveInvoice(invoice)*/}
-                    <IconButton type="pencil" onClick={console.log.bind(console, 'todo onEditInvoice(invoice)')} />{/*todo onEditInvoice(invoice)*/}
+                    {index===project.invoices.length-1&&<IconButton type="close" onClick={onClickDeleteInvoiceButton} />}
+                    <IconButton type="pencil" onClick={onClickEditInvoiceButton.bind(null, index)} />
                   </div>
                 </li>)}
               </ol>
             </section>
+
+            <Dialog show={invoiceDialogOpen} title={'Edit '+invoice.type} close={()=>setInvoiceDialog(false)} submit={()=>invoiceSubmit(invoice)} source={0}>
+              <Label>Date<InputDate value={invoice.date} setter={getInvoiceSetter('date')}/></Label>
+              {invoice.type!=='invoice'&&<>
+                <Label>Interest<InputCheckbox value={invoice.interest} setter={getInvoiceSetter('interest')}/></Label>
+                <Label>Exhortation<InputCheckbox value={invoice.exhortation} setter={getInvoiceSetter('exhortation')}/></Label>
+              </>}
+              <Label>Paid<InputNumber value={invoice.paid} setter={getInvoiceSetter('paid')}/></Label>
+            </Dialog>
           </>
         )) || <p><T>project not found</T></p>
       )

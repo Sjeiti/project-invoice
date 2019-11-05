@@ -12,6 +12,7 @@ export const breakpoint = {
 
 export const color = {
   colorButton: '#1d85b4'
+  , colorLightBg: '#D9E6E8'
   , colorShade: 'rgba(0,0,0,0.1)'
   , shadeFlat: '2px 3px 1px rgba(0, 0, 0, 0.2)'
   , colorBorder: '#BBB'
@@ -23,14 +24,16 @@ export const color = {
 }
 
 export const size = {
-  headerHeight: '40px'
-  ,padding: '8px'
+  headerHeight: '2.5rem'
+  ,padding: '0.5rem'
+  ,borderRadius: '0.125rem'
   ,sum(...numbers){
     const unit = numbers[0].replace(/^\d+/, '')
     return numbers.reduce((acc, number)=>acc+(parseFloat(number.replace(/[^\d]+$/, ''))||0), 0) + unit;
   }
   ,multiply(...numbers){
-    const unit = numbers[0].replace(/^\d+/, '')
+    const unit = numbers[0].replace(/^\d+(\.\d+)?/, '')
+    console.log('unit',unit) // todo: remove log
     return numbers.reduce((acc, number)=>acc*(typeof number === 'number' ? number : (parseFloat(number.replace(/[^\d]+$/, ''))||0)), 1) + unit;
   }
 }

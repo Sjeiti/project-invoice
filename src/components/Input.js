@@ -40,6 +40,15 @@ export const InputText = ({ value, onChange:_onChange, setter, ...attr}) => {
   />
 }
 
+export const InputDate = ({ value, onChange:_onChange, setter, ...attr}) => {
+  return <StyledInput
+      value={value}
+      onChange={_onChange || setter && (({ target: { value } }) => setter(value)) || noop}
+      {...attr}
+      type="date"
+  />
+}
+
 export const InputNumber = ({ value, onChange:_onChange, setter, ...attr}) => {
   return <StyledInput
       value={value}
