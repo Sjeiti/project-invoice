@@ -18,6 +18,7 @@ import {T} from '../components/T'
 import {useTranslation} from 'react-i18next'
 import {color} from '../cssService'
 import {Dialog} from '../components/Dialog'
+import {CSSTransition,TransitionGroup} from 'react-transition-group'
 
 const editablePropNames = [
   {key:'description', input:InputText}
@@ -57,14 +58,16 @@ export const Project = withRouter(
       // invoices
       const [invoiceDialogOpen, setInvoiceDialog] = useState(false)
       const [invoice, setInvoice] = useState({})
+      const [invoiceSource, setInvoiceSource] = useState()
       const getInvoiceSetter = key => value => {
         const invoiceTemp = {...invoice}
         invoiceTemp[key] = value
         setInvoice(invoiceTemp)
       }
       const [invoiceSubmit, setInvoiceSubmit] = useState(()=>()=>{})
-      const onClickEditInvoiceButton = index=>{
+      const onClickEditInvoiceButton = (index, e)=>{
         setInvoice({...project.invoices[index]})
+        setInvoiceSource(e.target.closest('li'))
         setInvoiceDialog(true)
         setInvoiceSubmit(()=>invoice=>{
           const p = cloneDeep(project)
@@ -202,29 +205,39 @@ export const Project = withRouter(
             <section>
               <Button onClick={onClickAddInvoiceButton} className="float-right"><T>{project.invoices.length&&'addReminder'||'addInvoice'}</T></Button>
               <h3><T>invoices</T></h3>
-              <ol>
-                {project.invoices.map((invoice, index)=><li className="row no-gutters" key={index}>
-                  <div className="col-4">
-                    <ButtonLink to={`${getProjectHref(project)}/${invoice.type}${index!==0?'/'+index:''}`}>
-                      <T>{invoice.type}</T>{index!==0?nbsp + index:''}
-                  </ButtonLink>
-                  </div>
-                  <div className="col hide-low">{getProjectNumber(project, state)}</div>
-                  <div className="col-3">{invoice.date}</div>
-                  <div className="col">
-                    {invoice.interest&&<Icon type="promile" title={t('legalInterestWasAdded')}></Icon>}
-                    {invoice.exhortation&&<Icon type="stop" title={t('finalExhortation')} />}
-                    {invoice.paid&&<Icon type="money" title={t('paid')+': '+invoice.paid} />}{/*todo: format amount*/}
-                  </div>
-                  <div className="col text-align-right">
-                    {index===project.invoices.length-1&&<IconButton type="close" onClick={onClickDeleteInvoiceButton} />}
-                    <IconButton type="pencil" onClick={onClickEditInvoiceButton.bind(null, index)} />
-                  </div>
-                </li>)}
-              </ol>
+              {/*<ol>*/}
+              <TransitionGroup component="ol">
+                {project.invoices.map((invoice, index)=>
+                    <CSSTransition
+                      timeout={200}
+                      classNames="anim-li-height"
+                      key={index}
+                    >
+                      <li className="row no-gutters" key={index}>
+                        <div className="col-4">
+                          <ButtonLink to={`${getProjectHref(project)}/${invoice.type}${index!==0?'/'+index:''}`}>
+                            <T>{invoice.type}</T>{index!==0?nbsp + index:''}
+                        </ButtonLink>
+                        </div>
+                        <div className="col hide-low">{getProjectNumber(project, state)}</div>
+                        <div className="col-3">{invoice.date}</div>
+                        <div className="col">
+                          {invoice.interest&&<Icon type="promile" title={t('legalInterestWasAdded')}></Icon>}
+                          {invoice.exhortation&&<Icon type="stop" title={t('finalExhortation')} />}
+                          {invoice.paid&&<Icon type="money" title={t('paid')+': '+invoice.paid} />}{/*todo: format amount*/}
+                        </div>
+                        <div className="col text-align-right">
+                          {index===project.invoices.length-1&&<IconButton type="close" onClick={onClickDeleteInvoiceButton} />}
+                          <IconButton type="pencil" onClick={onClickEditInvoiceButton.bind(null, index)} />
+                        </div>
+                      </li>
+                    </CSSTransition>
+                )}
+              </TransitionGroup>
+              {/*</ol>*/}
             </section>
 
-            <Dialog show={invoiceDialogOpen} title={'Edit '+invoice.type} close={()=>setInvoiceDialog(false)} submit={()=>invoiceSubmit(invoice)} source={0}>
+            <Dialog show={invoiceDialogOpen} title={'Edit '+invoice.type} close={()=>setInvoiceDialog(false)} submit={()=>invoiceSubmit(invoice)} source={invoiceSource}>
               <Label>Date<InputDate value={invoice.date} setter={getInvoiceSetter('date')}/></Label>
               {invoice.type!=='invoice'&&<>
                 <Label>Interest<InputCheckbox value={invoice.interest} setter={getInvoiceSetter('interest')}/></Label>

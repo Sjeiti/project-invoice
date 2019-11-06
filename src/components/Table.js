@@ -25,7 +25,7 @@ const StyledTable = styled.table`
       @media ${breakpointHigh} {
         &:hover {
           background-color: ${lighten(0.54, colorButton)};
-          box-shadow: 0 1px 0 0 ${lighten(0.3, colorButton)} inset, 0 -1px 0 0 ${lighten(0.3,colorButton)} inset;
+          box-shadow: 0 1px 0 0 ${lighten(0.3, colorButton)} inset, 0 -1px 0 0 ${lighten(0.3, colorButton)} inset;
         }
       }
     }
@@ -39,25 +39,21 @@ const StyledTable = styled.table`
   }
   tr {
     &.animate {
-      &-exit, &-enter-active,
-      &-enter, &-exit-active {
-        &, &>tad, &>td>div {
+      &-enter-active,
+      &-exit-active {
+        &, &>td>div {
           transition: all 200ms linear;
         }
       }
-      &-enter, &-exit-active {
+      &-exit, &-enter-active {
         opacity: 1;
-        transform: none;
-        tad, td>div {
-          height: ${trHeight};
-        }
+        transform: scaleY(1);
+        td>div { height: ${trHeight}; }
       }
       &-enter, &-exit-active {
         opacity: 0;
         transform: scaleY(0.1);
-        tad, td>div {
-          height: 2px;
-        }
+        td>div { height: 0; }
       }
     }
   }
