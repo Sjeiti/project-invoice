@@ -9,14 +9,9 @@ export function useWindowDimensions() {
   const [dim, setDimensions] = useState(getWindowDimensions())
 
   useEffect(() => {
-    function handleResize() {
-      setDimensions(getWindowDimensions())
-    }
-    // const onResize = ()=>
-
+    const handleResize = ()=>setDimensions(getWindowDimensions())
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [])
-
   return dim
 }

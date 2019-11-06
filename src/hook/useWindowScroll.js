@@ -8,9 +8,7 @@ function getWindowScroll() {
 export function useWindowScroll() {
   const [scrollTop, setScrollTop] = useState(getWindowScroll())
   useEffect(() => {
-    function handleScroll() {
-      setScrollTop(getWindowScroll())
-    }
+    const handleScroll = ()=>setScrollTop(getWindowScroll())
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
