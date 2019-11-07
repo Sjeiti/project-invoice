@@ -117,7 +117,9 @@ export const Project = withRouter(
         {key:'drag'}
         , {key:'description', th:<T>description</T>}
         , {key:'hours', th:<T>hours</T>}
-        , {key:'times', th:'⇥'}
+        , {key:'times', th:<Button onClick={onClickArrow2bar} invert>⇥</Button> }
+        // , {key:'times', th:<IconButton type="arrow2bar" /> }
+        // , {key:'times', th:'⇥'}
         , {key:'amount', th:<T>amount</T>}
         , {key:'vat', th:<T>vat</T>}
         , {key:'action'}
@@ -146,6 +148,12 @@ export const Project = withRouter(
           }} type="close" />
         }
       })
+
+      function onClickArrow2bar(){
+        const p = cloneDeep(project)
+        lines.map(({hours}, index) => p.lines[index]['amount'] = parseFloat(hours*hourlyRate))
+        setProject(p)
+      }
 
       const totalHours = lines.reduce((acc, {hours}) => acc + hours, 0)
       const totalAmount = lines.reduce((acc, {amount}) => acc + amount, 0)

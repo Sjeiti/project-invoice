@@ -50,6 +50,7 @@ $icon-close: "\e90f";
 $icon-stack: "\e910";
 $icon-money: "\e911";
 $icon-eye: "\e912";
+$icon-arrow2bar: "⇥";
 
 
 // rules
@@ -77,6 +78,7 @@ $icon-eye: "\e912";
 .icon-stack:before { content: $icon-stack; }
 .icon-money:before { content: $icon-money; }
 .icon-eye:before { content: $icon-eye; }
+.icon-arrow2bar:before { content: $icon-arrow2bar; } // argh font
 
 
 // mixins
