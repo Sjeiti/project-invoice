@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useRef} from 'react'
 import styled from 'styled-components'
-import {CSSTransition,TransitionGroup} from 'react-transition-group'
+import {CSSTransition} from 'react-transition-group'
 import {Button, IconButton} from './Button'
 import {color, size} from '../cssService'
 import {useWindowDimensions} from '../hook/useWindowDimensions'
@@ -58,13 +58,18 @@ const StyledDialog = styled.div`
 export const Dialog = attr => {
   const [elmDialog, setElmDialog] = useState()
   const [svg, setSVG] = useState(<svg/>)
-  const [animating, setAnimating] = useState(false)
   const { width:winW, height:winH } = useWindowDimensions()
   const {scrollY} = useWindowScroll()
   const {Escape, Enter} = useKeyDown()
   //
   const {source, show, title, children, close, submit} = attr
   //
+  // flip while animating
+  const animating = useRef(false)
+  const animate = useRef(false)
+  useEffect(()=>{animating.current&&(animate.current=!animate.current)})
+  //
+  // keyboard actions
   useEffect(()=>{show&&Escape&&close()}, [Escape])
   useEffect(()=>{show&&Enter&&submit()}, [Enter])
   //
@@ -76,16 +81,19 @@ export const Dialog = attr => {
       sourceRect&&targetRect&&setSVG(drawSVG(winW, winH, sourceRect, targetRect))
     })
   }
-  , [elmDialog, source, winW, winH, scrollY, show, animating])
+  , [elmDialog, source, winW, winH, scrollY, show, animate.current])
   //
   return <>
       <CSSTransition
         in={show}
         timeout={200}
         classNames="anim-tv"
-        onEntered={()=>setAnimating(!animating)}
+        unmountOnExit={true}
+        onEntering={()=>animating.current = true}
+        onEntered={()=>animating.current = false}
+        onExiting={()=>animating.current = true}
+        onExited={()=>animating.current = false}
       >
-        {show&&<>
           <StyledDialog ref={setElmDialog} {...attr}>
             <header><h3>{Enter&&1}{title}</h3> <IconButton type="close" invert onClick={close}></IconButton></header>
             <section>{children}</section>
@@ -94,14 +102,14 @@ export const Dialog = attr => {
               <Button onClick={submit}>submit</Button>
             </footer>
           </StyledDialog>
-        </>||<></>}
       </CSSTransition>
       <CSSTransition
         in={show}
         timeout={200}
         classNames="anim-opacity"
+        unmountOnExit={true}
       >
-        {show&&<>{svg}</>||<></>}
+        {svg}
       </CSSTransition>
     </>
 }

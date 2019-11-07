@@ -312,19 +312,15 @@ ul.tabs {
 }
 
 .anim-tv {
-  &-enter,
-  &-exit,
-  &-enter-active,
-  &-exit-active {
-    transition: opacity 200ms linear, transform 200ms ease-out;
-    //transform-origin: center;
-  }
-
-  &-enter { opacity: 0; display: block; transform: translate(-50%,-50%) scale(10,0.1); }
+  &-enter {
+    transition: opacity 200ms linear, transform 200ms ease-in;
+    opacity: 0; display: block; transform: translate(-50%,-50%) scale(10,0.1); }
   &-enter-active { opacity: 1; transform: translate(-50%,-50%) scale(1,1); }
   &-enter-done { display: block; }
 
-  &-exit { opacity: 1; transform: translate(-50%,-50%) scale(1,1); }
+  &-exit {
+    transition: opacity 200ms linear, transform 200ms ease-out;
+    opacity: 1; transform: translate(-50%,-50%) scale(1,1); }
   &-exit-active { opacity: 0; transform: translate(-50%,-50%) scale(10,0.1); }
   &-exit-done { display: none; }
 }
