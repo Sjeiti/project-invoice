@@ -237,7 +237,17 @@ export const Project = withRouter(
               {/*</ol>*/}
             </section>
 
-            <Dialog show={invoiceDialogOpen} title={'Edit '+invoice.type} close={()=>setInvoiceDialog(false)} submit={()=>invoiceSubmit(invoice)} source={invoiceSource}>
+            <Dialog
+                show={invoiceDialogOpen}
+                title={'Edit '+invoice.type}
+                close={()=>setInvoiceDialog(false)}
+                submit={()=>invoiceSubmit(invoice)}
+                source={invoiceSource}
+                sourceTransform={r=>{
+                  const {bottom, height, left, right, top, width, x, y} = r
+                  return {bottom: bottom-7, height, left, right, top, width, x, y}
+                }}
+            >
               <Label>Date<InputDate value={invoice.date} setter={getInvoiceSetter('date')}/></Label>
               {invoice.type!=='invoice'&&<>
                 <Label>Interest<InputCheckbox value={invoice.interest} setter={getInvoiceSetter('interest')}/></Label>

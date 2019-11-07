@@ -62,12 +62,12 @@ export const Dialog = attr => {
   const {scrollY} = useWindowScroll()
   const {Escape, Enter} = useKeyDown()
   //
-  const {source, show, title, children, close, submit} = attr
+  const {show, title, children, close, submit, source, sourceTransform} = attr
   //
   // flip while animating
   const animating = useRef(false)
   const animate = useRef(false)
-  useEffect(()=>{animating.current&&(animate.current=!animate.current)})
+  animating.current&&(animate.current=!animate.current)
   //
   // keyboard actions
   useEffect(()=>{show&&Escape&&close()}, [Escape])
@@ -78,7 +78,7 @@ export const Dialog = attr => {
     requestAnimationFrame(()=>{
       const sourceRect = source?.getBoundingClientRect()
       const targetRect = elmDialog?.getBoundingClientRect()
-      sourceRect&&targetRect&&setSVG(drawSVG(winW, winH, sourceRect, targetRect))
+      sourceRect&&targetRect&&setSVG(drawSVG(winW, winH, sourceTransform&&sourceTransform(sourceRect)||sourceRect, targetRect))
     })
   }
   , [elmDialog, source, winW, winH, scrollY, show, animate.current])
@@ -132,23 +132,19 @@ function positionsToPathD(pos){
  * @return {ReactElement}
  */
 function drawSVG(w, h, sourceRect, targetRect){
-  const pathLeft = positionsToPathD([
-      sourceRect.left, sourceRect.top
-      , sourceRect.left, sourceRect.bottom
-      , targetRect.left, targetRect.bottom
-      , targetRect.left, targetRect.top
-  ])
-  const pathRight = positionsToPathD([
-      sourceRect.right, sourceRect.top
-      , sourceRect.right, sourceRect.bottom
-      , targetRect.right, targetRect.bottom
-      , targetRect.right, targetRect.top
-  ])
   const pathBottomRect = positionsToPathD([
       sourceRect.right, sourceRect.bottom
       , sourceRect.left, sourceRect.bottom
       , sourceRect.left, sourceRect.top
       , sourceRect.right, sourceRect.top
+  ])
+  const pathFull = positionsToPathD([
+      targetRect.left, targetRect.top
+      , targetRect.right, targetRect.top
+      , sourceRect.right, sourceRect.top
+      , sourceRect.right, sourceRect.bottom
+      , sourceRect.left, sourceRect.bottom
+      , sourceRect.left, sourceRect.top
   ])
   return <svg version="1.1"
      xmlns="http://www.w3.org/2000/svg"
@@ -157,17 +153,12 @@ function drawSVG(w, h, sourceRect, targetRect){
      width={w}
      height={h}>
   <defs>
-    <linearGradient id="myGradient">
-      <stop offset="0%"  stopColor="#2194C9" stopOpacity="0.2" />
-      <stop offset="100%" stopColor="#2194C9" stopOpacity="0" />
-    </linearGradient>
-    <linearGradient id="myGradient2">
-      <stop offset="0%" stopColor="#2194C9" stopOpacity="0" />
-      <stop offset="100%"  stopColor="#2194C9" stopOpacity="0.2" />
-    </linearGradient>
+    <radialGradient id="radialGradient" cy="10%" r="100%" fy="10%">
+      <stop offset="20%" stopColor="#2194C9" stopOpacity="0" />
+      <stop offset="100%" stopColor="#2194C9" stopOpacity="0.1" />
+    </radialGradient>
   </defs>
-    <path d={pathLeft} fill="url('#myGradient')"></path>
-    <path d={pathRight} fill="url('#myGradient2')"></path>
-    <path d={pathBottomRect} fill="#2194C9" fillOpacity="0.15"></path>
+    <path d={pathFull} fill="url('#radialGradient')"></path>}
+    <path d={pathBottomRect} fill="#2194C9" fillOpacity="0.05"></path>
   </svg>
 }
