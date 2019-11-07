@@ -5,17 +5,19 @@ import {Button, IconButton} from '../components/Button'
 import {ButtonAnchor} from '../components/ButtonAnchor'
 import {ButtonLink} from '../components/ButtonLink'
 import {ButtonLabel} from '../components/ButtonLabel'
+import {InputText, InputDate, InputNumber, InputCheckbox} from '../components/Input'
+import {Select} from '../components/Select'
+import {Textarea} from '../components/Textarea'
+import {Label} from '../components/Label'
+import {FormSpan} from '../components/FormSpan'
 import {isEqual, cloneDeep} from 'lodash'
 import {nbsp,getGetSetter,getDateString} from '../utils'
 import {saveable} from '../saveable'
 import {storeProject, removeProject} from '../model/clients/actions'
 import {getClient, getProject, getClients, getClientHref, getProjectHref, getProjectNumber} from '../model/clients/selectors'
-import {Label} from '../components/Label'
-import {InputText, InputDate, InputNumber, InputCheckbox} from '../components/Input'
 import {Table} from '../components/Table'
 import {Icon} from '../components/Icon'
 import {Price} from '../components/Price'
-import {Select} from '../components/Select'
 import {T} from '../components/T'
 import {useTranslation} from 'react-i18next'
 import {color} from '../cssService'
@@ -88,6 +90,8 @@ export const Test = withRouter(
           <InputText />
           <InputNumber />
           <InputDate />
+          <Select options={[{text:'nee',value:0}]} />
+          <Textarea>My hoovercraft is full of eels</Textarea>
           <InputCheckbox />
           <InputText />
           <InputNumber />
@@ -99,10 +103,13 @@ export const Test = withRouter(
         <section>
           <Button>Button</Button>
           <InputCheckbox />
+          <span>foo</span>
+          <FormSpan>lorem</FormSpan>
           <IconButton type="pencil" />
           <ButtonAnchor>ButtonAnchor</ButtonAnchor>
           <InputText />
           <ButtonLink>ButtonLink</ButtonLink>
+          <FormSpan>ispum</FormSpan>
           <InputNumber />
           <ButtonLabel>ButtonLabel</ButtonLabel>
           <IconButton type="drag" />
@@ -110,11 +117,14 @@ export const Test = withRouter(
           <ButtonLink>ButtonLink</ButtonLink>
           <Button>Button</Button>
           <IconButton type="eye" />
+          <span>bar</span>
           <ButtonAnchor>ButtonAnchor</ButtonAnchor>
           <InputDate />
+          <FormSpan>dolor</FormSpan>
           <ButtonAnchor>ButtonAnchor</ButtonAnchor>
           <InputDate />
           <ButtonLabel>ButtonLabel</ButtonLabel>
+          <span>baz</span>
           <InputText />
           <ButtonAnchor>ButtonAnchor</ButtonAnchor>
           <Button>Button</Button>
@@ -126,6 +136,23 @@ export const Test = withRouter(
           <ButtonLabel>ButtonLabel</ButtonLabel>
           <ButtonLink>ButtonLink</ButtonLink>
           <InputNumber />
+        </section>
+
+        <h2>Input elements with label</h2>
+
+        <section>
+          <Label>InputCheckbox<InputCheckbox /></Label>
+          <Label>InputText<InputText /></Label>
+          <Label>textarea<Textarea>My hoovercraft is full of eels</Textarea></Label>
+          <Label>InputNumber<InputNumber /></Label>
+          <Label>InputDate<InputDate /></Label>
+          <Label>Select<Select options={[{text:'nee',value:0}]} /></Label>
+          <Label>InputText lorem ipsum dolor sit amet etc <InputText /></Label>
+
+          <Label>Button<Button>Button</Button></Label>
+          <Label>IconButton<IconButton type="pencil" /></Label>
+          <Label>ButtonAnchor<ButtonAnchor>ButtonAnchor</ButtonAnchor></Label>
+          <Label>ButtonLink<ButtonLink>ButtonLink</ButtonLink></Label>
         </section>
       </>
     }

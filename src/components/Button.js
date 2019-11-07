@@ -53,6 +53,7 @@ const StyledIconButton = styled(Button)`
   font-size: 1rem;
   line-height: 1.875rem;
   overflow: hidden;
+  text-align: center;
 `
 
 export const IconButton = ({type, ...props}) => <StyledIconButton {...props}><Icon type={type} /></StyledIconButton>

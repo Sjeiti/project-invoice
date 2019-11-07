@@ -60,7 +60,7 @@ export const formElement = css`
     outline: none;
     border: 0;
   }
-  &:last-child { margin-right: 0; }
+  &:last-child, &.float-right { margin-right: 0; }
 `
 
 export const icon = css`

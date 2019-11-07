@@ -18,6 +18,7 @@ import {T} from '../components/T'
 import {useTranslation} from 'react-i18next'
 import {color} from '../cssService'
 import {Dialog} from '../components/Dialog'
+import {FormSpan} from '../components/FormSpan'
 import {CSSTransition,TransitionGroup} from 'react-transition-group'
 
 const editablePropNames = [
@@ -138,7 +139,7 @@ export const Project = withRouter(
           , times: <Price amount={hours*hourlyRate} onClick={amountSetter.bind(null, hours*hourlyRate)} />
           , amount: <InputNumber value={amount} setter={amountSetter} />
           , vat: <Select value={vat} options={vatOptions} setter={lineSetter('vat', parseFloat)} />
-          , action: <IconButton onClick={()=>{
+          , action: <IconButton className="float-right" onClick={()=>{
             const p = cloneDeep(project)
             p.lines.splice(index, 1)
             setProject(p)
@@ -150,7 +151,6 @@ export const Project = withRouter(
       const totalAmount = lines.reduce((acc, {amount}) => acc + amount, 0)
       const totalAmountVAT = lines.reduce((acc, {amount, vat}) => acc + amount*(1+0.01*vat), 0)
       const discount = 1 - project.discount/100
-      // const vat = 1 - project.vat/100
 
       return (
         (isProject && (
@@ -205,7 +205,6 @@ export const Project = withRouter(
             <section>
               <Button onClick={onClickAddInvoiceButton} className="float-right"><T>{project.invoices.length&&'addReminder'||'addInvoice'}</T></Button>
               <h3><T>invoices</T></h3>
-              {/*<ol>*/}
               <TransitionGroup component="ol">
                 {project.invoices.map((invoice, index)=>
                     <CSSTransition
@@ -219,8 +218,8 @@ export const Project = withRouter(
                             <T>{invoice.type}</T>{index!==0?nbsp + index:''}
                         </ButtonLink>
                         </div>
-                        <div className="col hide-low">{getProjectNumber(project, state)}</div>
-                        <div className="col-3">{invoice.date}</div>
+                        <div className="col hide-low"><FormSpan>{getProjectNumber(project, state)}</FormSpan></div>
+                        <div className="col-3"><FormSpan>{invoice.date}</FormSpan></div>
                         <div className="col">
                           {invoice.interest&&<Icon type="promile" title={t('legalInterestWasAdded')}></Icon>}
                           {invoice.exhortation&&<Icon type="stop" title={t('finalExhortation')} />}
@@ -234,7 +233,6 @@ export const Project = withRouter(
                     </CSSTransition>
                 )}
               </TransitionGroup>
-              {/*</ol>*/}
             </section>
 
             <Dialog
@@ -245,7 +243,7 @@ export const Project = withRouter(
                 source={invoiceSource}
                 sourceTransform={r=>{
                   const {bottom, height, left, right, top, width, x, y} = r
-                  return {bottom: bottom-7, height, left, right, top, width, x, y}
+                  return {bottom: bottom-4, height, left, right, top, width, x, y}
                 }}
             >
               <Label>Date<InputDate value={invoice.date} setter={getInvoiceSetter('date')}/></Label>

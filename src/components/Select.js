@@ -4,8 +4,8 @@ import {StyledInput} from './Input'
 
 const StyledSelect = styled.select`
   ${StyledInput.componentStyle.rules}
-  padding: 0.4375rem 0 0.4375rem 0.25rem;
-  
+  height: 1.875rem;
+  padding: 0 0 0 0.25rem;
 `
 
 export const Select = ({ value, onChange, setter, options }) => {

@@ -40,6 +40,18 @@ export const StyledInput = styled.input`
     &:checked+span { color: ${color.colorButton}; }
     &:focus+span { box-shadow: 0 0 0 1px ${color.colorButton} inset,  0 4px 16px ${color.colorShade} inset; }
   }
+  
+  &[type=number] {
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button { display: none; } 
+  }
+  
+  &[type=date] {
+    height: 1.875rem;
+    overflow: hidden;
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button { display: none; } 
+  }
 `
 
 export const InputText = ({ value, onChange:_onChange, setter, ...attr}) => {
