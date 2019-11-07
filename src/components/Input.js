@@ -3,24 +3,34 @@ import styled from 'styled-components'
 import {noop} from '../utils'
 import {color, formElement, icon} from '../cssService'
 
+// todo: disabled
+
 export const StyledInput = styled.input`
   ${formElement}
   box-shadow: 0 0 0 1px ${color.colorBorder} inset,  0 4px 16px ${color.colorShade} inset;
+  &:focus { box-shadow: 0 0 0 1px ${color.colorButton} inset,  0 4px 16px ${color.colorShade} inset; }
+  // height should be 2*0.5rem padding + 0.875rem fontsize
+  line-height: 1.875rem;
+  padding: 0 0.75rem;
+    
   &[type=checkbox] {
-    width: 0;
-    height: 0;
-    margin: 0!important;
+    width: 1.875rem;
+    height: 1.875rem;
+    margin-right: -1.875rem;
     padding: 0;
+    opacity: 0;
     +span {
       ${formElement}
-      display: inline-block;
-      padding: 0.5rem;
+      width: 1.875rem;
+      height: 1.875rem;
+      padding: 0;
+      font-size: 1rem;
+      line-height: 1.875rem;
       overflow: hidden;
       background-color: #e8e8e8;
       box-shadow: inset 0 0 0 1px #bbb;
       color: #BBB;
       text-align: center;
-      font-size: 1rem;
       &:before { 
         ${icon}
         content: '\uE907';
@@ -28,6 +38,7 @@ export const StyledInput = styled.input`
       }
     }
     &:checked+span { color: ${color.colorButton}; }
+    &:focus+span { box-shadow: 0 0 0 1px ${color.colorButton} inset,  0 4px 16px ${color.colorShade} inset; }
   }
 `
 

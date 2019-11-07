@@ -12,7 +12,6 @@ const {
 
 export const Button = styled.button`
   ${formElement}
-  display: inline-block;
   box-shadow: inset 0 0 0 1px #19759e, inset 1px 1px 0 1px #1f8fc1,
     inset 0 -2px 8px rgba(0, 0, 0, 0.1);
   background-color: ${colorButton};
@@ -25,7 +24,7 @@ export const Button = styled.button`
   }
   &:focus {
     box-shadow: 0 0 0 1px ${darken(0.1, colorButton)} inset,
-      1px 1px 0 1px ${lighten(0.2, colorButton)} inset,
+      1px 1px 0 1px ${lighten(0.4, colorButton)} inset,
       0 -2px 8px ${colorShade} inset,
       ${shadeFlat};
   }
@@ -33,9 +32,6 @@ export const Button = styled.button`
     opacity: 0.3;
     background-color: ${colorButton};
     cursor: default;
-  }
-  +button {
-    margin-left: 0.25rem;
   }
   ${props => props.invert?`
     background-color: transparent;
@@ -49,9 +45,14 @@ export const Button = styled.button`
   `:''}
 `
 
+// height should be 2*0.5rem padding + 0.875rem fontsize
 const StyledIconButton = styled(Button)`
-  padding: 8px;
+  width: 1.875rem;
+  height: 1.875rem;
+  padding: 0;
   font-size: 1rem;
+  line-height: 1.875rem;
+  overflow: hidden;
 `
 
 export const IconButton = ({type, ...props}) => <StyledIconButton {...props}><Icon type={type} /></StyledIconButton>
