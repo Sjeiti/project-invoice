@@ -106,14 +106,10 @@
   "addImage": "afbeelding toevoegen",
   "deleteImage": "afbeelding verwijderen",
   "colors": "Kleuren",
-  "mainBackground": "hoofd achtergrond",
-  "mainForeground": "hoofd voorgrond",
-  "secondaryBackground": "secondaire achtergrond",
-  "secondaryForeground": "secondaire voorgrond",
   "baseFontSize": "basis font grootte",
   "mainFont": "hoofd font",
   "currencyFont": "valuta font",
-  "cSS": "CSS",
+  "CSS": "CSS",
   "vatNumber": "BTW nummer",
   "kvkNumber": "KvK nummer",
   "bank": "bank",
@@ -184,5 +180,9 @@
   "new line": "nieuwe regel",
   "concerns": "betreft",
   "Open invoices": "Openstaande facturen",
-  "Draft projects": "Concepten"
+  "Draft projects": "Concepten",
+  "themeMainBgColor":  "hoofd achtergrond",
+  "themeMainFgColor": "hoofd voorgrond",
+  "themeSecondaryBgColor":  "tweede achtergrond",
+  "themeSecondaryFgColor": "tweede voorgrond"
 }

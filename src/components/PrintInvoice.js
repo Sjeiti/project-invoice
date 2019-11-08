@@ -37,6 +37,10 @@ const Currency = ({children:val}) => {
 }
 
 const StyledPrintInvoice = styled.div`
+  @media ${breakpointHigh} {
+  }
+  @media ${breakpointHigher} {
+  }
   .iframe-wrapper {
     position: relative;
     left: calc(50% - ${A4wsHalf}mm);
@@ -138,14 +142,16 @@ const StyledPrintInvoice = styled.div`
   .print-invoice { display: none; }
 `
 
-export const PrintInvoice = forwardRef(({state, project, client, invoiceIndex, lang}, ref) => {
+export const PrintInvoice = forwardRef(({state, project, client, invoiceIndex, lang, ...attr}, ref) => {
   const {personal, config} = state
+  console.log('PIconfig',config) // todo: remove log
   const isQuotation = invoiceIndex===-1
 
   const {discount, invoices} = project
   const invoice = invoiceIndex>=0&&invoices[invoiceIndex]
 
-  const [CSSVariables] = useState(getCSSVariables.bind(null, config))
+  // const [CSSVariables] = useState(getCSSVariables.bind(null, config))
+  const CSSVariables = getCSSVariables(config)
 
   const iframeRef = createRef()
   const invoiceRef = createRef()
@@ -177,7 +183,7 @@ export const PrintInvoice = forwardRef(({state, project, client, invoiceIndex, l
 
   project = enhanceProject(project)
 
-  return <StyledPrintInvoice ref={ref}>
+  return <StyledPrintInvoice ref={ref} {...attr}>
 
     <div xref="shade" className="invoice-shade"><div /></div>
 

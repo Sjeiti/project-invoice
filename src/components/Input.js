@@ -52,6 +52,14 @@ export const StyledInput = styled.input`
     &::-webkit-outer-spin-button,
     &::-webkit-inner-spin-button { display: none; } 
   }
+  
+  &[type=color] {
+    height: 1.875rem;
+    width: 3rem;
+    padding: 0.0625rem 0.125rem;
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button { display: none; } 
+  }
 `
 
 export const InputText = ({ value, onChange:_onChange, setter, ...attr}) => {
@@ -78,6 +86,15 @@ export const InputNumber = ({ value, onChange:_onChange, setter, ...attr}) => {
       onChange={_onChange || setter && (({ target: { value } }) => setter(parseFloat(value))) || noop}
       {...attr}
       type="number"
+  />
+}
+
+export const InputColor = ({ value, onChange:_onChange, setter, ...attr}) => {
+  return <StyledInput
+      value={value}
+      onChange={_onChange || setter && (({ target: { value } }) => setter(value)) || noop}
+      {...attr}
+      type="color"
   />
 }
 

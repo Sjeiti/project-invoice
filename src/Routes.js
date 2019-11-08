@@ -7,6 +7,7 @@ import { Client } from './views/Client'
 import { Project } from './views/Project'
 import { Settings } from './views/Settings'
 import { About } from './views/About'
+import { Layout } from './views/Layout'
 import { Data } from './views/Data'
 import { Copy } from './views/Copy'
 import { Invoice } from './views/Invoice'
@@ -27,6 +28,7 @@ export const Routes = () => (
       , [Data, '/data']
       , [Copy, '/copy']
       , [About, '/about']
+      , [Layout, '/layout']
       , [Test, '/test']
     ].map(([component, path], key) => (
       <Route exact key={key} path={path} component={component} />

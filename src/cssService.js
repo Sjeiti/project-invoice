@@ -33,7 +33,7 @@ export const size = {
   }
   ,multiply(...numbers){
     const unit = numbers[0].replace(/^\d+(\.\d+)?/, '')
-    console.log('unit',unit) // todo: remove log
+    // console.log('unit',unit) // todo: remove log
     return numbers.reduce((acc, number)=>acc*(typeof number === 'number' ? number : (parseFloat(number.replace(/[^\d]+$/, ''))||0)), 1) + unit;
   }
 }

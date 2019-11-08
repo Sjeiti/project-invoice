@@ -34,8 +34,6 @@ export const Invoice = withRouter(
         piRef.current.printInvoice()
       }
 
-      const user = 23
-
       return <section>
 
         <header className="clearfix" style={{marginBottom:'1rem'}}>

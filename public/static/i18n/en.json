@@ -100,14 +100,10 @@
   "addImage": "add image",
   "deleteImage": "delete image",
   "colors": "Colors",
-  "mainBackground": "main background",
-  "mainForeground": "main foreground",
-  "secondaryBackground": "secondary background",
-  "secondaryForeground": "secondary foreground",
   "baseFontSize": "base font size",
   "mainFont": "main font",
   "currencyFont": "currency font",
-  "cSS": "CSS",
+  "CSS": "CSS",
   "vatNumber": "VAT number",
   "kvkNumber": "COC number",
   "bank": "bank",
@@ -184,5 +180,9 @@
   "new line": "new line",
   "concerns": "concerns",
   "Open invoices": "Open invoices",
-  "Draft projects": "Draft projects"
+  "Draft projects": "Draft projects",
+  "themeMainBgColor":  "main background",
+  "themeMainFgColor": "main foreground",
+  "themeSecondaryBgColor":  "secondary background",
+  "themeSecondaryFgColor": "secondary foreground"
 }

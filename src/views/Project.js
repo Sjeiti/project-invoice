@@ -11,6 +11,7 @@ import {Button, IconButton} from '../components/Button'
 import {ButtonLink} from '../components/ButtonLink'
 import {InputText, InputDate, InputNumber, InputCheckbox} from '../components/Input'
 import {Table} from '../components/Table'
+import {Textarea} from '../components/Textarea'
 import {Icon} from '../components/Icon'
 import {Price} from '../components/Price'
 import {Select} from '../components/Select'
@@ -241,6 +242,21 @@ export const Project = withRouter(
                     </CSSTransition>
                 )}
               </TransitionGroup>
+            </section>
+
+            <section>
+              <Button onClick={onClickAddInvoiceButton} className="float-right"><T>show quotation</T></Button>
+              <h3><T>quotation</T></h3>
+              {[
+                { key: 'quotationDate', Element: InputDate }
+                , { key: 'quotationStartDate', Element: InputDate }
+                , { key: 'quotationDuration', Element: InputNumber }
+                , { key: 'quotationSubject', Element: InputText }
+                , { key: 'quotationBefore', Element: Textarea }
+                , { key: 'quotationAfter', Element: Textarea }
+              ].map(({key, Element}) => {
+                return <Label key={key}><T>{key}</T><Element value={project[key]} setter={getSetter(key)} /></Label>
+              })}
             </section>
 
             <Dialog
