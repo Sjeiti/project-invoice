@@ -1,4 +1,4 @@
-import {getStorage} from '../localStorageService'
+import {getStorage} from '../service/localStorage'
 import {data as defaultData} from './default'
 import {STORAGE_NAME} from '../config'
 

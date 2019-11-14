@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 import { saveable } from '../saveable'
 import { noop } from '../utils'
-import {size} from '../cssService'
+import {size} from '../service/css'
 import { Button, IconButton } from './Button'
 import { T } from './T'
 

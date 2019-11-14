@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import 'mc_picker/dist/index'
 import { store } from './model/store'
 import { App } from './App'
 import './style/main.scss'

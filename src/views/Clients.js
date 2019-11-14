@@ -13,7 +13,7 @@ import {getNewClientEvents} from '../model/eventFactory'
 import {Table} from '../components/Table'
 import {T} from '../components/T'
 import {Icon} from '../components/Icon'
-import {color} from '../cssService'
+import {color} from '../service/css'
 import {keyMap} from '../utils'
 
 const {colorGray, colorRed} = color

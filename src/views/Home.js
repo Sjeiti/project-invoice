@@ -3,7 +3,7 @@ import {withRouter, Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import styled from 'styled-components'
 import {CSSTransition} from 'react-transition-group'
-import {absolute, clearfix, size} from '../cssService'
+import {absolute, clearfix, size} from '../service/css'
 import {getConfig} from '../model/config/selectors'
 import {storeConfig} from '../model/config/actions'
 import {

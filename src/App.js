@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import { Routes } from './Routes'
 import { Header } from './components/Header'
 import { Footer } from './components/Footer'
-import {size} from './cssService'
+import {size} from './service/css'
 
 const {padding, headerHeight, sum} = size
 

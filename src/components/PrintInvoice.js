@@ -1,7 +1,7 @@
 import React, {createRef, forwardRef, useState, useEffect} from 'react'
 import {getCSSVariables, nbsp} from '../utils'
 import styled from 'styled-components'
-import {breakpoint} from '../cssService'
+import {breakpoint} from '../service/css'
 import {project as enhanceProject} from '../model/clients/project'
 import {getProjectNumber} from '../model/clients/selectors'
 import {Parse as ParseUnbound} from './Parse'
@@ -144,7 +144,6 @@ const StyledPrintInvoice = styled.div`
 
 export const PrintInvoice = forwardRef(({state, project, client, invoiceIndex, lang, ...attr}, ref) => {
   const {personal, config} = state
-  console.log('PIconfig',config) // todo: remove log
   const isQuotation = invoiceIndex===-1
 
   const {discount, invoices} = project
@@ -181,6 +180,14 @@ export const PrintInvoice = forwardRef(({state, project, client, invoiceIndex, l
     ref.current.printInvoice = contentWindow.print.bind(contentWindow)
   })
 
+  useEffect(()=>{
+    const iframe = iframeRef.current
+    const {contentDocument:{head}} = iframe
+    const style = document.createElement('style')
+    style.innerText = print+CSSVariables
+    head.appendChild(style)
+  }, [iframeRef])
+
   project = enhanceProject(project)
 
   return <StyledPrintInvoice ref={ref} {...attr}>
@@ -197,7 +204,7 @@ export const PrintInvoice = forwardRef(({state, project, client, invoiceIndex, l
 
     {/*############################################################*/}
     <div ref={invoiceRef} className={`invoice print-invoice visually-hidden ${config.theme||''}`}>
-      <style>{print+CSSVariables}</style>
+      {/*<style>{print+CSSVariables}</style>*/}
       <link href={fontsURI} rel='stylesheet' type='text/css'/>
       {/*####*/}
       <header>

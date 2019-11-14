@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import {useTranslation} from 'react-i18next'
 import {CSSTransition, TransitionGroup} from 'react-transition-group'
 import {lighten} from 'polished'
-import {color, breakpoint} from '../cssService'
+import {color, breakpoint} from '../service/css'
 
 const {colorBorder, colorButton, colorTable} = color
 const {breakpointHigh} = breakpoint

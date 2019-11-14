@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import {lighten, darken} from 'polished'
-import {color, formElement} from '../cssService'
+import {color, formElement} from '../service/css'
 import {Icon} from './Icon'
 
 const {

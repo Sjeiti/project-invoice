@@ -5,7 +5,7 @@ import styled, {css} from 'styled-components'
 import { SaveableButtons } from './SaveableButtons'
 import {Logo} from './Logo'
 import {T} from './T'
-import {size, color, breakpoint} from '../cssService'
+import {size, color, breakpoint} from '../service/css'
 
 const {breakpointLow, breakpointHigh} = breakpoint
 const {headerHeight, padding, multiply, sum} = size

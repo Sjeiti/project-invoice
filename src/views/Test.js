@@ -20,7 +20,7 @@ import {Icon} from '../components/Icon'
 import {Price} from '../components/Price'
 import {T} from '../components/T'
 import {useTranslation} from 'react-i18next'
-import {color} from '../cssService'
+import {color} from '../service/css'
 import {Dialog} from '../components/Dialog'
 import {CSSTransition,TransitionGroup} from 'react-transition-group'
 

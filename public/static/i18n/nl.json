@@ -184,5 +184,7 @@
   "themeMainBgColor":  "hoofd achtergrond",
   "themeMainFgColor": "hoofd voorgrond",
   "themeSecondaryBgColor":  "tweede achtergrond",
-  "themeSecondaryFgColor": "tweede voorgrond"
+  "themeSecondaryFgColor": "tweede voorgrond",
+  "number": "nummer",
+  "subtotal": "subtotaal"
 }

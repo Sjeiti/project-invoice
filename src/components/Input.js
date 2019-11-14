@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import {noop} from '../utils'
-import {color, formElement, icon} from '../cssService'
+import {color, formElement, icon} from '../service/css'
 
 // todo: disabled
 
@@ -43,7 +43,10 @@ export const StyledInput = styled.input`
   
   &[type=number] {
     &::-webkit-outer-spin-button,
-    &::-webkit-inner-spin-button { display: none; } 
+    &::-webkit-inner-spin-button {
+     display: none;
+     -webkit-appearance: none;
+     } 
   }
   
   &[type=date] {
@@ -105,4 +108,13 @@ export const InputCheckbox = ({value, setter, onChange, ...attr}) => {
       {...attr}
       type="checkbox"
   /><span onClick={attr.onClick||noop} /></>
+}
+
+export const InputRange = ({ value, onChange:_onChange, setter, ...attr}) => {
+  return <StyledInput
+      value={value}
+      onChange={_onChange || setter && (({ target: { value } }) => setter(parseFloat(value))) || noop}
+      {...attr}
+      type="range"
+  />
 }

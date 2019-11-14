@@ -1,5 +1,5 @@
 import {STORAGE_NAME} from '../../config'
-import {setStorage} from '../../localStorageService'
+import {setStorage} from '../../service/localStorage'
 
 export const storeState = store => next => action => {
   const result = next(action)
