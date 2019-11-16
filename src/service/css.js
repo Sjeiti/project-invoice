@@ -3,6 +3,7 @@
 
 
 import {css} from 'styled-components'
+import Sass from 'sass.js/dist/sass'
 
 export const breakpoint = {
   breakpoint: '598px'
@@ -21,6 +22,11 @@ export const color = {
 
   , colorRed: '#F04'
   , colorGray: '#CCC'
+}
+
+export const font = {
+  mono: '\'Source Code Pro\', monospace'
+  ,main: '\'Open Sans\', sans-serif'
 }
 
 export const size = {
@@ -63,6 +69,9 @@ export const formElement = css`
   &:last-child, &.float-right { margin-right: 0; }
 `
 
+export const absolute = (left, top) => ({position: 'absolute', left: `${left}rem`, top: `${top}rem`})
+
+
 export const icon = css`
   font-family: icomoon;
   speak: none;
@@ -75,4 +84,22 @@ export const icon = css`
   -moz-osx-font-smoothing: grayscale;
 `
 
-export const absolute = (left, top) => ({position: 'absolute', left: `${left}rem`, top: `${top}rem`})
+const sassworker = new Sass('/static/js/sass.worker.js')
+export const sass = {
+  /**
+   * Compiles a sass string
+   * @param {string} sassString
+   * @returns {Promise.<string>}
+   */
+  compile(sassString){
+    return new Promise((resolve,reject)=>{
+      sassworker.compile(sassString,({status,text})=>{
+        if (status===0){
+          resolve(text)
+        } else {
+          reject()
+        }
+      })
+    })
+  }
+}

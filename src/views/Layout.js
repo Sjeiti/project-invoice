@@ -13,6 +13,7 @@ import {T} from '../components/T'
 import {data} from '../model/default'
 import {getGetSetter, isEqual} from '../utils'
 import {saveable} from '../saveable'
+import {font} from '../service/css'
 import {getFontList} from '../service/googleAPI'
 
 const StyledLayout = styled.section`
@@ -23,10 +24,16 @@ const StyledLayout = styled.section`
    transform-origin: top left;
    transform: scale(0.5);
  }
+ textarea {
+   width: 100%;
+   height: 12rem;
+   line-height: 160%;
+   font-family: ${font.mono};
+ }
 `
 
 export const Layout = connect(
-    state => ({ state, configOld:getConfig(state) })
+    state => ({ state, configOld: getConfig(state) })
     ,{storeConfig}
 )(
   ({state, configOld, storeConfig}) => {
@@ -69,8 +76,9 @@ export const Layout = connect(
     const colorTypes = ['themeMainBgColor', 'themeMainFgColor', 'themeSecondaryBgColor', 'themeSecondaryFgColor']
 
     const invoiceTypes = ['quotation', 'invoice', 'reminder']
-    const [invoiceType, setInvoiceType] = useState('invoice')
-    const invoiceIndex = 0
+    // const [invoiceType, setInvoiceType] = useState('invoice')
+    const [invoiceIndex, setInvoiceIndex] = useState(0)
+    // const invoiceIndex = 0
 
     const [lang, setLang] = useState(config.lang)
 
@@ -105,7 +113,7 @@ export const Layout = connect(
       </div>
 
       <div className="col-6">
-        {invoiceTypes.map(type=><Button key={type} onClick={()=>setInvoiceType(type)} disabled={type===invoiceType}>{type}</Button>)}
+        {invoiceTypes.map((type,index)=><Button key={type} onClick={()=>setInvoiceIndex(index-1)} disabled={invoiceIndex===(index-1)}>{type}</Button>)}
         {config.langs.map(iso=><Button key={iso} onClick={()=>setLang(iso)} disabled={iso===lang}>{iso}</Button>)}
         <PrintInvoice
           className="example"

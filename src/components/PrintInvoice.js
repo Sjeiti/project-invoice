@@ -1,7 +1,7 @@
 import React, {createRef, forwardRef, useState, useEffect} from 'react'
 import {getCSSVariables, nbsp} from '../utils'
 import styled from 'styled-components'
-import {breakpoint} from '../service/css'
+import {breakpoint, sass} from '../service/css'
 import {project as enhanceProject} from '../model/clients/project'
 import {getProjectNumber} from '../model/clients/selectors'
 import {Parse as ParseUnbound} from './Parse'
@@ -143,7 +143,7 @@ const StyledPrintInvoice = styled.div`
 `
 
 export const PrintInvoice = forwardRef(({state, project, client, invoiceIndex, lang, ...attr}, ref) => {
-  const {personal, config} = state
+  const {personal, config, config:{invoiceCSS}} = state
   const isQuotation = invoiceIndex===-1
 
   const {discount, invoices} = project
@@ -154,6 +154,9 @@ export const PrintInvoice = forwardRef(({state, project, client, invoiceIndex, l
 
   const iframeRef = createRef()
   const invoiceRef = createRef()
+
+  // const iframeHTML = createRef('')
+  // const [iframeHTML, setIframeHTML] = useState('')
 
   const fontsURI =  `https://fonts.googleapis.com/css?family=${config.themeFontMain}|${config.themeFontCurrency}`
 
@@ -167,25 +170,31 @@ export const PrintInvoice = forwardRef(({state, project, client, invoiceIndex, l
     values={{ data:state.personal, project, client, invoice, lang }}
   >{children}</ParseUnbound>
 
-
+  // copy invoice innerHTML to IFrame
   useEffect(()=>{
-    const {current:{contentWindow, contentDocument, contentDocument:{body:contentBody}}} = iframeRef
+    const {current:{contentDocument, contentDocument:{body:contentBody}}} = iframeRef
     const {current:{outerHTML:html}} = invoiceRef
     contentDocument.title = getProjectNumber(project, state)
     contentBody.innerHTML = html.replace('visually-hidden', '')
-    // contentBody.innerHTML = `<style>${print}${CSSVariables}</style>` + html.replace('visually-hidden', '')
     // todo onResize
     // todo calculatePagebreaks
-    // expose print method (todo we could do this only once)
-    ref.current.printInvoice = contentWindow.print.bind(contentWindow)
-  })
+  }, [invoiceRef, iframeRef, lang, invoiceIndex])
 
+  console.log('foo') // todo: remove log
+
+  // update IFrame CSS
   useEffect(()=>{
     const iframe = iframeRef.current
     const {contentDocument:{head}} = iframe
-    const style = document.createElement('style')
-    style.innerText = print+CSSVariables
+    const style = head.querySelector('style')||document.createElement('style')
+    sass.compile(invoiceCSS).then(css=>style.innerText = print+CSSVariables+css)
     head.appendChild(style)
+  }, [iframeRef, invoiceCSS])
+
+  // expose print method
+  useEffect(()=>{
+    const {current:{contentWindow}} = iframeRef
+    ref.current.printInvoice = contentWindow.print.bind(contentWindow)
   }, [iframeRef])
 
   project = enhanceProject(project)
@@ -204,9 +213,7 @@ export const PrintInvoice = forwardRef(({state, project, client, invoiceIndex, l
 
     {/*############################################################*/}
     <div ref={invoiceRef} className={`invoice print-invoice visually-hidden ${config.theme||''}`}>
-      {/*<style>{print+CSSVariables}</style>*/}
       <link href={fontsURI} rel='stylesheet' type='text/css'/>
-      {/*####*/}
       <header>
         <div className="page">
           <div className="wrapper">
