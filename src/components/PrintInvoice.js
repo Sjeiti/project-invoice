@@ -143,13 +143,12 @@ const StyledPrintInvoice = styled.div`
 `
 
 export const PrintInvoice = forwardRef(({state, project, client, invoiceIndex, lang, ...attr}, ref) => {
-  const {personal, config, config:{invoiceCSS}} = state
+  const {personal, config, config:{invoiceCSS,themeLogoCSS}} = state
   const isQuotation = invoiceIndex===-1
 
   const {discount, invoices} = project
   const invoice = invoiceIndex>=0&&invoices[invoiceIndex]
 
-  // const [CSSVariables] = useState(getCSSVariables.bind(null, config))
   const CSSVariables = getCSSVariables(config)
 
   const iframeRef = createRef()
@@ -176,18 +175,17 @@ export const PrintInvoice = forwardRef(({state, project, client, invoiceIndex, l
     const {current:{outerHTML:html}} = invoiceRef
     contentDocument.title = getProjectNumber(project, state)
     contentBody.innerHTML = html.replace('visually-hidden', '')
-    // todo onResize
+    // todo onResize?
     // todo calculatePagebreaks
+    // todo fix rerender causing whiteout
   }, [invoiceRef, iframeRef, lang, invoiceIndex])
-
-  console.log('foo') // todo: remove log
 
   // update IFrame CSS
   useEffect(()=>{
     const iframe = iframeRef.current
     const {contentDocument:{head}} = iframe
     const style = head.querySelector('style')||document.createElement('style')
-    sass.compile(invoiceCSS).then(css=>style.innerText = print+CSSVariables+css)
+    sass.compile(invoiceCSS).then(css=>style.innerText = print+CSSVariables+themeLogoCSS+css)
     head.appendChild(style)
   }, [iframeRef, invoiceCSS])
 

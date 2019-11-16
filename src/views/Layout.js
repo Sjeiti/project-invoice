@@ -1,4 +1,4 @@
-import React,{useState,createRef,useEffect} from 'react'
+import React, {useState, createRef, useEffect} from 'react'
 import styled from 'styled-components'
 import {connect} from 'react-redux'
 import {getConfig} from '../model/config/selectors'
@@ -15,6 +15,8 @@ import {getGetSetter, isEqual} from '../utils'
 import {saveable} from '../saveable'
 import {font} from '../service/css'
 import {getFontList} from '../service/googleAPI'
+import {ButtonLabel} from '../components/ButtonLabel'
+import {FormSpan} from '../components/FormSpan'
 
 const StyledLayout = styled.section`
  
@@ -24,6 +26,7 @@ const StyledLayout = styled.section`
    transform-origin: top left;
    transform: scale(0.5);
  }
+ select { width: 70%; }
  textarea {
    width: 100%;
    height: 12rem;
@@ -34,23 +37,19 @@ const StyledLayout = styled.section`
 
 export const Layout = connect(
     state => ({ state, configOld: getConfig(state) })
-    ,{storeConfig}
+    , {storeConfig}
 )(
   ({state, configOld, storeConfig}) => {
 
-    // console.log('configOld', configOld) // todo: remove log
-
     const [fakeState, setFakeState] = useState({...state})
-    // const [config, setConfig] = useState(getConfig(fakeState))
     const [config, setConfig] = useState(configOld)
     function reallySetConfig(newConfig){
     	setConfig(newConfig)
       setFakeState({...fakeState, config: newConfig })
     }
     const getSetter = getGetSetter(config, reallySetConfig)
-    // const getSetter = getGetSetter(config, setConfig)
+    const setLogo = getSetter('themeLogoCSS')
 
-    // const [fontList, setFontList] = useState([])
     const [fontOptions, setFontOptions] = useState([])
 
     const isDirty = !isEqual(configOld, config)
@@ -65,10 +64,9 @@ export const Layout = connect(
     // todo move to service and cache, or at least memoize
     useEffect(()=>{
       getFontList(config.googleFontsAPIKey).then(result=>{
-        // setFontList(result)
-        setFontOptions(result.map(font=>({text:font.family,value:font.family})))
+        setFontOptions(result.map(font=>({text:font.family, value:font.family})))
       })
-    }, [])
+    }, []) /* eslint-disable-line react-hooks/exhaustive-deps */
 
     const client = data.clients[0]
     const project = client.projects[0]
@@ -76,13 +74,32 @@ export const Layout = connect(
     const colorTypes = ['themeMainBgColor', 'themeMainFgColor', 'themeSecondaryBgColor', 'themeSecondaryFgColor']
 
     const invoiceTypes = ['quotation', 'invoice', 'reminder']
-    // const [invoiceType, setInvoiceType] = useState('invoice')
     const [invoiceIndex, setInvoiceIndex] = useState(0)
-    // const invoiceIndex = 0
 
     const [lang, setLang] = useState(config.lang)
 
     const piRef = createRef()
+
+    function onChangeLogo(e){
+      const target = e.target // as HTMLInputElement
+      const fileReader = new FileReader()
+      const file = target.files[0]
+      fileReader.readAsDataURL(file)
+      fileReader.addEventListener('load', ()=>{
+        const result = fileReader.result
+        const img = document.createElement('img')
+        img.addEventListener('load', onLogoLoad.bind(this, result, img))
+        img.setAttribute('src', result)
+        target.value = null
+      })
+    }
+    function onLogoLoad(result, img){
+      setLogo(result?`.invoice #logo {
+          width: ${img.naturalWidth}px!important;
+          height: ${img.naturalHeight}px!important;
+          background: url(${result}) no-repeat!important;
+      }`:'')
+    }
 
     return <StyledLayout>
 
@@ -94,27 +111,34 @@ export const Layout = connect(
 
       <div className="col-6">
         <Label><T>theme</T> <Select value={config.theme} setter={getSetter('theme')} options={config.themes.map(k=>({text:k, value:k}))} /></Label>
-        <Label><T>logo</T> <span>
-          <Button><T>addImage</T></Button>
-          <Button onClick={()=>getSetter('themeLogoCSS')('')}><T>deleteImage</T></Button>
-        </span></Label>
+
+        <div>
+          <FormSpan style={{width:'30%', display:'inline-block'}}><T>logo</T> </FormSpan>
+          <ButtonLabel>add image<input accept="image/gif, image/jpg, image/jpeg, image/png, image/svg, .gif, .jpg, .jpeg, .png, .svg" type="file" onChange={onChangeLogo} className="visually-hidden"/></ButtonLabel>
+          <Button onClick={()=>setLogo('')}><T>deleteImage</T></Button>
+        </div>
+
         <h3><T>colors</T></h3>
         {colorTypes.map(
-            key=><Label key={key}><T>{key}</T>
+            key=><Label style={{maxWidth:'16rem'}} key={key}><T>{key}</T>
               <InputColor value={config[key]} setter={getSetter(key)} />
             </Label>
         )}
+
         <h3><T>font</T></h3>
         <Label><T>baseFontSize</T><InputRange min="5" max="30" step="0.2" value={config.themeFontSize} setter={getSetter('themeFontSize')} /></Label>
         <Label><T>mainFont</T><Select value={config.themeFontMain} setter={getSetter('themeFontMain')} options={fontOptions}/></Label>
         <Label><T>currencyFont</T><Select value={config.themeFontCurrency} setter={getSetter('themeFontCurrency')} options={fontOptions}/></Label>
+
         <h3><T>CSS</T></h3>
         <Textarea value={config.invoiceCSS} setter={getSetter('invoiceCSS')} />
       </div>
 
       <div className="col-6">
-        {invoiceTypes.map((type,index)=><Button key={type} onClick={()=>setInvoiceIndex(index-1)} disabled={invoiceIndex===(index-1)}>{type}</Button>)}
-        {config.langs.map(iso=><Button key={iso} onClick={()=>setLang(iso)} disabled={iso===lang}>{iso}</Button>)}
+        <menu style={{marginBottom:'1rem'}}>
+          {invoiceTypes.map((type, index)=><Button key={type} onClick={()=>setInvoiceIndex(index-1)} disabled={invoiceIndex===(index-1)}>{type}</Button>)}
+          {config.langs.map(iso=><Button key={iso} onClick={()=>setLang(iso)} disabled={iso===lang}>{iso}</Button>)}
+        </menu>
         <PrintInvoice
           className="example"
           ref={piRef}

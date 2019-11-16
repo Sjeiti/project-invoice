@@ -186,5 +186,6 @@
   "themeSecondaryBgColor":  "secondary background",
   "themeSecondaryFgColor": "secondary foreground",
   "number": "number",
-  "subtotal": "subtotal"
+  "subtotal": "subtotal",
+  "font": "font"
 }

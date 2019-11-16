@@ -68,6 +68,11 @@ textarea {
   line-height: 130%;
 }
 
+menu {
+  margin: 0;
+  padding: 0;
+}
+
 .mono { font-family: 'Source Code Pro', monospace; }
 
 [input-unit] {
@@ -165,6 +170,7 @@ code {
   clear: both;
 }
 
+.inline-block { display: inline-block; }
 .list-inline>li { display: inline-block; }
 .position-relative { position: relative; }
 .float-left { float: left; }

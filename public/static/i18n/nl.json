@@ -186,5 +186,6 @@
   "themeSecondaryBgColor":  "tweede achtergrond",
   "themeSecondaryFgColor": "tweede voorgrond",
   "number": "nummer",
-  "subtotal": "subtotaal"
+  "subtotal": "subtotaal",
+  "font": "lettertype"
 }
