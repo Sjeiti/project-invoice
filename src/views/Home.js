@@ -32,7 +32,7 @@ const bgcolor = '#3f5267'
 const Jumbotron = styled.div`
     display: block;
     position: relative;
-    top:  -${size.padding};
+    top:  -1rem;
     padding-bottom: 1rem;
     margin-bottom: 40px;
     font-size: 2rem;
@@ -117,7 +117,7 @@ export const Home = withRouter(connect(
         in={config.homeMessage}
         unmountOnExit
     >
-      <Jumbotron data-v-if="config.homeMessage" data-kkey="'jumbotron'">
+      <Jumbotron data-v-if="config.homeMessage">
         <p data-v-_="'homeMessage'">This invoicing application stores all your data on your local machine.<br/>
         <em><small data-v-_="'homeMessageSub'">Because all your data are belong to you.</small></em></p>
         <AnchorButton className="float-right" onClick={hideHomeMessage}>hide message</AnchorButton>{/* todo */}
