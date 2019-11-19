@@ -18,6 +18,7 @@ export const Routes = () => (
     {[
       [Home, '/']
       , [Overview, '/overview']
+      , [Overview, '/overview/:year']
       , [Clients, '/clients']
       , [Client, '/client/:client']
       , [Project, '/client/:client/:project']

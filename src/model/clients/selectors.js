@@ -151,3 +151,30 @@ export function getProjectNumber(_project, state){
   const betterProject = project(_project, {_client:client, model:state})
   return (new Function('project', 'client', 'return `'+projectNumberTemplate+'`'))(betterProject, client)
 }
+
+/**
+ * Return the years of the projects
+ * @param {client[]} clients
+ * @return {string[]}
+ */
+export function getProjectsYears(clients) {
+  return allProjectsByDate(clients)
+      .filter(project => project.invoices.length)
+      .map(project => project.invoices[0].date.substr(0,4))
+      .filter((year, i, a) => a.indexOf(year)===i)
+      .sort()
+}
+
+/**
+ * Return the years of the projects
+ * @param {client[]} clients
+ * @param {string} year
+ * @return {string[]}
+ */
+export function getProjectsOfYearQuarter(clients, year, quarter) {
+  return allProjectsByDate(clients)
+      .filter(project => project.invoices.length&&[0,0,0].map((n,i)=>`${year}-${(quarter*3+i+1).toString().padStart(2, '0')}`).includes(project.invoices[0].date.substr(0,7)))
+      // .map(project => project.invoices[0].date.substr(0,4))
+      // .filter((year, i, a) => a.indexOf(year)===i)
+      // .reverse()
+}

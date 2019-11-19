@@ -1,11 +1,11 @@
 import React, {useState} from 'react'
-import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 import {useTranslation} from 'react-i18next'
 import {
   getClients,getClientHref,getLatestProject,getProjectDate,getProjectNumber,getProjectHref
 } from '../model/clients/selectors'
-import { addClient } from '../model/clients/actions'
+import {addClient} from '../model/clients/actions'
 import {InputText} from '../components/Input'
 import {ButtonLink} from '../components/ButtonLink'
 import {AnchorButton} from '../components/AnchorButton'
