@@ -5,7 +5,19 @@ import {isEqual, cloneDeep} from 'lodash'
 import {nbsp,getGetSetter,getDateString} from '../utils'
 import {saveable} from '../saveable'
 import {storeProject, removeProject} from '../model/clients/actions'
-import {getClient, getProject, getClients, getClientHref, getProjectHref, getProjectNumber} from '../model/clients/selectors'
+import {
+  getClient
+  , getProject
+  , getClients
+  , getClientHref
+  , getProjectHref
+  , getProjectNumber
+  , getDiscountPart
+  , getTotalHours
+  , getTotal
+  , getTotalDiscounted
+  , getTotalIncDiscounted
+} from '../model/clients/selectors'
 import {Label} from '../components/Label'
 import {Button, IconButton} from '../components/Button'
 import {ButtonLink} from '../components/ButtonLink'
@@ -156,10 +168,8 @@ export const Project = withRouter(
         setProject(p)
       }
 
-      const totalHours = lines.reduce((acc, {hours}) => acc + hours, 0)
-      const totalAmount = lines.reduce((acc, {amount}) => acc + amount, 0)
-      const totalAmountVAT = lines.reduce((acc, {amount, vat}) => acc + amount*(1+0.01*vat), 0)
-      const discount = 1 - project.discount/100
+      const totalHours = getTotalHours(project)
+      const discount = getDiscountPart(project)
 
       return (
         (isProject && (
@@ -191,20 +201,20 @@ export const Project = withRouter(
                     <td><T>totalExVAT</T></td>
                     <td>{totalHours}</td>
                     <td><PriceRight amount={totalHours*hourlyRate} /></td>
-                    <td><PriceRight amount={totalAmount} /></td>
+                    <td><PriceRight amount={getTotal(project)} /></td>
                     <td colSpan="2" />
                   </tr>
                   {!!project.discount&&<tr>
                     <td />
                     <td colSpan="2"><T>discount</T> {project.discount}%</td>
                     <td><PriceRight amount={discount*totalHours*hourlyRate} /></td>
-                    <td><PriceRight amount={discount*totalAmount} /></td>
+                    <td><PriceRight amount={getTotalDiscounted(project)} /></td>
                     <td colSpan="2" />
                   </tr>}
                   <tr>
                     <td />
                     <td colSpan="3"><T>totalIncVAT</T></td>
-                    <td><PriceRight amount={discount*totalAmountVAT} style={{fontWeight:'bold'}} /></td>
+                    <td><PriceRight amount={getTotalIncDiscounted(project)} style={{fontWeight:'bold'}} /></td>
                     <td colSpan="2" />
                   </tr>
                 </tfoot>
