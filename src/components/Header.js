@@ -201,11 +201,7 @@ export const Header = () => {
             <label htmlFor="hamburger"><span /></label>
             <ul onClick={() => setHamburger(!hamburger)} className="list-inline">
               <li className="hide-high"><HeaderLink to="/"><T>home</T></HeaderLink></li>
-              <DropLi to="/overview" title="overview">
-                <ul>
-                  <li><HeaderLink to="/overview/quarter"><T>quarter</T></HeaderLink></li>
-                </ul>
-              </DropLi>
+              <li><HeaderLink to="/overview"><T>overview</T></HeaderLink></li>
               <li><HeaderLink to="/clients"><T>clients</T></HeaderLink></li>
               <DropLi to="/settings" title="settings">
                 <ul>

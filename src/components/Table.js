@@ -85,14 +85,14 @@ const StyledTable = styled.table`
   }
 `
 
-export const Table = ({ cols, subjects, empty, children }) => {
+export const Table = ({ cols, subjects, empty, children, className }) => {
   const {length} = cols
   const {t} = useTranslation()
   !Array.isArray(cols)&&(cols = cols.split(' ').map(key=>({key, th:t(key)})))
   const isHoverable = !!subjects?.[0]?.onClick
   const hasTFoot = children&&(Array.isArray(children)&&children.filter(c=>c.type==='tfoot').length||children.type==='tfoot')
   return (
-    <StyledTable className={isHoverable&&'hoverable'||''}>
+    <StyledTable className={className+(isHoverable&&' hoverable'||'')}>
       <thead>
         <tr>
           {cols.map(({th}, index) => (

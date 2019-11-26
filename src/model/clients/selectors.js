@@ -91,8 +91,24 @@ export const getProjectDateLatest = project => {
   return (length && project.invoices[length - 1].date) || project.quotationDate
 }
 
+
+const discountPart = project => 1 - project.discount / 100
+
+export const getTotal = project =>
+    project.lines.reduce((acc, { amount }) => acc + amount, 0)
+
+export const getTotalVAT = project =>
+    project.lines.reduce((acc, { vat, amount }) => acc + amount * (vat/100), 0)
+
+export const getTotalDiscounted = project =>
+    discountPart(project)*getTotal(project)
+
+export const getTotalVATDiscounted = project =>
+    discountPart(project)*getTotalVAT(project)
+
 export const getTotalIncDiscounted = project =>
-  project.lines.reduce((acc, { amount }) => acc + amount, 0)
+    getTotalDiscounted(project) + getTotalVATDiscounted(project)
+
 
 function allProjects(clients){
   return clients.reduce((acc,client)=>(acc.push(...client.projects), acc), [])

@@ -81,6 +81,8 @@
   "addLine": "nieuwe regel",
   "lines": "regels",
   "hours": "uren",
+  "totalVATDiscounted": "BTW",
+  "totalDiscounted": "totaal ex BTW",
   "totalExVAT": "totaal ex BTW",
   "totalIncVAT": "totaal inc BTW",
   "invoices": "facturen",

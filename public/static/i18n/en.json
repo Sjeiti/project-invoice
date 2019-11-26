@@ -72,6 +72,8 @@
   "lines": "lines",
   "hours": "hours",
   "amount": "amount",
+  "totalVATDiscounted": "VAT",
+  "totalDiscounted": "total ex VAT",
   "totalExVAT": "total ex VAT",
   "totalIncVAT": "total inc VAT",
   "quotation": "quotation",
