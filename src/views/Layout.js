@@ -95,9 +95,9 @@ export const Layout = connect(
     }
     function onLogoLoad(result, img){
       setLogo(result?`.invoice #logo {
-          width: ${img.naturalWidth}px!important;
-          height: ${img.naturalHeight}px!important;
-          background: url(${result}) no-repeat!important;
+          width: ${img.naturalWidth}px;
+          height: ${img.naturalHeight}px;
+          background-image: url(${result});
       }`:'')
     }
 
