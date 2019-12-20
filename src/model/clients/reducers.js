@@ -34,7 +34,11 @@ export function clients(state = initialState, action){
     case ADD_PROJECT:
       const { project } = action
       return state.map(client => {
-          client.nr === project.clientNr && client.projects.push(project)
+          // client.nr === project.clientNr && client.projects.push(project) // freeze prevents this
+          client = Object.assign({}, client)
+          if (client.nr === project.clientNr) {
+            client.projects = [...client.projects, project]
+          }
           return client
         })
 
@@ -57,6 +61,7 @@ export function clients(state = initialState, action){
     case REMOVE_PROJECT:
       const { projectId } = action
       return state.map(client => {
+          client = Object.assign({}, client)
           client.projects = client.projects.filter(project => project.id !== projectId)
           return client
         })

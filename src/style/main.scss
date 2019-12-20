@@ -345,3 +345,14 @@ ul.tabs {
   &-exit-active { opacity: 0; }
   &-exit-done { display: none; }
 }
+
+.reveal {
+  @extend .visually-hidden;
+  &+* {
+    max-height: 0;
+    transition: max-heigh 200ms ease;
+  }
+  &:checked+* {
+    max-height: 5rem;
+  }
+}

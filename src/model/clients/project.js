@@ -258,10 +258,10 @@ const proto = {
   , get indexOnYear(){
     let year = this.year
         , projectsInYear = this.model.projects
+            .map(p=>project(p)) // applies prototype
             .filter(project=>project.invoices.length>0&&project.year===year)
             .sort(projectSort)
             .map(project=>project.id)
-
     return projectsInYear.indexOf(this.id)
   }
 

@@ -60,6 +60,8 @@ export const getHighestProjectNr = clients => {
  * @returns {number}
  */
 export const getNextProjectNr = clients => {
+  // todo: wrong
+  console.log('getNextProjectNr',getHighestProjectNr(clients) + 1) // todo: remove log
   return getHighestProjectNr(clients) + 1
 }
 

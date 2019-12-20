@@ -33,13 +33,25 @@ import {color} from '../service/css'
 import {Dialog} from '../components/Dialog'
 import {FormSpan} from '../components/FormSpan'
 import {CSSTransition,TransitionGroup} from 'react-transition-group'
+import styled from 'styled-components'
+
+const StyledProject = styled.div`
+  .description {
+    display: inline-block;
+    width: calc(100% - 1.5rem);
+    +label {
+      display: inline-block;
+      width: 1rem;
+      margin-left: 0.5rem;
+    }
+  }
+`
 
 const editablePropNames = [
-  {key:'description', input:InputText}
-    , {key:'hourlyRate', input:InputNumber}
-    , {key:'discount', input:InputNumber}
-    , {key:'paid', input:InputCheckbox}
-    , {key:'quotationDate', input:InputText}
+  {key:'discount', input:InputNumber}
+  , {key:'hourlyRate', input:InputNumber}
+  , {key:'paid', input:InputCheckbox}
+  , {key:'ignore', input:InputCheckbox}
 ]
 
 const PriceRight = props => <Price {...props} className="float-right" />
@@ -129,14 +141,14 @@ export const Project = withRouter(
       const projectLineCols = [
         {key:'drag'}
         , {key:'description', th:<T>description</T>}
-        , {key:'hours', th:<T>hours</T>}
-        , {key:'times', th:<Button onClick={onClickArrow2bar} invert>⇥</Button> }
-        // , {key:'times', th:<IconButton type="arrow2bar" /> }
-        // , {key:'times', th:'⇥'}
         , {key:'amount', th:<T>amount</T>}
         , {key:'vat', th:<T>vat</T>}
         , {key:'action'}
       ]
+      hourlyRate>0 && projectLineCols.splice(2,0,...[
+        {key:'hours', th:<T>hours</T>}
+        , {key:'times', th:<Button onClick={onClickArrow2bar} invert>⇥</Button> }
+      ])
       const getLineSetter = index => (key, format) => value => {
         const p = cloneDeep(project)//{...project}//
         p.lines[index][key] = format?format(value):value
@@ -147,11 +159,9 @@ export const Project = withRouter(
         const {description, hours, amount, vat} = line
         const lineSetter = getLineSetter(index)
         const amountSetter = lineSetter('amount', parseFloat)
-        return {
+        const cols = {
           drag: <Icon type="drag" style={{color:color.colorButton}} />
           , description: <InputText value={description} setter={lineSetter('description')} />
-          , hours: <InputNumber value={hours} setter={lineSetter('hours', parseFloat)} />
-          , times: <Price amount={hours*hourlyRate} onClick={amountSetter.bind(null, hours*hourlyRate)} />
           , amount: <InputNumber value={amount} setter={amountSetter} />
           , vat: <Select value={vat} options={vatOptions} setter={lineSetter('vat', parseFloat)} />
           , action: <IconButton className="float-right" onClick={()=>{
@@ -160,6 +170,11 @@ export const Project = withRouter(
             setProject(p)
           }} type="close" />
         }
+        hourlyRate>0 && Object.assign(cols, {
+          hours: <InputNumber value={hours} setter={lineSetter('hours', parseFloat)} />
+          , times: <Price amount={hours*hourlyRate} onClick={amountSetter.bind(null, hours*hourlyRate)} />
+        })
+        return cols
       })
 
       function onClickArrow2bar(){
@@ -173,12 +188,16 @@ export const Project = withRouter(
 
       return (
         (isProject && (
-          <>
+          <StyledProject>
             <h3><Link to={getClientHref(client)}>{client.name||nbsp}</Link></h3>
 
             <h2>{project.description||nbsp}</h2>
 
             <section>
+              <Label className="description"><T>description</T><InputText value={project.description} setter={getSetter('description')} /></Label>
+              <label htmlFor="projectProperties"><i className="icon-cog color-button"></i></label>
+              <input id="projectProperties" type="checkbox" className="reveal" />
+              <div>
               {editablePropNames.map(
                 ({key, input:Input}, index) =>
                   <Label key={index}>
@@ -186,6 +205,7 @@ export const Project = withRouter(
                     <Input value={project[key]} setter={getSetter(key)} />
                   </Label>
               )}
+              </div>
             </section>
 
             <section>
@@ -199,21 +219,25 @@ export const Project = withRouter(
                   <tr>
                     <td />
                     <td><T>totalExVAT</T></td>
-                    <td>{totalHours}</td>
-                    <td><PriceRight amount={totalHours*hourlyRate} /></td>
+                    {hourlyRate>0&&<>
+                      <td>{totalHours}</td>
+                      <td><PriceRight amount={totalHours*hourlyRate} /></td>
+                    </>}
                     <td><PriceRight amount={getTotal(project)} /></td>
                     <td colSpan="2" />
                   </tr>
                   {!!project.discount&&<tr>
                     <td />
-                    <td colSpan="2"><T>discount</T> {project.discount}%</td>
-                    <td><PriceRight amount={discount*totalHours*hourlyRate} /></td>
+                    <td colSpan={hourlyRate>0?2:0}><T>discount</T> {project.discount}%</td>
+                    {hourlyRate>0&&<>
+                      <td><PriceRight amount={discount*totalHours*hourlyRate} /></td>
+                    </>}
                     <td><PriceRight amount={getTotalDiscounted(project)} /></td>
                     <td colSpan="2" />
                   </tr>}
                   <tr>
                     <td />
-                    <td colSpan="3"><T>totalIncVAT</T></td>
+                    <td colSpan={hourlyRate>0?3:1}><T>totalIncVAT</T></td>
                     <td><PriceRight amount={getTotalIncDiscounted(project)} style={{fontWeight:'bold'}} /></td>
                     <td colSpan="2" />
                   </tr>
@@ -287,8 +311,8 @@ export const Project = withRouter(
               </>}
               <Label>Paid<InputNumber value={invoice.paid} setter={getInvoiceSetter('paid')}/></Label>
             </Dialog>
-          </>
-        )) || <p><T>project not found</T></p>
+          </StyledProject>
+        )) || <StyledProject><T>project not found</T></StyledProject>
       )
     }
   )
