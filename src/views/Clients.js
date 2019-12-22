@@ -32,7 +32,7 @@ export const Clients = connect(
         const latestProject = getLatestProject([client])
         const allPaid = client.projects
             .filter(p=>p.invoices.length)
-            .reduce((acc,{paid})=>acc&&paid, true)
+            .reduce((acc, {paid})=>acc&&paid, true)
         return {...client, ...{
           invoices: client.projects.length
           , name: <Link to={getClientHref(client)}>{client.name || 'unnamed'}</Link>

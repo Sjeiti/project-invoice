@@ -8,6 +8,7 @@ export const REMOVE_CLIENT = Symbol('REMOVE_CLIENT')
 export const ADD_PROJECT = Symbol('ADD_PROJECT')
 export const STORE_PROJECT = Symbol('STORE_PROJECT')
 export const REMOVE_PROJECT = Symbol('REMOVE_PROJECT')
+export const CLONE_PROJECT = Symbol('CLONE_PROJECT')
 
 // export const setClients = clients => ({ type: SET_CLIENTS, clients })
 export const addClient = nr => ({ type: ADD_CLIENT, client: getClient(nr) })
@@ -20,3 +21,4 @@ export const addProject = (clientNr, projectNr) => ({
 })
 export const storeProject = project => ({ type: STORE_PROJECT, project })
 export const removeProject = projectNr => ({ type: REMOVE_PROJECT, projectId: projectNr })
+export const cloneProject = projectNr => ({ type: CLONE_PROJECT, projectId: projectNr })

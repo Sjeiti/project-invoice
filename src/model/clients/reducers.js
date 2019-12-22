@@ -5,9 +5,12 @@ import {
   REMOVE_CLIENT,
   ADD_PROJECT,
   STORE_PROJECT,
-  REMOVE_PROJECT
+  REMOVE_PROJECT,
+  CLONE_PROJECT
 } from './actions'
 import {getInitialState} from '../storage'
+import {cloneDeep} from 'lodash'
+import {getClonedDescription,getNextProjectNr} from './selectors'
 
 const dataName = 'clients'
 const initialState = getInitialState(dataName)
@@ -35,8 +38,8 @@ export function clients(state = initialState, action){
       const { project } = action
       return state.map(client => {
           // client.nr === project.clientNr && client.projects.push(project) // freeze prevents this
-          client = Object.assign({}, client)
           if (client.nr === project.clientNr) {
+            client = Object.assign({}, client)
             client.projects = [...client.projects, project]
           }
           return client
@@ -63,6 +66,23 @@ export function clients(state = initialState, action){
       return state.map(client => {
           client = Object.assign({}, client)
           client.projects = client.projects.filter(project => project.id !== projectId)
+          return client
+        })
+
+    case CLONE_PROJECT:
+      const cloneProjectId = parseInt(action.projectId, 10)
+      const nextProjectNr = getNextProjectNr(state)
+      return state.map(client => {
+          const project = client.projects.find(project => project.id === cloneProjectId)
+          if (project) {
+            const clonedProject = cloneDeep(project)
+            clonedProject.id = nextProjectNr
+            clonedProject.invoices.length = 0
+            clonedProject.description += ' (clone)'
+            clonedProject.description = getClonedDescription(client, project)
+            client = Object.assign({}, client)
+            client.projects = [...client.projects, clonedProject]
+          }
           return client
         })
 

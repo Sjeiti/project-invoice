@@ -1,22 +1,23 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useRef} from 'react'
 import {connect} from 'react-redux'
 import {Link, withRouter} from 'react-router-dom'
 import {isEqual, cloneDeep} from 'lodash'
 import {nbsp,getGetSetter,getDateString} from '../utils'
 import {saveable} from '../saveable'
-import {storeProject, removeProject} from '../model/clients/actions'
+import {storeProject, removeProject, cloneProject} from '../model/clients/actions'
 import {
-  getClient
-  , getProject
-  , getClients
-  , getClientHref
-  , getProjectHref
-  , getProjectNumber
-  , getDiscountPart
-  , getTotalHours
-  , getTotal
-  , getTotalDiscounted
-  , getTotalIncDiscounted
+  getClient,
+  getProject,
+  getClients,
+  getClientHref,
+  getProjectHref,
+  getProjectNumber,
+  getDiscountPart,
+  getTotalHours,
+  getTotal,
+  getTotalDiscounted,
+  getTotalIncDiscounted,
+  getNextProjectHref,getPreviousProjectHref
 } from '../model/clients/selectors'
 import {Label} from '../components/Label'
 import {Button, IconButton} from '../components/Button'
@@ -34,6 +35,7 @@ import {Dialog} from '../components/Dialog'
 import {FormSpan} from '../components/FormSpan'
 import {CSSTransition,TransitionGroup} from 'react-transition-group'
 import styled from 'styled-components'
+import {getCloneProjectEvents,getNextProjectEvents,getPreviousProjectEvents} from '../model/eventFactory'
 
 const StyledProject = styled.div`
   .description {
@@ -59,7 +61,7 @@ const PriceRight = props => <Price {...props} className="float-right" />
 export const Project = withRouter(
   connect(
     state => ({ state, clients: getClients(state) }),
-    { storeProject, removeProject }
+    { storeProject, removeProject, cloneProject }
   )(
     ({
       history
@@ -68,6 +70,7 @@ export const Project = withRouter(
       }
       , storeProject
       , removeProject
+      , cloneProject
       , state
       , clients
     }) => {
@@ -80,6 +83,10 @@ export const Project = withRouter(
       const [project, setProject] = useState(projectOld)
       const {hourlyRate, lines} = project
       const getSetter = getGetSetter(project, setProject)
+
+      // cloning
+      const cloneProjectEvents = getCloneProjectEvents(clients, project, cloneProject)
+      useEffect(() => project.id!==projectId && setProject(projectOld), [projectId]);
 
       // invoices
       const [invoiceDialogOpen, setInvoiceDialog] = useState(false)
@@ -189,9 +196,18 @@ export const Project = withRouter(
       return (
         (isProject && (
           <StyledProject>
-            <h3><Link to={getClientHref(client)}>{client.name||nbsp}</Link></h3>
 
-            <h2>{project.description||nbsp}</h2>
+            <header className="clearfix">
+              <h3><Link to={getClientHref(client)}>{client.name||nbsp}</Link></h3>
+              <h2 className="float-left">{project.description||nbsp}</h2>
+              <div className="float-right">
+                <ButtonLink {...getPreviousProjectEvents(client, project)}>&lt;</ButtonLink>
+                {/*<ButtonLink to={getPreviousProjectHref(client, project)}>&lt;</ButtonLink>*/}
+                {/*<ButtonLink to={getNextProjectHref(client, project)}>&gt;</ButtonLink>*/}
+                <ButtonLink {...getNextProjectEvents(client, project)}>&gt;</ButtonLink>
+                <ButtonLink {...cloneProjectEvents}><T>Clone</T></ButtonLink>
+              </div>
+            </header>
 
             <section>
               <Label className="description"><T>description</T><InputText value={project.description} setter={getSetter('description')} /></Label>

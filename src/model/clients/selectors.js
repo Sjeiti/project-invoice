@@ -60,8 +60,6 @@ export const getHighestProjectNr = clients => {
  * @returns {number}
  */
 export const getNextProjectNr = clients => {
-  // todo: wrong
-  console.log('getNextProjectNr',getHighestProjectNr(clients) + 1) // todo: remove log
   return getHighestProjectNr(clients) + 1
 }
 
@@ -76,9 +74,42 @@ export const getProject = (projects, projectId) => {
   return projects && projects.filter(project => project.id === projectNumber).pop()
 }
 
+////////////////////////////////////////////////////////////////////////////////////////
+
 export const getClientHref = client => `/client/${client.nr}`
 
-export const getProjectHref = project => `/client/${project.clientNr}/${project.id}`
+export const getProjectHref = project => getClientProjectHref(project.clientNr, project.id)
+
+export const getCloneProjectHref = (clients, project) => getClientProjectHref(project.clientNr, getNextProjectNr(clients))
+
+export const getPreviousProjectHref = (client, project) => {
+  const {projects} = client
+  const currentIndex = projects.indexOf(project)
+  return currentIndex>0?getClientProjectHref(project.clientNr, projects[currentIndex-1].id):'#'
+}
+
+export const getNextProjectHref = (client, project) => {
+  const {projects} = client
+  const currentIndex = projects.indexOf(project)
+  return currentIndex<projects.length-1?getClientProjectHref(project.clientNr, projects[currentIndex+1].id):'#'
+}
+
+const getClientProjectHref = (clientID, projectID) => `/client/${clientID}/${projectID}`
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+const cleanDescription = description => description.replace(/\s\(clone\s?\d*\)/, '')
+
+const countOccurrences = (arr, val) => arr.reduce((acc, arrVal) => (arrVal === val ? acc + 1 : acc), 0)
+
+export const getClonedDescription = (client, project) => {
+  const {description} = project
+  const cleanedDescription = cleanDescription(description)
+  const num = countOccurrences(client.projects.map(({description}) => cleanDescription(description)), cleanedDescription)
+  return `${cleanedDescription} (clone${num>1?' '+num:''})`
+}
+
+////////////////////////////////////////////////////////////////////////////////////////
 
 export const getProjectNr = project => {
   return `${project.clientNr}-${project.id}`
