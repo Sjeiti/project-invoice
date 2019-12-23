@@ -42,6 +42,9 @@ export const Button = styled.button`
       background-color: transparent;
       color: ${colorButton}
     }
+    &[disabled], &[disabled]:hover, &[disabled]:focus {
+      background-color: transparent;
+    }
   `:''}
 `
 

@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react'
+import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 import {Link, withRouter} from 'react-router-dom'
 import {isEqual, cloneDeep} from 'lodash'
@@ -6,18 +6,17 @@ import {nbsp,getGetSetter,getDateString} from '../utils'
 import {saveable} from '../saveable'
 import {storeProject, removeProject, cloneProject} from '../model/clients/actions'
 import {
-  getClient,
-  getProject,
-  getClients,
-  getClientHref,
-  getProjectHref,
-  getProjectNumber,
-  getDiscountPart,
-  getTotalHours,
-  getTotal,
-  getTotalDiscounted,
-  getTotalIncDiscounted,
-  getNextProjectHref,getPreviousProjectHref
+  getClient
+  , getProject
+  , getClients
+  , getClientHref
+  , getProjectHref
+  , getProjectNumber
+  , getDiscountPart
+  , getTotalHours
+  , getTotal
+  , getTotalDiscounted
+  , getTotalIncDiscounted
 } from '../model/clients/selectors'
 import {Label} from '../components/Label'
 import {Button, IconButton} from '../components/Button'
@@ -33,9 +32,9 @@ import {useTranslation} from 'react-i18next'
 import {color} from '../service/css'
 import {Dialog} from '../components/Dialog'
 import {FormSpan} from '../components/FormSpan'
-import {CSSTransition,TransitionGroup} from 'react-transition-group'
+import {CSSTransition, TransitionGroup} from 'react-transition-group'
 import styled from 'styled-components'
-import {getCloneProjectEvents,getNextProjectEvents,getPreviousProjectEvents} from '../model/eventFactory'
+import {getCloneProjectEvents, getNextProjectEvents, getPreviousProjectEvents} from '../model/eventFactory'
 
 const StyledProject = styled.div`
   .description {
@@ -201,11 +200,9 @@ export const Project = withRouter(
               <h3><Link to={getClientHref(client)}>{client.name||nbsp}</Link></h3>
               <h2 className="float-left">{project.description||nbsp}</h2>
               <div className="float-right">
-                <ButtonLink {...getPreviousProjectEvents(client, project)}>&lt;</ButtonLink>
-                {/*<ButtonLink to={getPreviousProjectHref(client, project)}>&lt;</ButtonLink>*/}
-                {/*<ButtonLink to={getNextProjectHref(client, project)}>&gt;</ButtonLink>*/}
-                <ButtonLink {...getNextProjectEvents(client, project)}>&gt;</ButtonLink>
-                <ButtonLink {...cloneProjectEvents}><T>Clone</T></ButtonLink>
+                <ButtonLink invert {...getPreviousProjectEvents(client, project)}><i className="icon-chevron-left"></i></ButtonLink>
+                <ButtonLink invert {...getNextProjectEvents(client, project)}><i className="icon-chevron-right"></i></ButtonLink>
+                <ButtonLink {...cloneProjectEvents}><T>clone</T></ButtonLink>
               </div>
             </header>
 
@@ -274,7 +271,8 @@ export const Project = withRouter(
                       <li className="row no-gutters" key={index}>
                         <div className="col-4">
                           <ButtonLink to={`${getProjectHref(project)}/${invoice.type}${index!==0?'/'+index:''}`}>
-                            <T>{invoice.type}</T>{index!==0?nbsp + index:''}
+                            <T>{index===0?'invoice':'reminder'}</T>
+                            {index!==0?nbsp + index:''}
                         </ButtonLink>
                         </div>
                         <div className="col hide-low"><FormSpan>{getProjectNumber(project, state)}</FormSpan></div>

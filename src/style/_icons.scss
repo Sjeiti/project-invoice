@@ -1,11 +1,12 @@
 @font-face {
   font-family: 'icomoon';
   src:
-    url('/fonts/icomoon.ttf?ero3y5') format('truetype'),
-    url('/fonts/icomoon.woff?ero3y5') format('woff'),
-    url('/fonts/icomoon.svg?ero3y5#icomoon') format('svg');
+    url('/fonts/icomoon.ttf?qh8m6m') format('truetype'),
+    url('/fonts/icomoon.woff?qh8m6m') format('woff'),
+    url('/fonts/icomoon.svg?qh8m6m#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
+  font-display: block;
 }
 
 [class^="icon-"], [class*=" icon-"] {
@@ -50,7 +51,8 @@ $icon-close: "\e90f";
 $icon-stack: "\e910";
 $icon-money: "\e911";
 $icon-eye: "\e912";
-$icon-arrow2bar: "⇥";
+$icon-chevron-left: "\e914";
+$icon-chevron-right: "\e915";
 
 
 // rules
@@ -78,7 +80,8 @@ $icon-arrow2bar: "⇥";
 .icon-stack:before { content: $icon-stack; }
 .icon-money:before { content: $icon-money; }
 .icon-eye:before { content: $icon-eye; }
-.icon-arrow2bar:before { content: $icon-arrow2bar; } // argh font
+.icon-chevron-left:before { content: $icon-chevron-left; }
+.icon-chevron-right:before { content: $icon-chevron-right; }
 
 
 // mixins
@@ -120,6 +123,8 @@ $icon-arrow2bar: "⇥";
 @mixin icon-stack(){&:before{@include icon-icon();content: $icon-stack;}}
 @mixin icon-money(){&:before{@include icon-icon();content: $icon-money;}}
 @mixin icon-eye(){&:before{@include icon-icon();content: $icon-eye;}}
+@mixin icon-chevron-left(){&:before{@include icon-icon();content: $icon-chevron-left;}}
+@mixin icon-chevron-right(){&:before{@include icon-icon();content: $icon-chevron-right;}}
 
 
 // scss svg mixins missing
