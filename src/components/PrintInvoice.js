@@ -143,6 +143,7 @@ const StyledPrintInvoice = styled.div`
 `
 
 export const PrintInvoice = forwardRef(({state, project, client, invoiceIndex, lang, ...attr}, ref) => {
+
   const {personal, config, config:{invoiceCSS,themeLogoCSS}} = state
   const isQuotation = invoiceIndex===-1
 

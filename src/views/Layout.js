@@ -41,7 +41,10 @@ export const Layout = connect(
 )(
   ({state, configOld, storeConfig}) => {
 
-    const [fakeState, setFakeState] = useState({...state})
+    const client = data.clients[0]
+    const project = client.projects[0]
+
+    const [fakeState, setFakeState] = useState({...state, clients: [client]})
     const [config, setConfig] = useState(configOld)
     function reallySetConfig(newConfig){
     	setConfig(newConfig)
@@ -67,9 +70,6 @@ export const Layout = connect(
         setFontOptions(result.map(font=>({text:font.family, value:font.family})))
       })
     }, []) /* eslint-disable-line react-hooks/exhaustive-deps */
-
-    const client = data.clients[0]
-    const project = client.projects[0]
 
     const colorTypes = ['themeMainBgColor', 'themeMainFgColor', 'themeSecondaryBgColor', 'themeSecondaryFgColor']
 
