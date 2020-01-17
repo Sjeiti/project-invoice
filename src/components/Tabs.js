@@ -1,7 +1,5 @@
 import React, {useState} from 'react'
-import styled from 'styled-components'
-
-const notCurrentClassname = 'notcurrent'
+import styled, {css} from 'styled-components'
 
 const StyledTabs = styled.div`
   margin-top: 2rem;
@@ -15,34 +13,49 @@ const StyledTabs = styled.div`
       display: block;
       box-shadow: 0 -1px 0 #bbb inset;
     }
-    &>button {
-      flex: 0 0 auto;
-      margin: 0 .25rem 0 0;
-      padding: .5rem 1rem 0;
-      border-top-left-radius: 0.5rem;
-      border-top-right-radius: 0.5rem;
-      border: 1px solid #bbb;
-      border-bottom-color: transparent;
-      background-color: transparent;
-      &.${notCurrentClassname} {
-        color: #888;
-        border-bottom-color: #bbb;
-        cursor: pointer;
-      }
-      &>h3 {
-        margin-bottom: 0;
-        padding-bottom: 0;
-      }
-    }
   }
 `
+
+const Tab = styled.button`
+  position: relative;
+  flex: 0 0 auto;
+  margin: 0 .25rem 0 0;
+  padding: .5rem 1rem 0;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  border: 1px solid #bbb;
+  border-bottom-color: transparent;
+  background-color: transparent;
+  &:after {
+    content: '';
+    position: absolute;
+    right: -1px; 
+    bottom: -1px;
+    display: block;
+    width: 0.25rem;
+    height: 1px;
+    transform: translateX(100%);
+    background-color: #BBB;
+  }
+  ${props => props.notCurrent && css`
+    color: #888;
+    border-bottom-color: #bbb;
+    cursor: pointer;
+    background: linear-gradient(to top, rgba(0,0,0,0.1), rgba(0,0,0,0));
+  `}
+  &>h3 {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    line-height: 100%;
+  }`
 
 export const Tabs = ({ currentIndex=0, children }) => {
   const [selectedChildIndex, setSelectedChildIndex] = useState(currentIndex)
   const tabs = children
       .map(section=>firstChildType(section, 'h3'))
       .filter(n=>n)
-      .map(({props:{children}}, i)=><button className={selectedChildIndex!==i&&notCurrentClassname} onClick={setSelectedChildIndex.bind(null,i)}><h3>{children}</h3></button>)
+      .map(n=>n)
+      .map(({props:{children}}, i)=><Tab notCurrent={selectedChildIndex!==i} onClick={setSelectedChildIndex.bind(null, i)}><h3>{children}</h3></Tab>)
   ;
   const selectedChild = children[selectedChildIndex]
   return <StyledTabs>

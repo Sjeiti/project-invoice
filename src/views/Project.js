@@ -260,10 +260,9 @@ export const Project = withRouter(
             </section>
 
             <Tabs currentIndex={project.invoices.length?0:1}>
-
               <section>
                 <Button onClick={onClickAddInvoiceButton} className="float-right"><T>{project.invoices.length&&'addReminder'||'addInvoice'}</T></Button>
-                <h3><T>invoices</T></h3>
+                <h3 className="invisible"><T>invoices</T></h3>
                 <TransitionGroup component="ol">
                   {project.invoices.map((invoice, index)=>
                       <CSSTransition
@@ -297,7 +296,7 @@ export const Project = withRouter(
 
               <section>
                 <Button onClick={onClickAddInvoiceButton} className="float-right"><T>show quotation</T></Button>
-                <h3><T>quotation</T></h3>
+                <h3 className="invisible"><T>quotation</T></h3>
                 {[
                   { key: 'quotationDate', Element: InputDate }
                   , { key: 'quotationStartDate', Element: InputDate }
@@ -309,12 +308,7 @@ export const Project = withRouter(
                   return <Label key={key}><T>{key}</T><Element value={project[key]} setter={getSetter(key)} /></Label>
                 })}
               </section>
-
             </Tabs>
-
-
-
-
 
             <Dialog
                 show={invoiceDialogOpen}

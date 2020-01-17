@@ -156,6 +156,14 @@ code {
   font-size: 80%;
 }
 
+.invisible {
+  visibility: hidden;
+}
+
+.hidden {
+  display: none;
+}
+
 .visually-hidden {
   position: absolute;
   overflow: hidden;
