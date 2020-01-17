@@ -22,6 +22,8 @@ export const color = {
 
   , colorRed: '#F04'
   , colorGray: '#CCC'
+
+  , colorBackground: '#F8F8F8'
 }
 
 export const font = {

@@ -31,6 +31,7 @@ import {T} from '../components/T'
 import {useTranslation} from 'react-i18next'
 import {color} from '../service/css'
 import {Dialog} from '../components/Dialog'
+import {Tabs} from '../components/Tabs'
 import {FormSpan} from '../components/FormSpan'
 import {CSSTransition, TransitionGroup} from 'react-transition-group'
 import styled from 'styled-components'
@@ -258,54 +259,62 @@ export const Project = withRouter(
               </Table>
             </section>
 
-            <section>
-              <Button onClick={onClickAddInvoiceButton} className="float-right"><T>{project.invoices.length&&'addReminder'||'addInvoice'}</T></Button>
-              <h3><T>invoices</T></h3>
-              <TransitionGroup component="ol">
-                {project.invoices.map((invoice, index)=>
-                    <CSSTransition
-                      timeout={200}
-                      classNames="anim-li-height"
-                      key={index}
-                    >
-                      <li className="row no-gutters" key={index}>
-                        <div className="col-4">
-                          <ButtonLink to={`${getProjectHref(project)}/${invoice.type}${index!==0?'/'+index:''}`}>
-                            <T>{index===0?'invoice':'reminder'}</T>
-                            {index!==0?nbsp + index:''}
-                        </ButtonLink>
-                        </div>
-                        <div className="col hide-low"><FormSpan>{getProjectNumber(project, state)}</FormSpan></div>
-                        <div className="col-3"><FormSpan>{invoice.date}</FormSpan></div>
-                        <div className="col">
-                          {invoice.interest&&<Icon type="promile" title={t('legalInterestWasAdded')}></Icon>}
-                          {invoice.exhortation&&<Icon type="stop" title={t('finalExhortation')} />}
-                          {invoice.paid&&<Icon type="money" title={t('paid')+': '+invoice.paid} />}{/*todo: format amount*/}
-                        </div>
-                        <div className="col text-align-right">
-                          {index===project.invoices.length-1&&<IconButton type="close" onClick={onClickDeleteInvoiceButton} />}
-                          <IconButton type="pencil" onClick={onClickEditInvoiceButton.bind(null, index)} />
-                        </div>
-                      </li>
-                    </CSSTransition>
-                )}
-              </TransitionGroup>
-            </section>
+            <Tabs currentIndex={project.invoices.length?0:1}>
 
-            <section>
-              <Button onClick={onClickAddInvoiceButton} className="float-right"><T>show quotation</T></Button>
-              <h3><T>quotation</T></h3>
-              {[
-                { key: 'quotationDate', Element: InputDate }
-                , { key: 'quotationStartDate', Element: InputDate }
-                , { key: 'quotationDuration', Element: InputNumber }
-                , { key: 'quotationSubject', Element: InputText }
-                , { key: 'quotationBefore', Element: Textarea }
-                , { key: 'quotationAfter', Element: Textarea }
-              ].map(({key, Element}) => {
-                return <Label key={key}><T>{key}</T><Element value={project[key]} setter={getSetter(key)} /></Label>
-              })}
-            </section>
+              <section>
+                <Button onClick={onClickAddInvoiceButton} className="float-right"><T>{project.invoices.length&&'addReminder'||'addInvoice'}</T></Button>
+                <h3><T>invoices</T></h3>
+                <TransitionGroup component="ol">
+                  {project.invoices.map((invoice, index)=>
+                      <CSSTransition
+                        timeout={200}
+                        classNames="anim-li-height"
+                        key={index}
+                      >
+                        <li className="row no-gutters" key={index}>
+                          <div className="col-4">
+                            <ButtonLink to={`${getProjectHref(project)}/${invoice.type}${index!==0?'/'+index:''}`}>
+                              <T>{index===0?'invoice':'reminder'}</T>
+                              {index!==0?nbsp + index:''}
+                          </ButtonLink>
+                          </div>
+                          <div className="col hide-low"><FormSpan>{getProjectNumber(project, state)}</FormSpan></div>
+                          <div className="col-3"><FormSpan>{invoice.date}</FormSpan></div>
+                          <div className="col">
+                            {invoice.interest&&<Icon type="promile" title={t('legalInterestWasAdded')}></Icon>}
+                            {invoice.exhortation&&<Icon type="stop" title={t('finalExhortation')} />}
+                            {invoice.paid&&<Icon type="money" title={t('paid')+': '+invoice.paid} />}{/*todo: format amount*/}
+                          </div>
+                          <div className="col text-align-right">
+                            {index===project.invoices.length-1&&<IconButton type="close" onClick={onClickDeleteInvoiceButton} />}
+                            <IconButton type="pencil" onClick={onClickEditInvoiceButton.bind(null, index)} />
+                          </div>
+                        </li>
+                      </CSSTransition>
+                  )}
+                </TransitionGroup>
+              </section>
+
+              <section>
+                <Button onClick={onClickAddInvoiceButton} className="float-right"><T>show quotation</T></Button>
+                <h3><T>quotation</T></h3>
+                {[
+                  { key: 'quotationDate', Element: InputDate }
+                  , { key: 'quotationStartDate', Element: InputDate }
+                  , { key: 'quotationDuration', Element: InputNumber }
+                  , { key: 'quotationSubject', Element: InputText }
+                  , { key: 'quotationBefore', Element: Textarea }
+                  , { key: 'quotationAfter', Element: Textarea }
+                ].map(({key, Element}) => {
+                  return <Label key={key}><T>{key}</T><Element value={project[key]} setter={getSetter(key)} /></Label>
+                })}
+              </section>
+
+            </Tabs>
+
+
+
+
 
             <Dialog
                 show={invoiceDialogOpen}

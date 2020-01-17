@@ -49,6 +49,8 @@ export const Settings = connect(
         , null
     )
 
+    console.log('configOld',configOld) // todo: remove log
+
     return (
         <>
           <section>
@@ -62,7 +64,7 @@ export const Settings = connect(
               </React.Fragment>
             )}
           </section>
-          <section>
+          <section className="clearfix">
             <h2 className="col-12 col-sm-3 float-left"><T>data</T> <small>({clients.length})</small></h2>
             <div className="col-12 col-sm-9 float-left">
               <ButtonAnchor href={downloadString} download={`data_${getDateString()}.json`}><T>download</T></ButtonAnchor>
@@ -70,6 +72,14 @@ export const Settings = connect(
               <input accept="application/json, text/json, .json" onChange={onChangeRestore.bind(null,restoreState)} type="file" id="restore" className="visually-hidden"/>
               <Button onClick={()=>restoreState(defaultData)}><T>clear</T></Button>
               <p><Trans>dataExplain</Trans></p>
+            </div>
+          </section>
+          <section>
+            <h2 className="col-12 col-sm-3 float-left"><T>encryption</T></h2>
+            <div className="col-12 col-sm-9 float-left">
+              <Button onClick={()=>setConfig({...config, encryption:true})} disabled={config.encryption}><T>enable</T></Button>
+              <Button onClick={()=>setConfig({...config, encryption:false})} disabled={!config.encryption}><T>disable</T></Button>
+              <p><Trans>encryptionExplain</Trans></p>
             </div>
           </section>
         </>
