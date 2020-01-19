@@ -49,6 +49,8 @@ const StyledDialog = styled.div`
       position: fixed;
       left: 0;
       top: 0;
+      width: 100vw;
+      height: 100vh;
       padding: 0;
       background: rgba(0, 0, 0, 0.1);
       box-shadow: 0 0 16rem rgba(0, 0, 0, 0.3) inset;

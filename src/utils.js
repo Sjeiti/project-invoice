@@ -132,3 +132,18 @@ export function stopPropagation(e){
   e.stopPropagation()
   e.nativeEvent.stopImmediatePropagation()
 }
+
+/**
+ * JSON parse wrapped in try catch
+ * @param {string} str
+ * @returns {object}
+ */
+export function tryParse(str){
+  let obj
+  try {
+    obj = JSON.parse(str)
+  } catch(err){
+    console.warn('err',err) // eslint-disable-line no-console
+  }
+  return obj
+}

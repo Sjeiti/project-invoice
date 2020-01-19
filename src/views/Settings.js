@@ -12,12 +12,13 @@ import {getConfig} from '../model/config/selectors'
 import {data as defaultData} from '../model/default'
 import {getClients} from '../model/clients/selectors'
 import {Select} from '../components/Select'
-import {InputText, InputCheckbox} from '../components/Input'
+import {InputText,InputCheckbox,InputDate,InputNumber} from '../components/Input'
 import {Label} from '../components/Label'
 import {ButtonAnchor} from '../components/ButtonAnchor'
 import {ButtonLabel} from '../components/ButtonLabel'
 import {Button} from '../components/Button'
 import {T} from '../components/T'
+import {Dialog} from '../components/Dialog'
 
 const currencies = Object.keys(CURRENCY_ISO).map(key=>CURRENCY_ISO[key])
 
@@ -38,6 +39,27 @@ export const Settings = connect(
     const getSetter = getGetSetter(config, setConfig)
     const downloadString = 'data:text/json;charset=utf-8,'+encodeURIComponent(JSON.stringify(state))
 
+
+    const [encryptionDialogOpen, setEncryptionDialog] = useState(false)
+    // const [encryptionSource, setEncryptionSource] = useState()
+    const [encryptionKey, setEncryptionKey] = useState('')
+    const encryptAndReload = ()=>{
+      // todo if valid password
+      if (encryptionKey) {
+        console.log('setEncryptionKey', encryptionKey) // todo: remove log
+        const newConfig = {
+          ...config
+          , encryption: true
+          , encryptionKey
+        }
+        setConfig(newConfig)
+        storeConfig(newConfig)
+        setEncryptionDialog(false)
+      } else {
+        console.log('invalid password') // todo: remove log
+      }
+    }
+
     const isDirty = !isEqual(configOld, config)
     saveable.dispatch(
         true
@@ -48,8 +70,6 @@ export const Settings = connect(
         , isDirty && (() => setConfig(configOld)) || null
         , null
     )
-
-    console.log('configOld',configOld) // todo: remove log
 
     return (
         <>
@@ -77,11 +97,26 @@ export const Settings = connect(
           <section>
             <h2 className="col-12 col-sm-3 float-left"><T>encryption</T></h2>
             <div className="col-12 col-sm-9 float-left">
-              <Button onClick={()=>setConfig({...config, encryption:true})} disabled={config.encryption}><T>enable</T></Button>
+              <Button onClick={()=>setEncryptionDialog(true)} disabled={config.encryption}><T>enable</T></Button>
               <Button onClick={()=>setConfig({...config, encryption:false})} disabled={!config.encryption}><T>disable</T></Button>
               <p><Trans>encryptionExplain</Trans></p>
             </div>
           </section>
+
+            <Dialog
+                show={encryptionDialogOpen}
+                title={'Set your password'} // todo T
+                close={()=>setEncryptionDialog(false)}
+                submit={()=>encryptAndReload()}
+                // source={encryptionSource}
+                // sourceTransform={r=>{
+                //   const {bottom, height, left, right, top, width, x, y} = r
+                //   return {bottom: bottom-4, height, left, right, top, width, x, y}
+                // }}
+            >
+
+              <Label>After setting your password the application will reload <InputText value={encryptionKey} setter={setEncryptionKey} /></Label>
+            </Dialog>
         </>
     )
   })
