@@ -189,5 +189,12 @@
   "themeSecondaryFgColor": "secondary foreground",
   "number": "number",
   "subtotal": "subtotal",
-  "font": "font"
+  "font": "font",
+  "submit": "submit",
+  "ok": "ok",
+  "passwordRequired": "Password required",
+  "passwordRequiredFor": "Your data is encrypted. Please enter your password.",
+  "passwordInvalidMessage": "Wrong password. If you choose to cancel, your data will remain on your machine until you overwrite your saved data.",
+  "passwordSet": "Set your password",
+  "passwordResetReload": "After setting your password the application will reload"
 }

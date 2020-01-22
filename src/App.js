@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import { Routes } from './Routes'
 import { Header } from './components/Header'
 import { Footer } from './components/Footer'
+import { DecryptionDialog } from './components/DecryptionDialog'
 import {size} from './service/css'
 
 const {padding, headerHeight, sum} = size
@@ -22,7 +23,7 @@ const Layout = styled.div`
   }
 `
 
-export const App = hot(module)(connect()(({ store }) => (
+export const App = hot(module)(connect()(({ store }) =>
   <Provider store={store}>
     <Router>
       <Header />
@@ -32,6 +33,7 @@ export const App = hot(module)(connect()(({ store }) => (
         </div>
       </Layout>
       <Footer />
+      <DecryptionDialog />
     </Router>
   </Provider>
-)))
+))

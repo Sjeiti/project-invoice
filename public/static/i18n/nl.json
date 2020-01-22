@@ -189,5 +189,12 @@
   "themeSecondaryFgColor": "tweede voorgrond",
   "number": "nummer",
   "subtotal": "subtotaal",
-  "font": "lettertype"
+  "font": "lettertype",
+  "submit": "verstuur",
+  "ok": "ok",
+  "passwordRequired": "Wachtwoord vereist",
+  "passwordRequiredFor": "Uw gegevens zijn geencrypt. Voer uw wachtwoord in.",
+  "passwordInvalidMessage": "Fout wachtwoord. Als u annuleerd blijft uw data op uw machine tot het moment dat deze wordt overschreven.",
+  "passwordSet": "Wachtwoord invoer",
+  "passwordResetReload": "Na wachtwoord invoer herlaadt de applicatie"
 }

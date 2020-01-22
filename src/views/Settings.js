@@ -1,7 +1,8 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import {connect} from 'react-redux'
 import i18next from 'i18next'
-import {Trans} from 'react-i18next'
+import {Trans, useTranslation} from 'react-i18next'
+import styled from 'styled-components'
 import {getDateString,getGetSetter,isEqual} from '../utils'
 import {I18N_ISO as isos} from '../config/i18n'
 import {CURRENCY_ISO} from '../config/currencyISO'
@@ -12,13 +13,21 @@ import {getConfig} from '../model/config/selectors'
 import {data as defaultData} from '../model/default'
 import {getClients} from '../model/clients/selectors'
 import {Select} from '../components/Select'
-import {InputText,InputCheckbox,InputDate,InputNumber} from '../components/Input'
+import {StyledInput,InputText,InputCheckbox} from '../components/Input'
 import {Label} from '../components/Label'
 import {ButtonAnchor} from '../components/ButtonAnchor'
 import {ButtonLabel} from '../components/ButtonLabel'
 import {Button} from '../components/Button'
 import {T} from '../components/T'
 import {Dialog} from '../components/Dialog'
+
+
+const StyledDialog = styled(Dialog)`
+  input[type="text"] {
+    width: 100%;
+    margin-right: 2px;
+  }
+`
 
 const currencies = Object.keys(CURRENCY_ISO).map(key=>CURRENCY_ISO[key])
 
@@ -39,14 +48,12 @@ export const Settings = connect(
     const getSetter = getGetSetter(config, setConfig)
     const downloadString = 'data:text/json;charset=utf-8,'+encodeURIComponent(JSON.stringify(state))
 
+    const {t} = useTranslation()
 
     const [encryptionDialogOpen, setEncryptionDialog] = useState(false)
-    // const [encryptionSource, setEncryptionSource] = useState()
     const [encryptionKey, setEncryptionKey] = useState('')
     const encryptAndReload = ()=>{
-      // todo if valid password
       if (encryptionKey) {
-        console.log('setEncryptionKey', encryptionKey) // todo: remove log
         const newConfig = {
           ...config
           , encryption: true
@@ -55,8 +62,9 @@ export const Settings = connect(
         setConfig(newConfig)
         storeConfig(newConfig)
         setEncryptionDialog(false)
+        window.location.reload()
       } else {
-        console.log('invalid password') // todo: remove log
+        // todo warn about invalid password
       }
     }
 
@@ -103,20 +111,15 @@ export const Settings = connect(
             </div>
           </section>
 
-            <Dialog
-                show={encryptionDialogOpen}
-                title={'Set your password'} // todo T
-                close={()=>setEncryptionDialog(false)}
-                submit={()=>encryptAndReload()}
-                // source={encryptionSource}
-                // sourceTransform={r=>{
-                //   const {bottom, height, left, right, top, width, x, y} = r
-                //   return {bottom: bottom-4, height, left, right, top, width, x, y}
-                // }}
-            >
-
-              <Label>After setting your password the application will reload <InputText value={encryptionKey} setter={setEncryptionKey} /></Label>
-            </Dialog>
+          <StyledDialog
+              show={encryptionDialogOpen}
+              title={t('passwordSet')}
+              close={()=>setEncryptionDialog(false)}
+              submit={()=>encryptAndReload()}
+          >
+            <T>passwordResetReload</T>
+            <InputText value={encryptionKey} setter={setEncryptionKey} />
+          </StyledDialog>
         </>
     )
   })

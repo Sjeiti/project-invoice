@@ -6,6 +6,7 @@ import {color, size} from '../service/css'
 import {useWindowDimensions} from '../hook/useWindowDimensions'
 import {useWindowScroll} from '../hook/useWindowScroll'
 import {useKeyDown} from '../hook/useKeyDown'
+import {T} from '../components/T'
 
 const {shadeFlat, colorLightBg, colorButton} = color
 const {padding, borderRadius} = size
@@ -100,8 +101,8 @@ export const Dialog = attr => {
             <header><h3>{Enter&&1}{title}</h3> <IconButton type="close" invert onClick={close}></IconButton></header>
             <section>{children}</section>
             <footer className="text-align-right">
-              <Button onClick={close}>cancel</Button>
-              <Button onClick={submit}>submit</Button>
+              <Button onClick={close}><T>cancel</T></Button>
+              <Button onClick={submit}><T>ok</T></Button>
             </footer>
           </StyledDialog>
       </CSSTransition>
