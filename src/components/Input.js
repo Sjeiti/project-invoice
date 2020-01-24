@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import {noop} from '../utils'
+import {noop} from '../util'
 import {color, formElement, icon} from '../service/css'
 
 // todo: disabled

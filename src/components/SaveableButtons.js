@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
-import { saveable } from '../saveable'
-import { noop } from '../utils'
+import { saveable } from '../util/signal'
+import { noop } from '../util'
 import {size} from '../service/css'
 import { Button, IconButton } from './Button'
 import { T } from './T'
@@ -10,9 +10,6 @@ import { T } from './T'
 const {padding} = size
 
 const Nav = styled.nav`
-  position: absolute;
-  right: ${padding};
-  top: 0;
   padding: 4px 4px 0 0;
 `
 

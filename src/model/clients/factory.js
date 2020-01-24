@@ -1,4 +1,4 @@
-import { getDateString } from '../../utils'
+import { getDateString } from '../../util'
 
 /**
  * @typedef {object} client

@@ -1,5 +1,5 @@
 import React, {createRef, forwardRef, useState, useEffect} from 'react'
-import {getCSSVariables, nbsp} from '../utils'
+import {getCSSVariables, nbsp} from '../util'
 import styled from 'styled-components'
 import {breakpoint, sass} from '../service/css'
 import {project as enhanceProject} from '../model/clients/project'

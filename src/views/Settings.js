@@ -3,10 +3,10 @@ import {connect} from 'react-redux'
 import i18next from 'i18next'
 import {Trans, useTranslation} from 'react-i18next'
 import styled from 'styled-components'
-import {getDateString,getGetSetter,isEqual} from '../utils'
+import {getDateString,getGetSetter,isEqual} from '../util'
 import {I18N_ISO as isos} from '../config/i18n'
 import {CURRENCY_ISO} from '../config/currencyISO'
-import { saveable } from '../saveable'
+import { saveable } from '../util/signal'
 import {storeConfig} from '../model/config/actions'
 import {restoreState} from '../model/rootActions'
 import {getConfig} from '../model/config/selectors'
@@ -20,8 +20,16 @@ import {ButtonLabel} from '../components/ButtonLabel'
 import {Button} from '../components/Button'
 import {T} from '../components/T'
 import {Dialog} from '../components/Dialog'
+import {ID as driveID} from '../service/cloudDrive'
 
 
+const Section = styled.section`
+  &:after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+`
 const StyledDialog = styled(Dialog)`
   input[type="text"] {
     width: 100%;
@@ -50,17 +58,27 @@ export const Settings = connect(
 
     const {t} = useTranslation()
 
+    const storeConfigWith = obj => {
+        const newConfig = Object.assign({...config}, obj)
+        setConfig(newConfig)
+        storeConfig(newConfig)
+    }
+
     const [encryptionDialogOpen, setEncryptionDialog] = useState(false)
     const [encryptionKey, setEncryptionKey] = useState('')
     const encryptAndReload = ()=>{
       if (encryptionKey) {
-        const newConfig = {
-          ...config
-          , encryption: true
-          , encryptionKey
-        }
-        setConfig(newConfig)
-        storeConfig(newConfig)
+        // const newConfig = {
+        //   ...config
+        //   , encryption: true
+        //   , encryptionKey
+        // }
+        // setConfig(newConfig)
+        // storeConfig(newConfig)
+        storeConfigWith({
+          encryption: true
+          ,encryptionKey
+        })
         setEncryptionDialog(false)
         window.location.reload()
       } else {
@@ -79,9 +97,21 @@ export const Settings = connect(
         , null
     )
 
+    const [cloudProvider, setCloudProvider] = useState(config.cloudSelected)
+    const cloudProviders = [
+      {value: driveID, text:'Google Drive'}
+      ,{value:'', text:'-other-'}
+    ]
+    const cloudAuthorise = ()=>{
+      storeConfigWith({cloudSelected: cloudProvider})
+    }
+    const cloudRevoke = ()=>{
+      storeConfigWith({cloudSelected: ''})
+    }
+
     return (
         <>
-          <section>
+          <Section>
             <h1 className="hide-low"><T>settings</T></h1>
             {Object.entries(varMap).map(([key, {Element, title, map, attrs={}}], i)=>
               <React.Fragment key={i}>
@@ -91,8 +121,8 @@ export const Settings = connect(
                 </Label>
               </React.Fragment>
             )}
-          </section>
-          <section className="clearfix">
+          </Section>
+          <Section>
             <h2 className="col-12 col-sm-3 float-left"><T>data</T> <small>({clients.length})</small></h2>
             <div className="col-12 col-sm-9 float-left">
               <ButtonAnchor href={downloadString} download={`data_${getDateString()}.json`}><T>download</T></ButtonAnchor>
@@ -101,15 +131,24 @@ export const Settings = connect(
               <Button onClick={()=>restoreState(defaultData)}><T>clear</T></Button>
               <p><Trans>dataExplain</Trans></p>
             </div>
-          </section>
-          <section>
+          </Section>
+          <Section>
             <h2 className="col-12 col-sm-3 float-left"><T>encryption</T></h2>
             <div className="col-12 col-sm-9 float-left">
               <Button onClick={()=>setEncryptionDialog(true)} disabled={config.encryption}><T>enable</T></Button>
-              <Button onClick={()=>setConfig({...config, encryption:false})} disabled={!config.encryption}><T>disable</T></Button>
+              <Button onClick={()=>storeConfigWith({encryption:false})} disabled={!config.encryption}><T>disable</T></Button>
               <p><Trans>encryptionExplain</Trans></p>
             </div>
-          </section>
+          </Section>
+          <Section>
+            <h2 className="col-12 col-sm-3 float-left"><T>cloud sync</T></h2>
+            <div className="col-12 col-sm-9 float-left">
+              <Select value={cloudProvider} setter={setCloudProvider} disabled={config.cloudSelected} options={cloudProviders} />
+              <Button onClick={cloudAuthorise} disabled={!!config.cloudSelected}><T>authorise</T></Button>
+              <Button onClick={cloudRevoke} disabled={!config.cloudSelected}><T>revoke</T></Button>
+              <p><Trans>cloudExplain</Trans></p>
+            </div>
+          </Section>
 
           <StyledDialog
               show={encryptionDialogOpen}

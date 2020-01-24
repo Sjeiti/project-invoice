@@ -1,4 +1,4 @@
-import {deepFreeze} from '../../utils'
+import {deepFreeze} from '../../util'
 
 export const freeze = store => next => action => {
   deepFreeze(store.getState())

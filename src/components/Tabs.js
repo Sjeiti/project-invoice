@@ -55,7 +55,11 @@ export const Tabs = ({ currentIndex=0, children }) => {
       .map(section=>firstChildType(section, 'h3'))
       .filter(n=>n)
       .map(n=>n)
-      .map(({props:{children}}, i)=><Tab notCurrent={selectedChildIndex!==i} onClick={setSelectedChildIndex.bind(null, i)}><h3>{children}</h3></Tab>)
+      .map(({props:{children}}, i)=><Tab
+          key={i}
+          notCurrent={selectedChildIndex!==i}
+          onClick={setSelectedChildIndex.bind(null, i)}
+      ><h3>{children}</h3></Tab>)
   ;
   const selectedChild = children[selectedChildIndex]
   return <StyledTabs>

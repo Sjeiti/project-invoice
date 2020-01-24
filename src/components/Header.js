@@ -6,6 +6,12 @@ import { SaveableButtons } from './SaveableButtons'
 import {Logo} from './Logo'
 import {T} from './T'
 import {size, color, breakpoint} from '../service/css'
+import {CloudNotification} from './CloudNotification'
+import {connect} from 'react-redux'
+import {getConfig} from '../model/config/selectors'
+import {getClients} from '../model/clients/selectors'
+import {storeConfig} from '../model/config/actions'
+import {restoreState} from '../model/rootActions'
 
 const {breakpointLow, breakpointHigh} = breakpoint
 const {headerHeight, padding, multiply, sum} = size
@@ -31,14 +37,21 @@ const StyledHeader = styled.header`
   position: fixed;
   left: 0;
   top: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   width: 100%;
   max-width: 100vw;
   max-height: ${headerHeight};
   overflow: visible;
+  white-space: nowrap;
   z-index: 3;
   background-color: ${colorHeader};
   box-shadow: 0 0 16px ${colorHeader};
   color: #FFF;
+  
+  nav:first-child { flex: 1 0 auto; }
+  
   .home-icon {
     position: absolute;
     left: 0;
@@ -181,7 +194,12 @@ const DropLi = ({to,title,children}) => <DropLiStyled>
   {children}
 </DropLiStyled>
 
-export const Header = () => {
+// export const Header = () => {
+//
+export const Header = connect(
+    state => ({ config: getConfig(state), state })
+  )(({ state, config }) => {
+  const [cloudProvider] = useState(config.cloudSelected)
   const [hamburger, setHamburger] = useState(false)
   return (
     <StyledHeader>
@@ -215,7 +233,8 @@ export const Header = () => {
           </li>
         </ul>
       </nav>
+      {cloudProvider&&<CloudNotification />}
       <SaveableButtons />
     </StyledHeader>
   )
-}
+})

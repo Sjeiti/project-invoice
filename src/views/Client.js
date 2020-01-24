@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 import {Link, withRouter} from 'react-router-dom'
-import {isEqual, keyMap, nbsp} from '../utils'
+import {isEqual, keyMap, nbsp} from '../util'
 import {
   getClients,
   getClient,
@@ -13,7 +13,7 @@ import {
 } from '../model/clients/selectors'
 import {getNewProjectEvents} from '../model/eventFactory'
 import {storeClient, removeClient, addProject, storeProject} from '../model/clients/actions'
-import {saveable} from '../saveable'
+import {saveable} from '../util/signal'
 import {Label} from '../components/Label'
 import {ButtonLink} from '../components/ButtonLink'
 import {Price} from '../components/Price'

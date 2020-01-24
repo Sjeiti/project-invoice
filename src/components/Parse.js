@@ -1,7 +1,7 @@
 import React from 'react'
 import marked from 'marked'
 import {project as enhanceProject} from '../model/clients/project'
-import {interpolate} from '../utils'
+import {interpolate} from '../util'
 
 marked.setOptions({
   renderer: new marked.Renderer()

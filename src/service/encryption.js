@@ -1,5 +1,5 @@
 import CryptoJS from 'crypto-js'
-import {tryParse} from '../utils'
+import {tryParse} from '../util'
 
 /**
  * Test if supposed JSON string is an encryption by regex char check.

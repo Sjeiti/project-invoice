@@ -1,4 +1,4 @@
-import {stopPropagation} from '../../utils'
+import {stopPropagation} from '../../util'
 
 /**
  * Mark project as paid
