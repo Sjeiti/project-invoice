@@ -5,8 +5,10 @@ import { store } from './model/store'
 import { App } from './App'
 import './style/main.scss'
 import './i18n'
+import {getCloud} from './service/cloud'
 
 ReactDOM.render(<App store={store} />, document.getElementById('app'))
+getCloud()
 
 /**
  * @typedef {object} ReactElement

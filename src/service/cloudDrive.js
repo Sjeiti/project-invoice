@@ -7,7 +7,6 @@
  */
 
 import {loadScript} from '../util'
-// import {notify} from '../components/Notification'
 import {notify} from '../util/signal'
 import base64 from '../util/base64'
 
@@ -34,7 +33,6 @@ let clientLoadReject
  * @returns {Promise}
  */
 export function init(){
-  // console.log('cloudDrive:init') // todo: remove log
   return new Promise((resolve, reject)=>{
     clientLoadResolve = resolve
     clientLoadReject = reject
@@ -57,9 +55,8 @@ export function getAuthorised(){
  * @param {boolean} [immediate=true]
  */
 function handleClientLoad(immediate=true){
-  // console.log('handleClientLoad') // todo: remove log
   delete window[tempGlobal]
-  checkAuth(immediate) // was nextTick... seems not needed
+  checkAuth(immediate)
 }
 
 /**
@@ -67,7 +64,6 @@ function handleClientLoad(immediate=true){
  * @param {boolean} [immediate=true]
  */
 function checkAuth(immediate=true){
-  // console.log('checkAuth', immediate) // todo: remove log
   gapi.auth.authorize(
       {client_id: CLIENT_ID, scope: SCOPES, immediate}
       , result=>result&&!result.error?onAuthorisationSuccess(result):onAuthorisationFail(result.error)  )
@@ -78,7 +74,6 @@ function checkAuth(immediate=true){
  * @returns {Promise}
  */
 function onAuthorisationSuccess(){
-  // console.log('onAuthorisationSuccess') // todo: remove log
   isAuthorised = true
   return loadApi()
       .then(clientLoadResolve, clientLoadReject)
@@ -89,7 +84,6 @@ function onAuthorisationSuccess(){
  * @param {object} err
  */
 function onAuthorisationFail(err){
-  // console.warn('Drive authorisation failed', err) // eslint-disable-line no-console
   isAuthorised = false
   clientLoadReject()
 }
@@ -108,6 +102,7 @@ function loadApi(){
  * @returns {Promise}
  */
 export function read(fileName){
+  console.log('cloudDrive read', fileName) // todo: remove log
   return search(fileName)
       .then(
           files=>getFile(files[0].id)

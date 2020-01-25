@@ -1,6 +1,6 @@
 import {getStorage} from '../../service/localStorage'
-import {STORAGE_NAME} from '../../config'
-import {clouding,notify} from '../../util/signal'
+import {CLOUD_NAME, STORAGE_NAME} from '../../config'
+import {clouding, notify} from '../../util/signal'
 import {stringify} from '../../service/json'
 import {
   ID as idDrive
@@ -19,7 +19,9 @@ export const storeCloud = store => next => action => {
   if (cloudSelected) {
     setCloudType(cloudSelected)
     if (!getIsAuthorised()) {
-      initCloud().then(handleAuthoriseSuccess, handleAuthoriseFail)
+      initCloud()
+          .then(handleAuthoriseSuccess, handleAuthoriseFail)
+          .then(authorised=>authorised&&storeInCloud())
     } else {
       storeInCloud()
     }
@@ -41,20 +43,34 @@ function setCloudType(type){
 }
 
 function handleAuthoriseSuccess(){
-  // console.log('handleAuthoriseSuccess') // todo: remove log
-  storeInCloud()
+  return true
 }
 
 function handleAuthoriseFail(){
-  // console.log('handleAuthoriseFail') // todo: remove log
+  notify.dispatch('Cloud authorisation failed')
+  return false
 }
 
 function storeInCloud(){
+  console.log('storeInCloud') // todo: remove log
   const data = getStorage(STORAGE_NAME, false)
-  // console.log('storeInCloud') // todo: remove log
   clouding.dispatch(true)
-  write('nl.projectinvoice.data.test', stringify(data))
-      .then(()=>{}) // todo write success/fail
-      // .then(console.log.bind(console, 'gdrive write done')) // todo write success/fail
+  write(CLOUD_NAME, stringify(data))
+      .then(()=>{},notify.dispatch.bind(notify, 'Cloud write fail'))
       .then(clouding.dispatch.bind(clouding, false))
+}
+
+export function cloudRead(cloudType){
+  console.log('cloudRead',cloudType) // todo: remove log
+  clouding.dispatch(true)
+  setCloudType(cloudType)
+  return (getIsAuthorised()
+      ?read(CLOUD_NAME)
+      :initCloud()
+          .then(handleAuthoriseSuccess, handleAuthoriseFail)
+          .then(authorised=>authorised&&read(CLOUD_NAME)))
+      .then(response=>{
+        clouding.dispatch(false)
+        return response
+      })
 }

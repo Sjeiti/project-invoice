@@ -8,8 +8,11 @@ import { Header } from './components/Header'
 import { Footer } from './components/Footer'
 import { DecryptionDialog } from './components/DecryptionDialog'
 import {size} from './service/css'
+import {notify} from './util/signal'
 
 const {padding, headerHeight, sum} = size
+
+notify.add(console.log.bind(console, 'notify:'))
 
 const Layout = styled.div`
   width: 100%;

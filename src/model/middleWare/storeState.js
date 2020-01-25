@@ -11,7 +11,7 @@ export const storeState = store => next => action => {
 
   if (state.config.encryption) {
     const key = state.config.encryptionKey
-    delete state.config.encryptionKey
+    delete state.config.encryptionKey // todo make separate temp/session store
     setStorageEncrypted(STORAGE_NAME, state, key)
   } else {
     setStorage(STORAGE_NAME, state)
