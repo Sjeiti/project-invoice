@@ -39,8 +39,10 @@ export const DecryptionDialog = connect(
   const decryptAndSetStore = ()=>{
     if (encryptionKey) {
       const decryptedState = getStorage(STORAGE_NAME, encryptionKey)
-      if (decryptedState?.config) {
-        decryptedState.config.encryptionKey = encryptionKey
+      if (decryptedState) {
+        decryptedState.session = decryptedState.session||{}
+        decryptedState.session.encryptionKey = encryptionKey
+
         restoreState(decryptedState)
         setEncryptionDialog(false)
       } else {

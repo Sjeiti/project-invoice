@@ -102,7 +102,6 @@ function loadApi(){
  * @returns {Promise}
  */
 export function read(fileName){
-  console.log('cloudDrive read', fileName) // todo: remove log
   return search(fileName)
       .then(
           files=>getFile(files[0].id)

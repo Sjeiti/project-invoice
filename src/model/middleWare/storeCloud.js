@@ -1,5 +1,5 @@
 import {getStorage} from '../../service/localStorage'
-import {CLOUD_NAME, STORAGE_NAME} from '../../config'
+import {CLOUD_NAME, NOOP_ACTIONS, STORAGE_NAME} from '../../config'
 import {clouding, notify} from '../../util/signal'
 import {stringify} from '../../service/json'
 import {
@@ -14,30 +14,30 @@ let initCloud, getIsAuthorised, read, write
 
 export const storeCloud = store => next => action => {
   const result = next(action)
-  const state = store.getState()
-  const {config:{cloudSelected}} = state
-  if (cloudSelected) {
-    setCloudType(cloudSelected)
-    if (!getIsAuthorised()) {
-      initCloud()
-          .then(handleAuthoriseSuccess, handleAuthoriseFail)
-          .then(authorised=>authorised&&storeInCloud())
-    } else {
-      storeInCloud()
+  if (!NOOP_ACTIONS.includes(action.type)) {
+    const state = store.getState()
+    const {config:{cloudSelected}} = state
+    if (cloudSelected) {
+      setCloudType(cloudSelected)
+      if (!getIsAuthorised()) {
+        initCloud()
+            .then(handleAuthoriseSuccess, handleAuthoriseFail)
+            .then(authorised=>authorised&&storeInCloud())
+      } else {
+        storeInCloud()
+      }
     }
   }
   return result
 }
 
 function setCloudType(type){
-	// console.log('setCloudType', type) // todo: remove log
   if (type===idDrive) {
     initCloud = initDrive
     getIsAuthorised = getAuthorisedDrive
     read = readDrive
     write = writeDrive
   } else {
-    // console.log(`Clould type '${type}' not recognised.`) // todo: remove log
     notify.dispatch(`Clould type '${type}' not recognised.`)
   }
 }
@@ -52,7 +52,6 @@ function handleAuthoriseFail(){
 }
 
 function storeInCloud(){
-  console.log('storeInCloud') // todo: remove log
   const data = getStorage(STORAGE_NAME, false)
   clouding.dispatch(true)
   write(CLOUD_NAME, stringify(data))
@@ -61,7 +60,6 @@ function storeInCloud(){
 }
 
 export function cloudRead(cloudType){
-  console.log('cloudRead',cloudType) // todo: remove log
   clouding.dispatch(true)
   setCloudType(cloudType)
   return (getIsAuthorised()

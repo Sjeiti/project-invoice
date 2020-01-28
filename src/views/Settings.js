@@ -12,8 +12,10 @@ import {restoreState} from '../model/rootActions'
 import {getConfig} from '../model/config/selectors'
 import {data as defaultData} from '../model/default'
 import {getClients} from '../model/clients/selectors'
+import {getSession} from '../model/session/selectors'
+import {storeSession} from '../model/session/actions'
 import {Select} from '../components/Select'
-import {StyledInput,InputText,InputCheckbox} from '../components/Input'
+import {InputText,InputCheckbox} from '../components/Input'
 import {Label} from '../components/Label'
 import {ButtonAnchor} from '../components/ButtonAnchor'
 import {ButtonLabel} from '../components/ButtonLabel'
@@ -49,9 +51,9 @@ const varMap = {
 }
 
 export const Settings = connect(
-    state => ({ configOld: getConfig(state), clients: getClients(state), state }),
-    { storeConfig, restoreState }
-  )(({ state, configOld, storeConfig, restoreState, clients }) => {
+    state => ({ configOld: getConfig(state), session: getSession(state), clients: getClients(state), state }),
+    { storeConfig, restoreState, storeSession }
+  )(({ state, configOld, storeConfig, restoreState, session, storeSession, clients }) => {
     const [config, setConfig] = useState(configOld)
     const getSetter = getGetSetter(config, setConfig)
     const downloadString = 'data:text/json;charset=utf-8,'+encodeURIComponent(JSON.stringify(state))
@@ -68,16 +70,9 @@ export const Settings = connect(
     const [encryptionKey, setEncryptionKey] = useState('')
     const encryptAndReload = ()=>{
       if (encryptionKey) {
-        // const newConfig = {
-        //   ...config
-        //   , encryption: true
-        //   , encryptionKey
-        // }
-        // setConfig(newConfig)
-        // storeConfig(newConfig)
+        storeSession({...session, encryptionKey})
         storeConfigWith({
           encryption: true
-          ,encryptionKey
         })
         setEncryptionDialog(false)
         window.location.reload()

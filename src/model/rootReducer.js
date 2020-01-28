@@ -4,7 +4,8 @@ import { config } from './config/reducers'
 import { copy } from './copy/reducers'
 import { personal } from './personal/reducers'
 import { pi } from './pi/reducers'
-import {RESTORE_STORE} from './rootActions'
+import { session } from './session/reducers'
+import {LOAD_STORE,RESTORE_STORE} from './rootActions'
 
 const appReducer = combineReducers({
   clients
@@ -12,12 +13,16 @@ const appReducer = combineReducers({
   , copy
   , personal
   , pi
+  , session
   , timestamp: (state = 0) => state
   , version: (state = '0.0.0') => state
 })
 
 export const rootReducer = (state, action) => {
   if (action.type === RESTORE_STORE) {
+    state = action.newState
+  }
+  if (action.type === LOAD_STORE) {
     state = action.newState
   }
   return appReducer(state, action)
