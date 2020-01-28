@@ -9,12 +9,13 @@ import {
   , read as readDrive
   , write as writeDrive
 } from '../../service/cloudDrive'
+import {LOAD_STORE} from '../rootActions'
 
 let initCloud, getIsAuthorised, read, write
 
 export const storeCloud = store => next => action => {
   const result = next(action)
-  if (!NOOP_ACTIONS.includes(action.type)) {
+  if (!NOOP_ACTIONS.includes(action.type)&&action.type!==LOAD_STORE) {
     const state = store.getState()
     const {config:{cloudSelected}} = state
     if (cloudSelected) {
