@@ -27,6 +27,7 @@ const Layout = styled.div`
   }
 `
 
+// export const App = hot(module)(connect(state=>({state}))(({ store }) =>
 export const App = hot(module)(connect()(({ store }) =>
   <Provider store={store}>
     <Router>

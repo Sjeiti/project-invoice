@@ -25,7 +25,7 @@ const StyledDialog = styled(Dialog)`
 `
 
 export const DecryptionDialog = connect(
-    () => {},
+    () => ({}),
     { restoreState }
   )(({ restoreState }) => {
 
