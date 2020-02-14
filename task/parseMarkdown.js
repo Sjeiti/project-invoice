@@ -47,25 +47,23 @@ utils.read(commander.source)
       body.appendChild(fragment)
 
       // anchor targets
-
-      Array.from(body.querySelectorAll('a')).forEach(a=>{
+      /*Array.from(body.querySelectorAll('a')).forEach(a=>{
         const {parentNode, textContent} = a
         const href = a.getAttribute('href').replace('https://projectinvoice.nl','')
         const isExternal = /^http/.test(href)
         if (isExternal) {
           a.setAttribute('target','_blank')
         } else {
-          const link = document.createElement('router-link')
+          const link = document.createElement('Link')
+          // link.appendChild(document.createTextNode(textContent))
           link.textContent = textContent
           link.setAttribute('to', href)
           parentNode.insertBefore(link,a)
           parentNode.removeChild(a)
         }
-
-      })
+      })*/
 
       // faq
-
       const heading = document.getElementById('faq')
       if (heading) {
         element = heading
@@ -83,13 +81,15 @@ utils.read(commander.source)
         parent.innerHTML = ''
         parent.appendChild(heading)
         // const afd = document.createElement('app-foldable-definition')
-        const afd = document.createElement('foldable-definition')
+        // const afd = document.createElement('foldable-definition')
+        const afd = document.createElement('div')
+        afd.classList.add('foldable-definition')
         // afd.setAttribute('data-foldable-definition','foldable-definition')
         parent.appendChild(afd)
         list.forEach(sl=>{
           const dt = document.createElement('dt')
           const dd = document.createElement('dd')
-          sl.forEach((elm,i)=>{
+          sl.forEach((elm, i)=>{
             if (i===0) {
               dt.innerHTML = elm.innerHTML
             } else {

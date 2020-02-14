@@ -23,6 +23,6 @@ i18next
     }
     , react: {
       transSupportBasicHtmlNodes: true
-      , transKeepBasicHtmlNodesFor: 'div,section,br,strong,em,p,h1,h2,h3,code,dl,dt,dd,ul,li,a'.split(',')
+      , transKeepBasicHtmlNodesFor: 'div,section,br,strong,em,p,h1,h2,h3,code,dl,dt,dd,ul,li,a,del'.split(',')
     }
   })
