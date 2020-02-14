@@ -75,9 +75,9 @@ export const Overview = withRouter(connect(
 
   return <StyledOverview>
     <h3><T>overview</T></h3>
-    {years.map(yearLink => <Link to={`/overview/${yearLink}`} className={year===yearLink&&'current'}>{yearLink}</Link>)}
+    {years.map(yearLink => <Link key={yearLink} to={`/overview/${yearLink}`} className={year===yearLink&&'current'||''}>{yearLink}</Link>)}
 
-    {quarterProjects.map((quarterProject,i)=><>
+    {quarterProjects.map((quarterProject,i)=><div key={i}>
       <h3>{i+1}e <T>quarter</T></h3>
       <Table
         cols="paid nr date client description totalDiscounted totalVATDiscounted totalIncDiscounted"
@@ -91,12 +91,12 @@ export const Overview = withRouter(connect(
 
         <tfoot>
           <tr>
-            <td colspan="7" />
+            <td colSpan="7" />
             <td><Price amount={quarterProject.map(project=>project.lines.reduce((acc, {amount}) => acc + amount, 0)).reduce((acc, amount) => acc + amount, 0)} /></td>
           </tr>
         </tfoot>
       </Table>
-    </>)}
+    </div>)}
 
   </StyledOverview>
 }))
