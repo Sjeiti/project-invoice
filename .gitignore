@@ -21,7 +21,7 @@ yarn-error.log*
 /public/static/i18n/README-en.md
 /public/static/i18n/*.html
 /public/static/img/*.png
-/src/config/i18n.js
+#/src/config/i18n.js // this is not generated is it?
 /output.js
 
 # Editor directories and files
