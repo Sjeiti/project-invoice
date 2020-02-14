@@ -80,9 +80,18 @@ const StyledHeader = styled.header`
   
   @media ${breakpointLow} {
     
+    //flex-direction: row-reverse;
+    justify-content: flex-end;
+    
+    >nav:first-child {
+      flex: 0 0 2rem;
+      overflow: hidden;
+      order: 4;
+    }
+    
     nav>ul>li {
       float: right;
-      width: 100vw;
+      //width: 100vw;
       height: ${headerHeight};
       text-align: right;
       background-color: ${colorHeader};
@@ -192,18 +201,27 @@ const DropLi = ({to,title,children}) => <DropLiStyled>
 
 // export const Header = () => {
 //
-export const Header = connect(
-    state => ({ config: getConfig(state), state })
+export const Header = withRouter(connect(
+    state => ({ config: getConfig(state), state, location })
   )(({ state, config }) => {
   const [cloudProvider] = useState(config.cloudSelected)
   const [hamburger, setHamburger] = useState(false)
+  console.log('location',location) // todo: remove log
   return (
     <StyledHeader>
       <nav>
         <HeaderLink to="/" className="home-icon" style={{backgroundColor:'transparent'}}>
           <Logo/>
         </HeaderLink>
-        <h2 className="page-title hide-high">pageTitle</h2>
+
+
+
+
+        <h2 className="page-title hide-high">{location.pathname}</h2>
+
+
+
+
         <ul className="list-unstyled list-inline">
           <li>
             <input
@@ -233,4 +251,4 @@ export const Header = connect(
       <SaveableButtons />
     </StyledHeader>
   )
-})
+}))
