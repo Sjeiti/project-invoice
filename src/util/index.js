@@ -281,6 +281,7 @@ export function getScrollbarSize(){
           scrollbarSize.height -= child.offsetHeight
           localStorage.setItem(scrollbarSizeKey,JSON.stringify(scrollbarSize))
           resolve(scrollbarSize)
+          element.parentNode.removeChild(element)
         })
       })
     } else {
