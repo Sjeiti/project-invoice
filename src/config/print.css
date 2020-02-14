@@ -1,0 +1,398 @@
+
+.html-print-start {
+  content: "START";
+}
+
+html {
+  --main-bg-color: white;
+  --main-fg-color: black;
+  --secondary-bg-color: #AAA;
+  --secondary-fg-color: white;
+  --font-main: "Istok Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-currency: "Droid Sans Mono", monospace;
+  --base-font-size: 14px;
+  font-size: var(--base-font-size);
+
+  color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+@page {
+  size: A4;
+  margin: 0;
+}
+@page {
+  .quotation {
+    margin-top: 20mm;
+    margin-bottom: 20mm;
+  }
+}
+@page :first {
+  .quotation {
+    margin-top: 0;
+  }
+}
+
+* {
+  overflow: visible;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+html, body {
+  -webkit-print-color-adjust: exact;
+  background-color: var(--main-bg-color);
+}
+
+body {
+  margin: 0;
+}
+
+.di:before {
+  display: inline-block;
+  content: ".";
+}
+
+.df {
+  display: inline-block;
+  position: relative;
+  transform: translateX(-9999rem);
+}
+.df:before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: ",";
+  transform: translateX(9999rem);
+}
+
+#logo {
+  background-repeat: no-repeat;
+  background-position: top right;
+}
+
+.invoice {
+  width: 210mm;
+  min-height: 296.9mm;
+  display: flex;
+  align-items: stretch;
+  flex-direction: column;
+  background-color: var(--main-bg-color);
+  overflow: hidden;
+  margin: 0 auto;
+  font-family: var(--font-main) !important;
+  line-height: 160%;
+  -webkit-print-color-adjust: exact;
+  /* THEME CLEAN */
+  /* THEME VERTICAL */
+}
+.invoice.quotation {
+  display: block;
+  overflow: auto;
+  height: auto;
+}
+.invoice > div {
+  flex: 1;
+}
+.invoice header, .invoice footer {
+  color: var(--secondary-fg-color);
+  background-color: var(--secondary-bg-color);
+}
+.invoice header {
+  padding-top: 20pt;
+  margin-bottom: 15pt;
+}
+.invoice header .wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+.invoice header > * {
+  z-index: 1;
+}
+.invoice header .you {
+  text-align: right;
+}
+.invoice header p {
+  margin: 0;
+}
+.invoice footer {
+  flex: 0 1 63pt;
+  padding: 0;
+  font-size: 0.8rem;
+  line-height: 140%;
+  box-shadow: 0 10mm 0 0 var(--secondary-bg-color);
+  text-align: center;
+}
+.invoice footer div {
+  padding-top: 8pt;
+}
+.invoice h1 {
+  margin: 0;
+  font-size: 2rem;
+  line-height: 120%;
+}
+.invoice h1, .invoice h2, .invoice h3, .invoice h4, .invoice h5, .invoice h6 {
+  margin: 8pt 0;
+}
+.invoice h1, .invoice h2, .invoice h3, .invoice h4, .invoice h1 a, .invoice h2 a, .invoice h3 a, .invoice h4 a, .invoice th, .invoice label {
+  color: inherit;
+}
+.invoice h3, .invoice h4, .invoice h5, .invoice h6 {
+  margin: 60px 0 30px;
+}
+.invoice h3 + br, .invoice h4 + br, .invoice h5 + br, .invoice h6 + br {
+  display: none;
+}
+.invoice h3 + table, .invoice h4 + table, .invoice h5 + table, .invoice h6 + table {
+  margin-top: 5mm;
+  margin-bottom: 10mm;
+}
+.invoice .page .wrapper:nth-child(2) h3:first-child, .invoice .page .wrapper:nth-child(2) h4:first-child, .invoice .page .wrapper:nth-child(2) h5:first-child, .invoice .page .wrapper:nth-child(2) h6:first-child {
+  margin-top: 0;
+}
+.invoice .page .wrapper {
+  padding-bottom: 10mm;
+}
+.invoice .type {
+  text-transform: uppercase;
+}
+.invoice .client {
+  color: var(--main-fg-color);
+  max-width: 55%;
+}
+.invoice .date {
+  text-align: right;
+}
+.invoice small {
+  font-size: 0.8rem;
+  line-height: 140%;
+}
+.invoice small p {
+  margin: 0;
+}
+.invoice .wrapper {
+  position: relative;
+  clear: both;
+  width: 100%;
+}
+.invoice .block {
+  padding: 10px 0 40px;
+}
+.invoice .page {
+  position: relative;
+  width: 180mm;
+  margin: 0 auto;
+}
+.invoice dl {
+  display: block;
+}
+.invoice dt, .invoice dd {
+  display: inline-block;
+  margin: 0;
+  vertical-align: top;
+}
+.invoice dl.list {
+  display: flex;
+}
+.invoice dl.list dt {
+  width: 30%;
+  font-weight: bold;
+}
+.invoice dl.list dd {
+  width: 70%;
+}
+.invoice dl.list.concerns {
+  margin-top: 20mm;
+}
+.invoice dl.main {
+  margin-top: 10mm;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.invoice dl.main dt {
+  width: 15%;
+}
+.invoice dl.main dd {
+  width: 85%;
+}
+.invoice table {
+  width: 100%;
+  border-collapse: collapse;
+  border: none;
+  line-height: 160%;
+  font-size: 1rem;
+  background-color: transparent !important;
+}
+.invoice table * {
+  background-color: inherit !important;
+}
+.invoice table tbody, .invoice table th, .invoice table td {
+  border: 0;
+}
+.invoice th:nth-child(1) {
+  width: 50%;
+}
+.invoice th:nth-child(2) {
+  width: 25%;
+}
+.invoice th:nth-child(3) {
+  width: 25%;
+}
+.invoice tr.separate,
+.invoice tr.add {
+  height: 10pt;
+}
+.invoice tr.separate td:before,
+.invoice tr.add td.line:before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 0.8pt;
+  background-color: var(--secondary-bg-color);
+}
+.invoice tr.subtract td:last-child:after,
+.invoice tr.add td:last-child:after {
+  content: "+";
+  position: absolute;
+  top: -2pt;
+  right: -14pt;
+  color: var(--secondary-bg-color);
+}
+.invoice tr.subtract td:last-child:after {
+  content: "-";
+}
+.invoice td, .invoice th {
+  padding-right: 16pt;
+}
+.invoice td:first-child, .invoice th:first-child {
+  padding-right: 0;
+}
+.invoice .quotation tr.total td:last-child {
+  padding-right: 15px;
+}
+.invoice th {
+  text-align: right;
+}
+.invoice td {
+  position: relative;
+}
+.invoice .mono {
+  font-family: var(--font-currency) !important;
+  padding-right: 0;
+  text-align: right;
+}
+.invoice [symbol] {
+  position: relative;
+}
+.invoice [symbol]:before {
+  content: attr(symbol);
+  position: absolute;
+  left: 0;
+  padding: 0 1rem;
+}
+.invoice .total {
+  height: 40pt;
+}
+.invoice .total td:last-child:before {
+  left: 90px;
+  position: static;
+}
+.invoice .total td:last-child:after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0;
+  top: -8px;
+  width: 95%;
+  height: 100%;
+  margin-left: 5%;
+  border: 1px solid var(--secondary-bg-color);
+  border-top: 0;
+}
+.invoice .total .input.mono {
+  font-size: 1.5rem;
+  width: 100%;
+  max-width: none;
+  margin: 0 auto;
+  transform: translate(0, -20%);
+}
+.invoice .quotation-copy {
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+.invoice .avoid-break {
+  page-break-inside: avoid;
+}
+.invoice .page-break {
+  page-break-before: always;
+  position: relative;
+}
+.invoice.clean header, .invoice.clean footer {
+  color: inherit;
+  background-color: transparent;
+}
+.invoice.clean header {
+  border-bottom: 1px solid var(--secondary-bg-color);
+}
+.invoice.clean footer {
+  border-top: 1px solid var(--secondary-bg-color);
+}
+.invoice.vertical {
+  background: linear-gradient(to right, var(--secondary-bg-color) 2mm, transparent 2mm, transparent 150mm, var(--secondary-bg-color) 150mm);
+}
+.invoice.vertical .page {
+  width: 148mm;
+  margin: 0 0 0 2mm;
+  padding: 0 5mm;
+}
+.invoice.vertical header, .invoice.vertical footer {
+  color: inherit;
+  background-color: transparent;
+}
+.invoice.vertical header .you {
+  position: absolute;
+  right: -65mm;
+  width: 60mm;
+  text-align: left;
+  color: var(--secondary-fg-color);
+  padding: 0 5mm;
+}
+.invoice.vertical #logo {
+  background-position: top left;
+}
+.invoice.vertical footer {
+  flex: 0 1 auto;
+  padding-bottom: 5mm;
+}
+.invoice.vertical th:last-child, .invoice.vertical td:last-child {
+  padding-right: 0;
+}
+.invoice.vertical tr.add td:last-child:after {
+  top: -3mm;
+  right: -10mm;
+  color: var(--secondary-fg-color);
+}
+.invoice.vertical .total td:last-child {
+  color: var(--secondary-fg-color);
+  transform: translateX(100%);
+}
+.invoice.vertical .total td:last-child:before, .invoice.vertical .total td:last-child:after {
+  display: none;
+}
+.invoice.vertical .total td:last-child div {
+  width: 60mm;
+  margin: 0;
+  padding: 0 5mm;
+  transform: translateX(5mm);
+}
+
+.html-print-end {
+  content: "END";
+}

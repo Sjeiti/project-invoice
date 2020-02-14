@@ -7,7 +7,7 @@ import {getProjectNumber} from '../model/clients/selectors'
 import {Parse as ParseUnbound} from './Parse'
 import {T as TUnbound} from './T'
 
-import print from '../../temp/print.css' // todo: not this of course
+import print from '../config/print.css' // todo: not this of course
 
 const {breakpointHigh} = breakpoint
 const breakpointHigher = '(min-width: 850px)'
