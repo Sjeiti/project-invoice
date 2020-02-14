@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import styled, {css} from 'styled-components'
-// import './header.scss'
 import { SaveableButtons } from './SaveableButtons'
 import {Logo} from './Logo'
 import {T} from './T'
@@ -9,9 +8,6 @@ import {size, color, breakpoint} from '../service/css'
 import {CloudNotification} from './CloudNotification'
 import {connect} from 'react-redux'
 import {getConfig} from '../model/config/selectors'
-import {getClients} from '../model/clients/selectors'
-import {storeConfig} from '../model/config/actions'
-import {restoreState} from '../model/rootActions'
 
 const {breakpointLow, breakpointHigh} = breakpoint
 const {headerHeight, padding, multiply, sum} = size

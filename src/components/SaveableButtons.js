@@ -3,11 +3,8 @@ import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 import { saveable } from '../util/signal'
 import { noop } from '../util'
-import {size} from '../service/css'
 import { Button, IconButton } from './Button'
 import { T } from './T'
-
-const {padding} = size
 
 const Nav = styled.nav`
   padding: 4px 4px 0 0;

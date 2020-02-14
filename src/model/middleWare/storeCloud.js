@@ -39,7 +39,7 @@ function setCloudType(type){
     read = readDrive
     write = writeDrive
   } else {
-    notify.dispatch(`Clould type '${type}' not recognised.`)
+    notify.dispatch(`Cloud type '${type}' not recognised.`)
   }
 }
 

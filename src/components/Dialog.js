@@ -18,44 +18,44 @@ const StyledDialog = styled.div`
   z-index: 99;
   margin: 0;
   transform: translate(-50%, -50%);
-    padding: 0;
-    min-width: 15rem;
-    max-width: calc(100vw - 2rem);
-    border: 0;
-    box-shadow: 0 0 0 1px ${colorButton}, ${shadeFlat};
-    background-color: white;
-    border-radius: ${borderRadius};
-    header {
-      background-color: ${colorLightBg};
-      border-top-left-radius: ${borderRadius};
-      border-top-right-radius: ${borderRadius};
-      button {
-        position: absolute;
-        right: 0;
-        top: 0;
-      }
-    }
-    h3 {
-      margin: 0;
-      padding: 0;
-      font-size: 1rem;
-      line-height: 1rem;
-    }
-    >*{ padding: ${padding}; }
-    footer {
-     padding-top: 0;
-     button { margin-bottom: 0; }
-    }
-    & + svg {
-      position: fixed;
-      left: 0;
+  padding: 0;
+  min-width: 15rem;
+  max-width: calc(100vw - 2rem);
+  border: 0;
+  box-shadow: 0 0 0 1px ${colorButton}, ${shadeFlat};
+  background-color: white;
+  border-radius: ${borderRadius};
+  header {
+    background-color: ${colorLightBg};
+    border-top-left-radius: ${borderRadius};
+    border-top-right-radius: ${borderRadius};
+    button {
+      position: absolute;
+      right: 0;
       top: 0;
-      width: 100vw;
-      height: 100vh;
-      padding: 0;
-      background: rgba(0, 0, 0, 0.1);
-      box-shadow: 0 0 16rem rgba(0, 0, 0, 0.3) inset;
     }
+  }
+  h3 {
+    margin: 0;
+    padding: 0;
+    font-size: 1rem;
+    line-height: 1rem;
+  }
+  >*{ padding: ${padding}; }
+  footer {
+   padding-top: 0;
+   button { margin-bottom: 0; }
+  }
+  & + svg {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    padding: 0;
+    background: rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 16rem rgba(0, 0, 0, 0.3) inset;
+  }
 `
 
 export const Dialog = attr => {

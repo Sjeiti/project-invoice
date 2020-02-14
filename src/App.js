@@ -7,6 +7,7 @@ import { Routes } from './Routes'
 import { Header } from './components/Header'
 import { Footer } from './components/Footer'
 import { DecryptionDialog } from './components/DecryptionDialog'
+import { Notification } from './components/Notification'
 import {size} from './service/css'
 import {notify} from './util/signal'
 
@@ -31,6 +32,7 @@ export const App = hot(module)(connect()(({ store }) =>
     <Router>
       <Header />
       <Layout>
+        <Notification />
         <div>
           <Routes />
         </div>
