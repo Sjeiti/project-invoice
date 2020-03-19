@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 import {Link, withRouter} from 'react-router-dom'
 import {isEqual, cloneDeep} from 'lodash'
-import {nbsp,getGetSetter,getDateString} from '../util'
+import {nbsp,getGetSetter} from '../util'
 import {saveable} from '../util/signal'
 import {storeProject, removeProject, cloneProject} from '../model/clients/actions'
 import {
@@ -36,6 +36,7 @@ import {FormSpan} from '../components/FormSpan'
 import {CSSTransition, TransitionGroup} from 'react-transition-group'
 import styled from 'styled-components'
 import {getCloneProjectEvents, getNextProjectEvents, getPreviousProjectEvents} from '../model/eventFactory'
+import {getInvoice} from '../model/clients/factory'
 
 const StyledProject = styled.div`
   .description {
@@ -116,8 +117,7 @@ export const Project = withRouter(
       }
       const onClickAddInvoiceButton = () => {
         const p = cloneDeep(project)
-        const {invoices, invoices: {length}} = p
-        invoices.push({...invoices[length-1], ...{date:getDateString(), paid:''}})
+        p.invoices.push(getInvoice())
         setProject(p)
       }
 
@@ -154,7 +154,7 @@ export const Project = withRouter(
       ]
       hourlyRate>0 && projectLineCols.splice(2,0,...[
         {key:'hours', th:<T>hours</T>}
-        , {key:'times', th:<Button onClick={onClickArrow2bar} invert>⇥</Button> }
+        , {key:'times', th:<Button onClick={onClickArrow2bar} invert={1}>⇥</Button> }
       ])
       const getLineSetter = index => (key, format) => value => {
         const p = cloneDeep(project)//{...project}//
@@ -201,8 +201,8 @@ export const Project = withRouter(
               <h3><Link to={getClientHref(client)}>{client.name||nbsp}</Link></h3>
               <h2 className="float-left">{project.description||nbsp}</h2>
               <div className="float-right">
-                <ButtonLink invert {...getPreviousProjectEvents(client, project)}><i className="icon-chevron-left"></i></ButtonLink>
-                <ButtonLink invert {...getNextProjectEvents(client, project)}><i className="icon-chevron-right"></i></ButtonLink>
+                <ButtonLink invert={1} {...getPreviousProjectEvents(client, project)}><i className="icon-chevron-left"></i></ButtonLink>
+                <ButtonLink invert={1} {...getNextProjectEvents(client, project)}><i className="icon-chevron-right"></i></ButtonLink>
                 <ButtonLink {...cloneProjectEvents}><T>clone</T></ButtonLink>
               </div>
             </header>

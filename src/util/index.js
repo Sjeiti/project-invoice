@@ -1,12 +1,13 @@
 import { isEqual as _isEqual } from 'lodash'
 import React from 'react'
+import {TODAY} from '../config'
 
 /**
  * Return the date part of the ISO date string (yyyy-mm-dd)
  * @param {string} [date]
  */
 export function getDateString(date){
-  return (date || new Date())
+  return (date || TODAY)
     .toISOString()
     .split('T')
     .shift()

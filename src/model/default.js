@@ -1,6 +1,8 @@
 import moment from 'moment'
 import defaultJSON from './defaultJSON'
 import {VERSION} from '../config'
+import {getInvoice} from './clients/factory'
+import {INVOICE} from '../config/invoice'
 
 const now = Date.now()
 const week = 1000*60*60*24*7
@@ -45,23 +47,10 @@ export const data = {...defaultJSON, ...{
             }
           ]
           , invoices: [
-            {
-              date: dateString(now-7*week-i*52)
-              , type: 'invoice'
-            }
-            , {
-              date: dateString(now-4*week-i*52)
-              , type: 'reminder'
-            }
-            , {
-              date: dateString(now-2*week-i*52)
-              , type: 'reminder'
-            }
-            , {
-              date: dateString(now-i*52)
-              , type: 'reminder'
-              , interest: true
-            }
+              getInvoice(dateString(now-7*week-i*52), INVOICE.type.invoice)
+            , getInvoice(dateString(now-4*week-i*52), INVOICE.type.reminder)
+            , getInvoice(dateString(now-2*week-i*52), INVOICE.type.reminder)
+            , getInvoice(dateString(now       -i*52), INVOICE.type.reminder, true)
           ]
           , paid: i===0
           , quotationDate: dateString(now-8*week)

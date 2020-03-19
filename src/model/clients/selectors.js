@@ -4,6 +4,7 @@
  * @returns {client[]}
  */
 import {project} from './project'
+import {TODAY} from '../../config'
 
 export const getClients = state => [...state.clients]
 
@@ -185,11 +186,18 @@ export function getLatestClient(clients) {
 }
 
 export function getOpenProjects(clients) {
-  return allProjectsByDate(clients).filter(project => !project.paid&&project.invoices.length)
+  return allProjectsByDate(clients).filter(project =>
+      !project.paid
+      &&project.invoices.length
+      &&!project.ignore
+  )
 }
 
 export function getDraftProjects(clients) {
-  return allProjectsByDate(clients).filter(project => !project.invoices.length)
+  return allProjectsByDate(clients).filter(project =>
+      !project.invoices.length
+      &&!project.ignore
+  )
 }
 
 /**
@@ -229,4 +237,50 @@ export function getProjectsOfYearQuarter(clients, year, quarter) {
       // .map(project => project.invoices[0].date.substr(0,4))
       // .filter((year, i, a) => a.indexOf(year)===i)
       // .reverse()
+}
+
+/**
+ * Get the elapsed days since invoice
+ * @param {project} project
+ * @return {number}
+ */
+export function getInvoiceDaysElapsed(project, first=true){
+  const {invoices, invoices:{length}} = project
+  let daysElapsed
+  if (first&&length||!first&&length>1) {
+    const invoice = invoices[first?0:length-1]
+    const invoiceDate = new Date(invoice.date)
+    daysElapsed = Math.floor((TODAY - invoiceDate)/(24*60*60*1000))
+  }
+  return daysElapsed
+}
+
+/**
+ * Get the amount of days late
+ * @param {project} project
+ * @param {client[]} clients
+ * @return {number}
+ */
+export function getInvoiceDaysLate(project, clients){
+  let daysLate
+  const daysElapsed = getInvoiceDaysElapsed(project)
+  if (daysElapsed) {
+    const client = getClient(clients, project?.clientNr)
+    const {paymentterm} = client
+    daysElapsed>paymentterm&&(daysLate = daysElapsed-paymentterm)
+  }
+  return daysLate
+}
+
+/**
+ * Get the amount of days late
+ * @param {project} project
+ * @param {number} reminderPeriod
+ * @return {number}
+ */
+export function getReminderDaysLate(project, reminderPeriod){
+  let daysLate
+  const daysElapsed = getInvoiceDaysElapsed(project, false)
+  daysElapsed&&daysElapsed>reminderPeriod&&(daysLate = daysElapsed-reminderPeriod)
+  return daysLate
 }

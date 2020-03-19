@@ -1,4 +1,5 @@
 import { getDateString } from '../../util'
+import {INVOICE} from '../../config/invoice'
 
 /**
  * @typedef {object} client
@@ -106,18 +107,23 @@ export function getLine(){
  * @typedef {object} invoice
  * @property {string} date
  * @property {string} type
+ * @property {number} paid
  * @property {boolean} interest
  * @property {boolean} exhortation todo:??
  */
 
 /**
+ *
  * Factory method for a new project invoice
+ * @param {string} [type]
+ * @param {string} [date]
+ * @param {boolean} [interest]
  * @returns {invoice}
  */
-export function getInvoice(){
+export function getInvoice(type, date, interest=false){
   return {
-    date: getDateString()
-    , type: ''
-    , interest: true
+    date: date||getDateString()
+    , type: type||INVOICE.type.invoice
+    , interest
   }
 }

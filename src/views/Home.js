@@ -1,9 +1,9 @@
-import React,{useState} from 'react'
+import React from 'react'
 import {withRouter, Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import styled from 'styled-components'
 import {CSSTransition} from 'react-transition-group'
-import {absolute, clearfix, size} from '../service/css'
+import {absolute, clearfix} from '../service/css'
 import {getConfig} from '../model/config/selectors'
 import {storeConfig} from '../model/config/actions'
 import {
@@ -15,6 +15,9 @@ import {
   , getTotalIncDiscounted
   , getDraftProjects
   , getClient
+  , getInvoiceDaysLate
+  , getReminderDaysLate
+  , getInvoiceDaysElapsed
 } from '../model/clients/selectors'
 import {addClient, addProject, storeProject} from '../model/clients/actions'
 import {getNewClientEvents, getNewProjectEvents} from '../model/eventFactory'
@@ -25,8 +28,9 @@ import {Button} from '../components/Button'
 import {Price} from '../components/Price'
 import {Table} from '../components/Table'
 import {T} from '../components/T'
-import {InputCheckbox, InputText} from '../components/Input'
-import {onClickPaid} from '../model/clients/util'
+import {InputCheckbox} from '../components/Input'
+import {onClickInvoice,onClickPaid,onClickRemind} from '../model/clients/util'
+import {getData} from '../model/personal/selectors'
 
 const bgcolor = '#3f5267'
 const Jumbotron = styled.div`
@@ -82,9 +86,9 @@ const Jumbotron = styled.div`
 `
 
 export const Home = withRouter(connect(
-  state => ({ clients: getClients(state), config: getConfig(state) }),
+  state => ({ clients: getClients(state), config: getConfig(state), data: getData(state) }),
   { addClient, addProject, storeProject, storeConfig }
-)(({history, clients, config, addClient, addProject, storeProject, storeConfig}) => {
+)(({history, clients, config, data, addClient, addProject, storeProject, storeConfig}) => {
   // const [clients, setClients] = useState(clientsOld)
   const latestClient = getLatestClient(clients)
   const latestProject = getLatestProject(clients)
@@ -95,10 +99,18 @@ export const Home = withRouter(connect(
       style={{margin:'0.25rem 0 0'}}
       onClick={onClickPaid.bind(null, project, storeProject)}
     />
-    , date: project.invoices.slice(0).pop().date
+    , date: project.invoices.slice(0).shift().date
     , onClick: () => history.push(getProjectHref(project))
     , totalIncDiscounted: <Price symbol="€" amount={getTotalIncDiscounted(project)} separator="," />
-    , actions: 'todo' // todo
+    , actions: (()=>{
+      // const daysElapsed = getInvoiceDaysElapsed(project)
+      // const daysElapsed1 = getInvoiceDaysElapsed(project, false)
+      const hasReminder = project.invoices.length>1
+      const daysLate = getInvoiceDaysLate(project, clients)
+      const daysLateReminder = getReminderDaysLate(project, data.reminderPeriod)
+      const showButton = hasReminder&&daysLateReminder||!hasReminder&&daysLate
+      return showButton&&<Button onClick={onClickRemind.bind(null, project, storeProject)}><T>Add reminder</T></Button>
+    })()
     , key: project.id
   }))
 
@@ -107,7 +119,7 @@ export const Home = withRouter(connect(
     , clientName: getClient(clients, project.clientNr).name
     , onClick: () => history.push(getProjectHref(project))
     , totalIncDiscounted: <Price symbol="€" amount={getTotalIncDiscounted(project)} separator="," />
-    , actions: 'todo' // todo
+    , actions: <Button onClick={onClickInvoice.bind(null, project, storeProject)}><T>Add invoice</T></Button>
   }))
   const hideHomeMessage = storeConfig.bind(null, {...config, ...{homeMessage:false}})
   return <div>
