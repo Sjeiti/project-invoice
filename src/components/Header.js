@@ -206,7 +206,6 @@ export const Header = withRouter(connect(
   )(({ state, config }) => {
   const [cloudProvider] = useState(config.cloudSelected)
   const [hamburger, setHamburger] = useState(false)
-  console.log('location',location) // todo: remove log
   return (
     <StyledHeader>
       <nav>

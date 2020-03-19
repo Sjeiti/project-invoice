@@ -35,9 +35,9 @@ export const data = {...defaultJSON, ...{
           , lines: [
             {
               description: 'Krabby Patties'
-              , hours: 55
+              , hours: (i+1)*55
               , vat: 21
-              , amount: 1234
+              , amount: (i+1)*1234
             }
             , {
               description: 'spatula greese'
@@ -47,10 +47,10 @@ export const data = {...defaultJSON, ...{
             }
           ]
           , invoices: [
-              getInvoice(dateString(now-7*week-i*52), INVOICE.type.invoice)
-            , getInvoice(dateString(now-4*week-i*52), INVOICE.type.reminder)
-            , getInvoice(dateString(now-2*week-i*52), INVOICE.type.reminder)
-            , getInvoice(dateString(now       -i*52), INVOICE.type.reminder, true)
+              getInvoice(dateString(now-7*week-i*52*week), INVOICE.type.invoice)
+            , getInvoice(dateString(now-4*week-i*52*week), INVOICE.type.reminder)
+            , getInvoice(dateString(now-2*week-i*52*week), INVOICE.type.reminder)
+            , getInvoice(dateString(now       -i*52*week), INVOICE.type.reminder, true)
           ]
           , paid: i===0
           , quotationDate: dateString(now-8*week)
@@ -65,22 +65,19 @@ Thank you`
         , ...Array.from(new Array(3)).map((o, i)=>({
           clientNr: 1
           , id: i+21
-          , description: 'Krusty Krab spring-cleaning'
+          , description: `Krusty Krab ${['spring', 'summer', 'autumn'][i]}-cleaning`
           , hourlyRate: 33
           , discount: 5
           , lines: [
             {
-              description: 'Krabby Patties'
-              , hours: 823
+              description: 'scrubbing'
+              , hours: 723 + 23*i
               , vat: 21
-              , amount: 12345
+              , amount: 33*(723 + 23*i)
             }
           ]
           , invoices: i===0?[]:[
-            {
-              date: dateString(now-i*52*week)
-              , type: 'invoice'
-            }
+            getInvoice(dateString(now-i*2*week-i*52))
           ]
           , paid: false
         }))

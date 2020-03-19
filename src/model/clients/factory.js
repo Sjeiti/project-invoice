@@ -106,7 +106,7 @@ export function getLine(){
 /**
  * @typedef {object} invoice
  * @property {string} date
- * @property {string} type
+ * @property {string} type todo: should not be necessary; same as order in array
  * @property {number} paid
  * @property {boolean} interest
  * @property {boolean} exhortation todo:??
@@ -115,12 +115,12 @@ export function getLine(){
 /**
  *
  * Factory method for a new project invoice
- * @param {string} [type]
  * @param {string} [date]
+ * @param {string} [type]
  * @param {boolean} [interest]
  * @returns {invoice}
  */
-export function getInvoice(type, date, interest=false){
+export function getInvoice(date, type, interest=false){
   return {
     date: date||getDateString()
     , type: type||INVOICE.type.invoice

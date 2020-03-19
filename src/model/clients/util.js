@@ -19,7 +19,7 @@ export function onClickPaid(project, storeProject, e){
  * @param {MouseEvent} e
  */
 export function onClickRemind(project, storeProject, e){
-  const invoices = [...project.invoices, getInvoice(INVOICE.type.reminder)]
+  const invoices = [...project.invoices, getInvoice(null, INVOICE.type.reminder)]
   storeProject(Object.assign({}, project, { invoices }))
 }
 

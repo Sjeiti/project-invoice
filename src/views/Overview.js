@@ -53,7 +53,6 @@ export const Overview = withRouter(connect(
 )(({ history, match, clients, storeProject, state }) => {
 
   const [years] = useState(getProjectsYears(clients))
-  // const [year] = useState(match.params.year||years[years.length-1])
   const year = match.params.year||years[years.length-1]
 
   const quarterProjects = [0,0,0,0].map((n,i)=>getProjectsOfYearQuarter(clients, year, i).map(project => ({
@@ -71,7 +70,7 @@ export const Overview = withRouter(connect(
     , totalIncDiscounted: <Price symbol="€" amount={getTotalIncDiscounted(project)} separator="," />
     , totalDiscounted: <Price symbol="€" amount={getTotalDiscounted(project)} separator="," />
     , totalVATDiscounted: <Price symbol="€" amount={getTotalVATDiscounted(project)} separator="," />
-  }))) // todo price symbol separator
+  })))
 
   return <StyledOverview>
     <h3><T>overview</T></h3>

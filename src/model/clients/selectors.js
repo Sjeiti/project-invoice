@@ -220,7 +220,7 @@ export function getProjectNumber(_project, state){
 export function getProjectsYears(clients) {
   return allProjectsByDate(clients)
       .filter(project => project.invoices.length)
-      .map(project => project.invoices[0].date.substr(0,4))
+      .map(project => project.invoices[0].date.substr(0, 4))
       .filter((year, i, a) => a.indexOf(year)===i)
       .sort()
 }
