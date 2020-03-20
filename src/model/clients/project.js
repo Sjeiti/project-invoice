@@ -5,6 +5,7 @@
  */
 
 import moment from 'moment'
+import {interpolateEvil} from '../../util'
 
 /**
  * Sort projects by date, an then id
@@ -60,10 +61,15 @@ const proto = {
   /**
    * Calculate the invoice number by interpolating the template
    * @returns {string}
+   * @todo is this still used? (is it now selectors::getProjectNumber)
    */
   ,calculateInvoiceNr(){
     // ${client.nr}.${project.indexOnClient+1}.${project.dateYear.substr(2,2)}.${project.indexOnYear+1}
-    return (new Function('project','client','return `'+this.model.config.projectNumberTemplate+'`'))(this,this.client)
+    // return (new Function('project','client','return `'+this.model.config.projectNumberTemplate+'`'))(this,this.client)
+    return interpolateEvil(this.model.config.projectNumberTemplate, {
+      project: this
+      , client: this.client
+    })
   }
 
   /**
@@ -92,10 +98,18 @@ const proto = {
 
   /**
    * Getter for the total VAT amount
-   * @returns {any}
+   * @returns {number}
    */
   , get totalVat(){
     return this.lines.reduce((acc, line) => acc + line.amount * 0.01 * line.vat, 0)
+  }
+
+  /**
+   * Calculate final/cumulative vat percentage
+   * @returns {number}
+   */
+  , get vatAmount(){
+    return Math.round(this.totalVat/this.total*100)
   }
 
   /**

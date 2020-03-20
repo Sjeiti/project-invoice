@@ -73,6 +73,13 @@ menu {
   padding: 0;
 }
 
+hr {
+  margin: 3rem 0;
+  border: 0;
+  height: 1px;
+  background-color: $colorGrayLight;
+}
+
 .mono { font-family: 'Source Code Pro', monospace; }
 
 [input-unit] {
@@ -188,7 +195,7 @@ code {
 .text-align-center { text-align: center; }
 .nowrap { white-space: nowrap; }
 .overflow-hidden { overflow: hidden; }
-.display-flex { display: flex; }
+.display-flex { display: flex; align-items: flex-start; justify-content: space-between; }
 .color-button { color: $colorButton; }
 
 .ellipsis {

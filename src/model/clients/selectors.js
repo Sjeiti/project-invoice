@@ -5,6 +5,7 @@
  */
 import {project} from './project'
 import {TODAY} from '../../config'
+import {interpolateEvil} from '../../util'
 
 export const getClients = state => [...state.clients]
 
@@ -203,13 +204,15 @@ export function getDraftProjects(clients) {
 /**
  * Calculate the invoice number by interpolating the template
  * @returns {string}
- * @todo maybe only interpolate like this at one single point
  */
 export function getProjectNumber(_project, state){
   const {clients, config:{projectNumberTemplate}} = state
   const client = getClient(clients, _project.clientNr)
   const betterProject = project(_project, {_client:client, model:state})
-  return (new Function('project', 'client', 'return `'+projectNumberTemplate+'`'))(betterProject, client)
+  return interpolateEvil(projectNumberTemplate, {
+    project: betterProject
+    , client
+  })
 }
 
 /**

@@ -94,6 +94,18 @@ export function interpolate(text, context, pattern = /\$\{(.+?)\}/g) {
 }
 
 /**
+ * Evil interpolation
+ * @param {string} text
+ * @param {object} context
+ * @return {string}
+ */
+export function interpolateEvil(text, context) {
+  const keys = Object.keys(context)
+  const values = Object.values(context)
+  return (new Function(...keys, 'return `'+text+'`'))(...values)
+}
+
+/**
  * Deepfreeze from MDN
  * @param {object} object
  * @return {ReadonlyArray<any>}
@@ -119,7 +131,6 @@ export function deepFreeze(object) {
  * @return {ReactElement|Node}
  */
 export function keyMap(node, key){
-  // console.log('node,key', node, key) // todo: remove log
 	return React.isValidElement(node) && React.cloneElement(
     node, Object.assign({}, node.props, {key} )
   ) || node
@@ -144,7 +155,7 @@ export function tryParse(str){
   try {
     obj = JSON.parse(str)
   } catch(err){
-    console.warn('err',err) // eslint-disable-line no-console
+    console.warn('err', err) // eslint-disable-line no-console
   }
   return obj
 }
@@ -163,9 +174,9 @@ export const nextTick = window.requestAnimationFrame
  * @param {string[]} props
  * @returns {Promise}
  */
-export function watchAll(vm,...props){
+export function watchAll(vm, ...props){
   return Promise.all(props.map(key=>new Promise(resolve=>{
-         const unwatch = vm.$watch(key,()=>{
+         const unwatch = vm.$watch(key, ()=>{
            unwatch()
            resolve()
            return vm[key]
@@ -192,8 +203,8 @@ export function currency(
     chunkLength = 3
 ){
   let result = '\\d(?=(\\d{' + chunkLength + '})+' + (decimalLength>0 ? '\\D' : '$') + ')'
-      ,num = value.toFixed(Math.max(0,~~decimalLength))
-  return currencySign + (decimalDelimiter ? num.replace('.',decimalDelimiter) : num).replace(new RegExp(result,'g'),'$&' + chunkDelimiter)
+      , num = value.toFixed(Math.max(0, ~~decimalLength))
+  return currencySign + (decimalDelimiter ? num.replace('.', decimalDelimiter) : num).replace(new RegExp(result,'g'),'$&' + chunkDelimiter)
 }
 
 /**
@@ -202,7 +213,7 @@ export function currency(
  * @param {object[]} adds
  * @returns {object}
  */
-export function weakAssign(obj,...adds){
+export function weakAssign(obj, ...adds){
   adds.forEach(add=>{
     for (let key in add){
       if (!obj.hasOwnProperty(key)){
@@ -231,9 +242,23 @@ export function loadScript(src){
   return new Promise((resolve/*,reject*/)=>{
     const script = document.createElement('script')
     document.body.appendChild(script)
-    script.setAttribute('src',src)
-    script.addEventListener('load',resolve)
+    script.setAttribute('src', src)
+    script.addEventListener('load', resolve)
   })
+}
+
+/**
+ * Create and append an element
+ * @param {string} [type]
+ * @param {HTMLElement} [parent]
+ * @param {string[]} [classes]
+ * @return {HTMLElement}
+ */
+export function appendChild(type, parent, classes){
+  const elm = document.createElement(type||'div')
+	classes&&elm.classList.add(...Array.isArray(classes)&&classes||[classes])
+  parent&&parent.appendChild(elm)
+  return elm
 }
 
 /**
@@ -261,15 +286,15 @@ export function getScrollbarSize(){
   return new Promise(resolve => {
     let scrollbarSize = localStorage.getItem(scrollbarSizeKey)
     if (!scrollbarSize){
-      scrollbarSize = {width: 0,height: 0}
+      scrollbarSize = {width: 0, height: 0}
       const element = document.createElement('div')
       const elementStyle = element.style
-      Object.assign(elementStyle,{
-        width: '100px',height: '100px'
+      Object.assign(elementStyle, {
+        width: '100px', height: '100px'
       })
       const child = document.createElement('div')
-      Object.assign(child.style,{
-        width: '100%',height: '100%'
+      Object.assign(child.style, {
+        width: '100%', height: '100%'
       })
       element.appendChild(child)
       document.body.appendChild(element)
@@ -280,7 +305,7 @@ export function getScrollbarSize(){
         setTimeout(() => {
           scrollbarSize.width -= child.offsetWidth
           scrollbarSize.height -= child.offsetHeight
-          localStorage.setItem(scrollbarSizeKey,JSON.stringify(scrollbarSize))
+          localStorage.setItem(scrollbarSizeKey, JSON.stringify(scrollbarSize))
           resolve(scrollbarSize)
           element.parentNode.removeChild(element)
         })
@@ -299,13 +324,13 @@ getScrollbarSize().then(result => {
   sheet.insertRule(`.${scrollLock} {
     overflow: hidden;
     padding-right: ${result.width}px;
-  }`,0)
+  }`, 0)
   sheet.insertRule(`.${scrollLock} #app>header {
     max-width: calc(100vw - ${result.width}px);
-  }`,0)
+  }`, 0)
 })
 export const scroll = {
-  lock: DOMTokenList.prototype.add.bind(classList,scrollLock)
-  ,unlock: DOMTokenList.prototype.remove.bind(classList,scrollLock)
+  lock: DOMTokenList.prototype.add.bind(classList, scrollLock)
+  , unlock: DOMTokenList.prototype.remove.bind(classList, scrollLock)
 }
 

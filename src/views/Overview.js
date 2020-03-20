@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {connect} from 'react-redux'
 import {Link, withRouter} from 'react-router-dom'
 import {T} from '../components/T'
@@ -16,12 +16,17 @@ import {
   getProjectDateLatest
 } from '../model/clients/selectors'
 import {storeProject} from '../model/clients/actions'
+import {Button} from '../components/Button'
 import {Table} from '../components/Table'
 import {Price} from '../components/Price'
 import styled from 'styled-components'
 import {InputCheckbox} from '../components/Input'
 import {onClickPaid} from '../model/clients/util'
+import {appendChild, currency, interpolateEvil} from '../util'
+import {project as enhanceProject} from '../model/clients/project'
+import {CURRENCY_ISO} from '../config/currencyISO'
 
+const {body} = document
 
 const StyledOverview =  styled.section`
   a{
@@ -54,8 +59,9 @@ export const Overview = withRouter(connect(
 
   const [years] = useState(getProjectsYears(clients))
   const year = match.params.year||years[years.length-1]
+  const {config:{csvTemplate, currency:_currency}, personal:data} = state
 
-  const quarterProjects = [0,0,0,0].map((n,i)=>getProjectsOfYearQuarter(clients, year, i).map(project => ({
+  const quarterProjects = [0, 0, 0, 0].map((n, i)=>getProjectsOfYearQuarter(clients, year, i).map(project => ({
     ...project
     , paid: <InputCheckbox
         value={project.paid}
@@ -70,14 +76,49 @@ export const Overview = withRouter(connect(
     , totalIncDiscounted: <Price symbol="€" amount={getTotalIncDiscounted(project)} separator="," />
     , totalDiscounted: <Price symbol="€" amount={getTotalDiscounted(project)} separator="," />
     , totalVATDiscounted: <Price symbol="€" amount={getTotalVATDiscounted(project)} separator="," />
+    , project
   })))
+
+  const [elmCsv] = useState(appendChild('textarea', body, 'visually-hidden'))
+  useEffect(()=>body.removeChild.bind(body, elmCsv), [])
+  function onClickCSVButton(quarter){
+    const parsed = quarter.map(prj=>{
+      const {clientNr, invoices: [invoice]} = prj
+      const client = getClient(clients, clientNr)
+      const project = enhanceProject(prj.project, {_client:client, model:state}) // prj
+      const {symbol} = CURRENCY_ISO[_currency]
+      const boundCurrency = f=>currency(f, symbol+' ', 2, '.', ',')
+      return interpolateEvil(csvTemplate, {
+        client
+        , project
+        , invoice
+        , data
+        , currency: boundCurrency
+      })
+    })
+    elmCsv.value = parsed.join('\n')
+    if (elmCsv && elmCsv.select){
+      elmCsv.select()
+      try {
+        document.execCommand('copy')
+        elmCsv.blur()
+      } catch (err){
+        alert('please press Ctrl/Cmd+C to copy')
+      }
+    }
+  }
+
 
   return <StyledOverview>
     <h3><T>overview</T></h3>
     {years.map(yearLink => <Link key={yearLink} to={`/overview/${yearLink}`} className={year===yearLink&&'current'||''}>{yearLink}</Link>)}
 
-    {quarterProjects.map((quarterProject,i)=><div key={i}>
-      <h3>{i+1}e <T>quarter</T></h3>
+    {quarterProjects.map((quarterProject, i)=><div key={i}>
+      {i>0&&<hr />}
+      <header className="display-flex">
+        <h3>{i + 1}e <T>quarter</T></h3>
+        <Button disabled={quarterProject.length===0} onClick={onClickCSVButton.bind(null, quarterProject)}><T>copy csv data</T></Button>
+      </header>
       <Table
         cols="paid nr date client description totalDiscounted totalVATDiscounted totalIncDiscounted"
         subjects={quarterProject}
