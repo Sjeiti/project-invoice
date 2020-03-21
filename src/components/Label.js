@@ -18,7 +18,7 @@ const Element = styled.label`
     right: 70%;
     transform: translateX(100%);
   }
-  &>input, &>textarea {
+  &>input, &>textarea, &>.input {
     float: right;
     width: 70%;
   }

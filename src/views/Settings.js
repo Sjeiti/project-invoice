@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import i18next from 'i18next'
 import {Trans, useTranslation} from 'react-i18next'
 import styled from 'styled-components'
-import {getDateString,getGetSetter,isEqual} from '../util'
+import {currency,getDateString,getGetSetter,isEqual} from '../util'
 import {I18N_ISO as isos} from '../config/i18n'
 import {CURRENCY_ISO} from '../config/currencyISO'
 import { saveable } from '../util/signal'
@@ -11,6 +11,7 @@ import {storeConfig} from '../model/config/actions'
 import {restoreState} from '../model/rootActions'
 import {getConfig} from '../model/config/selectors'
 import {data as defaultData} from '../model/default'
+import {project as enhanceProject} from '../model/clients/project'
 import {getClients} from '../model/clients/selectors'
 import {getSession} from '../model/session/selectors'
 import {storeSession} from '../model/session/actions'
@@ -23,7 +24,7 @@ import {Button} from '../components/Button'
 import {T} from '../components/T'
 import {Dialog} from '../components/Dialog'
 import {ID as driveID} from '../service/cloudDrive'
-
+import {InterpolationInput} from '../components/InterpolationInput'
 
 const Section = styled.section`
   &:after {
@@ -43,8 +44,8 @@ const currencies = Object.keys(CURRENCY_ISO).map(key=>CURRENCY_ISO[key])
 
 const varMap = {
   uilang: {Element:Select, title:'applicationLanguage', attrs:{options:isos.map(iso=>({value:iso, text:iso}))}}
-  , projectNumberTemplate: {Element:InputText}
-  , csvTemplate: {Element:InputText}
+  , projectNumberTemplate: {Element:InterpolationInput}
+  , csvTemplate: {Element:InterpolationInput}
   , currency: {Element:Select, attrs:{options:currencies.map(({code, name, symbol})=>({value:code, text:`${name} (${symbol})`}))}}
   , homeMessage: {Element:InputCheckbox, title:'showHomeMessage'}
   , langs: {Element:InputText, title:'invoiceLanguages', map: v=>v.toString().split(',')}
@@ -104,6 +105,21 @@ export const Settings = connect(
       storeConfigWith({cloudSelected: ''})
     }
 
+    const client = defaultData.clients[0]
+    const project = enhanceProject(client.projects[0], {_client:client, model:state})
+    const invoice = project.invoices[0]
+    const {symbol} = CURRENCY_ISO[config.currency]
+      const boundCurrency = f=>currency(f, symbol+' ', 2, '.', ',')
+    const context = {
+      // foo:{bar:23,baz:'asdf'}
+      // , noop:{sux:234,baz:'asdf'}{
+        client
+        , project
+        , invoice
+        , data: {}
+        , currency: boundCurrency
+    }
+
     return (
         <>
           <Section>
@@ -112,7 +128,11 @@ export const Settings = connect(
               <React.Fragment key={i}>
                 <Label>
                   <T>{title||key}</T>
-                  <Element value={config[key]} setter={map&&(v=>getSetter(key)(map(v)))||getSetter(key)} {...attrs}></Element>
+                  <Element
+                      value={config[key]}
+                      setter={map&&(v=>getSetter(key)(map(v)))||getSetter(key)}
+                      context={context}
+                      {...attrs}></Element>
                 </Label>
               </React.Fragment>
             )}

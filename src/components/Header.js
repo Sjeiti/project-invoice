@@ -213,13 +213,7 @@ export const Header = withRouter(connect(
           <Logo/>
         </HeaderLink>
 
-
-
-
         <h2 className="page-title hide-high">{location.pathname}</h2>
-
-
-
 
         <ul className="list-unstyled list-inline">
           <li>

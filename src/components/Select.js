@@ -8,8 +8,12 @@ const StyledSelect = styled.select`
   padding: 0 0 0 0.25rem;
 `
 
-export const Select = ({ value, onChange, setter, options }) => {
-  return <StyledSelect value={value} onChange={onChange || setter && (({ target: { value } }) => setter(value)) || (() => {})}>
+export const Select = ({ name, value, onChange, setter, options }) => {
+  return <StyledSelect
+      name={name}
+      value={value}
+      onChange={onChange || setter && (({ target: { value } }) => setter(value)) || (() => {})}
+  >
     {options.map(({value, text}) => <option value={value} key={value}>{text}</option>)}
   </StyledSelect>
 }
