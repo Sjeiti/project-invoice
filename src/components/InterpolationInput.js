@@ -1,10 +1,10 @@
 import React, {useState} from 'react'
-import styled from 'styled-components'
+import styled, {css} from 'styled-components'
 import {color} from '../service/css'
 import {InputText} from './Input'
 import {Textarea} from './Textarea'
 import {Select} from './Select'
-import {interpolateEvil} from '../util'
+import {interpolateEvil, readGetters, unique} from '../util'
 
 const {
   colorButton
@@ -14,6 +14,14 @@ const {
 export const StyledInterpolationInput = styled.div`
   input {
     width: 100%;
+  }
+  section {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 300ms ease;
+    &.focussed {
+      max-height: 10rem;
+    }
   }
   ul {
     padding-left: 0.75rem;
@@ -61,6 +69,14 @@ export const InterpolationInput = attr => {
 
   const InputElement = attr.multiline&&Textarea||InputText
 
+  const [elmInput, setElmInput] = useState(null)
+
+  const [focussed, setFocus] = useState()
+  const focusChange = {onFocus:onFocusChange, onBlur:onFocusChange}
+  function onFocusChange({type}){
+    setFocus(type==='focus')
+  }
+
   function onSelectInput(e){
     const {target: {selectionStart, selectionEnd}} = e
     setStart(selectionStart)
@@ -68,25 +84,48 @@ export const InterpolationInput = attr => {
   }
 
   function onChangeSelect(e){
-    const {target: {name, value: prop}} = e
-    setter([value.substr(0, start), `\${${name}.${prop}}`, value.substr(end)].join(''))
-    // todo focus and set caret to after addition
+    const {target, target: {name, value: prop}} = e
+    const rule = `\${${name}.${prop}}`
+    const newPos = start + rule.length
+    setter([value.substr(0, start), rule, value.substr(end)].join(''))
+    target.value = ''
+    elmInput.focus()
+    elmInput.setSelectionRange(newPos, newPos) // todo focus and set caret to after addition (not working now)
   }
 
+  // console.log('array',Object.getOwnPropertyNames(Array.prototype)) // todo: remove log
+  // console.log('object',Object.getOwnPropertyNames(Object.prototype)) // todo: remove log
+  // console.log('function',Object.getOwnPropertyNames(Function.prototype)) // todo: remove log
+
   return <StyledInterpolationInput className="input">
-    <InputElement onSelect={onSelectInput} {...attr} />
-    <ul>
-      {contextKeys.map(key=><li>{`\${${key}}`}
-      <Select
-          onChange={onChangeSelect}
-          name={key}
-          key={key}
-          options={Object.keys(context[key]).map(subkey=>({
-            text: subkey
-            , name: subkey
-          // todo filter options for underscore prefix (private) and enumerate getters
-      }))} /></li>)}
-    </ul>
-    <pre>{interpolateEvil(value, context)}</pre>
+    <InputElement ref={setElmInput} {...focusChange} onSelect={onSelectInput} {...attr} />
+    <section focussed={focussed}
+            className={focussed&&'focussed'}>
+      <ul>
+        {contextKeys.map(key=><li key={key}>{`\${${key}}`}
+        <Select
+            {...focusChange}
+
+            onChange={onChangeSelect}
+            name={key}
+            options={(()=>{
+              const obj = context[key]
+              if (typeof obj === 'function') {
+                return []
+                // return [{text: '', name: ''}, {text: '()', name: '()'}]
+              } else {
+                const protoGetters = readGetters(Object.getPrototypeOf(obj))
+                return ['', ...Object.keys(obj), ...protoGetters]
+                  .filter(key=>key[0]!=='_')
+                  .filter(unique)
+                  .map(subkey=>({
+                    text: subkey
+                    , name: subkey
+                  }))
+              }
+            })()} /></li>)}
+      </ul>
+      <pre>{interpolateEvil(value, context)}</pre>
+    </section>
   </StyledInterpolationInput>
 }

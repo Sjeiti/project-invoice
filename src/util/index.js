@@ -160,6 +160,25 @@ export function tryParse(str){
   return obj
 }
 
+/**
+ * Unique method for Array.prototype.filter
+ * @param {object} val
+ * @param {number} ind
+ * @param {Array} arr
+ * @return {boolean}
+ */
+export const unique = (val, ind, arr) => arr.indexOf(val) === ind
+
+/**
+ * Read the getters from an Object
+ * @param {object} obj
+ * @return {string[]}
+ */
+export function readGetters(obj) {
+  const desc = Object.getOwnPropertyDescriptors(obj)
+  return Object.entries(desc).map(([key, value]) => value.get && key).filter(o=>o)
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

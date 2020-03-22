@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {forwardRef} from 'react'
 import styled from 'styled-components'
 import {noop} from '../util'
 import {color, formElement, icon} from '../service/css'
@@ -65,14 +65,15 @@ export const StyledInput = styled.input`
   }
 `
 
-export const InputText = ({ value, onChange:_onChange, setter, ...attr}) => {
+export const InputText = forwardRef(({ value, onChange:_onChange, setter, ...attr}, ref) => {
   return <StyledInput
+      ref={ref}
       value={value}
       onChange={_onChange || setter && (({ target: { value } }) => setter(value)) || noop}
       {...attr}
       type="text"
   />
-}
+})
 
 export const InputDate = ({ value, onChange:_onChange, setter, ...attr}) => {
   return <StyledInput
