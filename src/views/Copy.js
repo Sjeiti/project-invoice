@@ -1,19 +1,19 @@
 import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
-import {isEqual, getGetSetter} from '../util'
+import {isEqual, getGetSetter, getInterpolationContext} from '../util'
 import {saveable} from '../util/signal'
 import {getCopy} from '../model/copy/selectors'
 import {storeCopy} from '../model/copy/actions'
 import {getConfig} from '../model/config/selectors'
 import {Label} from '../components/Label'
-import {InputText} from '../components/Input'
 import {Button} from '../components/Button'
 import {T} from '../components/T'
+import {InterpolationInput} from '../components/InterpolationInput'
 
 export const Copy = connect(
-  state => ({ copyOld: getCopy(state), config: getConfig(state) })
+  state => ({ state, copyOld: getCopy(state), config: getConfig(state) })
   , {storeCopy}
-)(({copyOld, config, storeCopy}) => {
+)(({state, copyOld, config, storeCopy}) => {
 
   const [copy, setCopy] = useState(copyOld)
   const getSetter = getGetSetter(copy, setCopy)
@@ -29,6 +29,7 @@ export const Copy = connect(
   )
   useEffect(()=>{setTimeout(()=>saveable.dispatch(true))}, [])
 
+  const context = getInterpolationContext(state)
 
   return <>
     <div className="float-right">
@@ -43,11 +44,15 @@ export const Copy = connect(
     {Object.entries(copy).map(([key, value])=>
         <Label key={key}>
           <T>{key}</T>
-          <InputText value={value[lang]} setter={val=>{
-            const newVal = {...value}
-            newVal[lang] = val
-            getSetter(key)(newVal)
-          }} />
+          <InterpolationInput
+              multiline
+              context={context}
+              value={value[lang]}
+              setter={val=>{
+                const newVal = {...value}
+                newVal[lang] = val
+                getSetter(key)(newVal)
+              }} />
         </Label>
     )}
   </>

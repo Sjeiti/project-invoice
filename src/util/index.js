@@ -1,6 +1,9 @@
 import { isEqual as _isEqual } from 'lodash'
 import React from 'react'
 import {TODAY} from '../config'
+import {data as defaultData} from '../model/default'
+import {project as enhanceProject} from '../model/clients/project'
+import {CURRENCY_ISO} from '../config/currencyISO'
 
 /**
  * Return the date part of the ISO date string (yyyy-mm-dd)
@@ -177,6 +180,25 @@ export const unique = (val, ind, arr) => arr.indexOf(val) === ind
 export function readGetters(obj) {
   const desc = Object.getOwnPropertyDescriptors(obj)
   return Object.entries(desc).map(([key, value]) => value.get && key).filter(o=>o)
+}
+
+export function getInterpolationContext(state){
+  // console.log('getInterpolationContext',state) // todo: remove log
+  const {config, config: {lang}, personal:data, copy:rawCopy} = state
+  const copy = Object.entries(rawCopy).reduce((acc, [key, value])=>(acc[key] = value[lang], acc), {})
+  const client = defaultData.clients[0]
+  const project = enhanceProject(client.projects[0], {_client:client, model:state})
+  const invoice = project.invoices[0]
+  const {symbol} = CURRENCY_ISO[config.currency]
+  const boundCurrency = f=>currency(f, symbol+' ', 2, '.', ',')
+  return {
+    client
+    , project
+    , invoice
+    , data
+    , copy
+    , currency: boundCurrency
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

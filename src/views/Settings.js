@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import i18next from 'i18next'
 import {Trans, useTranslation} from 'react-i18next'
 import styled from 'styled-components'
-import {currency, getDateString, getGetSetter, isEqual} from '../util'
+import {getDateString, getGetSetter, getInterpolationContext, isEqual} from '../util'
 import {I18N_ISO as isos} from '../config/i18n'
 import {CURRENCY_ISO} from '../config/currencyISO'
 import {saveable} from '../util/signal'
@@ -11,7 +11,6 @@ import {storeConfig} from '../model/config/actions'
 import {restoreState} from '../model/rootActions'
 import {getConfig} from '../model/config/selectors'
 import {data as defaultData} from '../model/default'
-import {project as enhanceProject} from '../model/clients/project'
 import {getClients} from '../model/clients/selectors'
 import {getSession} from '../model/session/selectors'
 import {storeSession} from '../model/session/actions'
@@ -96,7 +95,7 @@ export const Settings = connect(
     const [cloudProvider, setCloudProvider] = useState(config.cloudSelected)
     const cloudProviders = [
       {value: driveID, text:'Google Drive'}
-      ,{value:'', text:'-other-'}
+      , {value:'', text:'-other-'}
     ]
     const cloudAuthorise = ()=>{
       storeConfigWith({cloudSelected: cloudProvider})
@@ -105,23 +104,7 @@ export const Settings = connect(
       storeConfigWith({cloudSelected: ''})
     }
 
-    const client = defaultData.clients[0]
-    const project = enhanceProject(client.projects[0], {_client:client, model:state})
-    const invoice = project.invoices[0]
-    const data = state.personal
-    const copy = state.copy
-    const {symbol} = CURRENCY_ISO[config.currency]
-      const boundCurrency = f=>currency(f, symbol+' ', 2, '.', ',')
-    const context = {
-      // foo:{bar:23,baz:'asdf'}
-      // , noop:{sux:234,baz:'asdf'}{
-        client
-        , project
-        , invoice
-        , data
-        , copy
-        , currency: boundCurrency
-    }
+    const context = getInterpolationContext(state)
 
     return (
         <>

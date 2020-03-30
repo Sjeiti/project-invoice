@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
-import styled, {css} from 'styled-components'
+import classNames from 'classnames'
+import styled from 'styled-components'
 import {color} from '../service/css'
 import {InputText} from './Input'
 import {Textarea} from './Textarea'
@@ -9,19 +10,23 @@ import {interpolateEvil, readGetters, unique} from '../util'
 const {
   colorButton
   , colorBorder
+  , colorShade
 } = color
 
 export const StyledInterpolationInput = styled.div`
-  input {
+  input, textarea {
     width: 100%;
   }
+  &.focussed { input, textarea {
+    box-shadow: 0 0 0 1px ${colorButton} inset,  0 4px 16px ${colorShade} inset;
+  }}
   section {
     max-height: 0;
     overflow: hidden;
     transition: max-height 300ms ease;
-    &.focussed {
-      max-height: 10rem;
-    }
+  }
+  &.focussed section {
+    max-height: 10rem;
   }
   ul {
     padding-left: 0.75rem;
@@ -74,6 +79,7 @@ export const InterpolationInput = attr => {
   const [focussed, setFocus] = useState()
   const focusChange = {onFocus:onFocusChange, onBlur:onFocusChange}
   function onFocusChange({type}){
+    console.log('onFocusChange',type) // todo: remove log
     setFocus(type==='focus')
   }
 
@@ -93,14 +99,12 @@ export const InterpolationInput = attr => {
     elmInput.setSelectionRange(newPos, newPos) // todo focus and set caret to after addition (not working now)
   }
 
-  // console.log('array',Object.getOwnPropertyNames(Array.prototype)) // todo: remove log
-  // console.log('object',Object.getOwnPropertyNames(Object.prototype)) // todo: remove log
-  // console.log('function',Object.getOwnPropertyNames(Function.prototype)) // todo: remove log
-
-  return <StyledInterpolationInput className="input">
-    <InputElement ref={setElmInput} {...focusChange} onSelect={onSelectInput} {...attr} />
-    <section focussed={focussed}
-            className={focussed&&'focussed'}>
+  return <StyledInterpolationInput className={classNames('input', {focussed})}>
+    {focussed
+      &&<InputElement ref={setElmInput} {...focusChange} onSelect={onSelectInput} {...attr} />
+      ||<InputText ref={setElmInput} {...focusChange} onSelect={onSelectInput} {...attr} />
+    }
+    <section className={focussed&&'focussed'}>
       <ul>
         {contextKeys.map(key=><li key={key}>{`\${${key}}`}
         <Select
