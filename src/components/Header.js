@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import styled, {css} from 'styled-components'
 import { SaveableButtons } from './SaveableButtons'
@@ -8,11 +8,14 @@ import {size, color, breakpoint} from '../service/css'
 import {CloudNotification} from './CloudNotification'
 import {connect} from 'react-redux'
 import {getConfig} from '../model/config/selectors'
+import {APP_NAME} from '../config'
 
 const {breakpointLow, breakpointHigh} = breakpoint
 const {headerHeight, padding, multiply, sum} = size
 const halfHeaderHeight = multiply(headerHeight, 0.5)
 const {colorHeader} = color
+
+const {body} = document
 
 const StyledHeaderLink = styled(Link)`
   color: white;
@@ -199,13 +202,18 @@ const DropLi = ({to,title,children}) => <DropLiStyled>
   {children}
 </DropLiStyled>
 
-// export const Header = () => {
-//
 export const Header = withRouter(connect(
     state => ({ config: getConfig(state), state, location })
   )(({ state, config }) => {
   const [cloudProvider] = useState(config.cloudSelected)
   const [hamburger, setHamburger] = useState(false)
+
+  useEffect(()=>{
+    const setHamburgerFalse = e=>e.target.matches('[for=hamburger]')||setHamburger(false)
+    body.addEventListener('click', setHamburgerFalse)
+    return ()=>body.removeEventListener('click', setHamburgerFalse)
+  }, [])
+
   return (
     <StyledHeader>
       <nav>
@@ -213,12 +221,14 @@ export const Header = withRouter(connect(
           <Logo/>
         </HeaderLink>
 
-        <h2 className="page-title hide-high">{location.pathname}</h2>
+        <h2 className="page-title hide-high">{location.pathname==='/'?APP_NAME:location.pathname}</h2>
 
         <ul className="list-unstyled list-inline">
           <li>
             <input
               defaultChecked={hamburger}
+              checked={hamburger}
+              onChange={e=>setHamburger(e.target.checked)}
               className="visually-hidden"
               id="hamburger"
               type="checkbox"

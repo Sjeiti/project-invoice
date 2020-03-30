@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "animejs": "^2.2.0",
+    "classnames": "^2.2.6",
     "color-js": "^1.0.5",
     "current-device": "^0.7.2",
     "dialog-polyfill": "^0.4.9",
