@@ -10,8 +10,13 @@ const {breakpointHigh} = breakpoint
 
 const trHeight = '2.375rem'
 
-const StyledTable = styled.table`
+export const StyledTableWrapper = styled.div`
+  overflow: auto;
+  max-width: 100%;
+`
+export const StyledTable = styled.table`
   width: 100%;
+  table-layout: fixed;
   border-top: 1px solid ${colorBorder};
   border-bottom: 1px solid ${colorBorder};
   thead { border-bottom: 1px solid #CCC; }
@@ -61,6 +66,7 @@ const StyledTable = styled.table`
     background-color: #f8f8f8;
   }
   th {
+    width: 100%;
     line-height: 180%;
     font-weight: normal;
     text-align: left;
@@ -76,6 +82,10 @@ const StyledTable = styled.table`
     &:first-child { padding-left: 0; }
     &:last-child { padding-right: 0; }
   }
+  //.description > div {
+  //  overflow: hidden;
+  //  text-overflow: ellipsis;
+  //}
   input, button, select {
     margin: 0;
   }
@@ -92,11 +102,11 @@ export const Table = ({ cols, subjects, empty, children, className }) => {
   const isHoverable = !!subjects?.[0]?.onClick
   const hasTFoot = children&&(Array.isArray(children)&&children.filter(c=>c.type==='tfoot').length||children.type==='tfoot')
   return (
-    <StyledTable className={className+(isHoverable&&' hoverable'||'')}>
+    <StyledTableWrapper><StyledTable className={className+(isHoverable&&' hoverable'||'')}>
       <thead>
         <tr>
-          {cols.map(({th}, index) => (
-            <th key={index}>{th}</th>
+          {cols.map(({th, key}, index) => (
+            <th key={index} className={key}>{th}</th>
           ))}
         </tr>
       </thead>
@@ -120,6 +130,6 @@ export const Table = ({ cols, subjects, empty, children, className }) => {
       </TransitionGroup>
       {!hasTFoot&&<tfoot><tr><td colSpan={length} /></tr></tfoot>}
       {children}
-    </StyledTable>
+    </StyledTable></StyledTableWrapper>
   )
 }

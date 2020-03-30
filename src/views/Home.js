@@ -17,7 +17,6 @@ import {
   , getClient
   , getInvoiceDaysLate
   , getReminderDaysLate
-  , getInvoiceDaysElapsed
 } from '../model/clients/selectors'
 import {addClient, addProject, storeProject} from '../model/clients/actions'
 import {getNewClientEvents, getNewProjectEvents} from '../model/eventFactory'
@@ -29,8 +28,9 @@ import {Price} from '../components/Price'
 import {Table} from '../components/Table'
 import {T} from '../components/T'
 import {InputCheckbox} from '../components/Input'
-import {onClickInvoice,onClickPaid,onClickRemind} from '../model/clients/util'
+import {onClickInvoice, onClickPaid, onClickRemind} from '../model/clients/util'
 import {getData} from '../model/personal/selectors'
+import {LineEllipsed} from '../components/LineEllipsed'
 
 const bgcolor = '#3f5267'
 const Jumbotron = styled.div`
@@ -70,11 +70,22 @@ const Jumbotron = styled.div`
       z-index: 2;
     }
     p {
-      padding: 40px;
+      &:nth-child(1) {
+        padding: 2.5rem 2.5rem 0;
+      }
+      &:nth-child(2) {
+        padding: 1rem 2.5rem 1rem;
+        font-size: 1.5rem;
+        font-style: italic;
+        line-height: 110%;
+      }
     }
     button, a {
       font-size: 12px;
       line-height: 130%;
+    }
+    small {
+      line-height: 100%;
     }
     &.jumbotron-exit {
       margin: 0 0 1rem;
@@ -94,6 +105,7 @@ export const Home = withRouter(connect(
   const latestProject = getLatestProject(clients)
   const openInvoices = getOpenProjects(clients).map(project => ({
     ...project
+    , description: <LineEllipsed>{project.description}</LineEllipsed>
     , paid: <InputCheckbox
       value={project.paid}
       style={{margin:'0.25rem 0 0'}}
@@ -116,7 +128,8 @@ export const Home = withRouter(connect(
 
   const draftProjects = getDraftProjects(clients).map(project => ({
     ...project
-    , clientName: getClient(clients, project.clientNr).name
+    , clientName: <LineEllipsed>{getClient(clients, project.clientNr).name}</LineEllipsed>
+    , description: <LineEllipsed>{project.description}</LineEllipsed>
     , onClick: () => history.push(getProjectHref(project))
     , totalIncDiscounted: <Price symbol="€" amount={getTotalIncDiscounted(project)} separator="," />
     , actions: <Button onClick={onClickInvoice.bind(null, project, storeProject)}><T>Add invoice</T></Button>
@@ -129,11 +142,11 @@ export const Home = withRouter(connect(
         in={config.homeMessage}
         unmountOnExit
     >
-      <Jumbotron data-v-if="config.homeMessage">
-        <p data-v-_="'homeMessage'">This invoicing application stores all your data on your local machine.<br/>
-        <em><small data-v-_="'homeMessageSub'">Because all your data are belong to you.</small></em></p>
-        <AnchorButton className="float-right" onClick={hideHomeMessage}>hide message</AnchorButton>{/* todo */}
-        <Link to={'/about'} className="float-right" style={{marginRight:'1rem'}}>read more</Link>
+      <Jumbotron>
+        <p><T>homeMessage</T></p>
+        <p><T>homeMessageSub</T></p>
+        <AnchorButton className="float-right" onClick={hideHomeMessage}><T>hideMessage</T></AnchorButton>{/* todo */}
+        <Link to={'/about'} className="float-right" style={{marginRight:'1rem'}}><T>readMore</T></Link>
         <Logo size="256" colors={['#3B596D', '#376677', '#2A7F8B']} style={absolute(-3, -4)} />
       </Jumbotron>
     </CSSTransition>
@@ -141,7 +154,7 @@ export const Home = withRouter(connect(
       <section className="col-12 col-md-5">
         <h2><T>whatDoYouWantToDo</T></h2>
         <p><ButtonLink {...getNewClientEvents(clients, addClient)}><T>createANewClient</T></ButtonLink></p>
-        {latestClient&&<p><ButtonLink {...getNewProjectEvents(clients, latestClient, addProject)}>Create project for <span>'{latestClient.name}'</span></ButtonLink></p>}
+        {latestClient&&<p><ButtonLink {...getNewProjectEvents(clients, latestClient, addProject)}><T>createProjectFor</T> <span>'{latestClient.name}'</span></ButtonLink></p>}
         {latestProject&&<p><Button data-click="onCloneLatestProject">Clone project <span>'{latestProject.description}'</span></Button></p>}
         <p><ButtonLink to="/overview/quarter"><T>seeCurrentQuarter</T></ButtonLink></p>
       </section>

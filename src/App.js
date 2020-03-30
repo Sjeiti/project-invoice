@@ -1,15 +1,16 @@
 import React from 'react'
-import { Provider, connect } from 'react-redux'
-import { BrowserRouter as Router } from 'react-router-dom'
-import { hot } from 'react-hot-loader'
+import {Provider, connect} from 'react-redux'
+import {BrowserRouter as Router} from 'react-router-dom'
+import {hot} from 'react-hot-loader'
 import styled from 'styled-components'
-import { Routes } from './Routes'
-import { Header } from './components/Header'
-import { Footer } from './components/Footer'
-import { DecryptionDialog } from './components/DecryptionDialog'
-import { Notification } from './components/Notification'
+import {Routes} from './Routes'
+import {Header} from './components/Header'
+import {Footer} from './components/Footer'
+import {DecryptionDialog} from './components/DecryptionDialog'
+import {Notification} from './components/Notification'
 import {size} from './service/css'
 import {notify} from './util/signal'
+import {tableGlobalStyle} from './components/tableGlobalStyle'
 
 const {padding, headerHeight, sum} = size
 
@@ -25,6 +26,7 @@ const Layout = styled.div`
     padding-top: ${sum(headerHeight, padding)};
     padding-bottom: ${padding};
   }
+  ${tableGlobalStyle}
 `
 
 // export const App = hot(module)(connect(state=>({state}))(({ store }) =>

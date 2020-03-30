@@ -3,8 +3,7 @@ import styled from 'styled-components'
 
 const PriceDiv = styled.div`
   position: relative;
-  max-width: 6rem;
-  padding-left: 20px;
+  width: 5.75rem;
   white-space: nowrap;
   text-align: right;
   font-family: monospace;

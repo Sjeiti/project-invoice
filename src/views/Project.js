@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 import {Link, withRouter} from 'react-router-dom'
 import {isEqual, cloneDeep} from 'lodash'
-import {nbsp,getGetSetter} from '../util'
+import {nbsp, getGetSetter} from '../util'
 import {saveable} from '../util/signal'
 import {storeProject, removeProject, cloneProject} from '../model/clients/actions'
 import {
@@ -39,7 +39,7 @@ import {getCloneProjectEvents, getNextProjectEvents, getPreviousProjectEvents} f
 import {getInvoice} from '../model/clients/factory'
 
 const StyledProject = styled.div`
-  .description {
+  label.description {
     display: inline-block;
     width: calc(100% - 1.5rem);
     +label {
@@ -179,7 +179,7 @@ export const Project = withRouter(
         }
         hourlyRate>0 && Object.assign(cols, {
           hours: <InputNumber value={hours} setter={lineSetter('hours', parseFloat)} />
-          , times: <Price amount={hours*hourlyRate} onClick={amountSetter.bind(null, hours*hourlyRate)} />
+          , times: <Price className={'float-right'} amount={hours*hourlyRate} onClick={amountSetter.bind(null, hours*hourlyRate)} />
         })
         return cols
       })

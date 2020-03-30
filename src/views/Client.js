@@ -21,6 +21,7 @@ import {Table} from '../components/Table'
 import {InputCheckbox, InputText, InputNumber} from '../components/Input'
 import {T} from '../components/T'
 import {onClickPaid} from '../model/clients/util'
+import {LineEllipsed} from '../components/LineEllipsed'
 
 const editablePropNames = [
   {key:'name', input:InputText}
@@ -61,6 +62,7 @@ export const Client = withRouter(
 
     const projectListProjects = clientOld?.projects.map(project => ({
       ...project
+      , description: <LineEllipsed>{project.description}</LineEllipsed>
       , onClick: () => history.push(getProjectHref(project))
       // todo: make paid click functional
       , paid: <InputCheckbox
