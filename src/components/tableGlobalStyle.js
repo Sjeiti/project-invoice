@@ -1,19 +1,18 @@
 import {css} from 'styled-components'
 import {StyledTable} from './Table'
-import {size, color, breakpoint} from '../service/css'
+import {breakpoint} from '../service/css'
 
-const {breakpointLow, breakpointHigh} = breakpoint
+const {breakpointLow} = breakpoint
 
 export const tableGlobalStyle = css`
   ${StyledTable} {
     .drag { width: 1rem; }
     .paid { width: 2.5rem; }
-    .last,
-    .client,
-    .description { 
-      width: auto; 
-      width: 100%; 
-    }
+    
+    .last { width: 50%; }
+    .client { width: 75%; }
+    .description { width: 100%; }
+    
     .nr { width: 4rem; }
     .times,
     .recent,
@@ -23,11 +22,11 @@ export const tableGlobalStyle = css`
     .totalVATDiscounted,
     .totalIncDiscounted { width: 7rem; }
     .invoices { width: 5rem; }
-    .actions { width: 8rem; }
-    .hours { width: 5rem; }
-    .amount { width: 8rem; }
+    .actions { width: 8rem; }  // todo check actions vs action
+    .hours { width: 4.5rem; }
+    .amount { width: 7rem; }
     .vat { width: 4rem; }
-    .action { width: 2rem; }
+    .action { width: 2rem; }  // todo check actions vs action
     .allPaid { width: 3rem; }
     td div {}
     input {
@@ -37,6 +36,8 @@ export const tableGlobalStyle = css`
     @media ${breakpointLow} {
       //.last,
       //.description { width: 16vw; }
+      .client { width: 15vw; }
+      .description { width: 20vw; }
     } 
   } 
 `

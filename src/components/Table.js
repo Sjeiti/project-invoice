@@ -74,7 +74,6 @@ export const StyledTable = styled.table`
   }
   td, th {
     height: ${trHeight};
-    //line-height: 2.25rem;
     white-space: nowrap;
     overflow: hidden;
     padding: 0 0.25rem 0 0;
@@ -82,10 +81,6 @@ export const StyledTable = styled.table`
     &:first-child { padding-left: 0; }
     &:last-child { padding-right: 0; }
   }
-  //.description > div {
-  //  overflow: hidden;
-  //  text-overflow: ellipsis;
-  //}
   input, button, select {
     margin: 0;
   }
@@ -119,7 +114,7 @@ export const Table = ({ cols, subjects, empty, children, className }) => {
               key={subject.hasOwnProperty('key')?subject.key:index}
             >
               <tr onClick={subject.onClick}>
-                {cols.map(({key}, index) => <td key={index}><div>{subject[key]}</div></td>)}
+                {cols.map(({key}, index) => <td key={index} className={key}><div>{subject[key]}</div></td>)}
               </tr>
             </CSSTransition>
           ))) || (
