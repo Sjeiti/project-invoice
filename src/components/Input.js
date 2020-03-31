@@ -109,7 +109,7 @@ export const InputCheckbox = ({value, setter, onChange, ...attr}) => {
       checked={value}
       {...attr}
       type="checkbox"
-  /><span onClick={attr.onClick||noop} /></>
+  /><span className={attr.className} onClick={attr.onClick||noop} /></>
 }
 
 export const InputRange = ({ value, onChange:_onChange, setter, ...attr}) => {

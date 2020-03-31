@@ -82,6 +82,12 @@ hr {
 
 .mono { font-family: 'Source Code Pro', monospace; }
 
+// responsive hide/show
+@media #{$breakpointHigh} { .media-low { display: none; }}
+@media #{$breakpointLow} { .media-high { display: none; }}
+//
+
+
 [input-unit] {
   position: relative;
   input {

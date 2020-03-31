@@ -4,6 +4,7 @@ import {StyledInput} from './Input'
 
 const StyledSelect = styled.select`
   ${StyledInput.componentStyle.rules}
+  max-width: 100%;
   height: 1.875rem;
   padding: 0 0 0 0.25rem;
 `

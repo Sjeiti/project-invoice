@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 import {Link, withRouter} from 'react-router-dom'
 import {isEqual, cloneDeep} from 'lodash'
-import {nbsp, getGetSetter} from '../util'
+import {nbsp,getGetSetter,capitalise} from '../util'
 import {saveable} from '../util/signal'
 import {storeProject, removeProject, cloneProject} from '../model/clients/actions'
 import {
@@ -309,10 +309,9 @@ export const Project = withRouter(
                 })}
               </section>
             </Tabs>
-
             <Dialog
                 show={invoiceDialogOpen}
-                title={'Edit '+invoice.type}
+                title={t('edit'+capitalise(invoice.type||'invoice'))}
                 close={()=>setInvoiceDialog(false)}
                 submit={()=>invoiceSubmit(invoice)}
                 source={invoiceSource}
@@ -321,12 +320,12 @@ export const Project = withRouter(
                   return {bottom: bottom-4, height, left, right, top, width, x, y}
                 }}
             >
-              <Label>Date<InputDate value={invoice.date} setter={getInvoiceSetter('date')}/></Label>
+              <Label><T>date</T><InputDate value={invoice.date} setter={getInvoiceSetter('date')}/></Label>
               {invoice.type!=='invoice'&&<>
-                <Label>Interest<InputCheckbox value={invoice.interest} setter={getInvoiceSetter('interest')}/></Label>
-                <Label>Exhortation<InputCheckbox value={invoice.exhortation} setter={getInvoiceSetter('exhortation')}/></Label>
+                <Label><T>legalInterest</T><InputCheckbox className={'float-right'} value={invoice.interest} setter={getInvoiceSetter('interest')}/></Label>
+                <Label><T>exhortation</T><InputCheckbox className={'float-right'} value={invoice.exhortation} setter={getInvoiceSetter('exhortation')}/></Label>
               </>}
-              <Label>Paid<InputNumber value={invoice.paid} setter={getInvoiceSetter('paid')}/></Label>
+              <Label><T>paid</T><InputNumber value={invoice.paid} setter={getInvoiceSetter('paid')}/></Label>
             </Dialog>
           </StyledProject>
         )) || <StyledProject><T>project not found</T></StyledProject>

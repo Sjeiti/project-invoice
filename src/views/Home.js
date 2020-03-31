@@ -121,7 +121,7 @@ export const Home = withRouter(connect(
       const daysLate = getInvoiceDaysLate(project, clients)
       const daysLateReminder = getReminderDaysLate(project, data.reminderPeriod)
       const showButton = hasReminder&&daysLateReminder||!hasReminder&&daysLate
-      return showButton&&<Button onClick={onClickRemind.bind(null, project, storeProject)}><T>Add reminder</T></Button>
+      return showButton&&<Button onClick={onClickRemind.bind(null, project, storeProject)}><T>addReminder</T></Button>
     })()
     , key: project.id
   }))
@@ -132,7 +132,7 @@ export const Home = withRouter(connect(
     , description: <LineEllipsed>{project.description}</LineEllipsed>
     , onClick: () => history.push(getProjectHref(project))
     , totalIncDiscounted: <Price symbol="€" amount={getTotalIncDiscounted(project)} separator="," />
-    , actions: <Button onClick={onClickInvoice.bind(null, project, storeProject)}><T>Add invoice</T></Button>
+    , actions: <Button onClick={onClickInvoice.bind(null, project, storeProject)}><T>addInvoice</T></Button>
   }))
   const hideHomeMessage = storeConfig.bind(null, {...config, ...{homeMessage:false}})
   return <div>

@@ -17,8 +17,12 @@ const Element = styled.label`
     position: relative;
     right: 70%;
     transform: translateX(100%);
+    &.float-right {
+      right: 0;
+      transform: translateX(0);
+    }
   }
-  &>input, &>textarea, &>.input {
+  &>input, &>textarea, &>select, &>.input {
     float: right;
     width: 70%;
   }
