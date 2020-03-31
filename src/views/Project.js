@@ -198,13 +198,13 @@ export const Project = withRouter(
           <StyledProject>
 
             <header className="clearfix">
-              <h3><Link to={getClientHref(client)}>{client.name||nbsp}</Link></h3>
-              <h2 className="float-left">{project.description||nbsp}</h2>
+              <h3 className="float-left base-height"><Link to={getClientHref(client)}>{client.name||nbsp}</Link></h3>
               <div className="float-right">
                 <ButtonLink invert={1} {...getPreviousProjectEvents(client, project)}><i className="icon-chevron-left"></i></ButtonLink>
                 <ButtonLink invert={1} {...getNextProjectEvents(client, project)}><i className="icon-chevron-right"></i></ButtonLink>
                 <ButtonLink {...cloneProjectEvents}><T>clone</T></ButtonLink>
               </div>
+              <h2 className="clear">{project.description||nbsp}</h2>
             </header>
 
             <section>
@@ -224,10 +224,11 @@ export const Project = withRouter(
 
             <section>
               <Button onClick={addLine} className="float-right"><T>new line</T></Button>
-              <h3><T>lines</T></h3>
+              <h3 className="base-height"><T>lines</T></h3>
               <Table
                   cols={projectLineCols}
                   subjects={projectLineSubjects}
+                  className="clear"
               >
                 <tfoot>
                   <tr>

@@ -196,6 +196,7 @@ code {
 .position-relative { position: relative; }
 .float-left { float: left; }
 .float-right { float: right; }
+.clear { clear: both; }
 .text-align-left { text-align: left; }
 .text-align-right { text-align: right; }
 .text-align-center { text-align: center; }
@@ -203,6 +204,7 @@ code {
 .overflow-hidden { overflow: hidden; }
 .display-flex { display: flex; align-items: flex-start; justify-content: space-between; }
 .color-button { color: $colorButton; }
+.base-height { line-height: 1.875rem; height: 1.875rem; }
 
 .ellipsis {
   position: relative;

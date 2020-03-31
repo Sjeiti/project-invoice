@@ -97,7 +97,7 @@ export const Table = ({ cols, subjects, empty, children, className }) => {
   const isHoverable = !!subjects?.[0]?.onClick
   const hasTFoot = children&&(Array.isArray(children)&&children.filter(c=>c.type==='tfoot').length||children.type==='tfoot')
   return (
-    <StyledTableWrapper><StyledTable className={className+(isHoverable&&' hoverable'||'')}>
+    <StyledTableWrapper className={className}><StyledTable className={className+(isHoverable&&' hoverable'||'')}>
       <thead>
         <tr>
           {cols.map(({th, key}, index) => (

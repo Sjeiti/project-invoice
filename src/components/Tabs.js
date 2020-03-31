@@ -42,6 +42,7 @@ const Tab = styled.button`
     border-bottom-color: #bbb;
     cursor: pointer;
     background: linear-gradient(to top, rgba(0,0,0,0.1), rgba(0,0,0,0));
+    &>h3 { overflow: hidden; }
   `}
   &>h3 {
     margin-bottom: 0;
