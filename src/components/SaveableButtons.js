@@ -18,7 +18,6 @@ export const SaveableButtons = withRouter(props => {
   const [deleet, setDelete] = useState(noop)
 
   const { history } = props
-
   history.listen(()=>setSaveable(false))
 
   // saveable signal binding

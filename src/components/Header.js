@@ -196,22 +196,23 @@ const DropLiStyled = styled.li`
     }
   }
 `
-const DropLi = ({to,title,children}) => <DropLiStyled>
+const DropLi = ({to, title, children}) => <DropLiStyled>
   <label htmlFor={'drop'+to}><HeaderLink to={to}><T>{title}</T></HeaderLink></label>
   <input className="visually-hidden" id={'drop'+to} type="checkbox" />
   {children}
 </DropLiStyled>
 
 export const Header = withRouter(connect(
-    state => ({ config: getConfig(state), state, location })
-  )(({ state, config }) => {
+    state => ({ config: getConfig(state) })
+  )(({ config, history }) => {
   const [cloudProvider] = useState(config.cloudSelected)
   const [hamburger, setHamburger] = useState(false)
 
   useEffect(()=>{
-    const setHamburgerFalse = e=>e.target.matches('[for=hamburger]')||setHamburger(false)
+    const setHamburgerFalse = e=>e?.target?.matches('[for=hamburger]')||setHamburger(false)
     body.addEventListener('click', setHamburgerFalse)
-    return ()=>body.removeEventListener('click', setHamburgerFalse)
+    const unbind = history.listen(requestAnimationFrame.bind(null, setHamburgerFalse))
+    return ()=>(unbind(), body.removeEventListener('click', setHamburgerFalse))
   }, [])
 
   return (
