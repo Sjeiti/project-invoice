@@ -1,7 +1,7 @@
 import React, {createRef, forwardRef, useState, useEffect} from 'react'
 import {getCSSVariables, nbsp} from '../util'
 import styled from 'styled-components'
-import {breakpoint, sass} from '../service/css'
+import {sass} from '../service/css'
 import {project as enhanceProject} from '../model/clients/project'
 import {getProjectNumber} from '../model/clients/selectors'
 import {Parse as ParseUnbound} from './Parse'
@@ -9,24 +9,14 @@ import {T as TUnbound} from './T'
 
 import print from '../config/print.css' // todo: not this of course
 
-const {breakpointHigh} = breakpoint
-const breakpointHigher = '(min-width: 850px)'
-
-const sizeS = 0.4
-const sizeL = 0.6
 const A4w = 210
 const A4h = 297
-const A4ws = A4w*sizeS
-const A4hs = A4h*sizeS
-const A4wl = A4w*sizeL
-const A4hl = A4h*sizeL
-const A4wHalf = 0.5*A4w
-const A4wsHalf = 0.5*A4ws
-const A4wlHalf = 0.5*A4wl
 const colorDivider = '#1d85b4';
 const dividerSize = '0.3%';
 const dividerSize_ = '99.7%';
 const dividerWidth = `${1.02*A4w}mm`
+
+const scale = w=>0.265*w/A4w // todo wtf is that number?
 
 const Currency = ({children:val}) => {
   let dotValue = parseFloat(val||0).toFixed(2)
@@ -37,50 +27,30 @@ const Currency = ({children:val}) => {
 }
 
 const StyledPrintInvoice = styled.div`
-  @media ${breakpointHigh} {
-  }
-  @media ${breakpointHigher} {
-  }
+  width: auto;
   .iframe-wrapper {
     position: relative;
-    left: calc(50% - ${A4wsHalf}mm);
-    width: ${A4ws}mm;
-    min-height: ${A4hs}mm;
-    height: ${A4hs}mm; // todo fix: min-height should be sufficient
+    width: ${props => scale(props.width)*A4w}mm;
+    min-height: ${props => scale(props.width)*A4h}mm;
+    height: ${props => scale(props.width)*A4h}mm;
     overflow: hidden;
-    @media ${breakpointHigh} {
-      width: ${A4wl}mm; 
-      min-height: ${A4hl}mm;
-      height: ${A4hl}mm; // todo fix: min-height should be sufficient
-      left: calc(50% - ${A4wlHalf}mm);
-    }
-    @media ${breakpointHigher} {
-      width: ${A4w}mm; 
-      min-height: ${A4h}mm;
-      height: ${A4h}mm; // todo fix: min-height should be sufficient
-      left: calc(50% - ${A4wHalf}mm);
-    }
+  }
+  iframe, .invoice-shade, .page-dividers {
+    width: ${A4w}mm;
+    transform-origin: top left;
+    transform: scale(${props => scale(props.width)});
   }
   iframe {
-    width: ${A4w}mm;
     min-height: ${A4h}mm;
     border: 0;
-    transform-origin: 0 0;
-    transform: scale(${sizeS});
     background-color: white;
     overflow: hidden;
-    box-shadow: 0 0 4px rgba(0,0,0,0.1);
-    @media ${breakpointHigh} { transform: scale(${sizeL}); }
-    @media ${breakpointHigher} { transform: scale(1); }
   }
   .invoice-shade {
     position: relative;
     /*z-index: 99;*/
     display: block;
     height: 0;
-    zoom: ${sizeS};
-    @media ${breakpointHigh} { zoom: ${sizeL}; }
-    @media ${breakpointHigher} { zoom: 1; }
     div {
       position: relative;
       left: 50%;
@@ -90,9 +60,9 @@ const StyledPrintInvoice = styled.div`
       &:before, &:after {
         content: '';
         position: absolute;
-        left: 4%; // 7%; // 5%; //
+        left: 7%; // 4%; // 5%; //
         top: 1%;
-        width: 92%; // 86%; // 90%; //
+        width: 86%; // 92%; // 90%; //
         height: 98%;
         box-shadow: 4px 8px 64px rgba(0, 0, 0, 0.4);
         background-color: rgba(0, 0, 0, 0.15);
@@ -103,14 +73,7 @@ const StyledPrintInvoice = styled.div`
   }
   .page-dividers {
     position: relative;
-    left: 50%;
-    /*z-index: 2;*/
-    width: ${A4w}mm;
     height: 0;
-    transform: translateX(-50%);
-    zoom: ${sizeS};
-    @media ${breakpointHigh} { zoom: ${sizeL}; }
-    @media ${breakpointHigher} { zoom: 1; }
     div {
       position: relative;
       width: ${dividerWidth};
@@ -155,9 +118,6 @@ export const PrintInvoice = forwardRef(({state, project, client, invoiceIndex, l
   const iframeRef = createRef()
   const invoiceRef = createRef()
 
-  // const iframeHTML = createRef('')
-  // const [iframeHTML, setIframeHTML] = useState('')
-
   const fontsURI =  `https://fonts.googleapis.com/css?family=${config.themeFontMain}|${config.themeFontCurrency}`
 
   // rewire T to be bound to set language
@@ -176,9 +136,7 @@ export const PrintInvoice = forwardRef(({state, project, client, invoiceIndex, l
     const {current:{outerHTML:html}} = invoiceRef
     contentDocument.title = getProjectNumber(project, state)
     contentBody.innerHTML = html.replace('visually-hidden', '')
-    // todo onResize?
     // todo calculatePagebreaks
-    // todo fix rerender causing whiteout
   }, [invoiceRef, iframeRef, lang, invoiceIndex])
 
   // update IFrame CSS
@@ -186,7 +144,8 @@ export const PrintInvoice = forwardRef(({state, project, client, invoiceIndex, l
     const iframe = iframeRef.current
     const {contentDocument:{head}} = iframe
     const style = head.querySelector('style')||document.createElement('style')
-    sass.compile(invoiceCSS).then(css=>style.innerText = print+CSSVariables+themeLogoCSS+css)
+    sass.compile(invoiceCSS)
+        .then(css=>style.innerText = print+CSSVariables+themeLogoCSS+css)
     head.appendChild(style)
   }, [iframeRef, invoiceCSS])
 
@@ -196,17 +155,35 @@ export const PrintInvoice = forwardRef(({state, project, client, invoiceIndex, l
     ref.current.printInvoice = contentWindow.print.bind(contentWindow)
   }, [iframeRef])
 
+  // force re-render to prevent iframe whiteout
+  const reRender = useState(0)[1]
+  useEffect(()=>{ setTimeout(reRender, 1) }, [])
+  // useEffect(()=>{ requestAnimationFrame(setFoo) }, [])
+
+  // size/resize
+  function getWidth(){
+  	return ref?.current?.offsetWidth||500
+  }
+  const [width, setWidth] = useState(getWidth)
+  useEffect(()=>{
+    // todo throttle event
+    const handleResize = ()=>setWidth(getWidth())
+    window.addEventListener('resize', handleResize)
+    requestAnimationFrame(handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [ref])
+
   project = enhanceProject(project)
 
-  return <StyledPrintInvoice ref={ref} {...attr}>
+  return <StyledPrintInvoice width={width} ref={ref} {...attr}>
 
-    <div xref="shade" className="invoice-shade"><div /></div>
+    <div className="invoice-shade"><div /></div>
 
-    <div xref="pageDividers" className="page-dividers" v-bind-data-foo="pageBreaks.join(',')">
-      <div v-for="pageHeight in pageBreaks" v-bind-style="`height:${pageHeight}px;`">&nbsp;</div>
+    <div className="page-dividers">
+      <div v-for="pageHeight in pageBreaks">&nbsp;</div>
     </div>
 
-    <div xref="iframeWrapper" className="iframe-wrapper">
+    <div className="iframe-wrapper">
       <iframe ref={iframeRef} />
     </div>
 
@@ -324,5 +301,4 @@ export const PrintInvoice = forwardRef(({state, project, client, invoiceIndex, l
     </div>
 
   </StyledPrintInvoice>
-}
-)
+})

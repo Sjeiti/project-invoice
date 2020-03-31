@@ -20,12 +20,12 @@ import {FormSpan} from '../components/FormSpan'
 
 const StyledLayout = styled.section`
  
- .example {
+ /*.example {
    width: 210mm;
    min-height: 297mm;
    transform-origin: top left;
    transform: scale(0.5);
- }
+ }*/
  select { width: 70%; }
  textarea {
    width: 100%;
@@ -69,6 +69,8 @@ export const Layout = connect(
       getFontList(config.googleFontsAPIKey).then(result=>{
         setFontOptions(result.map(font=>({text:font.family, value:font.family})))
       })
+      // requestAnimationFrame(()=>setFontOptions(fontOptions))
+      // setTimeout(()=>setConfig(config), 12140)
     }, []) /* eslint-disable-line react-hooks/exhaustive-deps */
 
     const colorTypes = ['themeMainBgColor', 'themeMainFgColor', 'themeSecondaryBgColor', 'themeSecondaryFgColor']
@@ -109,7 +111,7 @@ export const Layout = connect(
 
       <div className="row">
 
-      <div className="col-6">
+      <div className="col-12 col-sm-6">
         <Label><T>theme</T> <Select value={config.theme} setter={getSetter('theme')} options={config.themes.map(k=>({text:k, value:k}))} /></Label>
 
         <div>
@@ -134,7 +136,7 @@ export const Layout = connect(
         <Textarea value={config.invoiceCSS} setter={getSetter('invoiceCSS')} />
       </div>
 
-      <div className="col-6">
+      <div className="col-12 col-sm-6">
         <menu style={{marginBottom:'1rem'}}>
           {invoiceTypes.map((type, index)=><Button key={type} onClick={()=>setInvoiceIndex(index-1)} disabled={invoiceIndex===(index-1)}>{type}</Button>)}
           {config.langs.map(iso=><Button key={iso} onClick={()=>setLang(iso)} disabled={iso===lang}>{iso}</Button>)}
