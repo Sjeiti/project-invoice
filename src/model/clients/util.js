@@ -1,6 +1,7 @@
 import {stopPropagation} from '../../util'
 import {INVOICE} from '../../config/invoice'
 import {getInvoice} from './factory'
+
 /**
  * Mark project as paid
  * @param {Project} project
@@ -8,7 +9,7 @@ import {getInvoice} from './factory'
  * @param {MouseEvent} e
  */
 export function onClickPaid(project, storeProject, e){
-  storeProject(Object.assign({}, project, {  }))
+  storeProject(Object.assign({}, project, { paid: !project.paid }))
   stopPropagation(e)
 }
 
