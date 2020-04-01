@@ -157,7 +157,7 @@ export const PrintInvoice = forwardRef(({state, project, client, invoiceIndex, l
 
   // force re-render to prevent iframe whiteout
   const reRender = useState(0)[1]
-  useEffect(()=>{ setTimeout(reRender, 1) }, [])
+  useEffect(()=>{ setTimeout(reRender, 100) }, [])
   // useEffect(()=>{ requestAnimationFrame(setFoo) }, [])
 
   // size/resize
