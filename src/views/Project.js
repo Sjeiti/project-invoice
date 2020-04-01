@@ -326,7 +326,7 @@ export const Project = withRouter(
                 <Label><T>legalInterest</T><InputCheckbox className={'float-right'} value={invoice.interest} setter={getInvoiceSetter('interest')}/></Label>
                 <Label><T>exhortation</T><InputCheckbox className={'float-right'} value={invoice.exhortation} setter={getInvoiceSetter('exhortation')}/></Label>
               </>}
-              <Label><T>paid</T><InputNumber value={invoice.paid} setter={getInvoiceSetter('paid')}/></Label>
+              <Label><T>paid</T><InputNumber value={invoice.paid||0} setter={getInvoiceSetter('paid')}/></Label>
             </Dialog>
           </StyledProject>
         )) || <StyledProject><T>project not found</T></StyledProject>
