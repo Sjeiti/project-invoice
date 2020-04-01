@@ -14,6 +14,7 @@ export const StyledTableWrapper = styled.div`
   overflow: auto;
   max-width: 100%;
 `
+
 export const StyledTable = styled.table`
   width: 100%;
   table-layout: fixed;
@@ -113,6 +114,7 @@ export const Table = ({ cols, subjects, empty, children, className }) => {
               classNames="animate"
               key={subject.hasOwnProperty('key')?subject.key:index}
             >
+              {/*CSSTransition props causes warnings onto tr */}
               <tr onClick={subject.onClick}>
                 {cols.map(({key}, index) => <td key={index} className={key}><div>{subject[key]}</div></td>)}
               </tr>

@@ -61,7 +61,7 @@ export const Overview = withRouter(connect(
   const year = match.params.year||years[years.length-1]
   const {config:{csvTemplate, currency:_currency}, personal:data} = state
 
-  const quarterProjects = [0, 0, 0, 0].map((n, i)=>getProjectsOfYearQuarter(clients, year, i).map(project => ({
+  const quarterProjects = [0, 0, 0, 0].map((n, i)=>getProjectsOfYearQuarter(clients, year, i).map((project, j) => ({
     ...project
     , paid: <InputCheckbox
         value={project.paid}
@@ -77,6 +77,7 @@ export const Overview = withRouter(connect(
     , totalDiscounted: <Price symbol="€" amount={getTotalDiscounted(project)} separator="," />
     , totalVATDiscounted: <Price symbol="€" amount={getTotalVATDiscounted(project)} separator="," />
     , project
+    , key: `q${i}p${j}`
   })))
 
   const [elmCsv] = useState(appendChild('textarea', body, 'visually-hidden'))
@@ -108,7 +109,6 @@ export const Overview = withRouter(connect(
     }
   }
 
-
   return <StyledOverview>
     <h3><T>overview</T></h3>
     {years.map(yearLink => <Link key={yearLink} to={`/overview/${yearLink}`} className={year===yearLink&&'current'||''}>{yearLink}</Link>)}
@@ -117,7 +117,7 @@ export const Overview = withRouter(connect(
       {i>0&&<hr />}
       <header className="display-flex">
         <h3>{i + 1}e <T>quarter</T></h3>
-        <Button disabled={quarterProject.length===0} onClick={onClickCSVButton.bind(null, quarterProject)}><T>copy csv data</T></Button>
+        <Button disabled={quarterProject.length===0} onClick={onClickCSVButton.bind(null, quarterProject)}><T>copyCsvData</T></Button>
       </header>
       <Table
         cols="paid nr date client description totalDiscounted totalVATDiscounted totalIncDiscounted"
