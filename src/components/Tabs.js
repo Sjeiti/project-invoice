@@ -59,7 +59,7 @@ export const Tabs = ({ currentIndex=0, children }) => {
       .map(({props:{children}}, i)=><Tab
           key={i}
           notCurrent={selectedChildIndex!==i}
-          onClick={setSelectedChildIndex.bind(null, i)}
+          onClick={()=>setSelectedChildIndex(i)}
       ><h3>{children}</h3></Tab>)
   ;
   const selectedChild = children[selectedChildIndex]
