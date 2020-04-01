@@ -227,7 +227,6 @@ export const Header = withRouter(connect(
         <ul className="list-unstyled list-inline">
           <li>
             <input
-              defaultChecked={hamburger}
               checked={hamburger}
               onChange={e=>setHamburger(e.target.checked)}
               className="visually-hidden"
