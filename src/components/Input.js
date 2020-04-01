@@ -106,7 +106,7 @@ export const InputCheckbox = ({value, setter, onChange, ...attr}) => {
   return <><StyledInput
       onChange={onChange || setter && (({ target: { checked } }) => setter(checked)) || noop}
       className="visually-hidden"
-      checked={value}
+      checked={value||false}
       {...attr}
       type="checkbox"
   /><span className={attr.className} onClick={attr.onClick||noop} /></>
