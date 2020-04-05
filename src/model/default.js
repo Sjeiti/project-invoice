@@ -9,10 +9,8 @@ const week = 1000*60*60*24*7
 const dateString = millis=>moment(new Date(millis)).format('YYYY-MM-DD')
 
 export const data = {...defaultJSON, ...{
-  pi: {
-    timestamp: now
-    , version: VERSION
-  }
+  now
+  , version: VERSION
   , clients: [
     {
       nr: 1

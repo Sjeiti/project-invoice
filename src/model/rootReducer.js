@@ -3,21 +3,19 @@ import { clients } from './clients/reducers'
 import { config } from './config/reducers'
 import { copy } from './copy/reducers'
 import { personal } from './personal/reducers'
-import { pi } from './pi/reducers'
 import { session } from './session/reducers'
-import {LOAD_STORE,RESTORE_STORE} from './rootActions'
+import {LOAD_STORE, RESTORE_STORE} from './rootActions'
+import {getInitialState} from './storage'
 
 const appReducer = combineReducers({
-  clients
+  timestamp: (state = getInitialState('timestamp')) => state
+  , version: (state = getInitialState('version')) => state
+  , clients
   , config
   , copy
   , personal
-  , pi
   , session
-  , timestamp: (state = 0) => state
-  , version: (state = '0.0.0') => state
 })
-
 export const rootReducer = (state, action) => {
   if (action.type === RESTORE_STORE) {
     state = action.newState

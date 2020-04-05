@@ -56,7 +56,7 @@ function storeInCloud(){
   const data = getStorage(STORAGE_NAME, false)
   clouding.dispatch(true)
   write(CLOUD_NAME, stringify(data))
-      .then(()=>{},notify.dispatch.bind(notify, 'Cloud write fail'))
+      .then(()=>{}, notify.dispatch.bind(notify, 'Cloud write fail'))
       .then(clouding.dispatch.bind(clouding, false))
 }
 
