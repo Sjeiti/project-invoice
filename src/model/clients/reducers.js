@@ -77,6 +77,7 @@ export function clients(state = initialState, action){
           if (project) {
             const clonedProject = cloneDeep(project)
             clonedProject.id = nextProjectNr
+            clonedProject.ignore = false
             clonedProject.invoices.length = 0
             clonedProject.description += ' (clone)'
             clonedProject.description = getClonedDescription(client, project)
