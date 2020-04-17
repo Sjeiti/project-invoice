@@ -197,5 +197,11 @@
   "passwordRequiredFor": "Your data is encrypted. Please enter your password.",
   "passwordInvalidMessage": "Wrong password. If you choose to cancel, your data will remain on your machine until you overwrite your saved data.",
   "passwordSet": "Set your password",
-  "passwordResetReload": "After setting your password the application will reload"
+  "passwordResetReload": "After setting your password the application will reload",
+  "peer2peerTitle": "peer-to-peer synchronisation",
+  "peer2peerExplain": "Data synchronisation can be done directly through a peer-to-peer connection. There is a server involved to establish connection between the two peers but data is not sent through that server. Your phone sends directly to your computer or vice versa.",
+  "peer2peerExplainReceiverID": "Copy the above ID over to your other device into the 'send' field.",
+  "peer2peerExplainSenderID": "Copy the ID of the receiving device into the above field.",
+  "send": "send",
+  "receive": "receive"
 }

@@ -20,6 +20,7 @@ import {Label} from '../components/Label'
 import {ButtonAnchor} from '../components/ButtonAnchor'
 import {ButtonLabel} from '../components/ButtonLabel'
 import {Button} from '../components/Button'
+import {PeerUI} from '../components/PeerUI'
 import {T} from '../components/T'
 import {Dialog} from '../components/Dialog'
 import {ID as driveID} from '../service/cloudDrive'
@@ -131,6 +132,13 @@ export const Settings = connect(
               <input accept="application/json, text/json, .json" onChange={onChangeRestore.bind(null,restoreState)} type="file" id="restore" className="visually-hidden"/>
               <Button onClick={()=>restoreState(defaultData)}><T>clear</T></Button>
               <p><Trans>dataExplain</Trans></p>
+            </div>
+          </Section>
+          <Section>
+            <h2 className="col-12 col-sm-3 float-left"><T>peer2peerTitle</T></h2>
+            <div className="col-12 col-sm-9 float-left">
+              <PeerUI data={JSON.stringify(state)} restore={restoreState} />
+              <p><Trans>peer2peerExplain</Trans></p>
             </div>
           </Section>
           <Section>

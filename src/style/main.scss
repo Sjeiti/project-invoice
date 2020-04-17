@@ -34,7 +34,10 @@ body, h1, h2, h3, h4, h5, h6, p, ol, ul {
 
 h1, h2, h3, h4, h5, h6 {
   padding: 0 0 10px;
-  line-height: 200%;
+  //line-height: 200%;
+  line-height: 140%;
+  margin: 2rem 0 0.5rem;
+  &:first-child { margin-top: 0; }
   /*box-shadow: 0 0 0 999px #EEE inset;*/
 }
 h1:first-letter { text-transform: capitalize; }
