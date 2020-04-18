@@ -74,6 +74,7 @@ const StyledHeader = styled.header`
     position: absolute;
     left: 48px;
     top: 0;
+    margin: 0;
     padding: 0;
     color: white;
     line-height: ${headerHeight};
