@@ -33,7 +33,7 @@ const Wait = styled.span`
 
 const AWAITING = Symbol('AWAITING')
 
-export const PeerUI = ({data, restore}) => {
+export const SettingsPeer2Peer = ({state, restoreState}) => {
 
   const [id, setID] = useState('')
   const [status, setStatus] = useState(peerStatus.IDLE)
@@ -52,7 +52,7 @@ export const PeerUI = ({data, restore}) => {
     receiving&&setReceiving(false)
     const peer = initPeer(id)
     peer.connected.add(()=>{
-      peer.send(data)
+      peer.send(JSON.stringify(state))
       peer.received.add(peer.disconnect.bind(peer))
     })
     peer.statusChanged.add(onStatusChanged)
@@ -66,7 +66,7 @@ export const PeerUI = ({data, restore}) => {
     peer.id.add(setID)
     peer.received.add(data=>{
       peer.send('thanks')
-      restore(JSON.parse(data)) // todo: validate data (also check onChangeRestore on Settings.js)
+      restoreState(JSON.parse(data)) // todo: validate data (also check onChangeRestore on Settings.js)
       peer.disconnect()
     })
     peer.statusChanged.add(onStatusChanged)
