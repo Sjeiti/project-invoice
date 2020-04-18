@@ -150,7 +150,7 @@ export const Settings = connect(
             </div>
           </Section>
           <Section>
-            <h2 className="col-12 col-sm-3 float-left"><T>cloud sync</T></h2>
+            <h2 className="col-12 col-sm-3 float-left"><T>cloudsync</T></h2>
             <div className="col-12 col-sm-9 float-left">
               <Select value={cloudProvider} setter={setCloudProvider} disabled={config.cloudSelected} options={cloudProviders} />
               <Button onClick={cloudAuthorise} disabled={!!config.cloudSelected}><T>authorise</T></Button>

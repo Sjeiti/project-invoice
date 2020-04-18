@@ -16,6 +16,23 @@ const Explain = styled.div`
   font-weight: bold;
 `
 
+const Wait = styled.span`
+  margin: 0 1rem;
+  &:before {
+    content: '';
+    animation: slashRotate 600ms linear infinite;
+    font-family: "Source Code Pro", monospace;
+  }
+  @keyframes slashRotate {
+    from { content: '/'; }
+    33% {  content: '-'; }
+    66% {  content: '\\\\'; }
+    to {   content: '|'; }
+  }
+`
+
+const AWAITING = Symbol('AWAITING')
+
 export const PeerUI = ({data, restore}) => {
 
   const [id, setID] = useState('')
@@ -24,40 +41,42 @@ export const PeerUI = ({data, restore}) => {
   const [receiving, setReceiving] = useState(false)
   const [peerr, setPeer] = useState()
   const cendeiving = sending||receiving
+  const awaiting = status===AWAITING
 
   function peerSendIntent(){
-    setSending(!sending)
-    receiving&&setReceiving(false)
+    setID('')
+    setSending(true)
   }
   function peerSend(){
-    setSending(!sending)
+    setStatus(AWAITING)
     receiving&&setReceiving(false)
     const peer = initPeer(id)
     peer.connected.add(()=>{
       peer.send(data)
-      peer.disconnect()
+      peer.received.add(peer.disconnect.bind(peer))
     })
     peer.statusChanged.add(onStatusChanged)
     peer.disconnected.add(peerCancel)
     setPeer(peer)
   }
   function peerReceive(){
-    setReceiving(!receiving)
-    sending&&setSending(false)
+    setID('')
+    setReceiving(true)
     const peer = initPeer()
     peer.id.add(setID)
-    peer.statusChanged.add(onStatusChanged)
     peer.received.add(data=>{
+      peer.send('thanks')
       restore(JSON.parse(data)) // todo: validate data (also check onChangeRestore on Settings.js)
       peer.disconnect()
     })
+    peer.statusChanged.add(onStatusChanged)
     peer.disconnected.add(peerCancel)
     setPeer(peer)
   }
   function peerCancel(){
-    receiving&&setReceiving(false)
-    sending&&setSending(false)
-    sending&&setStatus(peerStatus.IDLE)
+    setReceiving(false)
+    setSending(false)
+    setStatus(peerStatus.IDLE)
     if (peerr) {
       peerr.id.removeAll()
       peerr.statusChanged.removeAll()
@@ -68,18 +87,21 @@ export const PeerUI = ({data, restore}) => {
   }
   function onStatusChanged(...states){
     const newStatus = states[0]
-    //console.log('onStatusChanged',...states) // todo: remove log
   	setStatus(newStatus)
     newStatus===peerStatus.LOST&&peerCancel()
   }
 
   return <>
-      {sending&&<><InputText value={id} setter={setID} /><Button onClick={peerSend}><T>send</T></Button></>}
+      {sending&&(
+        awaiting
+          &&<Wait />
+          ||<><InputText value={id} setter={setID} /><Button onClick={peerSend}><T>send</T></Button></>
+      )}
       {cendeiving||<>
         <Button onClick={peerSendIntent}><T>send</T></Button>
         <Button onClick={peerReceive}><T>receive</T></Button>
       </>}
-      {receiving&&<Id>ID: {id}</Id>}
+      {receiving&&<Id>ID: {id||<Wait />}</Id>}
       {cendeiving&&<>
         <Button onClick={peerCancel}><T>cancel</T></Button>
         {/*<div>Status: {status}</div>*/}

@@ -4,6 +4,11 @@ import {signal} from '../util/signal'
 let connection
 let lastPeerId
 
+const peerConfig = {
+  debug: 2
+  ,iceServers: [{ urls: 'stun:stun3.l.google.com:19302' }]
+}
+
 // stati need to be sent so cannot be Symbols
 export const status = {
   IDLE: 'IDLE'
@@ -24,7 +29,7 @@ export function init(initID){
   const disconnected = signal()
 
   const peerId = Math.floor(Math.random()*1E16).toString(16)
-  const peer = new Peer(peerId, { debug: 2 })
+  const peer = new Peer(peerId, peerConfig)
   const disconnect = peer.disconnect.bind(peer)
 
   peer.on('open', id => {
@@ -47,9 +52,7 @@ export function init(initID){
     } else {
       connection = newConnection
       setStatus(status.CONNECTED, connection.peer)
-      connection.on('data', data=>{
-        received.dispatch(data)
-      })
+      connection.on('data', received.dispatch.bind(received))
       connection.on('close', ()=>{
         setStatus(status.RESET)
         connection = null
@@ -76,7 +79,8 @@ export function init(initID){
       setStatus(status.CONNECTED, connection.peer)
       connected.dispatch()
     })
-    // conn.on('data', addMessage) // senders don't receive
+    // connection.on('data', console.log.bind(console,'sender received')) // senders don't receive
+    connection.on('data', received.dispatch.bind(received))
     connection.on('close', setStatus.bind(null, status.CLOSED))
   }
 
@@ -89,7 +93,6 @@ export function init(initID){
   }
 
   function setStatus(...msg){
-    console.log('setStatus', msg) // todo: remove log
     statusChanged.dispatch(...msg)
   }
 

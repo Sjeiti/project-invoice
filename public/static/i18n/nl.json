@@ -203,5 +203,6 @@
   "peer2peerExplainReceiverID": "Kopieer bovenstaand ID naar het verzend veld op je andere machine.",
   "peer2peerExplainSenderID": "Kopieer het ID van de ontvanger naar het bovenstaande veld.",
   "send": "verstuur",
-  "receive": "ontvang"
+  "receive": "ontvang",
+  "cloudsync": "cloud synchronisatie"
 }

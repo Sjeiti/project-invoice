@@ -203,5 +203,6 @@
   "peer2peerExplainReceiverID": "Copy the above ID over to your other device into the 'send' field.",
   "peer2peerExplainSenderID": "Copy the ID of the receiving device into the above field.",
   "send": "send",
-  "receive": "receive"
+  "receive": "receive",
+  "cloudsync": "cloud synchronisation"
 }
