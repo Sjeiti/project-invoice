@@ -1,23 +1,25 @@
 import Peer from 'peerjs'
 import {signal} from '../util/signal'
+import {MODE_DEVELOPMENT, PEER_HOST, PEER_STUN, STORAGE_NAME, VERSION} from '../config'
 
 let connection
 let lastPeerId
 
 const peerConfig = {
-  debug: 2
-  ,iceServers: [{ urls: 'stun:stun3.l.google.com:19302' }]
+  debug: MODE_DEVELOPMENT?3:0
+  , config: {iceServers: [{ urls: PEER_STUN }]}
+  , host: PEER_HOST
 }
 
 // stati need to be sent so cannot be Symbols
 export const status = {
   IDLE: 'IDLE'
-  ,CONNECTED: 'CONNECTED'
-  ,RESET: 'RESET' // Connection reset, awaiting connection...
-  ,LOST: 'LOST' // Connection lost. Please reconnect
-  ,DESTROYED: 'DESTROYED' // Connection destroyed. Please refresh
-  ,ERROR: 'ERROR'
-  ,CLOSED: 'CLOSED'
+  , CONNECTED: 'CONNECTED'
+  , RESET: 'RESET' // Connection reset, awaiting connection...
+  , LOST: 'LOST' // Connection lost. Please reconnect
+  , DESTROYED: 'DESTROYED' // Connection destroyed. Please refresh
+  , ERROR: 'ERROR'
+  , CLOSED: 'CLOSED'
 }
 
 export function init(initID){
@@ -28,11 +30,11 @@ export function init(initID){
   const received = signal()
   const disconnected = signal()
 
-  const peerId = Math.floor(Math.random()*1E16).toString(16)
+  const peerId = getRandomPeerID()
   const peer = new Peer(peerId, peerConfig)
   const disconnect = peer.disconnect.bind(peer)
 
-  peer.on('open', id => {
+  peer.on('open', () => {
     // Workaround for peer.reconnect deleting previous id
     if (peer.id === null) {
       // console.log('Received null id from peer open')
@@ -98,11 +100,15 @@ export function init(initID){
 
   return {
     id: idState
-    ,statusChanged
-    ,connected
-    ,send
-    ,received
-    ,disconnect
-    ,disconnected
+    , statusChanged
+    , connected
+    , send
+    , received
+    , disconnect
+    , disconnected
   }
+}
+
+function getRandomPeerID(){
+	return btoa(STORAGE_NAME+VERSION).split('').reverse().join('').substr(2).toLowerCase()+Math.floor(Math.random()*1E16).toString(16)
 }
