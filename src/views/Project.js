@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 import {Link, withRouter} from 'react-router-dom'
 import {isEqual, cloneDeep} from 'lodash'
-import {nbsp, getGetSetter, capitalise} from '../util'
+import {nbsp,getGetSetter,capitalise,moveArrayItem} from '../util'
 import {saveable} from '../util/signal'
 import {storeProject, removeProject, cloneProject} from '../model/clients/actions'
 import {
@@ -87,7 +87,7 @@ export const Project = withRouter(
 
       // cloning
       const cloneProjectEvents = getCloneProjectEvents(clients, project, cloneProject)
-      useEffect(() => project.id!==projectId && setProject(projectOld), [projectId]);
+      useEffect(() => project.id!==projectId && setProject(projectOld), [projectId])
 
       // invoices
       const [invoiceDialogOpen, setInvoiceDialog] = useState(false)
@@ -136,13 +136,20 @@ export const Project = withRouter(
       }
 
       const addLine = ()=>{
-        const p = cloneDeep(project)//{...project}//
+        const p = cloneDeep(project) // {...project} //
         p.lines.push({
           description:''
           , hours: 0
           , amount: 0
           , vat: 0
         })
+        setProject(p)
+      }
+      const moveLine = (nr, to)=>{
+        console.log('moveLine',nr,to) // todo: remove log
+        const {lines} = project
+        const p = cloneDeep(project)
+        p.lines = moveArrayItem(lines, nr, to)
         setProject(p)
       }
       const projectLineCols = [
@@ -152,7 +159,7 @@ export const Project = withRouter(
         , {key:'vat', th:<T>vat</T>}
         , {key:'action'}
       ]
-      hourlyRate>0 && projectLineCols.splice(2,0,...[
+      hourlyRate>0 && projectLineCols.splice(2, 0, ...[
         {key:'hours', th:<T>hours</T>}
         , {key:'times', th:<Button onClick={onClickArrow2bar} invert={1}>⇥</Button> }
       ])
@@ -200,8 +207,8 @@ export const Project = withRouter(
             <header className="clearfix">
               <h3 className="float-left base-height"><Link to={getClientHref(client)}>{client.name||nbsp}</Link></h3>
               <div className="float-right">
-                <ButtonLink invert={1} {...getPreviousProjectEvents(client, project)}><i className="icon-chevron-left"></i></ButtonLink>
-                <ButtonLink invert={1} {...getNextProjectEvents(client, project)}><i className="icon-chevron-right"></i></ButtonLink>
+                <ButtonLink invert={1} {...getPreviousProjectEvents(client, project)}><i className="icon-chevron-left" /></ButtonLink>
+                <ButtonLink invert={1} {...getNextProjectEvents(client, project)}><i className="icon-chevron-right" /></ButtonLink>
                 <ButtonLink {...cloneProjectEvents}><T>clone</T></ButtonLink>
               </div>
               <h2 className="clear">{project.description||nbsp}</h2>
@@ -209,7 +216,7 @@ export const Project = withRouter(
 
             <section>
               <Label className="description"><T>description</T><InputText value={project.description} setter={getSetter('description')} /></Label>
-              <label htmlFor="projectProperties"><i className="icon-cog color-button"></i></label>
+              <label htmlFor="projectProperties"><i className="icon-cog color-button" /></label>
               <input id="projectProperties" type="checkbox" className="reveal" />
               <div>
               {editablePropNames.map(
@@ -229,6 +236,8 @@ export const Project = withRouter(
                   cols={projectLineCols}
                   subjects={projectLineSubjects}
                   className="clear"
+                  draggableRows={true}
+                  dragged={moveLine}
               >
                 <tfoot>
                   <tr>
@@ -281,7 +290,7 @@ export const Project = withRouter(
                           <div className="col hide-low"><FormSpan>{getProjectNumber(project, state)}</FormSpan></div>
                           <div className="col-3"><FormSpan>{invoice.date}</FormSpan></div>
                           <div className="col">
-                            {invoice.interest&&<Icon type="promile" title={t('legalInterestWasAdded')}></Icon>}
+                            {invoice.interest&&<Icon type="promile" title={t('legalInterestWasAdded')} />}
                             {invoice.exhortation&&<Icon type="stop" title={t('finalExhortation')} />}
                             {invoice.paid&&<Icon type="money" title={t('paid')+': '+invoice.paid} />}{/*todo: format amount*/}
                           </div>

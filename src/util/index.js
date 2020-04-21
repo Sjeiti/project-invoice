@@ -266,6 +266,19 @@ export function weakAssign(obj, ...adds){
 }
 
 /**
+ * More an array item
+ * @param {Array} arr
+ * @param {number} from
+ * @param {number} to
+ * @return {Array}
+ */
+export function moveArrayItem(arr, from, to) {
+  const clone = arr.slice(0)
+  clone.splice(to, 0, clone.splice(from, 1)[0])
+  return clone
+}
+
+/**
  * Returns the string with the first character to uppercase
  * @param {string} s
  * @returns {string}

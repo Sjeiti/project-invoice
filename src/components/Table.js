@@ -4,6 +4,7 @@ import {useTranslation} from 'react-i18next'
 import {CSSTransition, TransitionGroup} from 'react-transition-group'
 import {lighten} from 'polished'
 import {color, breakpoint} from '../service/css'
+import {Draggable, useDraggable} from './Draggable'
 
 const {colorBorder, colorButton, colorTable} = color
 const {breakpointHigh} = breakpoint
@@ -91,12 +92,39 @@ export const StyledTable = styled.table`
   }
 `
 
-export const Table = ({ cols, subjects, empty, children, className }) => {
+//
+///
+////
+export const Tr = styled.tr``
+////
+///
+//
+
+export const Table = ({
+  cols
+  , subjects
+  , empty
+  , children
+  , className
+  , draggableRows
+  , dragged
+}) => {
   const {length} = cols
   const {t} = useTranslation()
   !Array.isArray(cols)&&(cols = cols.split(' ').map(key=>({key, th:t(key)})))
   const isHoverable = !!subjects?.[0]?.onClick
   const hasTFoot = children&&(Array.isArray(children)&&children.filter(c=>c.type==='tfoot').length||children.type==='tfoot')
+
+  const draggable = useDraggable(subjects)
+  const {list} = draggable
+  const TableRow = draggableRows?Draggable:Tr
+  const TableRowAttr = draggableRows?{
+    elm: Tr
+    , dragSelector: '.drag,.drag *'
+    , dragged
+    , ...draggable
+  }:{}
+
   return (
     <StyledTableWrapper className={className}><StyledTable className={className+(isHoverable&&' hoverable'||'')}>
       <thead>
@@ -107,17 +135,21 @@ export const Table = ({ cols, subjects, empty, children, className }) => {
         </tr>
       </thead>
       <TransitionGroup component="tbody">
-        {(subjects.length &&
-          subjects.map((subject, index) => (
+        {(list.length &&
+          list.map((subject, index) => (
             <CSSTransition
               timeout={200}
               classNames="animate"
               key={subject.hasOwnProperty('key')?subject.key:index}
             >
               {/*CSSTransition props causes warnings onto tr */}
-              <tr onClick={subject.onClick}>
+              <TableRow
+                  {...TableRowAttr}
+                  onClick={subject.onClick}
+                  data-position={index}
+              >
                 {cols.map(({key}, index) => <td key={index} className={key}><div>{subject[key]}</div></td>)}
-              </tr>
+              </TableRow>
             </CSSTransition>
           ))) || (
           <tr>
