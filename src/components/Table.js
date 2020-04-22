@@ -92,13 +92,7 @@ export const StyledTable = styled.table`
   }
 `
 
-//
-///
-////
 export const Tr = styled.tr``
-////
-///
-//
 
 export const Table = ({
   cols

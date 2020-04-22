@@ -46,7 +46,12 @@ export const Draggable = ({
         , isDragging: true
         , originalOrder: list
       })
-      e.dataTransfer.setData('text/html', '') // firefox fix
+      // const {dataTransfer} = e
+      // dataTransfer.dropEffect = 'copy'
+      // dataTransfer.setData('text/html', '') // firefox fix
+      // e.dataTransfer.setData('text/html', e.target.outerHTML) // firefox fix
+    } else {
+      e.preventDefault()
     }
   }
   const onDragOver = e=>{
@@ -66,8 +71,8 @@ export const Draggable = ({
   }
   const onDrop = ()=>{
     const {draggedFrom} = dragAndDrop
-    dragged(dragAndDrop.draggedFrom, dragAndDrop.draggedTo)
     if (draggedFrom!==null) {
+      dragged(dragAndDrop.draggedFrom, dragAndDrop.draggedTo)
       setList(dragAndDrop.updatedOrder)
       setDragAndDrop({
        ...dragAndDrop
