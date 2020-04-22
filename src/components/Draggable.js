@@ -1,8 +1,9 @@
-import React, {useState, useCallback} from 'react'
+import React, {useState, useCallback, useRef} from 'react'
+import classNames from 'classnames'
 import styled from 'styled-components'
 import {moveArrayItem} from '../util'
 
-const initialDnDState = {
+const initialState = {
   draggedFrom: null
   , draggedTo: null
   , isDragging: false
@@ -14,7 +15,7 @@ export const Tr = styled.tr``
 
 export function useDraggable(subjects) {
   const [list, setList] = useState( subjects )
-  const [dragAndDrop, setDragAndDrop] = useState( initialDnDState )
+  const [dragAndDrop, setDragAndDrop] = useState( initialState )
   return {list, setList, dragAndDrop, setDragAndDrop}
 }
 
@@ -37,28 +38,30 @@ export const Draggable = ({
     setValid(!dragSelector||target.matches(dragSelector))
   }, [])
 
+  const {draggedFrom, draggedTo} = dragAndDrop
+  const pos = parseInt(attr['data-position'], 10)
+
   const onDragStart = e=>{
     if (isValid) {
-      const initialPosition = Number(e.currentTarget.dataset.position)
+      const {currentTarget} = e
+      const initialPosition = Number(currentTarget.dataset.position)
       setDragAndDrop({
         ...dragAndDrop
         , draggedFrom: initialPosition
         , isDragging: true
         , originalOrder: list
       })
-      // const {dataTransfer} = e
-      // dataTransfer.dropEffect = 'copy'
-      // dataTransfer.setData('text/html', '') // firefox fix
-      // e.dataTransfer.setData('text/html', e.target.outerHTML) // firefox fix
     } else {
       e.preventDefault()
     }
   }
+
   const onDragOver = e=>{
     e.preventDefault()
     const {draggedFrom, draggedTo, originalOrder} = dragAndDrop
     if (draggedFrom!==null) {
-      const draggedToNew = Number(e.currentTarget.dataset.position)
+      const {currentTarget} = e
+      const draggedToNew = Number(currentTarget.dataset.position)
       const newList = moveArrayItem(originalOrder, draggedFrom, draggedToNew)
       if (draggedToNew!==draggedTo) {
         setDragAndDrop({
@@ -69,28 +72,32 @@ export const Draggable = ({
       }
     }
   }
+
   const onDrop = ()=>{
     const {draggedFrom} = dragAndDrop
     if (draggedFrom!==null) {
-      dragged(dragAndDrop.draggedFrom, dragAndDrop.draggedTo)
-      setList(dragAndDrop.updatedOrder)
+      dragged
+        ?dragged(dragAndDrop.draggedFrom, dragAndDrop.draggedTo)
+        :setList(dragAndDrop.updatedOrder)
       setDragAndDrop({
        ...dragAndDrop
        , draggedFrom: null
        , draggedTo: null
        , isDragging: false
       })
+      setValid(false)
     }
   }
- const onDragLeave = () => {
-   setDragAndDrop({
-     ...dragAndDrop
-     , draggedTo: null
-   })
- }
+
+  const onDragLeave = () => {
+    setDragAndDrop({
+      ...dragAndDrop
+      , draggedTo: null
+    })
+  }
 
   const rowAttr = {
-    draggable: 'true'
+    draggable: isValid?'true':'false'
     , onMouseDown
     , onDragStart
     , onDragOver
@@ -98,5 +105,8 @@ export const Draggable = ({
     , onDragLeave
   }
 
-  return <Elm {...rowAttr} {...attr} />
+  return <Elm {...rowAttr} {...attr} className={classNames({
+    dragFrom:pos===draggedFrom
+    , dragTo:pos===draggedTo
+  })} />
 }

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 import {Link, withRouter} from 'react-router-dom'
 import {isEqual, cloneDeep} from 'lodash'
-import {nbsp,getGetSetter,capitalise,moveArrayItem} from '../util'
+import {nbsp, getGetSetter, capitalise, moveArrayItem} from '../util'
 import {saveable} from '../util/signal'
 import {storeProject, removeProject, cloneProject} from '../model/clients/actions'
 import {
@@ -58,6 +58,12 @@ const editablePropNames = [
 ]
 
 const PriceRight = props => <Price {...props} className="float-right" />
+
+const DragHandleStyled = styled(Icon)`
+  color: ${color.colorButton};
+  cursor: grab;
+`
+const DragHandle = ()=><DragHandleStyled type="drag" />
 
 export const Project = withRouter(
   connect(
@@ -146,7 +152,6 @@ export const Project = withRouter(
         setProject(p)
       }
       const moveLine = (nr, to)=>{
-        console.log('moveLine',nr,to) // todo: remove log
         const {lines} = project
         const p = cloneDeep(project)
         p.lines = moveArrayItem(lines, nr, to)
@@ -174,7 +179,7 @@ export const Project = withRouter(
         const lineSetter = getLineSetter(index)
         const amountSetter = lineSetter('amount', parseFloat)
         const cols = {
-          drag: <Icon type="drag" style={{color:color.colorButton}} />
+          drag: <DragHandle />
           , description: <InputText value={description} setter={lineSetter('description')} />
           , amount: <InputNumber value={amount} setter={amountSetter} />
           , vat: <Select value={vat} options={vatOptions} setter={lineSetter('vat', parseFloat)} />

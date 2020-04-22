@@ -16,6 +16,9 @@ export const StyledTableWrapper = styled.div`
   max-width: 100%;
 `
 
+const colorButton5 = lighten(0.54, colorButton)
+const colorButton3 = lighten(0.3, colorButton)
+
 export const StyledTable = styled.table`
   width: 100%;
   table-layout: fixed;
@@ -31,8 +34,8 @@ export const StyledTable = styled.table`
       box-shadow: 0 1px 0 0 transparent inset, 0 -1px 0 0 transparent inset;
       @media ${breakpointHigh} {
         &:hover {
-          background-color: ${lighten(0.54, colorButton)};
-          box-shadow: 0 1px 0 0 ${lighten(0.3, colorButton)} inset, 0 -1px 0 0 ${lighten(0.3, colorButton)} inset;
+          background-color: ${colorButton5};
+          box-shadow: 0 1px 0 0 ${colorButton3} inset, 0 -1px 0 0 ${colorButton3} inset;
         }
       }
     }
@@ -64,8 +67,22 @@ export const StyledTable = styled.table`
       }
     }
   }
-  tr:nth-child(even) {
-    background-color: #f8f8f8;
+  tr {
+    &:nth-child(even) {
+      background-color: #f8f8f8;
+    }
+    &.dragTo {
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 0.125rem 0 ${colorButton3} inset, 0 -0.125rem 0 ${colorButton3};
+    }
+    &.dragFrom {
+       background-color: ${colorButton3};
+       &~.dragTo {
+         box-shadow: 0 -0.125rem 0 ${colorButton3} inset, 0 0.125rem 0 ${colorButton3};
+       }
+       &.dragTo { box-shadow: none; }
+    }
   }
   th {
     width: 100%;
@@ -109,8 +126,9 @@ export const Table = ({
   const isHoverable = !!subjects?.[0]?.onClick
   const hasTFoot = children&&(Array.isArray(children)&&children.filter(c=>c.type==='tfoot').length||children.type==='tfoot')
 
+  // console.log('draggableRows',draggableRows) // todo: remove log
   const draggable = useDraggable(subjects)
-  const {list} = draggable
+  const list = subjects // draggableRows?draggable.list:subjects
   const TableRow = draggableRows?Draggable:Tr
   const TableRowAttr = draggableRows?{
     elm: Tr
@@ -118,6 +136,8 @@ export const Table = ({
     , dragged
     , ...draggable
   }:{}
+  // console.log('\t',TableRow===Tr) // todo: remove log
+  // console.log('\t',list===subjects) // todo: remove log
 
   return (
     <StyledTableWrapper className={className}><StyledTable className={className+(isHoverable&&' hoverable'||'')}>
