@@ -1,17 +1,18 @@
 import React from 'react'
-import { Route } from 'react-router-dom'
-import { Home } from './views/Home'
-import { Overview } from './views/Overview'
-import { Clients } from './views/Clients'
-import { Client } from './views/Client'
-import { Project } from './views/Project'
-import { Settings } from './views/Settings'
-import { About } from './views/About'
-import { Layout } from './views/Layout'
-import { Data } from './views/Data'
-import { Copy } from './views/Copy'
-import { Invoice } from './views/Invoice'
-import { Test } from './views/Test'
+import {Route} from 'react-router-dom'
+import {Home} from './views/Home'
+import {Overview} from './views/Overview'
+import {Clients} from './views/Clients'
+import {Client} from './views/Client'
+import {Project} from './views/Project'
+import {Settings} from './views/Settings'
+import {About} from './views/About'
+import {Layout} from './views/Layout'
+import {Data} from './views/Data'
+import {Copy} from './views/Copy'
+import {Invoice} from './views/Invoice'
+import {Changelog} from './views/Changelog'
+import {Test} from './views/Test'
 
 export const Routes = () => (
   <>
@@ -30,6 +31,7 @@ export const Routes = () => (
       , [Copy, '/copy']
       , [About, '/about']
       , [Layout, '/layout']
+      , [Changelog, '/changelog']
       , [Test, '/test']
     ].map(([component, path], key) => (
       <Route exact key={key} path={path} component={component} />
