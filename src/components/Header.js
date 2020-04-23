@@ -190,7 +190,7 @@ const DropLiStyled = styled.li`
       overflow: hidden;
       background-color: ${colorHeader};
       transform: translateY(-100%);
-      transition: transform 200ms linear;
+      transition: transform 200ms linear 100ms;
     }
     &:hover ul, input:checked+ul {
       transform: translateY(0);
