@@ -1,11 +1,13 @@
 import React, {useState} from 'react'
 import classNames from 'classnames'
 import styled from 'styled-components'
+import marked from 'marked'
 import {color} from '../service/css'
 import {InputText} from './Input'
 import {Textarea} from './Textarea'
 import {Select} from './Select'
 import {interpolateEvil, readGetters, unique} from '../util'
+import ChangelogHTML from '../views/Changelog.html'
 
 const {
   colorButton
@@ -53,16 +55,18 @@ export const StyledInterpolationInput = styled.div`
     opacity: 0;
     cursor: pointer;
   }
-  pre {
-    padding: 0.75rem;
-    margin: 0 0 1rem;
-    font-size: 0.75rem;
-    line-height: 1rem;
-    color: #888;
-    background-color: #F0F0F0;
-    box-shadow: 0 0 0 1px ${colorBorder} inset;
-    white-space: pre-wrap;
-  }
+`
+
+const Result = styled.div`
+  margin: 0 0 1rem;
+  padding: 0.75rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: #888;
+  background-color: #F0F0F0;
+  box-shadow: 0 0 0 1px ${colorBorder} inset;
+  //white-space: pre-wrap;
+  p:last-child { margin-bottom: 0; }
 `
 
 export const InterpolationInput = attr => {
@@ -78,8 +82,8 @@ export const InterpolationInput = attr => {
 
   const [focussed, setFocus] = useState()
   const focusChange = {onFocus:onFocusChange, onBlur:onFocusChange}
+
   function onFocusChange({type}){
-    console.log('onFocusChange',type) // todo: remove log
     setFocus(type==='focus')
   }
 
@@ -129,7 +133,8 @@ export const InterpolationInput = attr => {
               }
             })()} /></li>)}
       </ul>
-      <pre>{interpolateEvil(value, context)}</pre>
+      {/*<pre>{marked(interpolateEvil(value, context))}</pre>*/}
+      <Result dangerouslySetInnerHTML={{ __html: marked(interpolateEvil(value, context)) }} />
     </section>
   </StyledInterpolationInput>
 }
