@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
+const width = '73.5%' // aligned to col-sm-9 which should be 9/12 = 75% (whatever)
+
 const Element = styled.label`
   position: relative;
   display: block;
@@ -15,7 +17,7 @@ const Element = styled.label`
   &>a {
     float: right;
     position: relative;
-    right: 70%;
+    right: ${width};
     transform: translateX(100%);
     &.float-right {
       right: 0;
@@ -24,7 +26,7 @@ const Element = styled.label`
   }
   &>input, &>textarea, &>select, &>.input {
     float: right;
-    width: 70%;
+    width: ${width};
   }
   &:after {
     content: '';
