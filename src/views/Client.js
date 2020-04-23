@@ -22,6 +22,8 @@ import {InputCheckbox, InputText, InputNumber} from '../components/Input'
 import {T} from '../components/T'
 import {onClickPaid} from '../model/clients/util'
 import {LineEllipsed} from '../components/LineEllipsed'
+import {Tabs} from '../components/Tabs'
+import {DirtyPrompt} from '../components/DirtyPrompt'
 
 const editablePropNames = [
   {key:'name', input:InputText}
@@ -48,8 +50,8 @@ export const Client = withRouter(
     const [emptyMsg] = useState(()=>[<T>clientNoProjects</T>, ', ', <Link {...newProjectEvents}><T>create one</T></Link>].map(keyMap))
 
     useEffect(()=>{setTimeout(()=>saveable.dispatch(true))}, [])
+    const isDirty = isClient&&!isEqual(clientOld, client, ['projects'])
     if (isClient){
-      const isDirty = !isEqual(clientOld, client, ['projects'])
       saveable.dispatch(
           true
           , isDirty && storeClient.bind(null, client) || null
@@ -105,6 +107,7 @@ export const Client = withRouter(
               // empty={[<T key={0}>clientNoProjects</T>, ', ', <Link {...newProjectEvents} key={1}><T key={2}>create one</T></Link>]}
             />
           </section>
+          <DirtyPrompt when={isDirty} />
         </>
       )) || <p>Client not found</p>
     )

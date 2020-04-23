@@ -9,6 +9,7 @@ import {Label} from '../components/Label'
 import {Button} from '../components/Button'
 import {T} from '../components/T'
 import {InterpolationInput} from '../components/InterpolationInput'
+import {DirtyPrompt} from '../components/DirtyPrompt'
 
 export const Copy = connect(
   state => ({ state, copyOld: getCopy(state), config: getConfig(state) })
@@ -55,5 +56,6 @@ export const Copy = connect(
               }} />
         </Label>
     )}
+    <DirtyPrompt when={isDirty} />
   </>
 })

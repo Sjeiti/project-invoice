@@ -33,6 +33,7 @@ import {color} from '../service/css'
 import {Dialog} from '../components/Dialog'
 import {Tabs} from '../components/Tabs'
 import {FormSpan} from '../components/FormSpan'
+import {DirtyPrompt} from '../components/DirtyPrompt'
 import {CSSTransition, TransitionGroup} from 'react-transition-group'
 import styled from 'styled-components'
 import {getCloneProjectEvents, getNextProjectEvents, getPreviousProjectEvents} from '../model/eventFactory'
@@ -129,8 +130,8 @@ export const Project = withRouter(
 
       // saveable
       useEffect(()=>{setTimeout(()=>saveable.dispatch(true))}, [])
+      const isDirty = isProject&&!isEqual(projectOld, project)
       if (isProject){
-        const isDirty = !isEqual(projectOld, project)
         saveable.dispatch(
             true
             , isDirty && storeProject.bind(null, project) || null
@@ -324,6 +325,9 @@ export const Project = withRouter(
                 })}
               </section>
             </Tabs>
+
+            <DirtyPrompt when={isDirty} />
+
             <Dialog
                 show={invoiceDialogOpen}
                 title={t('edit'+capitalise(invoice.type||'invoice'))}

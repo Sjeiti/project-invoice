@@ -17,6 +17,7 @@ import {font} from '../service/css'
 import {getFontList} from '../service/googleAPI'
 import {ButtonLabel} from '../components/ButtonLabel'
 import {FormSpan} from '../components/FormSpan'
+import {DirtyPrompt} from '../components/DirtyPrompt'
 
 const StyledLayout = styled.section`
  
@@ -111,48 +112,50 @@ export const Layout = connect(
 
       <div className="row">
 
-      <div className="col-12 col-sm-6">
-        <Label><T>theme</T> <Select value={config.theme} setter={getSetter('theme')} options={config.themes.map(k=>({text:k, value:k}))} /></Label>
+        <div className="col-12 col-sm-6">
+          <Label><T>theme</T> <Select value={config.theme} setter={getSetter('theme')} options={config.themes.map(k=>({text:k, value:k}))} /></Label>
 
-        <div>
-          <FormSpan style={{width:'30%', display:'inline-block'}}><T>logo</T> </FormSpan>
-          <ButtonLabel>add image<input accept="image/gif, image/jpg, image/jpeg, image/png, image/svg, .gif, .jpg, .jpeg, .png, .svg" type="file" onChange={onChangeLogo} className="visually-hidden"/></ButtonLabel>
-          <Button onClick={()=>setLogo('')}><T>deleteImage</T></Button>
+          <div>
+            <FormSpan style={{width:'30%', display:'inline-block'}}><T>logo</T> </FormSpan>
+            <ButtonLabel>add image<input accept="image/gif, image/jpg, image/jpeg, image/png, image/svg, .gif, .jpg, .jpeg, .png, .svg" type="file" onChange={onChangeLogo} className="visually-hidden"/></ButtonLabel>
+            <Button onClick={()=>setLogo('')}><T>deleteImage</T></Button>
+          </div>
+
+          <h3><T>colors</T></h3>
+          {colorTypes.map(
+              key=><Label style={{maxWidth:'16rem'}} key={key}><T>{key}</T>
+                <InputColor value={config[key]} setter={getSetter(key)} />
+              </Label>
+          )}
+
+          <h3><T>font</T></h3>
+          <Label><T>baseFontSize</T><InputRange min="5" max="30" step="0.2" value={config.themeFontSize} setter={getSetter('themeFontSize')} /></Label>
+          <Label><T>mainFont</T><Select value={config.themeFontMain} setter={getSetter('themeFontMain')} options={fontOptions}/></Label>
+          <Label><T>currencyFont</T><Select value={config.themeFontCurrency} setter={getSetter('themeFontCurrency')} options={fontOptions}/></Label>
+
+          <h3><T>CSS</T></h3>
+          <Textarea value={config.invoiceCSS} setter={getSetter('invoiceCSS')} />
         </div>
 
-        <h3><T>colors</T></h3>
-        {colorTypes.map(
-            key=><Label style={{maxWidth:'16rem'}} key={key}><T>{key}</T>
-              <InputColor value={config[key]} setter={getSetter(key)} />
-            </Label>
-        )}
-
-        <h3><T>font</T></h3>
-        <Label><T>baseFontSize</T><InputRange min="5" max="30" step="0.2" value={config.themeFontSize} setter={getSetter('themeFontSize')} /></Label>
-        <Label><T>mainFont</T><Select value={config.themeFontMain} setter={getSetter('themeFontMain')} options={fontOptions}/></Label>
-        <Label><T>currencyFont</T><Select value={config.themeFontCurrency} setter={getSetter('themeFontCurrency')} options={fontOptions}/></Label>
-
-        <h3><T>CSS</T></h3>
-        <Textarea value={config.invoiceCSS} setter={getSetter('invoiceCSS')} />
-      </div>
-
-      <div className="col-12 col-sm-6">
-        <menu style={{marginBottom:'1rem'}}>
-          {invoiceTypes.map((type, index)=><Button key={type} onClick={()=>setInvoiceIndex(index-1)} disabled={invoiceIndex===(index-1)}>{type}</Button>)}
-          {config.langs.map(iso=><Button key={iso} onClick={()=>setLang(iso)} disabled={iso===lang}>{iso}</Button>)}
-        </menu>
-        <PrintInvoice
-          className="example"
-          ref={piRef}
-          state={fakeState}
-          client={client}
-          project={project}
-          invoiceIndex={invoiceIndex}
-          lang={lang}
-        />
-      </div>
+        <div className="col-12 col-sm-6">
+          <menu style={{marginBottom:'1rem'}}>
+            {invoiceTypes.map((type, index)=><Button key={type} onClick={()=>setInvoiceIndex(index-1)} disabled={invoiceIndex===(index-1)}>{type}</Button>)}
+            {config.langs.map(iso=><Button key={iso} onClick={()=>setLang(iso)} disabled={iso===lang}>{iso}</Button>)}
+          </menu>
+          <PrintInvoice
+            className="example"
+            ref={piRef}
+            state={fakeState}
+            client={client}
+            project={project}
+            invoiceIndex={invoiceIndex}
+            lang={lang}
+          />
+        </div>
 
       </div>
+
+      <DirtyPrompt when={isDirty} />
 
     </StyledLayout>
   }

@@ -22,6 +22,7 @@ import {SettingsEncryption} from '../components/SettingsEncryption'
 import {SettingsCloud} from '../components/SettingsCloud'
 import {T} from '../components/T'
 import {InterpolationInput} from '../components/InterpolationInput'
+import {DirtyPrompt} from '../components/DirtyPrompt'
 
 const Section = styled.section`
   &:after {
@@ -113,6 +114,7 @@ export const Settings = connect(
               <p><Trans>cloudExplain</Trans></p>
             </div>
           </Section>
+          <DirtyPrompt when={isDirty} />
         </>
     )
   })

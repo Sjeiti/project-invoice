@@ -204,5 +204,6 @@
   "peer2peerExplainSenderID": "Kopieer het ID van de ontvanger naar het bovenstaande veld.",
   "send": "verstuur",
   "receive": "ontvang",
-  "cloudsync": "cloud synchronisatie"
+  "cloudsync": "cloud synchronisatie",
+  "routeChangeDirty": "Je hebt wijzigingen niet opgeslagen. Wil je echt naar '${location.pathname}'?"
 }

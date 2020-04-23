@@ -7,6 +7,7 @@ import {storeData} from '../model/personal/actions'
 import {Label} from '../components/Label'
 import {InputText} from '../components/Input'
 import {T} from '../components/T'
+import {DirtyPrompt} from '../components/DirtyPrompt'
 
 export const Data = connect(
   state => ({ dataOld: getData(state) })
@@ -34,5 +35,6 @@ export const Data = connect(
           <InputText value={value} setter={getSetter(key)} />
         </Label>
     )}
+    <DirtyPrompt when={isDirty} />
   </>
 })
