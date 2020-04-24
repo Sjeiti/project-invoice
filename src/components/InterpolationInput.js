@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React,{useMemo,useState} from 'react'
 import classNames from 'classnames'
 import styled from 'styled-components'
 import marked from 'marked'
@@ -8,6 +8,7 @@ import {Textarea} from './Textarea'
 import {Select} from './Select'
 import {interpolateEvil, readGetters, unique} from '../util'
 import ChangelogHTML from '../views/Changelog.html'
+import {data} from '../model/default'
 
 const {
   colorButton
@@ -83,6 +84,30 @@ export const InterpolationInput = attr => {
   const [focussed, setFocus] = useState()
   const focusChange = {onFocus:onFocusChange, onBlur:onFocusChange}
 
+  const html = useMemo(()=>marked(interpolateEvil(value, context)), [value])
+
+  const [selectOptions] = useState(()=>contextKeys.map(key=>
+      <li key={key}>{`\${${key}}`}<Select
+          {...focusChange}
+          onChange={onChangeSelect}
+          name={key}
+          options={(()=>{
+            const obj = context[key]
+            if (typeof obj === 'function') {
+              return []
+              // return [{text: '', name: ''}, {text: '()', name: '()'}]
+            } else {
+              const protoGetters = readGetters(Object.getPrototypeOf(obj))
+              return ['', ...Object.keys(obj), ...protoGetters]
+                .filter(key=>key[0]!=='_')
+                .filter(unique)
+                .map(subkey=>({
+                  text: subkey
+                  , name: subkey
+                }))
+            }
+          })()} /></li>))
+
   function onFocusChange({type}){
     setFocus(type==='focus')
   }
@@ -108,33 +133,9 @@ export const InterpolationInput = attr => {
       &&<InputElement ref={setElmInput} {...focusChange} onSelect={onSelectInput} {...attr} />
       ||<InputText ref={setElmInput} {...focusChange} onSelect={onSelectInput} {...attr} />
     }
-    <section className={focussed&&'focussed'}>
-      <ul>
-        {contextKeys.map(key=><li key={key}>{`\${${key}}`}
-        <Select
-            {...focusChange}
-
-            onChange={onChangeSelect}
-            name={key}
-            options={(()=>{
-              const obj = context[key]
-              if (typeof obj === 'function') {
-                return []
-                // return [{text: '', name: ''}, {text: '()', name: '()'}]
-              } else {
-                const protoGetters = readGetters(Object.getPrototypeOf(obj))
-                return ['', ...Object.keys(obj), ...protoGetters]
-                  .filter(key=>key[0]!=='_')
-                  .filter(unique)
-                  .map(subkey=>({
-                    text: subkey
-                    , name: subkey
-                  }))
-              }
-            })()} /></li>)}
-      </ul>
-      {/*<pre>{marked(interpolateEvil(value, context))}</pre>*/}
-      <Result dangerouslySetInnerHTML={{ __html: marked(interpolateEvil(value, context)) }} />
+    <section className={focussed&&'focussed'||''}>
+      <ul>{selectOptions}</ul>
+      <Result dangerouslySetInnerHTML={{ __html: html }} />
     </section>
   </StyledInterpolationInput>
 }

@@ -6,7 +6,7 @@ const initialState = getInitialState('copy')
 export function copy(state = initialState, action){
   switch (action.type){
     case STORE_COPY:
-      return {...state, ...action.copy}
+      return action.copy
 
     default:
       return state

@@ -1,15 +1,59 @@
-import React, {useEffect, useState} from 'react'
+import React,{useEffect,useState,useMemo,createRef} from 'react'
+import styled from 'styled-components'
 import {connect} from 'react-redux'
 import {isEqual, getGetSetter, getInterpolationContext} from '../util'
 import {saveable} from '../util/signal'
 import {getCopy} from '../model/copy/selectors'
 import {storeCopy} from '../model/copy/actions'
 import {getConfig} from '../model/config/selectors'
+import {data} from '../model/default'
 import {Label} from '../components/Label'
-import {Button} from '../components/Button'
+import {Button, IconButton} from '../components/Button'
 import {T} from '../components/T'
 import {InterpolationInput} from '../components/InterpolationInput'
 import {DirtyPrompt} from '../components/DirtyPrompt'
+import {InputText} from '../components/Input'
+// import {useKeyDown} from '../hook/useKeyDown'
+
+const CopyLabelStyled = styled(Label)`
+  >.input {
+    position: relative;
+    button:first-child {
+      position: absolute;
+      right: 0;
+      top: 0;
+      margin: 0;
+      +.input {
+        padding-right: 2rem;
+      }
+    }
+    >textarea {
+      position: relative;
+      z-index: 1;
+    }
+  }
+`
+
+const CopyLabels = ({list, getSetter, context, lang, custom, onClickDeleteCopy, ...attr})=><>
+    {list.map(([key, value])=>
+        <CopyLabelStyled key={key} {...attr}>
+          {custom?key:<T>{key}</T>}
+          <div className="input">
+            {custom&&<IconButton type="close" onClick={onClickDeleteCopy.bind(null, key)} />}
+            <InterpolationInput
+                multiline
+                context={context}
+                value={value[lang]}
+                setter={val=>{
+                  const newVal = {...value}
+                  newVal[lang] = val
+                  getSetter(key)(newVal)
+                }}
+            />
+          </div>
+        </CopyLabelStyled>
+    )}
+</>
 
 export const Copy = connect(
   state => ({ state, copyOld: getCopy(state), config: getConfig(state) })
@@ -21,6 +65,8 @@ export const Copy = connect(
 
   const [lang, setLang] = useState(config.lang)
 
+  const [key, setKey] = useState('')
+
   const isDirty = !isEqual(copyOld, copy)
   saveable.dispatch(
       true
@@ -30,7 +76,45 @@ export const Copy = connect(
   )
   useEffect(()=>{setTimeout(()=>saveable.dispatch(true))}, [])
 
-  const context = getInterpolationContext(state)
+  const keyInput = createRef()
+
+  const [context] = useState(getInterpolationContext(state))
+
+  const copyLabelAttr = {
+    getSetter
+    , context
+    , lang
+    , onClickDeleteCopy
+  }
+
+  function onClickDeleteCopy(key){
+    const newCopy = {...copy}
+    delete newCopy[key]
+    setCopy(newCopy)
+  }
+
+  function onClickAddCopy(){
+    const keyExists = copy.hasOwnProperty(key)
+    if (!key) {
+      keyInput.current.focus()
+    } else if (!keyExists) {
+      const newCopy = {...copy}
+      newCopy[key] = config.langs.reduce((acc, key)=>(acc[key]='', acc), {})
+      setCopy(newCopy)
+      setKey('')
+    }
+  }
+
+  function onAddKeyPress(e){
+    e.key==='Enter'&&onClickAddCopy()
+  }
+
+  const defaultKeys = Object.keys(data.copy)
+  const copyDefault = []
+  const copyCustom = []
+  Object.entries(copy).forEach(([key, value])=>{
+    (defaultKeys.includes(key)&&copyDefault||copyCustom).push([key, value])
+  })
 
   return <>
     <div className="float-right">
@@ -38,24 +122,14 @@ export const Copy = connect(
     </div>
     <h1><T>copy</T></h1>
 
-    <header className="row no-gutters">
-      <strong className="col-4"><T>key</T></strong>
-      <strong className="col-4"><T>value</T></strong>
-    </header>
-    {Object.entries(copy).map(([key, value])=>
-        <Label key={key}>
-          <T>{key}</T>
-          <InterpolationInput
-              multiline
-              context={context}
-              value={value[lang]}
-              setter={val=>{
-                const newVal = {...value}
-                newVal[lang] = val
-                getSetter(key)(newVal)
-              }} />
-        </Label>
-    )}
+    <CopyLabels list={copyDefault} {...copyLabelAttr} />
+    <hr/>
+    <CopyLabels list={copyCustom} {...copyLabelAttr} custom={true} />
+
+    <div className="float-right" style={{marginTop:'1rem'}}>
+      <InputText value={key} setter={setKey} onKeyPress={onAddKeyPress} ref={keyInput} />
+      <Button onClick={onClickAddCopy}>Add copy</Button>
+    </div>
     <DirtyPrompt when={isDirty} />
   </>
 })
