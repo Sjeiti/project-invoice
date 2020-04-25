@@ -1,4 +1,4 @@
-import React,{useEffect,useState,useMemo,createRef} from 'react'
+import React, {useEffect, useState, createRef} from 'react'
 import styled from 'styled-components'
 import {connect} from 'react-redux'
 import {isEqual, getGetSetter, getInterpolationContext} from '../util'

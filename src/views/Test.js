@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import {connect} from 'react-redux'
-import {Link, withRouter} from 'react-router-dom'
+import {withRouter} from 'react-router-dom'
 import {Button, IconButton} from '../components/Button'
 import {ButtonAnchor} from '../components/ButtonAnchor'
 import {ButtonLink} from '../components/ButtonLink'
@@ -10,19 +10,8 @@ import {Select} from '../components/Select'
 import {Textarea} from '../components/Textarea'
 import {Label} from '../components/Label'
 import {FormSpan} from '../components/FormSpan'
-import {isEqual, cloneDeep} from 'lodash'
-import {nbsp,getGetSetter,getDateString} from '../util'
-import {saveable} from '../util/signal'
-import {storeProject, removeProject} from '../model/clients/actions'
-import {getClient, getProject, getClients, getClientHref, getProjectHref, getProjectNumber} from '../model/clients/selectors'
-import {Table} from '../components/Table'
-import {Icon} from '../components/Icon'
-import {Price} from '../components/Price'
-import {T} from '../components/T'
-import {useTranslation} from 'react-i18next'
-import {color} from '../service/css'
-import {Dialog} from '../components/Dialog'
-import {CSSTransition,TransitionGroup} from 'react-transition-group'
+import {getInterpolationContext} from '../util'
+import {InterpolationInput} from '../components/InterpolationInput'
 
 // const editablePropNames = [
 //   {key:'description', input:InputText}
@@ -52,6 +41,8 @@ export const Test = withRouter(
       // const [invoice, setInvoice] = useState({})
       // const [invoiceSource, setInvoiceSource] = useState()
 
+      const [foo, setFoo] = useState('bar')
+
       return <>
         <h3>UI element test page</h3>
 
@@ -63,21 +54,21 @@ export const Test = withRouter(
           <Button>Button</Button>
           <IconButton type="pencil" />
           <ButtonAnchor>ButtonAnchor</ButtonAnchor>
-          <ButtonLink>ButtonLink</ButtonLink>
+          <ButtonLink to="#">ButtonLink</ButtonLink>
           <ButtonLabel>ButtonLabel</ButtonLabel>
           <IconButton type="drag" />
-          <ButtonLink>ButtonLink</ButtonLink>
+          <ButtonLink to="#">ButtonLink</ButtonLink>
           <Button>Button</Button>
           <ButtonLabel>ButtonLabel</ButtonLabel>
           <ButtonAnchor>ButtonAnchor</ButtonAnchor>
           <Button>Button</Button>
-          <ButtonLink>ButtonLink</ButtonLink>
+          <ButtonLink to="#">ButtonLink</ButtonLink>
           <ButtonLabel>ButtonLabel</ButtonLabel>
           <IconButton type="add" />
           <IconButton type="add" invert />
           <Button>Button</Button>
           <ButtonLabel>ButtonLabel</ButtonLabel>
-          <ButtonLink>ButtonLink</ButtonLink>
+          <ButtonLink to="#">ButtonLink</ButtonLink>
           <IconButton type="eye" />
           <ButtonAnchor>ButtonAnchor</ButtonAnchor>
           <ButtonAnchor>ButtonAnchor</ButtonAnchor>
@@ -91,7 +82,7 @@ export const Test = withRouter(
           <InputNumber />
           <InputDate />
           <Select options={[{text:'nee',value:0}]} />
-          <Textarea>My hoovercraft is full of eels</Textarea>
+          <Textarea defaultValue="My hoovercraft is full of eels" />
           <InputCheckbox />
           <InputText />
           <InputNumber />
@@ -108,13 +99,13 @@ export const Test = withRouter(
           <IconButton type="pencil" />
           <ButtonAnchor>ButtonAnchor</ButtonAnchor>
           <InputText />
-          <ButtonLink>ButtonLink</ButtonLink>
+          <ButtonLink to="#">ButtonLink</ButtonLink>
           <FormSpan>ispum</FormSpan>
           <InputNumber />
           <ButtonLabel>ButtonLabel</ButtonLabel>
           <IconButton type="drag" />
           <InputCheckbox />
-          <ButtonLink>ButtonLink</ButtonLink>
+          <ButtonLink to="#">ButtonLink</ButtonLink>
           <Button>Button</Button>
           <IconButton type="eye" />
           <span>bar</span>
@@ -128,13 +119,13 @@ export const Test = withRouter(
           <InputText />
           <ButtonAnchor>ButtonAnchor</ButtonAnchor>
           <Button>Button</Button>
-          <ButtonLink>ButtonLink</ButtonLink>
+          <ButtonLink to="#">ButtonLink</ButtonLink>
           <ButtonLabel>ButtonLabel</ButtonLabel>
           <IconButton type="add" />
           <IconButton type="add" invert />
           <Button>Button</Button>
           <ButtonLabel>ButtonLabel</ButtonLabel>
-          <ButtonLink>ButtonLink</ButtonLink>
+          <ButtonLink to="#">ButtonLink</ButtonLink>
           <InputNumber />
         </section>
 
@@ -143,7 +134,7 @@ export const Test = withRouter(
         <section>
           <Label>InputCheckbox<InputCheckbox /></Label>
           <Label>InputText<InputText /></Label>
-          <Label>textarea<Textarea>My hoovercraft is full of eels</Textarea></Label>
+          <Label>textarea<Textarea defaultValue="My hoovercraft is full of eels" /></Label>
           <Label>InputNumber<InputNumber /></Label>
           <Label>InputDate<InputDate /></Label>
           <Label>Select<Select options={[{text:'nee',value:0}]} /></Label>
@@ -152,7 +143,18 @@ export const Test = withRouter(
           <Label>Button<Button>Button</Button></Label>
           <Label>IconButton<IconButton type="pencil" /></Label>
           <Label>ButtonAnchor<ButtonAnchor>ButtonAnchor</ButtonAnchor></Label>
-          <Label>ButtonLink<ButtonLink>ButtonLink</ButtonLink></Label>
+          <Label>ButtonLink<ButtonLink to="#">ButtonLink</ButtonLink></Label>
+        </section>
+
+        <h2>Interpolation</h2>
+
+        <section>
+          <Label>Foo<InterpolationInput
+                multiline
+                context={getInterpolationContext(state)}
+                value={foo}
+                setter={setFoo}
+          /></Label>
         </section>
       </>
     }

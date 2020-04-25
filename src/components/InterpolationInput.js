@@ -1,4 +1,4 @@
-import React,{useMemo,useState} from 'react'
+import React, {useMemo, useState, useRef} from 'react'
 import classNames from 'classnames'
 import styled from 'styled-components'
 import marked from 'marked'
@@ -7,8 +7,6 @@ import {InputText} from './Input'
 import {Textarea} from './Textarea'
 import {Select} from './Select'
 import {interpolateEvil, readGetters, unique} from '../util'
-import ChangelogHTML from '../views/Changelog.html'
-import {data} from '../model/default'
 
 const {
   colorButton
@@ -74,22 +72,22 @@ export const InterpolationInput = attr => {
   const {context, value, setter} = attr
   const contextKeys = Object.keys(context)
 
-  const [start, setStart] = useState(0)
+  const [start, setStart] = useState(-1)
   const [end, setEnd] = useState(0)
 
-  const InputElement = attr.multiline&&Textarea||InputText
-
-  const [elmInput, setElmInput] = useState(null)
+  // const [elmInput, setElmInput] = useState(null)
+  const elmInput = useRef(null)
 
   const [focussed, setFocus] = useState()
   const focusChange = {onFocus:onFocusChange, onBlur:onFocusChange}
 
+  const InputElement = focussed&&attr.multiline&&Textarea||InputText
+
   const html = useMemo(()=>marked(interpolateEvil(value, context)), [value])
 
-  const [selectOptions] = useState(()=>contextKeys.map(key=>
+  const selectOptions = useMemo(()=>contextKeys.map(key=>
       <li key={key}>{`\${${key}}`}<Select
           {...focusChange}
-          onChange={onChangeSelect}
           name={key}
           options={(()=>{
             const obj = context[key]
@@ -106,7 +104,7 @@ export const InterpolationInput = attr => {
                   , name: subkey
                 }))
             }
-          })()} /></li>))
+          })()} /></li>), [])
 
   function onFocusChange({type}){
     setFocus(type==='focus')
@@ -119,22 +117,21 @@ export const InterpolationInput = attr => {
   }
 
   function onChangeSelect(e){
+    const {current} = elmInput
     const {target, target: {name, value: prop}} = e
     const rule = `\${${name}.${prop}}`
     const newPos = start + rule.length
     setter([value.substr(0, start), rule, value.substr(end)].join(''))
     target.value = ''
-    elmInput.focus()
-    elmInput.setSelectionRange(newPos, newPos) // todo focus and set caret to after addition (not working now)
+    current.focus()
+    // current.setSelectionRange(newPos, newPos) // doesn't work
+    requestAnimationFrame(()=>current.setSelectionRange(newPos, newPos)) // works
   }
 
   return <StyledInterpolationInput className={classNames('input', {focussed})}>
-    {focussed
-      &&<InputElement ref={setElmInput} {...focusChange} onSelect={onSelectInput} {...attr} />
-      ||<InputText ref={setElmInput} {...focusChange} onSelect={onSelectInput} {...attr} />
-    }
+    <InputElement ref={elmInput} {...focusChange} onSelect={onSelectInput} {...attr} />
     <section className={focussed&&'focussed'||''}>
-      <ul>{selectOptions}</ul>
+      <ul onChange={onChangeSelect}>{selectOptions}</ul>
       <Result dangerouslySetInnerHTML={{ __html: html }} />
     </section>
   </StyledInterpolationInput>
