@@ -9,7 +9,7 @@
     "build-dev": "webpack -d --mode development",
     "build-prod": "webpack -p --mode production",
     "build:prod": "webpack -p --mode production --env.production",
-    "build": "run-s i18n icons icomoon build:prod",
+    "build": "run-s i18n icons icomoon markdown:changelog build:prod",
     "clean": "rm dist/*",
     "lint:fix": "eslint src/**/*.js --fix",
     "test": "cypress run",
