@@ -80,7 +80,10 @@ const StyledHeader = styled.header`
     line-height: ${headerHeight};
   }
   
-  a { font-size: 14px; }
+  a { 
+    font-size: 14px;
+    font-weight: 600;
+  }
   
   @media ${breakpointLow} {
     
