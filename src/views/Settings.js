@@ -75,7 +75,7 @@ export const Settings = connect(
             <h1 className="hide-low"><T>settings</T></h1>
             {Object.entries(varMap).map(([key, {Element, title, map, attrs={}}], i)=>
               <React.Fragment key={i}>
-                <Label>
+                <Label data-cy={key}>
                   <T>{title||key}</T>
                   <Element
                       value={config[key]}

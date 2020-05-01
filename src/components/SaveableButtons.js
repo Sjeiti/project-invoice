@@ -51,12 +51,12 @@ export const SaveableButtons = withRouter(props => {
 
   return (
     <Nav style={{ display: isSaveable ? 'block' : 'none' }}>
-      <Button className="hide-low" onClick={save} disabled={!save}><T>save</T></Button>
-      <Button className="hide-low" onClick={revert} disabled={!revert}><T>revert</T></Button>
-      <Button className="hide-low" onClick={deleet} disabled={!deleet}><T>delete</T></Button>
-      <IconButton type="save" className="hide-high" onClick={save} disabled={!save} />
-      <IconButton type="revert" className="hide-high" onClick={revert} disabled={!revert} />
-      <IconButton type="delete" className="hide-high" onClick={deleet} disabled={!deleet} />
+      <Button data-cy="save" className="hide-low" onClick={save} disabled={!save}><T>save</T></Button>
+      <Button data-cy="revert" className="hide-low" onClick={revert} disabled={!revert}><T>revert</T></Button>
+      <Button data-cy="delete" className="hide-low" onClick={deleet} disabled={!deleet}><T>delete</T></Button>
+      <IconButton data-cy="saveIcon" type="save" className="hide-high" onClick={save} disabled={!save} />
+      <IconButton data-cy="revertIcon" type="revert" className="hide-high" onClick={revert} disabled={!revert} />
+      <IconButton data-cy="deleteIcon" type="delete" className="hide-high" onClick={deleet} disabled={!deleet} />
     </Nav>
   )
 })

@@ -142,10 +142,14 @@ export const Home = withRouter(connect(
         in={config.homeMessage}
         unmountOnExit
     >
-      <Jumbotron>
+      <Jumbotron data-cy="jumbotron">
         <p><T>homeMessage</T></p>
         <p><T>homeMessageSub</T></p>
-        <AnchorButton className="float-right" onClick={hideHomeMessage}><T>hideMessage</T></AnchorButton>{/* todo */}
+        <AnchorButton
+            className="float-right"
+            onClick={hideHomeMessage}
+            data-cy="hideJumbotron"
+        ><T>hideMessage</T></AnchorButton>
         <Link to={'/about'} className="float-right" style={{marginRight:'1rem'}}><T>readMore</T></Link>
         <Logo size="256" colors={['#3B596D', '#376677', '#2A7F8B']} style={absolute(-3, -4)} />
       </Jumbotron>

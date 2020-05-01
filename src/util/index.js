@@ -108,6 +108,25 @@ export function interpolateEvil(text, context) {
   return (new Function(...keys, 'return `'+text+'`'))(...values)
 }
 
+export function getInterpolationContext(state){
+  // console.log('getInterpolationContext',state) // todo: remove log
+  const {config, config: {lang}, personal:data, copy:rawCopy} = state
+  const copy = Object.entries(rawCopy).reduce((acc, [key, value])=>(acc[key] = value[lang], acc), {})
+  const client = defaultData.clients[0]
+  const project = enhanceProject(client.projects[0], {_client:client, model:state})
+  const invoice = project.invoices[0]
+  const {symbol} = CURRENCY_ISO[config.currency]
+  const boundCurrency = f=>currency(f, symbol+' ', 2, '.', ',')
+  return {
+    client
+    , project
+    , invoice
+    , data
+    , copy
+    , currency: boundCurrency
+  }
+}
+
 /**
  * Deepfreeze from MDN
  * @param {object} object
@@ -164,6 +183,21 @@ export function tryParse(str){
 }
 
 /**
+ * JSON stringify wrapped in try catch
+ * @param {object} obj
+ * @returns {string}
+ */
+export function tryStringify(obj){
+  let stringData
+  try {
+    stringData = JSON.stringify(obj)
+  } catch(err){
+    console.warn('err',err) // eslint-disable-line no-console
+  }
+  return stringData
+}
+
+/**
  * Unique method for Array.prototype.filter
  * @param {object} val
  * @param {number} ind
@@ -180,25 +214,6 @@ export const unique = (val, ind, arr) => arr.indexOf(val) === ind
 export function readGetters(obj) {
   const desc = Object.getOwnPropertyDescriptors(obj)
   return Object.entries(desc).map(([key, value]) => value.get && key).filter(o=>o)
-}
-
-export function getInterpolationContext(state){
-  // console.log('getInterpolationContext',state) // todo: remove log
-  const {config, config: {lang}, personal:data, copy:rawCopy} = state
-  const copy = Object.entries(rawCopy).reduce((acc, [key, value])=>(acc[key] = value[lang], acc), {})
-  const client = defaultData.clients[0]
-  const project = enhanceProject(client.projects[0], {_client:client, model:state})
-  const invoice = project.invoices[0]
-  const {symbol} = CURRENCY_ISO[config.currency]
-  const boundCurrency = f=>currency(f, symbol+' ', 2, '.', ',')
-  return {
-    client
-    , project
-    , invoice
-    , data
-    , copy
-    , currency: boundCurrency
-  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -313,21 +328,6 @@ export function appendChild(type, parent, classes){
 	classes&&elm.classList.add(...Array.isArray(classes)&&classes||[classes])
   parent&&parent.appendChild(elm)
   return elm
-}
-
-/**
- * JSON stringify wrapped in try catch
- * @param {object} obj
- * @returns {string}
- */
-export function tryStringify(obj){
-  let stringData
-  try {
-    stringData = JSON.stringify(obj)
-  } catch(err){
-    console.warn('err',err) // eslint-disable-line no-console
-  }
-  return stringData
 }
 
 const scrollbarSizeKey = 'scrollbarSize'
