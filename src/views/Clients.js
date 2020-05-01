@@ -13,10 +13,10 @@ import {getNewClientEvents} from '../model/eventFactory'
 import {Table} from '../components/Table'
 import {T} from '../components/T'
 import {Icon} from '../components/Icon'
-import {color} from '../service/css'
+import {cssVar} from '../service/css'
 import {keyMap} from '../util'
 
-const {colorGray, colorRed} = color
+const {colorGray, colorRed} = cssVar
 
 export const Clients = connect(
   state => ({

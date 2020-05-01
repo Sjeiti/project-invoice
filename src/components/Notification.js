@@ -4,9 +4,10 @@ import {CSSTransition, TransitionGroup} from 'react-transition-group'
 import {connect} from 'react-redux'
 import {getSession} from '../model/session/selectors'
 import {notify} from '../util/signal'
-import {color} from '../service/css'
-import {Button,IconButton} from './Button'
-import {darken, mix} from 'polished'
+import {cssVar} from '../service/css'
+import {Button, IconButton} from './Button'
+
+const {colorButtonD10, colorRedD30, colorNotWhite} = cssVar
 
 export const MESSAGE = Symbol('MESSAGE')
 export const ERROR = Symbol('ERROR')
@@ -23,20 +24,20 @@ const StyledList = styled.ol`
   box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.3);
   &:empty { box-shadow: none; }
 `
-const notWhite = mix(0.3, 'white', color.colorButton)
+const notWhite = colorNotWhite // mix(0.3, 'white', colorValue.colorButton)
 const StyledLi = styled.li`
   display: flex;
   width: 100%;
   min-height: 1rem;
   padding: 0.5rem;
   color: white;
-  background-color: ${darken(0.1, color.colorButton)};
+  background-color: ${colorButtonD10};
   span { flex: 1 1 auto; }
   &:not(:last-child) {
     box-shadow: 0 -1px 0 ${notWhite} inset;
   }
   ${props => props.type===ERROR && css`
-    background-color: ${darken(0.3, color.colorRed)};
+    background-color: ${colorRedD30};
   `}
   ${Button} {
     color: ${notWhite};

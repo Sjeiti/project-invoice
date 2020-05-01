@@ -2,14 +2,13 @@ import React, {useEffect, useState, useRef} from 'react'
 import styled from 'styled-components'
 import {CSSTransition} from 'react-transition-group'
 import {Button, IconButton} from './Button'
-import {color, size} from '../service/css'
+import {cssVar} from '../service/css'
 import {useWindowDimensions} from '../hook/useWindowDimensions'
 import {useWindowScroll} from '../hook/useWindowScroll'
 import {useKeyDown} from '../hook/useKeyDown'
 import {T} from '../components/T'
 
-const {shadeFlat, colorLightBg, colorButton} = color
-const {padding, borderRadius} = size
+const {padding, borderRadius, shadeFlat, colorLightBg, colorButton} = cssVar
 
 const StyledDialog = styled.div`
   position: fixed;

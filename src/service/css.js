@@ -1,23 +1,33 @@
-
-// todo temp solution, names and values should be same as _variables.scss
-
-
 import {css} from 'styled-components'
 import Sass from 'sass.js/dist/sass'
+import {camelCase} from '../util'
 
-export const breakpoint = {
+import '../style/_variables.scss'
+
+const cssVars = Array.from(document.styleSheets).reduce((acc,sheet)=>{
+  Array.from(sheet.cssRules).forEach(rule=>{
+    const {selectorText, style} = rule
+    if (selectorText===':root') {
+      for (let i=0, l=style.length;i<l;i++) {
+      	const key = style[i];
+      	acc[key] = style.getPropertyValue(key)
+      }
+    }
+  })
+  return acc
+}, {})
+
+const cssVarDefault = {
   breakpoint: '598px'
   , breakpointLow: '(max-width: 598px)'
   , breakpointHigh: '(min-width: 599px)'
-}
 
-export const color = {
-  colorButton: '#1d85b4'
+  , colorButton: '#1d85b4'
   , colorLightBg: '#D9E6E8'
   , colorShade: 'rgba(0,0,0,0.1)'
   , shadeFlat: '2px 3px 1px rgba(0, 0, 0, 0.2)'
   , colorBorder: '#BBB'
-  , colorHeader: '#444'
+  , colorHeader: 'var(--color-header)' // '#444' // '#1c5f6d' //
   , colorTable: '#EEE'
 
   , colorRed: '#F04'
@@ -26,25 +36,16 @@ export const color = {
   , colorBackground: '#F8F8F8'
 }
 
-export const font = {
-  mono: '\'Source Code Pro\', monospace'
-  ,main: '\'Open Sans\', sans-serif'
-}
+export const cssVar = Object.assign({}, cssVarDefault, Object.keys(cssVars).reduce((acc,key)=>{
+  acc[camelCase(key.substr(2))] = `var(${key})`
+  return acc
+}, {}))
 
-export const size = {
-  headerHeight: '2.5rem'
-  ,padding: '0.5rem'
-  ,borderRadius: '0.125rem'
-  ,sum(...numbers){
-    const unit = numbers[0].replace(/^\d+/, '')
-    return numbers.reduce((acc, number)=>acc+(parseFloat(number.replace(/[^\d]+$/, ''))||0), 0) + unit;
-  }
-  ,multiply(...numbers){
-    const unit = numbers[0].replace(/^\d+(\.\d+)?/, '')
-    // console.log('unit',unit) // todo: remove log
-    return numbers.reduce((acc, number)=>acc*(typeof number === 'number' ? number : (parseFloat(number.replace(/[^\d]+$/, ''))||0)), 1) + unit;
-  }
-}
+export const cssVarValue = Object.assign({}, cssVarDefault, Object.entries(cssVars).reduce((acc,[key,value])=>{
+  acc[camelCase(key.substr(2))] = value
+  return acc
+}, {}))
+
 
 export const clearfix = css`
   &:after {
@@ -72,7 +73,6 @@ export const formElement = css`
 `
 
 export const absolute = (left, top) => ({position: 'absolute', left: `${left}rem`, top: `${top}rem`})
-
 
 export const icon = css`
   font-family: icomoon;

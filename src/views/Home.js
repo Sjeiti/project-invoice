@@ -46,7 +46,8 @@ const Jumbotron = styled.div`
       position: absolute;
       left: 50%;
       top: 0;
-      width: 100vw;
+      //width: 100vw;
+      width: calc(100vw - 1rem); // them bloody scrollbars (hence the box-shadow)
       height: 100%;
       z-index: -1;
       transform: translateX(-50%);
@@ -54,6 +55,7 @@ const Jumbotron = styled.div`
       background-size: cover;
       background-color: #0cbaba;
       background-image: linear-gradient(315deg, #0cbaba 0%, ${bgcolor} 100%);
+      box-shadow: -4rem 0 0 ${bgcolor}, 4rem 0 0 #0cbaba;
     }
     ${clearfix}
     &-enter, &-leave-to {

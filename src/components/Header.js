@@ -4,16 +4,15 @@ import styled, {css} from 'styled-components'
 import { SaveableButtons } from './SaveableButtons'
 import {Logo} from './Logo'
 import {T} from './T'
-import {size, color, breakpoint} from '../service/css'
+import {cssVar, cssVarValue} from '../service/css'
 import {CloudNotification} from './CloudNotification'
 import {connect} from 'react-redux'
 import {getConfig} from '../model/config/selectors'
 import {APP_NAME} from '../config'
 
-const {breakpointLow, breakpointHigh} = breakpoint
-const {headerHeight, padding, multiply, sum} = size
-const halfHeaderHeight = multiply(headerHeight, 0.5)
-const {colorHeader} = color
+const {breakpointLow, breakpointHigh} = cssVarValue
+const {headerHeight, padding, colorHeader} = cssVar
+const halfHeaderHeight = `calc(0.5 * ${headerHeight})` //multiply(headerHeight, 0.5)
 
 const {body} = document
 
@@ -149,7 +148,7 @@ const StyledHeader = styled.header`
       box-shadow: 0 0 16px ${colorHeader};
     }
     >*:last-child {
-      right: ${sum(halfHeaderHeight, padding)};
+      right: calc(${halfHeaderHeight} + ${padding});
     }
   }
   @media ${breakpointHigh} {

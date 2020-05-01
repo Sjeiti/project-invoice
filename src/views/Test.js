@@ -12,6 +12,7 @@ import {Label} from '../components/Label'
 import {FormSpan} from '../components/FormSpan'
 import {getInterpolationContext} from '../util'
 import {InterpolationInput} from '../components/InterpolationInput'
+import {notify} from '../util/signal'
 
 // const editablePropNames = [
 //   {key:'description', input:InputText}
@@ -155,6 +156,12 @@ export const Test = withRouter(
                 value={foo}
                 setter={setFoo}
           /></Label>
+        </section>
+
+        <h2>Notifications</h2>
+
+        <section>
+          <Button onClick={()=>notify.dispatch('hello')}>Notify me</Button>
         </section>
       </>
     }

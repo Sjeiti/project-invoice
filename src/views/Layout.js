@@ -13,7 +13,7 @@ import {T} from '../components/T'
 import {data} from '../model/default'
 import {getGetSetter, isEqual} from '../util'
 import {saveable} from '../util/signal'
-import {font} from '../service/css'
+import {cssVar} from '../service/css'
 import {getFontList} from '../service/googleAPI'
 import {ButtonLabel} from '../components/ButtonLabel'
 import {FormSpan} from '../components/FormSpan'
@@ -32,7 +32,7 @@ const StyledLayout = styled.section`
    width: 100%;
    height: 12rem;
    line-height: 160%;
-   font-family: ${font.mono};
+   font-family: ${cssVar.fontMono};
  }
 `
 

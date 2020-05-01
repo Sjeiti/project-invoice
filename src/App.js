@@ -8,11 +8,11 @@ import {Header} from './components/Header'
 import {Footer} from './components/Footer'
 import {DecryptionDialog} from './components/DecryptionDialog'
 import {Notification} from './components/Notification'
-import {size} from './service/css'
+import {cssVar} from './service/css'
 import {notify} from './util/signal'
 import {tableGlobalStyle} from './components/tableGlobalStyle'
 
-const {padding, headerHeight, sum} = size
+const {padding, headerHeight} = cssVar
 
 notify.add(console.log.bind(console, 'notify:'))
 
@@ -23,13 +23,12 @@ const Layout = styled.div`
   padding: 0 ${padding};
   flex: 1 0 auto;
   >div {
-    padding-top: ${sum(headerHeight, padding)};
+    padding-top: calc(${headerHeight} + ${padding});
     padding-bottom: ${padding};
   }
   ${tableGlobalStyle}
 `
 
-// export const App = hot(module)(connect(state=>({state}))(({ store }) =>
 export const App = hot(module)(connect()(({ store }) =>
   <Provider store={store}>
     <Router>

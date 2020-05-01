@@ -2,12 +2,17 @@ import React from 'react'
 import styled from 'styled-components'
 import {useTranslation} from 'react-i18next'
 import {CSSTransition, TransitionGroup} from 'react-transition-group'
-import {lighten} from 'polished'
-import {color, breakpoint} from '../service/css'
+import {cssVar, cssVarValue} from '../service/css'
 import {Draggable, useDraggable} from './Draggable'
 
-const {colorBorder, colorButton, colorTable} = color
-const {breakpointHigh} = breakpoint
+const {
+  colorBorder
+  , colorTable
+  , colorButtonL30
+  , colorButtonL54
+} = cssVar
+
+const {breakpointHigh} = cssVarValue
 
 const trHeight = '2.375rem'
 
@@ -15,9 +20,6 @@ export const StyledTableWrapper = styled.div`
   overflow: auto;
   max-width: 100%;
 `
-
-const colorButton5 = lighten(0.54, colorButton)
-const colorButton3 = lighten(0.3, colorButton)
 
 export const StyledTable = styled.table`
   width: 100%;
@@ -34,8 +36,8 @@ export const StyledTable = styled.table`
       box-shadow: 0 1px 0 0 transparent inset, 0 -1px 0 0 transparent inset;
       @media ${breakpointHigh} {
         &:hover {
-          background-color: ${colorButton5};
-          box-shadow: 0 1px 0 0 ${colorButton3} inset, 0 -1px 0 0 ${colorButton3} inset;
+          background-color: ${colorButtonL54};
+          box-shadow: 0 1px 0 0 ${colorButtonL30} inset, 0 -1px 0 0 ${colorButtonL30} inset;
         }
       }
     }
@@ -74,12 +76,12 @@ export const StyledTable = styled.table`
     &.dragTo {
       position: relative;
       z-index: 1;
-      box-shadow: 0 0.125rem 0 ${colorButton3} inset, 0 -0.125rem 0 ${colorButton3};
+      box-shadow: 0 0.125rem 0 ${colorButtonL30} inset, 0 -0.125rem 0 ${colorButtonL30};
     }
     &.dragFrom {
-       background-color: ${colorButton3};
+       background-color: ${colorButtonL30};
        &~.dragTo {
-         box-shadow: 0 -0.125rem 0 ${colorButton3} inset, 0 0.125rem 0 ${colorButton3};
+         box-shadow: 0 -0.125rem 0 ${colorButtonL30} inset, 0 0.125rem 0 ${colorButtonL30};
        }
        &.dragTo { box-shadow: none; }
     }

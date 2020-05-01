@@ -22,6 +22,7 @@ import {
   , weakAssign
   , moveArrayItem
   , capitalise
+  , camelCase
   // , loadScript
   // , appendChild
   // , getScrollbarSize
@@ -146,6 +147,13 @@ describe('utils', () => {
   it('capitalise', () => {
     assert.notEqual(capitalise('apple'), 'apple')
     assert.equal(capitalise('apple'), 'Apple')
+  })
+
+  it('camelCase', () => {
+    assert.equal(camelCase('apple juice'), 'appleJuice')
+    assert.equal(camelCase('apple-juice'), 'appleJuice')
+    assert.equal(camelCase('Apple-juice'), 'appleJuice')
+    assert.equal(camelCase('Apple-juiceBeer'), 'appleJuiceBeer')
   })
 
   ///

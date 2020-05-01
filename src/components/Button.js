@@ -1,14 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
-import {lighten, darken} from 'polished'
-import {color, formElement} from '../service/css'
+import {cssVar, formElement} from '../service/css'
 import {Icon} from './Icon'
 
 const {
   colorButton
+  , colorButtonL05
+  , colorButtonL40
+  , colorButtonD10
   , colorShade
   , shadeFlat
-} = color
+} = cssVar
 
 export const Button = styled.button`
   ${formElement}
@@ -20,11 +22,11 @@ export const Button = styled.button`
   transition: background-color 0.2s linear;
   cursor: pointer;
   &:hover {
-    background-color: ${lighten(0.05, colorButton)};
+    background-color: ${colorButtonL05};
   }
   &:focus {
-    box-shadow: 0 0 0 1px ${darken(0.1, colorButton)} inset,
-      1px 1px 0 1px ${lighten(0.4, colorButton)} inset,
+    box-shadow: 0 0 0 1px ${colorButtonD10} inset,
+      1px 1px 0 1px ${colorButtonL40} inset,
       0 -2px 8px ${colorShade} inset,
       ${shadeFlat};
   }

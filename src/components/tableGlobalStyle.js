@@ -1,8 +1,6 @@
 import {css} from 'styled-components'
 import {StyledTable} from './Table'
-import {breakpoint} from '../service/css'
-
-const {breakpointLow} = breakpoint
+import {cssVarValue} from '../service/css'
 
 export const tableGlobalStyle = css`
   ${StyledTable} {
@@ -33,7 +31,7 @@ export const tableGlobalStyle = css`
       width: 100%;
     }
     input+span { transform: translateY(-2px); }
-    @media ${breakpointLow} {
+    @media ${cssVarValue.breakpointLow} {
       //.last,
       //.description { width: 16vw; }
       .client { width: 15vw; }

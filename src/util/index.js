@@ -303,6 +303,17 @@ export function capitalise(s){
 }
 
 /**
+ * Turn space or dash delimited string into kebab cas
+ * @param {string} s
+ * @return {string}
+ */
+export function camelCase(s) {
+  return s.replace(/(?:^\w|[A-Z]|\b\w)/g, (w, i)=>
+    i===0 ? w.toLowerCase() : w.toUpperCase()
+  ).replace(/[\s-]+/g, '');
+}
+
+/**
  * Dynamically load a javascript file
  * @param {string} src
  * @returns {Promise}

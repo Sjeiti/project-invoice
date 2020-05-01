@@ -2,7 +2,7 @@ import React, {useMemo, useState, useRef} from 'react'
 import classNames from 'classnames'
 import styled from 'styled-components'
 import marked from 'marked'
-import {color} from '../service/css'
+import {cssVar} from '../service/css'
 import {InputText} from './Input'
 import {Textarea} from './Textarea'
 import {Select} from './Select'
@@ -12,7 +12,7 @@ const {
   colorButton
   , colorBorder
   , colorShade
-} = color
+} = cssVar
 
 export const StyledInterpolationInput = styled.div`
   input, textarea {
