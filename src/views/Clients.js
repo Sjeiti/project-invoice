@@ -13,10 +13,7 @@ import {getNewClientEvents} from '../model/eventFactory'
 import {Table} from '../components/Table'
 import {T} from '../components/T'
 import {Icon} from '../components/Icon'
-import {cssVar} from '../service/css'
 import {keyMap} from '../util'
-
-const {colorGray, colorRed} = cssVar
 
 export const Clients = connect(
   state => ({
@@ -38,7 +35,7 @@ export const Clients = connect(
           , name: <Link to={getClientHref(client)}>{client.name || 'unnamed'}</Link>
           , recent: latestProject&&getProjectDate(latestProject)||'-'
           , last: latestProject&&<Link to={getProjectHref(latestProject)}>{getProjectNumber(latestProject, state)}</Link>||'-'
-          , allPaid: <Icon type={allPaid&&'mark'||'close'} style={{color:allPaid&&colorGray||colorRed}}></Icon>
+          , allPaid: <Icon type={allPaid&&'mark'||'close'} style={{color:allPaid&&'var(--color-gray)'||'var(--color-red)'}}></Icon>
         }}
       })
   const newClientEvents = getNewClientEvents(clients, addClient)

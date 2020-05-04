@@ -56,6 +56,11 @@ $breakpointHigh: '(min-width: 599px)';
   --color-buttonL54: #{lighten($colorButton,54%)};
   --color-buttonD10: #{darken($colorButton,10%)};
 
+  --color-light-bg: #D9E6E8;
+  --color-light-border: #BBB;
+
+  --color-table: #EEE;
+
   --color-gray-dark: #{$colorGrayDark};
   --color-shade: #{$colorShade};
   --shade-flat: #{$shadeFlat};

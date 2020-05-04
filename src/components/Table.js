@@ -2,15 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import {useTranslation} from 'react-i18next'
 import {CSSTransition, TransitionGroup} from 'react-transition-group'
-import {cssVar, cssVarValue} from '../service/css'
+import {cssVarValue} from '../service/css'
 import {Draggable, useDraggable} from './Draggable'
-
-const {
-  colorBorder
-  , colorTable
-  , colorButtonL30
-  , colorButtonL54
-} = cssVar
 
 const {breakpointHigh} = cssVarValue
 
@@ -24,8 +17,8 @@ export const StyledTableWrapper = styled.div`
 export const StyledTable = styled.table`
   width: 100%;
   table-layout: fixed;
-  border-top: 1px solid ${colorBorder};
-  border-bottom: 1px solid ${colorBorder};
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
   thead { border-bottom: 1px solid #CCC; }
   tfoot { border-top: 1px solid #CCC; }
   &.hoverable {
@@ -36,13 +29,13 @@ export const StyledTable = styled.table`
       box-shadow: 0 1px 0 0 transparent inset, 0 -1px 0 0 transparent inset;
       @media ${breakpointHigh} {
         &:hover {
-          background-color: ${colorButtonL54};
-          box-shadow: 0 1px 0 0 ${colorButtonL30} inset, 0 -1px 0 0 ${colorButtonL30} inset;
+          background-color: var(--color-buttonL54);
+          box-shadow: 0 1px 0 0 var(--color-buttonL30) inset, 0 -1px 0 0 var(--color-buttonL30) inset;
         }
       }
     }
   }
-  thead,tfoot { background-color: ${colorTable}; }
+  thead,tfoot { background-color: var(--color-table); }
   &, tbody, tfoot, tr, td, th {
     margin:0;
     padding:0;
@@ -76,12 +69,12 @@ export const StyledTable = styled.table`
     &.dragTo {
       position: relative;
       z-index: 1;
-      box-shadow: 0 0.125rem 0 ${colorButtonL30} inset, 0 -0.125rem 0 ${colorButtonL30};
+      box-shadow: 0 0.125rem 0 var(--color-buttonL30) inset, 0 -0.125rem 0 var(--color-buttonL30);
     }
     &.dragFrom {
-       background-color: ${colorButtonL30};
+       background-color: var(--color-buttonL30);
        &~.dragTo {
-         box-shadow: 0 -0.125rem 0 ${colorButtonL30} inset, 0 0.125rem 0 ${colorButtonL30};
+         box-shadow: 0 -0.125rem 0 var(--color-buttonL30) inset, 0 0.125rem 0 var(--color-buttonL30);
        }
        &.dragTo { box-shadow: none; }
     }

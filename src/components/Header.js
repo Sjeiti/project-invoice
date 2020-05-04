@@ -4,22 +4,14 @@ import styled, {css} from 'styled-components'
 import { SaveableButtons } from './SaveableButtons'
 import {Logo} from './Logo'
 import {T} from './T'
-import {cssVar, cssVarValue} from '../service/css'
+import {cssVarValue} from '../service/css'
 import {CloudNotification} from './CloudNotification'
 import {connect} from 'react-redux'
 import {getConfig} from '../model/config/selectors'
 import {APP_NAME} from '../config'
 
 const {breakpointLow, breakpointHigh} = cssVarValue
-const {
-  headerHeight
-  , padding
-  , colorHeader
-  , colorHeaderDark
-  , colorHeaderLight
-  , colorGrayDark
-} = cssVar
-const halfHeaderHeight = `calc(0.5 * ${headerHeight})` //multiply(headerHeight, 0.5)
+const halfHeaderHeight = `calc(0.5 * var(--header-height))` //multiply(headerHeight, 0.5)
 
 const {body} = document
 
@@ -27,7 +19,7 @@ const StyledHeaderLink = styled(Link)`
   color: white;
   text-decoration: none;
   ${props => props.current==='true' && css`
-    background-color: ${colorHeaderDark};
+    background-color: var(--color-header-dark);
     color: white;
   `}
 `
@@ -47,12 +39,12 @@ const StyledHeader = styled.header`
   justify-content: space-between;
   width: 100%;
   max-width: 100vw;
-  max-height: ${headerHeight};
+  max-height: var(--header-height);
   overflow: visible;
   white-space: nowrap;
   z-index: 3;
-  background: ${colorHeader} linear-gradient(90deg, ${colorHeader}, ${colorHeaderLight});
-  box-shadow: 0 0 16px ${colorGrayDark};
+  background: var(--color-header) linear-gradient(90deg, var(--color-header), var(--color-header-light));
+  box-shadow: 0 0 16px var(--color-gray-dark);
   color: #FFF;
   
   nav:first-child { flex: 1 0 auto; }
@@ -63,8 +55,8 @@ const StyledHeader = styled.header`
     top: 0;
     z-index: 3;
     float: left;
-    height: ${headerHeight};
-    width: ${headerHeight};
+    height: var(--header-height);
+    width: var(--header-height);
     padding: 0;
     overflow: hidden;
     @media ${breakpointHigh} { position: relative; }
@@ -83,7 +75,7 @@ const StyledHeader = styled.header`
     margin: 0;
     padding: 0;
     color: white;
-    line-height: ${headerHeight};
+    line-height: var(--header-height);
   }
   
   a { 
@@ -105,19 +97,19 @@ const StyledHeader = styled.header`
     nav>ul>li {
       float: right;
       //width: 100vw;
-      height: ${headerHeight};
+      height: var(--header-height);
       text-align: right;
       a {
         display: block;
         width: 100%;
         height: 100%;
-        padding: ${padding};
+        padding: var(--padding);
       }
     }
     [for=hamburger] {
       display: block;
       width: ${halfHeaderHeight};
-      height: ${headerHeight};
+      height: var(--header-height);
       padding: 1px 0;
       margin: 0;
       margin-left: calc(100vw - ${halfHeaderHeight});
@@ -130,7 +122,7 @@ const StyledHeader = styled.header`
         background-color: white;
       }
       +ul {
-        background-color: ${colorHeader};
+        background-color: var(--color-header);
       }
     }
     #hamburger+label+ul {
@@ -140,7 +132,7 @@ const StyledHeader = styled.header`
       overflow: hidden;
       transform: translateX(100%);
       transition: transform 300ms ease;
-      box-shadow: 0 0 0 ${colorHeader};
+      box-shadow: 0 0 0 var(--color-header);
       li {
         display: block;
       }
@@ -150,10 +142,10 @@ const StyledHeader = styled.header`
     }
     #hamburger:checked+label+ul {
       transform: translateX(0);
-      box-shadow: 0 0 16px ${colorGrayDark};
+      box-shadow: 0 0 16px var(--color-gray-dark);
     }
     >*:last-child {
-      right: calc(${halfHeaderHeight} + ${padding});
+      right: calc(${halfHeaderHeight} + var(--padding));
     }
   }
   @media ${breakpointHigh} {
@@ -164,15 +156,15 @@ const StyledHeader = styled.header`
       display: inline-block;
       padding: 0 16px;
       width: 100%;
-      min-height: ${headerHeight};
-      line-height: ${headerHeight};
+      min-height: var(--header-height);
+      line-height: var(--header-height);
       transition: background-color 200ms linear;
       &[current="false"] {
         background-color: transparent;
       }
       &:hover {
-        background-color: ${colorHeaderLight};
-        box-shadow: 100px 0 0 ${colorHeaderLight} inset;
+        background-color: var(--color-header-light);
+        box-shadow: 100px 0 0 var(--color-header-light) inset;
       }
     }
   }
@@ -185,7 +177,7 @@ const DropLiStyled = styled.li`
       display: block;
       position: relative;
       z-index: 2;
-      min-height: ${headerHeight};
+      min-height: var(--header-height);
       margin: 0;
       padding: 0;
     }
@@ -195,11 +187,11 @@ const DropLiStyled = styled.li`
     ul {
       position: absolute;
       left: 0;
-      top: ${headerHeight};
+      top: var(--header-height);
       display: block;
       min-width: 100%;
       overflow: hidden;
-      background-color: ${colorHeader};
+      background-color: var(--color-header);
       transform: translateY(-100%);
       transition: transform 200ms linear 100ms, clip-path 200ms linear 100ms;
       clip-path: polygon(0 100%, 100% 100%, 100% 200%, 0% 200%);

@@ -1,14 +1,14 @@
 import React, {forwardRef} from 'react'
 import styled from 'styled-components'
 import {noop} from '../util'
-import {cssVar, formElement, icon} from '../service/css'
+import {formElement, icon} from '../service/css'
 
 // todo: disabled
 
 export const StyledInput = styled.input`
   ${formElement}
-  box-shadow: 0 0 0 1px ${cssVar.colorBorder} inset,  0 4px 16px ${cssVar.colorShade} inset;
-  &:focus { box-shadow: 0 0 0 1px ${cssVar.colorButton} inset,  0 4px 16px ${cssVar.colorShade} inset; }
+  box-shadow: 0 0 0 1px var(--color-border) inset,  0 4px 16px var(--color-shade) inset;
+  &:focus { box-shadow: 0 0 0 1px var(--color-button) inset,  0 4px 16px var(--color-shade) inset; }
   // height should be 2*0.5rem padding + 0.875rem fontsize
   line-height: 1.875rem;
   padding: 0 0.75rem;
@@ -37,8 +37,8 @@ export const StyledInput = styled.input`
         color: inherit;
       }
     }
-    &:checked+span { color: ${cssVar.colorButton}; }
-    &:focus+span { box-shadow: 0 0 0 1px ${cssVar.colorButton} inset,  0 4px 16px ${cssVar.colorShade} inset; }
+    &:checked+span { color: var(--color-button); }
+    &:focus+span { box-shadow: 0 0 0 1px var(--color-button) inset,  0 4px 16px var(--color-shade) inset; }
   }
   
   &[type=number] {

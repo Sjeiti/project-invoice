@@ -29,7 +29,6 @@ import {Price} from '../components/Price'
 import {Select} from '../components/Select'
 import {T} from '../components/T'
 import {useTranslation} from 'react-i18next'
-import {cssVar} from '../service/css'
 import {Dialog} from '../components/Dialog'
 import {Tabs} from '../components/Tabs'
 import {FormSpan} from '../components/FormSpan'
@@ -61,7 +60,7 @@ const editablePropNames = [
 const PriceRight = props => <Price {...props} className="float-right" />
 
 const DragHandleStyled = styled(Icon)`
-  color: ${cssVar.colorButton};
+  color: var(--color-button);
   cursor: grab;
 `
 const DragHandle = ()=><DragHandleStyled type="drag" />

@@ -2,13 +2,10 @@ import React, {useEffect, useState, useRef} from 'react'
 import styled from 'styled-components'
 import {CSSTransition} from 'react-transition-group'
 import {Button, IconButton} from './Button'
-import {cssVar} from '../service/css'
 import {useWindowDimensions} from '../hook/useWindowDimensions'
 import {useWindowScroll} from '../hook/useWindowScroll'
 import {useKeyDown} from '../hook/useKeyDown'
 import {T} from '../components/T'
-
-const {padding, borderRadius, shadeFlat, colorLightBg, colorButton} = cssVar
 
 const StyledDialog = styled.div`
   position: fixed;
@@ -21,13 +18,13 @@ const StyledDialog = styled.div`
   min-width: 15rem;
   max-width: calc(100vw - 2rem);
   border: 0;
-  box-shadow: 0 0 0 1px ${colorButton}, ${shadeFlat};
+  box-shadow: 0 0 0 1px var(--color-button), var(--shade-flat);
   background-color: white;
-  border-radius: ${borderRadius};
+  border-radius: var(--border-radius);
   header {
-    background-color: ${colorLightBg};
-    border-top-left-radius: ${borderRadius};
-    border-top-right-radius: ${borderRadius};
+    background-color: var(--color-light-bg);
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
     button {
       position: absolute;
       right: 0;
@@ -40,7 +37,7 @@ const StyledDialog = styled.div`
     font-size: 1rem;
     line-height: 1rem;
   }
-  >*{ padding: ${padding}; }
+  >*{ padding: var(--padding); }
   footer {
    padding-top: 0;
    button { margin-bottom: 0; }

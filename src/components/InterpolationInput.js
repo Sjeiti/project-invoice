@@ -2,24 +2,17 @@ import React, {useMemo, useState, useRef} from 'react'
 import classNames from 'classnames'
 import styled from 'styled-components'
 import marked from 'marked'
-import {cssVar} from '../service/css'
 import {InputText} from './Input'
 import {Textarea} from './Textarea'
 import {Select} from './Select'
 import {interpolateEvil, readGetters, unique} from '../util'
-
-const {
-  colorButton
-  , colorBorder
-  , colorShade
-} = cssVar
 
 export const StyledInterpolationInput = styled.div`
   input, textarea {
     width: 100%;
   }
   &.focussed { input, textarea {
-    box-shadow: 0 0 0 1px ${colorButton} inset,  0 4px 16px ${colorShade} inset;
+    box-shadow: 0 0 0 1px var(--color-button) inset,  0 4px 16px var(--color-shade) inset;
   }}
   section {
     max-height: 0;
@@ -40,7 +33,7 @@ export const StyledInterpolationInput = styled.div`
     padding-right: 0.5rem;
     overflow: hidden;
     line-height: 1rem;
-    color: ${colorButton};
+    color: var(--color-button);
     cursor: hand;
   }
   select {
@@ -63,7 +56,7 @@ const Result = styled.div`
   line-height: 1rem;
   color: #888;
   background-color: #F0F0F0;
-  box-shadow: 0 0 0 1px ${colorBorder} inset;
+  box-shadow: 0 0 0 1px var(--color-border) inset;
   //white-space: pre-wrap;
   p:last-child { margin-bottom: 0; }
 `

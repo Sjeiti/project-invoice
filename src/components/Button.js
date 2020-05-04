@@ -1,38 +1,29 @@
 import React from 'react'
 import styled from 'styled-components'
-import {cssVar, formElement} from '../service/css'
+import {formElement} from '../service/css'
 import {Icon} from './Icon'
-
-const {
-  colorButton
-  , colorButtonL05
-  , colorButtonL40
-  , colorButtonD10
-  , colorShade
-  , shadeFlat
-} = cssVar
 
 export const Button = styled.button`
   ${formElement}
   box-shadow: inset 0 0 0 1px #19759e, inset 1px 1px 0 1px #1f8fc1,
     inset 0 -2px 8px rgba(0, 0, 0, 0.1);
-  background-color: ${colorButton};
+  background-color: var(--color-button);
   color: #fff;
   text-decoration: none;
   transition: background-color 0.2s linear;
   cursor: pointer;
   &:hover {
-    background-color: ${colorButtonL05};
+    background-color: var(--color-buttonL05);
   }
   &:focus {
-    box-shadow: 0 0 0 1px ${colorButtonD10} inset,
-      1px 1px 0 1px ${colorButtonL40} inset,
-      0 -2px 8px ${colorShade} inset,
-      ${shadeFlat};
+    box-shadow: 0 0 0 1px var(--color-buttonD10) inset,
+      1px 1px 0 1px var(--color-buttonL40) inset,
+      0 -2px 8px var(--color-shade) inset,
+      var(--shade-flat);
   }
   &[disabled], &[disabled]:hover {
     opacity: 0.3;
-    background-color: ${colorButton};
+    background-color: var(--color-button);
     cursor: default;
   }
   ${props => props.invert?`
@@ -42,7 +33,7 @@ export const Button = styled.button`
     &:hover, &:focus {
       box-shadow: none;
       background-color: transparent;
-      color: ${colorButton}
+      color: var(--color-button)
     }
     &[disabled], &[disabled]:hover, &[disabled]:focus {
       background-color: transparent;
