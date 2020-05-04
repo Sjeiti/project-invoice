@@ -27,7 +27,7 @@ const cssVarDefault = {
   , colorShade: 'rgba(0,0,0,0.1)'
   , shadeFlat: '2px 3px 1px rgba(0, 0, 0, 0.2)'
   , colorBorder: '#BBB'
-  , colorHeader: 'var(--color-header)' // '#444' // '#1c5f6d' //
+  , colorHeader: '#444' // '#1c5f6d' //
   , colorTable: '#EEE'
 
   , colorRed: '#F04'

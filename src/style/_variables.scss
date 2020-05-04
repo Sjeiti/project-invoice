@@ -9,7 +9,9 @@ $colorGrayLight: #CCC;
 $colorGrayLighter: #DDD;
 
 $colorBackground: #F8F8F8;
-$colorHeader: #444; // #3b4861; // #444;
+$colorHeader: #1B9CA2; // #3b4861; // #444;
+$colorHeaderDark: darken($colorHeader, 10%);
+$colorHeaderLight: lighten($colorHeader, 5%);
 $colorError: $colorRed;
 $colorLink: #1c93be;
 $colorButton: $colorBlue;
@@ -41,6 +43,8 @@ $breakpointHigh: '(min-width: 599px)';
   --border-radius: #{$borderRadius};
 
   --color-header: #{$colorHeader};
+  --color-header-dark: #{$colorHeaderDark};
+  --color-header-light: #{$colorHeaderLight};
 
   --color-red: #{$colorRed};
   --color-redD30: #{darken($colorRed,30%)};
@@ -52,6 +56,7 @@ $breakpointHigh: '(min-width: 599px)';
   --color-buttonL54: #{lighten($colorButton,54%)};
   --color-buttonD10: #{darken($colorButton,10%)};
 
+  --color-gray-dark: #{$colorGrayDark};
   --color-shade: #{$colorShade};
   --shade-flat: #{$shadeFlat};
 

@@ -11,7 +11,14 @@ import {getConfig} from '../model/config/selectors'
 import {APP_NAME} from '../config'
 
 const {breakpointLow, breakpointHigh} = cssVarValue
-const {headerHeight, padding, colorHeader} = cssVar
+const {
+  headerHeight
+  , padding
+  , colorHeader
+  , colorHeaderDark
+  , colorHeaderLight
+  , colorGrayDark
+} = cssVar
 const halfHeaderHeight = `calc(0.5 * ${headerHeight})` //multiply(headerHeight, 0.5)
 
 const {body} = document
@@ -20,7 +27,7 @@ const StyledHeaderLink = styled(Link)`
   color: white;
   text-decoration: none;
   ${props => props.current==='true' && css`
-    background-color: #333;
+    background-color: ${colorHeaderDark};
     color: white;
   `}
 `
@@ -44,8 +51,8 @@ const StyledHeader = styled.header`
   overflow: visible;
   white-space: nowrap;
   z-index: 3;
-  background-color: ${colorHeader};
-  box-shadow: 0 0 16px ${colorHeader};
+  background: ${colorHeader} linear-gradient(90deg, ${colorHeader}, ${colorHeaderLight});
+  box-shadow: 0 0 16px ${colorGrayDark};
   color: #FFF;
   
   nav:first-child { flex: 1 0 auto; }
@@ -100,7 +107,6 @@ const StyledHeader = styled.header`
       //width: 100vw;
       height: ${headerHeight};
       text-align: right;
-      background-color: ${colorHeader};
       a {
         display: block;
         width: 100%;
@@ -131,7 +137,6 @@ const StyledHeader = styled.header`
       position: absolute;
       right: 0;
       height: 100vh;
-      background: #444 linear-gradient(to right, lighten(${colorHeader},5%), ${colorHeader});
       overflow: hidden;
       transform: translateX(100%);
       transition: transform 300ms ease;
@@ -145,7 +150,7 @@ const StyledHeader = styled.header`
     }
     #hamburger:checked+label+ul {
       transform: translateX(0);
-      box-shadow: 0 0 16px ${colorHeader};
+      box-shadow: 0 0 16px ${colorGrayDark};
     }
     >*:last-child {
       right: calc(${halfHeaderHeight} + ${padding});
@@ -158,15 +163,16 @@ const StyledHeader = styled.header`
     a {
       display: inline-block;
       padding: 0 16px;
+      width: 100%;
       min-height: ${headerHeight};
       line-height: ${headerHeight};
       transition: background-color 200ms linear;
       &[current="false"] {
-       background-color: ${colorHeader};
+        background-color: transparent;
       }
       &:hover {
-        background-color: lighten(${colorHeader},5%);
-        box-shadow: 100px 0 0 lighten(${colorHeader},5%) inset;
+        background-color: ${colorHeaderLight};
+        box-shadow: 100px 0 0 ${colorHeaderLight} inset;
       }
     }
   }
@@ -176,12 +182,15 @@ const DropLiStyled = styled.li`
   @media ${breakpointHigh} {
     position: relative;
     label {
+      display: block;
       position: relative;
-      z-index: 1;
+      z-index: 2;
       min-height: ${headerHeight};
       margin: 0;
       padding: 0;
-      //background-color: red;
+    }
+    label~ul {
+      z-index: 1;
     }
     ul {
       position: absolute;
@@ -192,10 +201,12 @@ const DropLiStyled = styled.li`
       overflow: hidden;
       background-color: ${colorHeader};
       transform: translateY(-100%);
-      transition: transform 200ms linear 100ms;
+      transition: transform 200ms linear 100ms, clip-path 200ms linear 100ms;
+      clip-path: polygon(0 100%, 100% 100%, 100% 200%, 0% 200%);
     }
     &:hover ul, input:checked+ul {
       transform: translateY(0);
+      clip-path: polygon(0 0, 100% 0, 100% 200%, 0% 200%);
     }
   }
 `
@@ -222,7 +233,10 @@ export const Header = withRouter(connect(
     <StyledHeader>
       <nav>
         <HeaderLink to="/" className="home-icon" style={{backgroundColor:'transparent'}}>
-          <Logo/>
+          {/*<Logo colors={['#3B596D','#376677','#2A7F8B']} />*/}
+          {/*<Logo colors={['#1E797C','#20888B','#1E9397']} />*/}
+          <Logo colors={['#1E797C', '#45BDC3', '#80D3D5']} />
+          {/*<Logo />*/}
         </HeaderLink>
 
         <h2 className="page-title hide-high">{location.pathname==='/'?APP_NAME:location.pathname}</h2>
