@@ -20,6 +20,7 @@ import {SettingsData} from '../components/SettingsData'
 import {SettingsPeer2Peer} from '../components/SettingsPeer2Peer'
 import {SettingsEncryption} from '../components/SettingsEncryption'
 import {SettingsCloud} from '../components/SettingsCloud'
+import {SettingsColorScheme} from '../components/SettingsColorScheme'
 import {T} from '../components/T'
 import {InterpolationInput} from '../components/InterpolationInput'
 import {DirtyPrompt} from '../components/DirtyPrompt'
@@ -31,7 +32,6 @@ const Section = styled.section`
     clear: both;
   }
 `
-
 const currencies = Object.keys(CURRENCY_ISO).map(key=>CURRENCY_ISO[key])
 
 const varMap = {
@@ -85,6 +85,7 @@ export const Settings = connect(
                 </Label>
               </React.Fragment>
             )}
+            <SettingsColorScheme />
           </Section>
           <Section>
             <h2 className="col-12 col-sm-3 float-left"><T>data</T> <small>({clients.length})</small></h2>

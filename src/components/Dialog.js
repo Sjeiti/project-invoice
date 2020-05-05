@@ -22,7 +22,7 @@ const StyledDialog = styled.div`
   background-color: white;
   border-radius: var(--border-radius);
   header {
-    background-color: var(--color-light-bg);
+    background-color: var(--color-background);
     border-top-left-radius: var(--border-radius);
     border-top-right-radius: var(--border-radius);
     button {

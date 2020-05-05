@@ -16,10 +16,10 @@ const halfHeaderHeight = `calc(0.5 * var(--header-height))` //multiply(headerHei
 const {body} = document
 
 const StyledHeaderLink = styled(Link)`
-  color: white;
+  color: var(--color-header-foreground);
   text-decoration: none;
   ${props => props.current==='true' && css`
-    background-color: var(--color-header-dark);
+    background-color: var(--color-headerD10);
     color: white;
   `}
 `
@@ -43,8 +43,8 @@ const StyledHeader = styled.header`
   overflow: visible;
   white-space: nowrap;
   z-index: 3;
-  background: var(--color-header) linear-gradient(90deg, var(--color-header), var(--color-header-light));
-  box-shadow: 0 0 16px var(--color-gray-dark);
+  background: var(--color-header) linear-gradient(90deg, var(--color-header), var(--color-headerL05));
+  box-shadow: 0 0 16px var(--color-shade-flat);
   color: #FFF;
   
   nav:first-child { flex: 1 0 auto; }
@@ -74,7 +74,7 @@ const StyledHeader = styled.header`
     top: 0;
     margin: 0;
     padding: 0;
-    color: white;
+    color: var(--color-header-foreground);
     line-height: var(--header-height);
   }
   
@@ -119,7 +119,7 @@ const StyledHeader = styled.header`
         width: 100%;
         height: 4px;
         margin: 6px 0;
-        background-color: white;
+        background-color: var(--color-header-foreground);
       }
       +ul {
         background-color: var(--color-header);
@@ -142,7 +142,7 @@ const StyledHeader = styled.header`
     }
     #hamburger:checked+label+ul {
       transform: translateX(0);
-      box-shadow: 0 0 16px var(--color-gray-dark);
+      box-shadow: 0 0 16px var(--color-shade-flat);
     }
     >*:last-child {
       right: calc(${halfHeaderHeight} + var(--padding));
@@ -163,8 +163,8 @@ const StyledHeader = styled.header`
         background-color: transparent;
       }
       &:hover {
-        background-color: var(--color-header-light);
-        box-shadow: 100px 0 0 var(--color-header-light) inset;
+        background-color: var(--color-headerL05);
+        box-shadow: 100px 0 0 var(--color-headerL05) inset;
       }
     }
   }

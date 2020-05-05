@@ -11,9 +11,9 @@ const StyledFooter = styled.footer`
   padding: 4px 8px;
   font-size: 10px;
   text-align: center;
-  background-color: var(--color-header-dark);
-  box-shadow: 0 1px 0 1px var(--color-header-dark);
-  color: white;
+  background-color: var(--color-headerD10);
+  box-shadow: 0 1px 0 1px var(--color-headerD10);
+  color: var(--color-header-foreground);
   a {
     color: inherit;
     text-decoration: none;

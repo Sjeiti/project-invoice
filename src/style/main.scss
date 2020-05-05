@@ -17,7 +17,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-size: 14px;
   line-height: 160%;
-  background-color: $colorBackground;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
 }
 
 #app {
@@ -50,7 +51,7 @@ ol, ul { list-style: none; }
 section+section {
   margin-top: 40px;
   padding-top: 40px;
-  box-shadow: 0 1px 0 $colorGrayLighter inset;
+  box-shadow: 0 1px 0 var(--color-light-border) inset;
 }
 //section>button:first-child,
 //section>.btn:first-child,
@@ -80,7 +81,7 @@ hr {
   margin: 3rem 0;
   border: 0;
   height: 1px;
-  background-color: $colorGrayLight;
+  background-color: var(--color-light-border);
 }
 
 .mono { font-family: 'Source Code Pro', monospace; }
@@ -164,7 +165,7 @@ code {
   font-family: 'Source Code Pro', monospace;
   font-size: 90%;
   color: #bd4147;
-  background-color: #f7f7f9;
+  background-color: var(--color-background-header);
   border-radius: 0.25rem;
 }
 

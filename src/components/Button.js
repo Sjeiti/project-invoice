@@ -5,10 +5,10 @@ import {Icon} from './Icon'
 
 export const Button = styled.button`
   ${formElement}
-  box-shadow: inset 0 0 0 1px #19759e, inset 1px 1px 0 1px #1f8fc1,
+  box-shadow: inset 0 0 0 1px var(--color-buttonD05), inset 1px 1px 0 1px var(--color-buttonL05),
     inset 0 -2px 8px rgba(0, 0, 0, 0.1);
   background-color: var(--color-button);
-  color: #fff;
+  color: var(--color-button-foreground);
   text-decoration: none;
   transition: background-color 0.2s linear;
   cursor: pointer;

@@ -19,8 +19,8 @@ export const StyledTable = styled.table`
   table-layout: fixed;
   border-top: 1px solid var(--color-border);
   border-bottom: 1px solid var(--color-border);
-  thead { border-bottom: 1px solid #CCC; }
-  tfoot { border-top: 1px solid #CCC; }
+  thead { border-bottom: 1px solid var(--color-light-border); }
+  tfoot { border-top: 1px solid var(--color-light-border); }
   &.hoverable {
     tr {
       transition: background-color 200ms linear, box-shadow 200ms linear;
@@ -29,13 +29,14 @@ export const StyledTable = styled.table`
       box-shadow: 0 1px 0 0 transparent inset, 0 -1px 0 0 transparent inset;
       @media ${breakpointHigh} {
         &:hover {
-          background-color: var(--color-buttonL54);
+          //background-color: var(--color-buttonL54);
+          background-color: var(--color-background-highlight);
           box-shadow: 0 1px 0 0 var(--color-buttonL30) inset, 0 -1px 0 0 var(--color-buttonL30) inset;
         }
       }
     }
   }
-  thead,tfoot { background-color: var(--color-table); }
+  thead,tfoot { background-color: var(--color-background-header); }
   &, tbody, tfoot, tr, td, th {
     margin:0;
     padding:0;
@@ -64,7 +65,7 @@ export const StyledTable = styled.table`
   }
   tr {
     &:nth-child(even) {
-      background-color: #f8f8f8;
+      background-color: var(--color-background-off);
     }
     &.dragTo {
       position: relative;

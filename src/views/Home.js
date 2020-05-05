@@ -63,7 +63,7 @@ const Jumbotron = styled.div`
       transform: translateY(-100%);
       margin-bottom: -220px;
     }
-    &, * { color: white; }
+    &, * { color: var(--color-header-foreground); }
     svg {
       z-index: 1;
     }

@@ -4,7 +4,6 @@ import {T} from './T'
 import {Select} from './Select'
 import {ID as driveID} from '../service/cloudDrive'
 
-
 export const SettingsCloud = ({config, storeConfigWith}) => {
 
   const [cloudProvider, setCloudProvider] = useState(config.cloudSelected)

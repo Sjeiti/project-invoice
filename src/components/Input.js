@@ -12,6 +12,8 @@ export const StyledInput = styled.input`
   // height should be 2*0.5rem padding + 0.875rem fontsize
   line-height: 1.875rem;
   padding: 0 0.75rem;
+  background-color: var(--color-input-background);
+  color: var(--color-foreground);
     
   &[type=checkbox] {
     width: 1.875rem;
@@ -27,9 +29,9 @@ export const StyledInput = styled.input`
       font-size: 1rem;
       line-height: 1.875rem;
       overflow: hidden;
-      background-color: #e8e8e8;
-      box-shadow: inset 0 0 0 1px #bbb;
-      color: #BBB;
+      background-color: var(--color-input-background);//#e8e8e8;
+      box-shadow: inset 0 0 0 1px var(--color-border);
+      color: var(--color-input-background-off);
       text-align: center;
       &:before { 
         ${icon}
@@ -37,8 +39,8 @@ export const StyledInput = styled.input`
         color: inherit;
       }
     }
-    &:checked+span { color: var(--color-button); }
-    &:focus+span { box-shadow: 0 0 0 1px var(--color-button) inset,  0 4px 16px var(--color-shade) inset; }
+    &:checked+span { color: var(--color-input-selected); }
+    &:focus+span { box-shadow: 0 0 0 1px var(--color-buttonL40) inset,  0 4px 16px var(--color-shade) inset; }
   }
   
   &[type=number] {

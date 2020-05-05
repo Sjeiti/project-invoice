@@ -3,24 +3,19 @@ $colorRed: #F04;
 $colorGreen: #582;
 $colorBlue: #1d85b4;
 $colorYellow: #EFAC4E;
-$colorGrayDark: #444;
-$colorGray: #888;
-$colorGrayLight: #CCC;
-$colorGrayLighter: #DDD;
 
 $colorBackground: #F8F8F8;
 $colorHeader: #1B9CA2; // #3b4861; // #444;
-$colorHeaderDark: darken($colorHeader, 10%);
-$colorHeaderLight: lighten($colorHeader, 5%);
 $colorError: $colorRed;
 $colorLink: #1c93be;
 $colorButton: $colorBlue;
 $colorButtonHigh: $colorYellow;
 $colorBorder: #BBB;
 $colorTable: #EEE;
-$colorShade: rgba(0,0,0,0.1);
 
-$shadeFlat: 2px 3px 1px rgba(0, 0, 0, 0.2);
+$colorShade: rgba(0,0,0,0.1);
+$colorShadeFlat: rgba(0,0,0,0.2);
+$shadeFlat: 2px 3px 1px $colorShadeFlat;
 
 $padding: 8px;
 $headerHeight: 2.5rem;
@@ -38,35 +33,97 @@ $breakpointHigh: '(min-width: 599px)';
   --breakpoint-low: #{$breakpointLow};
   --breakpoint-high: #{$breakpointHigh};
 
+  --font-main: 'Open Sans', monospace;
+  --font-mono: 'Source Code Pro', monospace;
+
   --padding: #{$padding};
   --header-height: #{$headerHeight};
   --border-radius: #{$borderRadius};
 
+  --color-foreground: #222;
+  --color-background: #{$colorBackground};
+  --color-background-off: #f8f8f8;
+  --color-background-header: #EEE;
+  --color-background-highlight: mix($colorButton, $colorBackground, 50%);
+
+  --color-input-background: #EEE;
+  --color-input-background-off: #CCC;
+  --color-input-selected: #{$colorBlue};
+
   --color-header: #{$colorHeader};
-  --color-header-dark: #{$colorHeaderDark};
-  --color-header-light: #{$colorHeaderLight};
+  --color-header-foreground: white;
+  --color-headerL05: #{lighten($colorHeader, 5%)};
+  --color-headerD10: #{darken($colorHeader, 10%)};
 
   --color-red: #{$colorRed};
   --color-redD30: #{darken($colorRed,30%)};
 
   --color-button: #{$colorButton};
+  --color-button-foreground: white;
   --color-buttonL05: #{lighten($colorButton,5%)};
   --color-buttonL30: #{lighten($colorButton,30%)};
   --color-buttonL40: #{lighten($colorButton,40%)};
   --color-buttonL54: #{lighten($colorButton,54%)};
   --color-buttonD10: #{darken($colorButton,10%)};
+  --color-buttonD05: #{darken($colorButton,5%)};
 
-  --color-light-bg: #D9E6E8;
-  --color-light-border: #BBB;
+  --color-border: #BBB;
+  --color-light-border: #CCC;
 
-  --color-table: #EEE;
-
-  --color-gray-dark: #{$colorGrayDark};
+  --color-shade-flat: #{$colorShadeFlat};
   --color-shade: #{$colorShade};
   --shade-flat: #{$shadeFlat};
 
   --color-not-white: #{mix(white, $colorButton, 70%)};
+}
 
-  --font-main: 'Open Sans', monospace;
-  --font-mono: 'Source Code Pro', monospace;
+$colorButtonDark: desaturate(darken($colorBlue, 15%), 20%);
+$colorHeaderDark: desaturate(darken($colorHeader, 15%), 30%);
+[data-color-scheme=dark] {
+  //--breakpoint: #{$breakpoint};
+  //--breakpoint-low: #{$breakpointLow};
+  //--breakpoint-high: #{$breakpointHigh};
+  //
+  //--font-main: 'Open Sans', monospace;
+  //--font-mono: 'Source Code Pro', monospace;
+  //
+  //--padding: #{$padding};
+  //--header-height: #{$headerHeight};
+  //--border-radius: #{$borderRadius};
+
+  --color-foreground: #DDD;
+  --color-background: #222;
+  --color-background-off: #282828;
+  --color-background-header: #333;
+  --color-background-highlight: mix($colorButton, $colorBackground, 90%);
+
+  --color-input-background: #444;
+  --color-input-background-off: #222;
+  --color-input-selected: #{$colorBlue};
+
+  --color-header: #{$colorHeaderDark};
+  --color-header-foreground: #{lighten($colorHeaderDark, 55%)};
+  --color-headerL05: #{lighten($colorHeaderDark, 5%)};
+  --color-headerD10: #{darken($colorHeaderDark, 10%)};
+
+  //--color-red: #{$colorRed};
+  //--color-redD30: #{darken($colorRed,30%)};
+
+  --color-button: #{$colorButtonDark};
+  --color-button-foreground: #{lighten($colorButtonDark, 55%)};
+  --color-buttonL05: #{lighten($colorButtonDark,5%)};
+  --color-buttonL30: #{lighten($colorButtonDark,30%)};
+  --color-buttonL40: #{lighten($colorButtonDark,40%)};
+  --color-buttonL54: #{lighten($colorButtonDark,54%)};
+  --color-buttonD10: #{darken($colorButtonDark,10%)};
+  --color-buttonD05: #{darken($colorButtonDark,5%)};
+
+  --color-border: #666;
+  --color-light-border: #444;
+
+  //--color-shade-flat: #{$colorShadeFlat};
+  //--color-shade: #{$colorShade};
+  //--shade-flat: #{$shadeFlat};
+
+  //--color-not-white: #{mix(white, $colorButton, 70%)};
 }

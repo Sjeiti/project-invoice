@@ -1,9 +1,9 @@
 @font-face {
   font-family: 'icomoon';
   src:
-    url('/fonts/icomoon.ttf?qh8m6m') format('truetype'),
-    url('/fonts/icomoon.woff?qh8m6m') format('woff'),
-    url('/fonts/icomoon.svg?qh8m6m#icomoon') format('svg');
+    url('/fonts/icomoon.ttf?bp0437') format('truetype'),
+    url('/fonts/icomoon.woff?bp0437') format('woff'),
+    url('/fonts/icomoon.svg?bp0437#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -51,6 +51,8 @@ $icon-close: "\e90f";
 $icon-stack: "\e910";
 $icon-money: "\e911";
 $icon-eye: "\e912";
+$icon-sun: "\e916";
+$icon-moon: "\e917";
 $icon-chevron-left: "\e914";
 $icon-chevron-right: "\e915";
 
@@ -80,6 +82,8 @@ $icon-chevron-right: "\e915";
 .icon-stack:before { content: $icon-stack; }
 .icon-money:before { content: $icon-money; }
 .icon-eye:before { content: $icon-eye; }
+.icon-sun:before { content: $icon-sun; }
+.icon-moon:before { content: $icon-moon; }
 .icon-chevron-left:before { content: $icon-chevron-left; }
 .icon-chevron-right:before { content: $icon-chevron-right; }
 
@@ -123,6 +127,8 @@ $icon-chevron-right: "\e915";
 @mixin icon-stack(){&:before{@include icon-icon();content: $icon-stack;}}
 @mixin icon-money(){&:before{@include icon-icon();content: $icon-money;}}
 @mixin icon-eye(){&:before{@include icon-icon();content: $icon-eye;}}
+@mixin icon-sun(){&:before{@include icon-icon();content: $icon-sun;}}
+@mixin icon-moon(){&:before{@include icon-icon();content: $icon-moon;}}
 @mixin icon-chevron-left(){&:before{@include icon-icon();content: $icon-chevron-left;}}
 @mixin icon-chevron-right(){&:before{@include icon-icon();content: $icon-chevron-right;}}
 

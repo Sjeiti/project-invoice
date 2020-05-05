@@ -21,19 +21,6 @@ const cssVarDefault = {
   breakpoint: '598px'
   , breakpointLow: '(max-width: 598px)'
   , breakpointHigh: '(min-width: 599px)'
-
-  , colorButton: '#1d85b4'
-  , colorLightBg: '#D9E6E8'
-  , colorShade: 'rgba(0,0,0,0.1)'
-  , shadeFlat: '2px 3px 1px rgba(0, 0, 0, 0.2)'
-  , colorBorder: '#BBB'
-  , colorHeader: '#444' // '#1c5f6d' //
-  , colorTable: '#EEE'
-
-  , colorRed: '#F04'
-  , colorGray: '#CCC'
-
-  , colorBackground: '#F8F8F8'
 }
 
 export const cssVar = Object.assign({}, cssVarDefault, Object.keys(cssVars).reduce((acc,key)=>{
@@ -47,7 +34,7 @@ export const cssVarValue = Object.assign({}, cssVarDefault, Object.entries(cssVa
 }, {}))
 
 
-export const clearfix = css`
+export const clearfix = css` 
   &:after {
     content: '';
     display: table;
