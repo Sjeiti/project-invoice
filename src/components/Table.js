@@ -29,9 +29,8 @@ export const StyledTable = styled.table`
       box-shadow: 0 1px 0 0 transparent inset, 0 -1px 0 0 transparent inset;
       @media ${breakpointHigh} {
         &:hover {
-          //background-color: var(--color-buttonL54);
           background-color: var(--color-background-highlight);
-          box-shadow: 0 1px 0 0 var(--color-buttonL30) inset, 0 -1px 0 0 var(--color-buttonL30) inset;
+          box-shadow: 0 1px 0 0 var(--color-header) inset, 0 -1px 0 0 var(--color-header) inset;
         }
       }
     }

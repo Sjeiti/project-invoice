@@ -44,7 +44,7 @@ $breakpointHigh: '(min-width: 599px)';
   --color-background: #{$colorBackground};
   --color-background-off: #f8f8f8;
   --color-background-header: #EEE;
-  --color-background-highlight: mix($colorButton, $colorBackground, 50%);
+  --color-background-highlight: #{mix($colorButton, $colorBackground, 5%)};
 
   --color-input-background: #EEE;
   --color-input-background-off: #CCC;
@@ -95,7 +95,7 @@ $colorHeaderDark: desaturate(darken($colorHeader, 15%), 30%);
   --color-background: #222;
   --color-background-off: #282828;
   --color-background-header: #333;
-  --color-background-highlight: mix($colorButton, $colorBackground, 90%);
+  --color-background-highlight: #{mix($colorButtonDark, #222, 50%)};
 
   --color-input-background: #444;
   --color-input-background-off: #222;

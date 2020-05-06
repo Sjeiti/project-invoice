@@ -11,7 +11,7 @@ const StyledTabs = styled.div`
       content: '';
       flex: 1 1 auto;
       display: block;
-      box-shadow: 0 -1px 0 #bbb inset;
+      box-shadow: 0 -1px 0 var(--color-border) inset;
     }
   }
 `
@@ -23,9 +23,10 @@ const Tab = styled.button`
   padding: .5rem 1rem 0;
   border-top-left-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
-  border: 1px solid #bbb;
+  border: 1px solid var(--color-border);
   border-bottom-color: transparent;
   background-color: transparent;
+  color: var(--color-foreground);
   &:after {
     content: '';
     position: absolute;
@@ -35,11 +36,11 @@ const Tab = styled.button`
     width: 0.25rem;
     height: 1px;
     transform: translateX(100%);
-    background-color: #BBB;
+    background-color: var(--color-border);
   }
   ${props => props.notCurrent && css`
-    color: #888;
-    border-bottom-color: #bbb;
+    color: var(--color-background-header);
+    border-bottom-color: var(--color-border);
     cursor: pointer;
     background: linear-gradient(to top, rgba(0,0,0,0.1), rgba(0,0,0,0));
     &>h3 { overflow: hidden; }
