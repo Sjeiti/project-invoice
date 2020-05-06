@@ -94,6 +94,7 @@ export const StyledTable = styled.table`
     margin-bottom: 0;
     &:first-child { padding-left: 0; }
     &:last-child { padding-right: 0; }
+    &.empty { height: 0.75rem; }
   }
   input, button, select {
     margin: 0;
@@ -166,7 +167,7 @@ export const Table = ({
           </tr>
         )}
       </TransitionGroup>
-      {!hasTFoot&&<tfoot><tr><td colSpan={length} /></tr></tfoot>}
+      {!hasTFoot&&<tfoot><tr><td className="empty" colSpan={length} /></tr></tfoot>}
       {children}
     </StyledTable></StyledTableWrapper>
   )

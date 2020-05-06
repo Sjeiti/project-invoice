@@ -35,7 +35,9 @@ export const tableGlobalStyle = css`
       //.last,
       //.description { width: 16vw; }
       .client { width: 15vw; }
-      .description { width: 20vw; }
+      .hours { width: 3rem; }
+      .description { width: 30vw; }
+      .vat { width: 2.75rem; }
     } 
   } 
 `
