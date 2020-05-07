@@ -44,7 +44,11 @@ const varMap = {
 }
 
 export const Settings = connect(
-    state => ({ configOld: getConfig(state), session: getSession(state), clients: getClients(state), state }),
+    state => ({
+      configOld: getConfig(state)
+      , session: getSession(state)
+      , clients: getClients(state)
+      , state }),
     { storeConfig, restoreState, storeSession }
   )(({ state, configOld, storeConfig, restoreState, session, storeSession, clients }) => {
     const [config, setConfig] = useState(configOld)
@@ -85,7 +89,7 @@ export const Settings = connect(
                 </Label>
               </React.Fragment>
             )}
-            <SettingsColorScheme />
+            <SettingsColorScheme {...{config, storeConfigWith}} />
           </Section>
           <Section>
             <h2 className="col-12 col-sm-3 float-left"><T>data</T> <small>({clients.length})</small></h2>

@@ -10,6 +10,7 @@ import {DecryptionDialog} from './components/DecryptionDialog'
 import {Notification} from './components/Notification'
 import {notify} from './util/signal'
 import {tableGlobalStyle} from './components/tableGlobalStyle'
+import {ColorScheme} from './components/ColorScheme'
 
 notify.add(console.log.bind(console, 'notify:'))
 
@@ -38,6 +39,7 @@ export const App = hot(module)(connect()(({ store }) =>
       </Layout>
       <Footer />
       <DecryptionDialog />
+      <ColorScheme />
     </Router>
   </Provider>
 ))
