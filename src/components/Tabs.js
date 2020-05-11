@@ -39,7 +39,7 @@ const Tab = styled.button`
     background-color: var(--color-border);
   }
   ${props => props.notCurrent && css`
-    color: var(--color-background-header);
+    color: var(--color-border);
     border-bottom-color: var(--color-border);
     cursor: pointer;
     background: linear-gradient(to top, rgba(0,0,0,0.1), rgba(0,0,0,0));
