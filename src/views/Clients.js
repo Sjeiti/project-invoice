@@ -51,10 +51,12 @@ export const Clients = connect(
   </>
   return (
     <>
-      <ButtonLink {...newClientEvents} className="float-right"><T>new client</T></ButtonLink>
-      <h1>
-        <T>clients</T> <small>({clients.length})</small>
-      </h1>
+      <div className="clearfix">
+        <ButtonLink className="float-right" {...newClientEvents}><T>new client</T></ButtonLink>
+        <h1 className="float-left margin-top-0">
+          <T>clients</T> <small>({clients.length})</small>
+        </h1>
+      </div>
       <Table
         cols={cols}
         subjects={filteredClients}
