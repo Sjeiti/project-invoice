@@ -1,11 +1,12 @@
 import React from 'react'
 import {Button} from './Button'
-import {getDateString} from '../util'
+import {getDateString, tryParse} from '../util'
 import {T} from './T'
 import {ButtonAnchor} from './ButtonAnchor'
 import {ButtonLabel} from './ButtonLabel'
 import {data as defaultData} from '../model/default'
-
+import {notify} from '../util/signal'
+import {ERROR} from './Notification'
 
 export const SettingsData = ({state, restoreState}) => {
 
@@ -26,9 +27,17 @@ function onChangeRestore(restoreState, e){
   fileReader.readAsText(file)
   fileReader.addEventListener('load', ()=>{
     const result = fileReader.result
-    const resultData = JSON.parse(result) // todo decryptAndOrParse
+    const resultData = tryParse(result) // todo decryptAndOrParse
     if (resultData&&resultData.clients&&resultData.copy&&resultData.personal){
       restoreState(resultData)
+    } else if (!resultData) {
+      error('Malformed JSON data.')
+    } else {
+      error('The JSON is missing data specific to Project Invoice.')
     }
   })
+}
+
+function error(message){
+	notify.dispatch({message, type: ERROR})
 }
