@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 import {Link, withRouter} from 'react-router-dom'
 import {isEqual, cloneDeep} from 'lodash'
-import {nbsp, getGetSetter, capitalise, moveArrayItem} from '../util'
+import {nbsp,getGetSetter,capitalise,moveArrayItem,getInterpolationContext} from '../util'
 import {saveable} from '../util/signal'
 import {storeProject, removeProject, cloneProject} from '../model/clients/actions'
 import {
@@ -23,7 +23,6 @@ import {Button, IconButton} from '../components/Button'
 import {ButtonLink} from '../components/ButtonLink'
 import {InputText, InputDate, InputNumber, InputCheckbox} from '../components/Input'
 import {Table} from '../components/Table'
-import {Textarea} from '../components/Textarea'
 import {Icon} from '../components/Icon'
 import {Price} from '../components/Price'
 import {Select} from '../components/Select'
@@ -32,6 +31,7 @@ import {useTranslation} from 'react-i18next'
 import {Dialog} from '../components/Dialog'
 import {Tabs} from '../components/Tabs'
 import {FormSpan} from '../components/FormSpan'
+import {InterpolationInput} from '../components/InterpolationInput'
 import {DirtyPrompt} from '../components/DirtyPrompt'
 import {CSSTransition, TransitionGroup} from 'react-transition-group'
 import styled from 'styled-components'
@@ -205,6 +205,8 @@ export const Project = withRouter(
       const totalHours = getTotalHours(project)
       const discount = getDiscountPart(project)
 
+      const context = getInterpolationContext(state)
+
       return (
         (isProject && (
           <StyledProject>
@@ -310,17 +312,21 @@ export const Project = withRouter(
               </section>
 
               <section>
-                <Button onClick={onClickAddInvoiceButton} className="float-right"><T>show quotation</T></Button>
+                <ButtonLink to={`${getProjectHref(project)}/quotation`} className="float-right"><T>show quotation</T></ButtonLink>
                 <h3 className="invisible"><T>quotation</T></h3>
                 {[
                   { key: 'quotationDate', Element: InputDate }
                   , { key: 'quotationStartDate', Element: InputDate }
                   , { key: 'quotationDuration', Element: InputNumber }
                   , { key: 'quotationSubject', Element: InputText }
-                  , { key: 'quotationBefore', Element: Textarea }
-                  , { key: 'quotationAfter', Element: Textarea }
+                  , { key: 'quotationBefore', Element: InterpolationInput }
+                  , { key: 'quotationAfter', Element: InterpolationInput }
                 ].map(({key, Element}) => {
-                  return <Label key={key}><T>{key}</T><Element value={project[key]} setter={getSetter(key)} /></Label>
+                  return <Label key={key}><T>{key}</T><Element
+                      value={project[key]}
+                      setter={getSetter(key)}
+                      context={context}
+                  /></Label>
                 })}
               </section>
             </Tabs>

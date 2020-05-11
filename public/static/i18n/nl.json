@@ -209,5 +209,6 @@
   "youCurrentlyHaveNoDrafts": "Je hebt op dit moment geen concepten... :-/",
   "youCurrentlyHaveNoOpenInvoices": "Je hebt geen opestaande facturen :-)",
   "zipcode": "postcode",
-  "zippost": "postbus postcode"
+  "zippost": "postbus postcode",
+  "print": "print"
 }

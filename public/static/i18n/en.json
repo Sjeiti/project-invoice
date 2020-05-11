@@ -209,5 +209,6 @@
   "youCurrentlyHaveNoDrafts": "You currently have no drafts... :-/",
   "youCurrentlyHaveNoOpenInvoices": "There are no open invoices :-)",
   "zipcode": "zipcode",
-  "zippost": "zippost"
+  "zippost": "zippost",
+  "print": "print"
 }

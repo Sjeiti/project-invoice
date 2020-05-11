@@ -220,7 +220,7 @@ export const PrintInvoice = forwardRef(({state, project, client, invoiceIndex, l
           {invoiceIndex>0&&invoice.interest&&invoice.exhortation&&<small><Parse>exhortation_</Parse></small>}
         </div>
         {/*isQuotation*/}
-        {isQuotation&&<div className="wrapper"><Parse>{project.quotationBefore}</Parse></div>}
+        {isQuotation&&project.quotationBefore&&<div className="wrapper"><Parse>{project.quotationBefore}</Parse></div>}
         {/*isQuotation*/}
         <div className="wrapper">
           <h3 className="payment"><T>{isQuotation?'quotation':'payment'}</T></h3>
@@ -292,7 +292,7 @@ export const PrintInvoice = forwardRef(({state, project, client, invoiceIndex, l
           </table>
         </div>
         {/*isQuotation*/}
-        {isQuotation&&<div className="wrapper"><Parse>{project.quotationAfter}</Parse></div>}
+        {isQuotation&&project.quotationAfter&&<div className="wrapper"><Parse>{project.quotationAfter}</Parse></div>}
         {/*isQuotation*/}
       </div>
       <footer className="wrapper">
