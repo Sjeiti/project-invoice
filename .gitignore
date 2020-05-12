@@ -4,12 +4,13 @@ node_modules
 /dist
 /temp
 
-*.bat
-
-# local env files
+# Local env files
 .env
 .env.local
 .env.*.local
+
+# Private files
+*.bat
 
 # Log files
 npm-debug.log*
@@ -21,8 +22,14 @@ yarn-error.log*
 /public/static/i18n/README-en.md
 /public/static/i18n/*.html
 /public/static/img/*.png
-#/src/config/i18n.js // this is not generated is it?
-/output.js
+/public/fonts/**/*.*
+/src/views/Changelog.html
+/src/views/About.html
+/cypress/integration/**/*.*
+/cypress/screenshots/**/*.*
+
+# Other
+/design/*.ai
 
 # Editor directories and files
 .idea
