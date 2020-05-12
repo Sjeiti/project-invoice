@@ -51,7 +51,7 @@ Logins are useful for server authentication. But since your data is stored on yo
 
 ### How can I access my data from different machines?
 
-Since the data is stored locally you can only access it from one computer. However you can save and/or import the data from the settings page. You could save it on a usb stick to transfer the data to a different computer.
+Since the data is stored locally you can only access it from one computer. However you can save and/or import the data from the settings page. You can also establish a peer-to-peer connection to transfer data between devices.
 
 ### I want to clear my LocalStorage to wipe all my data.
 
