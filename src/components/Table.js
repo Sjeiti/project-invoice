@@ -115,6 +115,7 @@ export const Table = ({
   , className
   , draggableRows
   , dragged
+  , ...attr
 }) => {
   const {length} = cols
   const {t} = useTranslation()
@@ -136,7 +137,7 @@ export const Table = ({
   // console.log('\t',list===subjects) // todo: remove log
 
   return (
-    <StyledTableWrapper className={className}><StyledTable className={className+(isHoverable&&' hoverable'||'')}>
+    <StyledTableWrapper className={className} {...attr}><StyledTable className={className+(isHoverable&&' hoverable'||'')}>
       <thead>
         <tr>
           {cols.map(({th, key}, index) => (

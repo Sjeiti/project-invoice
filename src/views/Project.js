@@ -218,7 +218,7 @@ export const Project = withRouter(
                 <ButtonLink invert={1} {...getNextProjectEvents(client, project)}><i className="icon-chevron-right" /></ButtonLink>
                 <ButtonLink {...cloneProjectEvents}><T>clone</T></ButtonLink>
               </div>
-              <h2 className="clear">{project.description||nbsp}</h2>
+              <h2 className="clear" data-cy="projectHeading">{project.description||nbsp}</h2>
             </header>
 
             <section>
@@ -278,9 +278,9 @@ export const Project = withRouter(
 
             <Tabs currentIndex={project.invoices.length?0:1}>
               <section>
-                <Button onClick={onClickAddInvoiceButton} className="float-right"><T>{project.invoices.length&&'addReminder'||'addInvoice'}</T></Button>
+                <Button onClick={onClickAddInvoiceButton} className="float-right" data-cy="addInvoice"><T>{project.invoices.length&&'addReminder'||'addInvoice'}</T></Button>
                 <h3 className="invisible"><T>invoices</T></h3>
-                <TransitionGroup component="ol">
+                <TransitionGroup component="ol" data-cy="invoices">
                   {project.invoices.map((invoice, index)=>
                       <CSSTransition
                         timeout={200}

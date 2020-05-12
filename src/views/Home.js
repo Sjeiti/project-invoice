@@ -18,8 +18,8 @@ import {
   , getInvoiceDaysLate
   , getReminderDaysLate
 } from '../model/clients/selectors'
-import {addClient, addProject, storeProject} from '../model/clients/actions'
-import {getNewClientEvents, getNewProjectEvents} from '../model/eventFactory'
+import {addClient, addProject, cloneProject, storeProject} from '../model/clients/actions'
+import {getCloneProjectEvents, getNewClientEvents, getNewProjectEvents} from '../model/eventFactory'
 import {Logo} from '../components/Logo'
 import {AnchorButton} from '../components/AnchorButton'
 import {ButtonLink} from '../components/ButtonLink'
@@ -100,8 +100,8 @@ const Jumbotron = styled.div`
 
 export const Home = withRouter(connect(
   state => ({ clients: getClients(state), config: getConfig(state), data: getData(state) }),
-  { addClient, addProject, storeProject, storeConfig }
-)(({history, clients, config, data, addClient, addProject, storeProject, storeConfig}) => {
+  { addClient, addProject, cloneProject, storeProject, storeConfig }
+)(({history, clients, config, data, addClient, addProject, cloneProject, storeProject, storeConfig}) => {
   // const [clients, setClients] = useState(clientsOld)
   const latestClient = getLatestClient(clients)
   const latestProject = getLatestProject(clients)
@@ -159,14 +159,15 @@ export const Home = withRouter(connect(
     <div className="row no-gutters">
       <section className="col-12 col-md-5">
         <h2><T>whatDoYouWantToDo</T></h2>
-        <p><ButtonLink {...getNewClientEvents(clients, addClient)}><T>createANewClient</T></ButtonLink></p>
-        {latestClient&&<p><ButtonLink {...getNewProjectEvents(clients, latestClient, addProject)}><T>createProjectFor</T> <span>'{latestClient.name}'</span></ButtonLink></p>}
-        {latestProject&&<p><Button data-click="onCloneLatestProject">Clone project <span>'{latestProject.description}'</span></Button></p>}
-        <p><ButtonLink to="/overview/quarter"><T>seeCurrentQuarter</T></ButtonLink></p>
+        <p><ButtonLink {...getNewClientEvents(clients, addClient)} data-cy="newClient"><T>createANewClient</T></ButtonLink></p>
+        {latestClient&&<p><ButtonLink {...getNewProjectEvents(clients, latestClient, addProject)} data-cy="newProjectClient"><T>createProjectFor</T> <span>'{latestClient.name}'</span></ButtonLink></p>}
+        {latestProject&&<p><ButtonLink {...getCloneProjectEvents(clients, latestProject, cloneProject)} data-cy="cloneProject">Clone project <span>'{latestProject.description}'</span></ButtonLink></p>}
+        <p><ButtonLink to="/overview/quarter" data-cy="linkQuarter"><T>seeCurrentQuarter</T></ButtonLink></p>
       </section>
       <section className="col-12 col-md-7">
         <h2><T>Open invoices</T></h2>
         <Table
+              data-cy="openInvoices"
               cols="paid date description totalIncDiscounted actions"
               subjects={openInvoices}
               sort="date" // todo
@@ -179,6 +180,7 @@ export const Home = withRouter(connect(
       <section className="col-12 col-md-7">
         <h2><T>Draft projects</T></h2>
         <Table
+              data-cy="draftProjects"
               cols="clientName description totalIncDiscounted actions"
               subjects={draftProjects}
               sort="date" // todo
