@@ -1,5 +1,19 @@
 # Changelog
 
+## v3.0.7 (12/05/2020)
+- Rewrote code to React
+- Implemented WebRTC peer-to-peer synchronisation  [#161](https://github.com/Sjeiti/project-invoice/issues/161)
+- Implemented staggered model rendering in overview to increase response time [#104](https://github.com/Sjeiti/project-invoice/issues/104)
+- Updated dependencies [#195](https://github.com/Sjeiti/project-invoice/issues/195)
+- Added previous/next buttons to project page [#45](https://github.com/Sjeiti/project-invoice/issues/45)
+- Consistent naming [#74](https://github.com/Sjeiti/project-invoice/issues/74)
+- Check [Add client] button positioning [#78](https://github.com/Sjeiti/project-invoice/issues/78)
+- Check readme.md above the fold content [#55](https://github.com/Sjeiti/project-invoice/issues/55)
+- Hourly rate in lines hidden on mobile [#196](https://github.com/Sjeiti/project-invoice/issues/196)
+- Bugfixes [#200](https://github.com/Sjeiti/project-invoice/issues/200), [#178](https://github.com/Sjeiti/project-invoice/issues/178), [#173](https://github.com/Sjeiti/project-invoice/issues/173), [#172](https://github.com/Sjeiti/project-invoice/issues/172), [#171](https://github.com/Sjeiti/project-invoice/issues/171), [#138](https://github.com/Sjeiti/project-invoice/issues/138), [#136](https://github.com/Sjeiti/project-invoice/issues/136)
+
+---
+
 ## v2.4.2 (28/12/2018)
 - Update packages with vulnerability dependencies [#169](https://github.com/Sjeiti/project-invoice/issues/169)
 - Cloning should be disabled when project is dirty [#168](https://github.com/Sjeiti/project-invoice/issues/168)
@@ -78,14 +92,14 @@
 ---
 
 ## v2.1.1 (03/03/2018)
- - Vue port
+- Vue port
 
 ---
 
 ## v1.3.9 (25/06/2017)
- - UI improvements
+- UI improvements
 
 ---
 
 ## v1.2.3 (16/06/2017)
- - Open source release
+- Open source release
