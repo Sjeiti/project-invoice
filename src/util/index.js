@@ -105,7 +105,7 @@ export function interpolate(text, context, pattern = /\$\{(.+?)\}/g) {
 export function interpolateEvil(text, context) {
   const keys = Object.keys(context)
   const values = Object.values(context)
-  return (new Function(...keys, 'return `'+text+'`'))(...values)
+  return (new Function(...keys, 'return `'+text+'`'))(...values) // eslint-disable-line no-new-func
 }
 
 export function getInterpolationContext(state){
@@ -191,7 +191,7 @@ export function tryStringify(obj){
   try {
     stringData = JSON.stringify(obj)
   } catch(err){
-    console.warn('err',err) // eslint-disable-line no-console
+    console.warn('err', err) // eslint-disable-line no-console
   }
   return stringData
 }
@@ -259,7 +259,7 @@ export function currency(
 ){
   let result = '\\d(?=(\\d{' + chunkLength + '})+' + (decimalLength>0 ? '\\D' : '$') + ')'
       , num = value.toFixed(Math.max(0, ~~decimalLength))
-  return currencySign + (decimalDelimiter ? num.replace('.', decimalDelimiter) : num).replace(new RegExp(result,'g'),'$&' + chunkDelimiter)
+  return currencySign + (decimalDelimiter ? num.replace('.', decimalDelimiter) : num).replace(new RegExp(result, 'g'), '$&' + chunkDelimiter)
 }
 
 /**

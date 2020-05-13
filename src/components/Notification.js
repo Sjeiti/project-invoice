@@ -71,7 +71,7 @@ export const Notification = connect(
           >
             <StyledLi type={notification.type}>
               <span>{notification?.props?.children||<span dangerouslySetInnerHTML={{ __html: notification.message }} />}</span>
-              <IconButton type="close" invert onClick={handleClose.bind(null,notification)}></IconButton>
+              <IconButton type="close" invert onClick={handleClose.bind(null, notification)}></IconButton>
             </StyledLi>
           </CSSTransition>
         )}
@@ -82,8 +82,8 @@ let id = 0
 function notificationFactory(message){
 	return Object.assign({
     id: id++
-    ,message: 'invalid'
-    ,type: MESSAGE
+    , message: 'invalid'
+    , type: MESSAGE
   }, typeof message === 'string'?{message}:message)
 }
 

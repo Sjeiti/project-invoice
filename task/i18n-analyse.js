@@ -9,9 +9,9 @@ const globFiles = './public/static/i18n/*.json'
 const rxMatch = /\$t\('([^|']+)'\)|v-_="'[^|'"]*|v-__?[^>]*>[^<]*/g
 const rxReplace = /^\$t\('|'\)$|v-_="'|v-__?[^>]*>/g
 
-Promise.all([readSrc(globSrc,fileBase),readExisting(globFiles)])
-    .then(([keys,[paths,contents]]) => {
-      contents.forEach((content,i) => {
+Promise.all([readSrc(globSrc, fileBase), readExisting(globFiles)])
+    .then(([keys, [paths, contents]]) => {
+      contents.forEach((content, i) => {
         const path = paths[i]
         let key
         let added = false
@@ -21,7 +21,7 @@ Promise.all([readSrc(globSrc,fileBase),readExisting(globFiles)])
             added = true
           }
         }
-        added && save(path,JSON.stringify(content,null,2))
+        added && save(path, JSON.stringify(content, null, 2))
         //
         const unused = []
         for (key in content){
@@ -37,18 +37,18 @@ Promise.all([readSrc(globSrc,fileBase),readExisting(globFiles)])
  * @param {string} target
  * @returns {Promise}
  */
-function readSrc(src,target){
+function readSrc(src, target){
   return glomise(src)
       .then(paths => Promise.all(paths.map(read)))
       .then(rslt => rslt.join('').match(rxMatch)) // match js and directives
       // .then(rslt=>(console.log(rslt),rslt))
-      .then(rslt => rslt.map(fn => fn.replace(rxReplace,''))) // clean matches
-      .then(rslt => rslt.filter(s => s!=='' && s.substr(0,2)!=='{{')) // don't match interpolations
+      .then(rslt => rslt.map(fn => fn.replace(rxReplace, ''))) // clean matches
+      .then(rslt => rslt.filter(s => s!=='' && s.substr(0, 2)!=='{{')) // don't match interpolations
       // .then(rslt=>(console.log(rslt),rslt))
-      .then(rslt => (console.log(`found ${rslt.length} keys`),rslt))
-      .then(rslt => rslt.reduce((o,s) => (o[sluggify(s)] = s,o),{}))
+      .then(rslt => (console.log(`found ${rslt.length} keys`), rslt))
+      .then(rslt => rslt.reduce((o, s) => (o[sluggify(s)] = s, o), {}))
       // .then(rslt=>(console.log(rslt),rslt))
-      .then(obj => (save(target,JSON.stringify(obj)), obj))
+      .then(obj => (save(target, JSON.stringify(obj)), obj))
 }
 
 /**
@@ -58,5 +58,5 @@ function readSrc(src,target){
  */
 function readExisting(globFiles) {
   return glomise(globFiles)
-      .then(paths => Promise.all([Promise.resolve(paths),Promise.all(paths.map(path => read(path).then(JSON.parse)))]))
+      .then(paths => Promise.all([Promise.resolve(paths), Promise.all(paths.map(path => read(path).then(JSON.parse)))]))
 }

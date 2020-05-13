@@ -4,7 +4,7 @@ import {camelCase} from '../util'
 
 import '../style/_variables.scss'
 
-const cssVars = Array.from(document.styleSheets).reduce((acc,sheet)=>{
+const cssVars = Array.from(document.styleSheets).reduce((acc, sheet)=>{
   Array.from(sheet.cssRules).forEach(rule=>{
     const {selectorText, style} = rule
     if (selectorText===':root') {
@@ -23,12 +23,12 @@ const cssVarDefault = {
   , breakpointHigh: '(min-width: 599px)'
 }
 
-export const cssVar = Object.assign({}, cssVarDefault, Object.keys(cssVars).reduce((acc,key)=>{
+export const cssVar = Object.assign({}, cssVarDefault, Object.keys(cssVars).reduce((acc, key)=>{
   acc[camelCase(key.substr(2))] = `var(${key})`
   return acc
 }, {}))
 
-export const cssVarValue = Object.assign({}, cssVarDefault, Object.entries(cssVars).reduce((acc,[key,value])=>{
+export const cssVarValue = Object.assign({}, cssVarDefault, Object.entries(cssVars).reduce((acc, [key, value])=>{
   acc[camelCase(key.substr(2))] = value
   return acc
 }, {}))
@@ -81,8 +81,8 @@ export const sass = {
    * @returns {Promise.<string>}
    */
   compile(sassString){
-    return new Promise((resolve,reject)=>{
-      sassworker.compile(sassString,({status,text})=>{
+    return new Promise((resolve, reject)=>{
+      sassworker.compile(sassString, ({status, text})=>{
         if (status===0){
           resolve(text)
         } else {

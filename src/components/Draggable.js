@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useRef} from 'react'
+import React, {useState, useCallback} from 'react'
 import classNames from 'classnames'
 import styled from 'styled-components'
 import {moveArrayItem} from '../util'

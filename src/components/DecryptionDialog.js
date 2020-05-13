@@ -4,7 +4,6 @@ import {Dialog} from './Dialog'
 import {InputText} from './Input'
 import {STORAGE_NAME} from '../config'
 import {isEncrypted} from '../service/encryption'
-import {useTranslation} from 'react-i18next'
 import {connect} from 'react-redux'
 import {getStorage} from '../service/localStorageEncrypted'
 import {restoreState} from '../model/rootActions'
@@ -32,7 +31,6 @@ export const DecryptionDialog = connect(
   const stringData = localStorage.getItem(STORAGE_NAME)
   const dataIsEncrypted = isEncrypted(stringData)
 
-  const {t} = useTranslation()
   const [encryptionDialogOpen, setEncryptionDialog] = useState(dataIsEncrypted)
   const [invalid, setInvalid] = useState(false)
   const [encryptionKey, setEncryptionKey] = useState('')

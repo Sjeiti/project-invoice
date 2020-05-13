@@ -1,4 +1,4 @@
-import React, {createRef, forwardRef, useState, useEffect} from 'react'
+import React, {createRef, forwardRef, useState, useEffect, useCallback} from 'react'
 import {getCSSVariables, nbsp} from '../util'
 import styled from 'styled-components'
 import {sass} from '../service/css'
@@ -103,7 +103,7 @@ const StyledPrintInvoice = styled.div`
 
 export const PrintInvoice = forwardRef(({state, project, client, invoiceIndex, lang, ...attr}, ref) => {
 
-  const {personal, config, config:{invoiceCSS,themeLogoCSS}} = state
+  const {personal, config, config:{invoiceCSS, themeLogoCSS}} = state
   const isQuotation = invoiceIndex===-1
 
   const {discount, invoices} = project
@@ -157,9 +157,10 @@ export const PrintInvoice = forwardRef(({state, project, client, invoiceIndex, l
   // useEffect(()=>{ requestAnimationFrame(setFoo) }, [])
 
   // size/resize
-  function getWidth(){
+  const getWidth = useCallback(()=>ref?.current?.offsetWidth||500, [])
+  /*function getWidth(){
   	return ref?.current?.offsetWidth||500
-  }
+  }*/
   const [width, setWidth] = useState(getWidth)
   useEffect(()=>{
     // todo throttle event
@@ -180,7 +181,7 @@ export const PrintInvoice = forwardRef(({state, project, client, invoiceIndex, l
     </div>
 
     <div className="iframe-wrapper">
-      <iframe ref={iframeRef} />
+      <iframe title="a" ref={iframeRef} />
     </div>
 
     {/*############################################################*/}

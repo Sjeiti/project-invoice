@@ -148,7 +148,7 @@ export const getTotalIncDiscounted = project =>
 
 
 function allProjects(clients){
-  return clients.reduce((acc,client)=>(acc.push(...client.projects), acc), [])
+  return clients.reduce((acc, client)=>(acc.push(...client.projects), acc), [])
 }
 
 /**
@@ -157,7 +157,7 @@ function allProjects(clients){
  * @returns {project[]}
  */
 function allProjectsByDate(clients) {
-  return allProjects(clients).sort((a,b)=>new Date(a.dateLatest)>new Date(b.dateLatest)?1:-1)
+  return allProjects(clients).sort((a, b)=>new Date(a.dateLatest)>new Date(b.dateLatest)?1:-1)
 }
 
 /**
@@ -228,7 +228,7 @@ export function getProjectsYears(clients) {
  */
 export function getProjectsOfYearQuarter(clients, year, quarter) {
   return allProjectsByDate(clients)
-      .filter(project => project.invoices.length&&[0,0,0].map((n,i)=>`${year}-${(quarter*3+i+1).toString().padStart(2, '0')}`).includes(project.invoices[0].date.substr(0,7)))
+      .filter(project => project.invoices.length&&[0, 0, 0].map((n, i)=>`${year}-${(quarter*3+i+1).toString().padStart(2, '0')}`).includes(project.invoices[0].date.substr(0, 7)))
       // .map(project => project.invoices[0].date.substr(0,4))
       // .filter((year, i, a) => a.indexOf(year)===i)
       // .reverse()

@@ -1,4 +1,4 @@
-import signals,{Signal} from 'signals'
+import signals, {Signal} from 'signals'
 export const signal = () => new signals.Signal()
 
 export const notify = signal()

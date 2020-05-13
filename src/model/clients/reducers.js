@@ -10,7 +10,7 @@ import {
 } from './actions'
 import {getInitialState} from '../storage'
 import {cloneDeep} from 'lodash'
-import {getClonedDescription,getNextProjectNr} from './selectors'
+import {getClonedDescription, getNextProjectNr} from './selectors'
 
 const dataName = 'clients'
 const initialState = getInitialState(dataName)

@@ -82,13 +82,13 @@ export const Test = withRouter(
           <InputText />
           <InputNumber />
           <InputDate />
-          <Select options={[{text:'nee',value:0}]} />
+          <Select options={[{text:'nee', value:0}]} />
           <Textarea defaultValue="My hoovercraft is full of eels" />
           <InputCheckbox disabled />
           <InputText disabled />
           <InputNumber disabled />
           <InputDate disabled />
-          <Select disabled options={[{text:'nee',value:0}]} />
+          <Select disabled options={[{text:'nee', value:0}]} />
           <Textarea disabled defaultValue="My hoovercraft is full of eels" />
           <InputCheckbox />
           <InputText />
@@ -144,7 +144,7 @@ export const Test = withRouter(
           <Label>textarea<Textarea defaultValue="My hoovercraft is full of eels" /></Label>
           <Label>InputNumber<InputNumber /></Label>
           <Label>InputDate<InputDate /></Label>
-          <Label>Select<Select options={[{text:'nee',value:0}]} /></Label>
+          <Label>Select<Select options={[{text:'nee', value:0}]} /></Label>
           <Label>InputText lorem ipsum dolor sit amet etc <InputText /></Label>
 
           <Label>Button<Button>Button</Button></Label>

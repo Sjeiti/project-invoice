@@ -22,7 +22,6 @@ import {InputCheckbox, InputText, InputNumber} from '../components/Input'
 import {T} from '../components/T'
 import {onClickPaid} from '../model/clients/util'
 import {LineEllipsed} from '../components/LineEllipsed'
-import {Tabs} from '../components/Tabs'
 import {DirtyPrompt} from '../components/DirtyPrompt'
 
 const editablePropNames = [

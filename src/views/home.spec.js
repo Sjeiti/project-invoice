@@ -1,4 +1,4 @@
-/* global cy */
+/* global beforeEach, cy, describe, it, expect */
 
 beforeEach(() => {
   cy.visitPage('/')

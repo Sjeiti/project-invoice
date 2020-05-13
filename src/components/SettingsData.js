@@ -15,7 +15,7 @@ export const SettingsData = ({state, restoreState}) => {
   return <>
     <ButtonAnchor href={downloadString} download={`data_${getDateString()}.json`}><T>download</T></ButtonAnchor>
     <ButtonLabel htmlFor="restore"><T>restore</T></ButtonLabel>
-    <input accept="application/json, text/json, .json" onChange={onChangeRestore.bind(null,restoreState)} type="file" id="restore" className="visually-hidden"/>
+    <input accept="application/json, text/json, .json" onChange={onChangeRestore.bind(null, restoreState)} type="file" id="restore" className="visually-hidden"/>
     <Button onClick={()=>restoreState(defaultData)}><T>clear</T></Button>
   </>
 }

@@ -1,4 +1,4 @@
-import {getStorage,setStorage} from './localStorage'
+import {getStorage, setStorage} from './localStorage'
 
 const storageName = 'fontList'
 const fontList = []

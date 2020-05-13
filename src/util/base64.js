@@ -10,9 +10,9 @@ const Base64 = {
     _keyStr: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/='
 
     // public method for encoding
-    ,encode: function(input){
+    , encode: function(input){
         let output = ''
-        let chr1,chr2,chr3,enc1,enc2,enc3,enc4
+        let chr1, chr2, chr3, enc1, enc2, enc3, enc4
         let i = 0
 
         input = Base64._utf8_encode(input)
@@ -43,13 +43,13 @@ const Base64 = {
 
 
     // public method for decoding
-    ,decode: function(input){
+    , decode: function(input){
         let output = ''
-        let chr1,chr2,chr3
-        let enc1,enc2,enc3,enc4
+        let chr1, chr2, chr3
+        let enc1, enc2, enc3, enc4
         let i = 0
 
-        input = input.replace(/[^A-Za-z0-9+/=]/g,'')
+        input = input.replace(/[^A-Za-z0-9+/=]/g, '')
         while (i < input.length){
             enc1 = this._keyStr.indexOf(input.charAt(i++))
             enc2 = this._keyStr.indexOf(input.charAt(i++))
@@ -79,9 +79,9 @@ const Base64 = {
 
 
     // private method for UTF-8 encoding
-    ,_utf8_encode: function(string){
+    , _utf8_encode: function(string){
         let utftext = ''
-        string = string.replace(/\r\n/g,'\n')
+        string = string.replace(/\r\n/g, '\n')
 
         for (let n = 0; n < string.length; n++){
             let c = string.charCodeAt(n)
@@ -103,10 +103,10 @@ const Base64 = {
     } // End Function _utf8_encode
 
     // private method for UTF-8 decoding
-    ,_utf8_decode: function(utftext){
+    , _utf8_decode: function(utftext){
         let string = ''
         let i = 0
-        let c,c2,c3
+        let c, c2, c3
         c = c2 = 0
 
         while (i < utftext.length){

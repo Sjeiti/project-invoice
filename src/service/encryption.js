@@ -16,10 +16,10 @@ export function isEncrypted(string){
  * @param {string} key
  * @returns {string}
  */
-export function decrypt(hash,key){
+export function decrypt(hash, key){
   let rawData
   try {
-    rawData = CryptoJS.AES.decrypt(hash,key).toString(CryptoJS.enc.Utf8)
+    rawData = CryptoJS.AES.decrypt(hash, key).toString(CryptoJS.enc.Utf8)
   } catch (err){
     // console.warn('err',err)
   }
@@ -32,8 +32,8 @@ export function decrypt(hash,key){
  * @param {string} key
  * @returns {string}
  */
-export function encrypt(string,key){
-  return CryptoJS.AES.encrypt(string,key).toString()
+export function encrypt(string, key){
+  return CryptoJS.AES.encrypt(string, key).toString()
 }
 
 /**
@@ -42,8 +42,8 @@ export function encrypt(string,key){
  * @param {string} key
  * @returns {Object}
  */
-export function decryptObject(hash,key){
-  return tryParse(decrypt(hash,key))
+export function decryptObject(hash, key){
+  return tryParse(decrypt(hash, key))
 }
 
 /**
@@ -52,6 +52,6 @@ export function decryptObject(hash,key){
  * @param {string} key
  * @returns {string}
  */
-export function encryptObject(obj,key){
-  return encrypt(JSON.stringify(obj),key)
+export function encryptObject(obj, key){
+  return encrypt(JSON.stringify(obj), key)
 }

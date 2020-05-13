@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {useTranslation} from 'react-i18next'
 import {
-  getClients,getClientHref,getLatestProject,getProjectDate,getProjectNumber,getProjectHref
+  getClients, getClientHref, getLatestProject, getProjectDate, getProjectNumber, getProjectHref
 } from '../model/clients/selectors'
 import {addClient} from '../model/clients/actions'
 import {InputText} from '../components/Input'
@@ -39,7 +39,7 @@ export const Clients = connect(
         }}
       })
   const newClientEvents = getNewClientEvents(clients, addClient)
-  const cols = 'nr name invoices recent last allPaid'.split(' ').map(key=>({key,th:t(key)}))
+  const cols = 'nr name invoices recent last allPaid'.split(' ').map(key=>({key, th:t(key)}))
   cols[1].th = <>
     <T>name</T>
     <InputText

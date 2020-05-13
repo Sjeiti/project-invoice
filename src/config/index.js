@@ -7,6 +7,6 @@ export const MODE_DEVELOPMENT = process.env.NODE_ENV==='development'
 export const STORAGE_NAME = 'data'
 export const CLOUD_NAME = 'nl.projectinvoice.data.test'
 export const NOOP_ACTIONS = [STORE_SESSION]
-export const TODAY = new Date
+export const TODAY = new Date()
 export const PEER_HOST = '0.peerjs.com'
 export const PEER_STUN = 'stun:stun3.l.google.com:19302'
