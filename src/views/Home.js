@@ -162,7 +162,7 @@ export const Home = withRouter(connect(
         <p><ButtonLink {...getNewClientEvents(clients, addClient)} data-cy="newClient"><T>createANewClient</T></ButtonLink></p>
         {latestClient&&<p><ButtonLink {...getNewProjectEvents(clients, latestClient, addProject)} data-cy="newProjectClient"><T>createProjectFor</T> <span>'{latestClient.name}'</span></ButtonLink></p>}
         {latestProject&&<p><ButtonLink {...getCloneProjectEvents(clients, latestProject, cloneProject)} data-cy="cloneProject">Clone project <span>'{latestProject.description}'</span></ButtonLink></p>}
-        <p><ButtonLink to={'/overview/'+(new Date).getFullYear()} data-cy="linkQuarter"><T>seeCurrentQuarter</T></ButtonLink></p>
+        <p><ButtonLink to="/overview" data-cy="linkQuarter"><T>seeCurrentQuarter</T></ButtonLink></p>
       </section>
       <section className="col-12 col-md-7">
         <h2><T>Open invoices</T></h2>

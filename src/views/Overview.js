@@ -29,6 +29,9 @@ import {CURRENCY_ISO} from '../config/currencyISO'
 const {body} = document
 
 const StyledOverview =  styled.section`
+  nav {
+    margin-bottom: 2rem;
+  }
   a{
     &.current {
       font-weight: bold;
@@ -111,12 +114,15 @@ export const Overview = withRouter(connect(
 
   return <StyledOverview>
     <h3><T>overview</T></h3>
-    {years.map(yearLink => <Link key={yearLink} to={`/overview/${yearLink}`} className={year===yearLink&&'current'||''}>{yearLink}</Link>)}
 
-    {quarterProjects.map((quarterProject, i)=><div key={i}>
+    <nav data-cy="years">
+      {years.map(yearLink => <Link key={yearLink} to={`/overview/${yearLink}`} className={year===yearLink&&'current'||''}>{yearLink}</Link>)}
+    </nav>
+
+    {quarterProjects.map((quarterProject, i)=><div key={i} data-cy="quarter">
       {i>0&&<hr />}
       <header className="display-flex">
-        <h3>{i + 1}e <T>quarter</T></h3>
+        <h3><T>quarter</T> {i + 1}</h3>
         <Button disabled={quarterProject.length===0} onClick={onClickCSVButton.bind(null, quarterProject)}><T>copyCsvData</T></Button>
       </header>
       <Table
@@ -131,8 +137,10 @@ export const Overview = withRouter(connect(
 
         <tfoot>
           <tr>
-            <td colSpan="7" />
+            <td colSpan="5" />
             <td><Price amount={quarterProject.map(project=>project.lines.reduce((acc, {amount}) => acc + amount, 0)).reduce((acc, amount) => acc + amount, 0)} /></td>
+            <td><Price amount={quarterProject.map(project=>project.lines.reduce((acc, {amount, vat}) => acc + amount*(vat/100), 0)).reduce((acc, amount) => acc + amount, 0)} /></td>
+            <td><Price amount={quarterProject.map(project=>project.lines.reduce((acc, {amount, vat}) => acc + amount + amount*(vat/100), 0)).reduce((acc, amount) => acc + amount, 0)} /></td>
           </tr>
         </tfoot>
       </Table>

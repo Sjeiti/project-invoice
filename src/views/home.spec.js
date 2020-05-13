@@ -38,7 +38,7 @@ describe('Project Invoice home', () => {
 
       .get('[data-cy=linkQuarter]').should('exist').click()
       .location().should(location =>
-        expect(location.pathname).to.eq('/overview/quarter')
+        expect(location.pathname).to.eq('/overview')
       )
       .go('back')
   )
