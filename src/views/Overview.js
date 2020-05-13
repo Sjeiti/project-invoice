@@ -131,8 +131,11 @@ export const Overview = withRouter(connect(
         key={`quarter${i}`}
       >
 
-        {i===3&&<tfoot className="total"><tr><td colSpan="8" /></tr><tr><td colSpan="7" />
+        {i===3&&<tfoot className="total"><tr><td colSpan="8" /></tr><tr>
+            <td colSpan="5" />
             <td><Price amount={quarterProjects.reduce((acc, a)=>(acc.push(...a), acc), []).map(project=>project.lines.reduce((acc, {amount}) => acc + amount, 0)).reduce((acc, amount) => acc + amount, 0)} /></td>
+            <td><Price amount={quarterProjects.reduce((acc, a)=>(acc.push(...a), acc), []).map(project=>project.lines.reduce((acc, {amount, vat}) => acc + amount*(vat/100), 0)).reduce((acc, amount) => acc + amount, 0)} /></td>
+            <td><Price amount={quarterProjects.reduce((acc, a)=>(acc.push(...a), acc), []).map(project=>project.lines.reduce((acc, {amount, vat}) => acc + amount + amount*(vat/100), 0)).reduce((acc, amount) => acc + amount, 0)} /></td>
         </tr></tfoot>}
 
         <tfoot>
