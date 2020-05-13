@@ -118,7 +118,6 @@ function getRhombusPoints(hexPoints){
  * @param {number[][]} hexPoints
  * @param {number} sizeh
  * @return {string}
- * @todo: sizeh could be extracted from point list
  */
 function getTrianglePoints(hexPoints, sizeh){
   return pointWrap([[0, 0], [sizeh, 0], hexPoints[1]])

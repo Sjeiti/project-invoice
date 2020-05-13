@@ -28,7 +28,7 @@ export const SettingsEncryption = ({config, session, storeSession, storeConfigWi
       setEncryptionDialog(false)
       window.location.reload()
     } else {
-      // todo warn about invalid password
+      // warn about invalid password
     }
   }
 

@@ -123,9 +123,7 @@ export const Table = ({
   const isHoverable = !!subjects?.[0]?.onClick
   const hasTFoot = children&&(Array.isArray(children)&&children.filter(c=>c.type==='tfoot').length||children.type==='tfoot')
 
-  // console.log('draggableRows',draggableRows) // todo: remove log
   const draggable = useDraggable(subjects)
-  const list = subjects // draggableRows?draggable.list:subjects
   const TableRow = draggableRows?Draggable:Tr
   const TableRowAttr = draggableRows?{
     elm: Tr
@@ -133,8 +131,6 @@ export const Table = ({
     , dragged
     , ...draggable
   }:{}
-  // console.log('\t',TableRow===Tr) // todo: remove log
-  // console.log('\t',list===subjects) // todo: remove log
 
   return (
     <StyledTableWrapper className={className} {...attr}><StyledTable className={className+(isHoverable&&' hoverable'||'')}>
@@ -146,14 +142,14 @@ export const Table = ({
         </tr>
       </thead>
       <TransitionGroup component="tbody">
-        {(list.length &&
-          list.map((subject, index) => (
+        {(subjects.length &&
+          subjects.map((subject, index) => (
             <CSSTransition
               timeout={200}
               classNames="animate"
               key={subject.hasOwnProperty('key')?subject.key:index}
             >
-              {/*CSSTransition props causes warnings onto tr */}
+              {/* CSSTransition props causes warnings onto tr that cannot be caught */}
               <TableRow
                   {...TableRowAttr}
                   onClick={subject.onClick}

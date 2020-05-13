@@ -1,6 +1,6 @@
 /**
  * @typedef {object} session
- * @property {string} todo
+ * @property {string} todoprops
  */
 
 /**

@@ -20,20 +20,20 @@ export function projectSort(a, b){
 const proto = {
 
   /**
-   * @todo asdlfa;sldkf
-   * @returns {{}}
+   * Returns the config
+   * @returns {config}
    */
   get config(){
     return this.model.config
   }
 
-  ,set model(model) {
+  , set model(model) {
     this._model = Object.assign(Object.create({
       get projects(){ return this.clients.reduce((acc, client)=>(acc.push(...client.projects), acc), []) }
     }), model)
   }
 
-  ,get model(){ return this._model }
+  , get model(){ return this._model }
 
   // /**
   //  * Returns an exact clone of the project
@@ -60,10 +60,10 @@ const proto = {
 
   /**
    * Calculate the invoice number by interpolating the template
+   * (is same as selectors::getProjectNumber?)
    * @returns {string}
-   * @todo is this still used? (is it now selectors::getProjectNumber)
    */
-  ,calculateInvoiceNr(){
+  , calculateInvoiceNr(){
     // ${client.nr}.${project.indexOnClient+1}.${project.dateYear.substr(2,2)}.${project.indexOnYear+1}
     // return (new Function('project','client','return `'+this.model.config.projectNumberTemplate+'`'))(this,this.client)
     return interpolateEvil(this.model.config.projectNumberTemplate, {
@@ -182,7 +182,6 @@ const proto = {
    */
   , get dateFormatted(){
     const dateFormat = this.model.copy.dateFormat[this.model.config.lang]
-    // return this.datePipe.transform(this.date, dateFormat)
     return moment(this.date).format(dateFormat)
   }
 
@@ -216,14 +215,11 @@ const proto = {
   /**
    * Getter boolean if the project payment is overdue
    * @returns {boolean}
-   * @todo invoice is client paymentterm... but first reminder term is a week or so
-   * @todo see method daysLate
    */
   , get overdue(){
     const dateDiff = new Date() - this.dateLatest
     const dateDiffDays = dateDiff/(1000*60*60*24)
     return !this.paid&&dateDiffDays>this.client.paymentterm
-    // return dateDiffDays>this.data.personal.reminderPeriod // todo:
   }
 
   /**
@@ -365,11 +361,11 @@ const proto = {
   //   const {invoices} = this
   //   const defaultInvoice = {
   //     date: moment().format('YYYY-MM-DD')
-  //     ,type: invoices.length===0?'invoice':'reminder' // todo: from const
+  //     ,type: invoices.length===0?'invoice':'reminder'
   //     ,interest: false
   //     ,exhortation: false
   //   }
-  //   invoice&&Object.assign(defaultInvoice,invoice) // todo format date
+  //   invoice&&Object.assign(defaultInvoice,invoice)
   //   invoices.push(createInvoice(defaultInvoice))
   // }
 

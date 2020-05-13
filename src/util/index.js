@@ -109,7 +109,6 @@ export function interpolateEvil(text, context) {
 }
 
 export function getInterpolationContext(state){
-  // console.log('getInterpolationContext',state) // todo: remove log
   const {config, config: {lang}, personal:data, copy:rawCopy} = state
   const copy = Object.entries(rawCopy).reduce((acc, [key, value])=>(acc[key] = value[lang], acc), {})
   const client = defaultData.clients[0]

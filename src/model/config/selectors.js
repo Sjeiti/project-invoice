@@ -1,6 +1,6 @@
 /**
  * @typedef {object} config
- * @property {string} todo
+ * @property {string} todoprops
  */
 
 /**

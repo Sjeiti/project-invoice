@@ -19,7 +19,6 @@ export function getCloud() {
             if (json) {
               const isNewer = json.timestamp>state.timestamp
               isNewer&&store.dispatch(restoreState(json))
-              // todo store correctly updated but components not rerendering
             } else {
               dispatchError()
             }

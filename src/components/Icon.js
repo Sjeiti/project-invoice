@@ -1,7 +1,5 @@
 import styled from 'styled-components'
 
-// todo: should be altered in build to fix cachebusting hash and types
-
 const type = {
   slash:      '\uE913'
   , save:      '\uE900'

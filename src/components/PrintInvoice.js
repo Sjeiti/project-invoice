@@ -6,8 +6,7 @@ import {project as enhanceProject} from '../model/clients/project'
 import {getProjectNumber} from '../model/clients/selectors'
 import {Parse as ParseUnbound} from './Parse'
 import {T as TUnbound} from './T'
-
-import print from '../config/print.css' // todo: not this of course
+import print from '../config/print.css'
 
 const A4w = 210
 const A4h = 297
@@ -16,14 +15,13 @@ const dividerSize = '0.3%';
 const dividerSize_ = '99.7%';
 const dividerWidth = `${1.02*A4w}mm`
 
-const scale = w=>0.265*w/A4w // todo wtf is that number?
+const scale = w=>0.265*w/A4w // wtf is that number?
 
 const Currency = ({children:val}) => {
   let dotValue = parseFloat(val||0).toFixed(2)
   const [before, after] = dotValue.split(/\./)
   const reg3 = /(\d)(?=(\d\d\d)+(?!\d))/g
-  return <div symbol="€" className="mono">{`${before.replace(reg3, '$1.')},${after}`}</div> // todo: fix comma-or-dot
-  // return `${before.replace(reg3, '$1.')},${after}` // todo: fix comma-or-dot
+  return <div symbol="€" className="mono">{`${before.replace(reg3, '$1.')},${after}`}</div>
 }
 
 const StyledPrintInvoice = styled.div`
@@ -78,10 +76,8 @@ const StyledPrintInvoice = styled.div`
       position: relative;
       width: ${dividerWidth};
       height: ${A4h}mm;
-      //background: linear-gradient(transparent #{100%-$dividerSize}, $colorDivider #{100%-$dividerSize});
       background: linear-gradient(${colorDivider} ${dividerSize}, transparent ${dividerSize});
       background-size: ${A4w}mm ${A4h}mm;
-      //transform: translateX(-#{0.5*($dividerWidth - $A4w)});
       transform: translateX(-${0.5*(1.02*A4w - A4w)}mm);
       &:before, &:after {
         position: absolute;

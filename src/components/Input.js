@@ -3,8 +3,6 @@ import styled from 'styled-components'
 import {noop} from '../util'
 import {formElement, icon} from '../service/css'
 
-// todo: disabled
-
 export const StyledInput = styled.input`
   ${formElement}
   box-shadow: 0 0 0 1px var(--color-border) inset,  0 4px 16px var(--color-shade) inset;
@@ -41,6 +39,10 @@ export const StyledInput = styled.input`
     }
     &:checked+span { color: var(--color-input-selected); }
     &:focus+span { box-shadow: 0 0 0 1px var(--color-buttonL40) inset,  0 4px 16px var(--color-shade) inset; }
+  }
+  
+  &[disabled] {
+    opacity: 0.6;
   }
   
   &[type=number] {

@@ -27,7 +27,7 @@ function onChangeRestore(restoreState, e){
   fileReader.readAsText(file)
   fileReader.addEventListener('load', ()=>{
     const result = fileReader.result
-    const resultData = tryParse(result) // todo decryptAndOrParse
+    const resultData = tryParse(result)
     if (resultData&&resultData.clients&&resultData.copy&&resultData.personal){
       restoreState(resultData)
     } else if (!resultData) {

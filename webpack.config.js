@@ -5,7 +5,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 module.exports = env => {
   const isProduction = !!env&&env.production
   const mode = isProduction?'production':'development'
-  console.log('mode',mode) // todo: remove log
+  console.log('mode', mode, '\n')
   return {
     mode
     ,entry: './src/index.js'

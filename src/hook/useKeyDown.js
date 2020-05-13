@@ -10,7 +10,6 @@ export function useKeyDown() {
       const {key, type} = e
       const keyz = {...keys}
       keyz[key] = type===keydown
-      //console.log('key',keyz,key,e) // todo: remove log
       setKeys(keyz)
     }
     window.addEventListener(keydown, onKey)

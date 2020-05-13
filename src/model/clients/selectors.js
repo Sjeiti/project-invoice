@@ -42,7 +42,6 @@ export const getNextClientNr = clients => {
  * Get highest project nr
  * @param {client[]} clients
  * @returns {number}
- * @todo rename project.id to nr _or_ client.nr to id
  */
 export const getHighestProjectNr = clients => {
   return (
@@ -167,13 +166,6 @@ function allProjectsByDate(clients) {
  * @returns {project}
  */
 export function getLatestProject(clients) {
-  // //###########################
-  // const allP = allProjectsByDate(clients)
-  // if (allP.length>1) {
-  //   console.log('allP',allP) // todo: remove log
-  //   console.log('\t',[...allP].pop()) // todo: remove log
-  // }
-  // //#############################
   return allProjectsByDate(clients).pop()
 }
 

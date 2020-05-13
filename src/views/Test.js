@@ -84,6 +84,12 @@ export const Test = withRouter(
           <InputDate />
           <Select options={[{text:'nee',value:0}]} />
           <Textarea defaultValue="My hoovercraft is full of eels" />
+          <InputCheckbox disabled />
+          <InputText disabled />
+          <InputNumber disabled />
+          <InputDate disabled />
+          <Select disabled options={[{text:'nee',value:0}]} />
+          <Textarea disabled defaultValue="My hoovercraft is full of eels" />
           <InputCheckbox />
           <InputText />
           <InputNumber />

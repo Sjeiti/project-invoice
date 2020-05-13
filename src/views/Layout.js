@@ -64,7 +64,6 @@ export const Layout = connect(
     )
     useEffect(()=>{setTimeout(()=>saveable.dispatch(true))}, [])
 
-    // todo move to service and cache, or at least memoize
     useEffect(()=>{
       getFontList(config.googleFontsAPIKey).then(result=>{
         setFontOptions(result.map(font=>({text:font.family, value:font.family})))

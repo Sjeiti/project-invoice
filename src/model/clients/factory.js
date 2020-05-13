@@ -8,7 +8,7 @@ import {INVOICE} from '../../config/invoice'
  * @property {string} contact
  * @property {string} name
  * @property {number} nr
- * @property {number} paymentterm // todo convert to number (days)
+ * @property {number} paymentterm
  * @property {string} phone
  * @property {string} postbox
  * @property {project[]} projects
@@ -87,7 +87,7 @@ export function getProject(clientNr = 0, id = 0){
  * @property {number} amount
  * @property {string} description
  * @property {number} hours
- * @property {number} vat todo convert to number
+ * @property {number} vat
  */
 
 /**
@@ -106,10 +106,10 @@ export function getLine(){
 /**
  * @typedef {object} invoice
  * @property {string} date
- * @property {string} type todo: should not be necessary; same as order in array
+ * @property {string} type
  * @property {number} paid
  * @property {boolean} interest
- * @property {boolean} exhortation todo:??
+ * @property {boolean} exhortation
  */
 
 /**

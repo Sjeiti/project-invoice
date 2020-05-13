@@ -9,8 +9,6 @@ const globFiles = './public/static/i18n/*.json'
 const rxMatch = /\$t\('([^|']+)'\)|v-_="'[^|'"]*|v-__?[^>]*>[^<]*/g
 const rxReplace = /^\$t\('|'\)$|v-_="'|v-__?[^>]*>/g
 
-// todo: fix for react
-
 Promise.all([readSrc(globSrc,fileBase),readExisting(globFiles)])
     .then(([keys,[paths,contents]]) => {
       contents.forEach((content,i) => {

@@ -66,7 +66,7 @@ export const SettingsPeer2Peer = ({state, restoreState}) => {
     peer.id.add(setID)
     peer.received.add(data=>{
       peer.send('thanks')
-      restoreState(JSON.parse(data)) // todo: validate data (also check onChangeRestore on Settings.js)
+      restoreState(JSON.parse(data))
       peer.disconnect()
     })
     peer.statusChanged.add(onStatusChanged)

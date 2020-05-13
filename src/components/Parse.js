@@ -14,9 +14,6 @@ marked.setOptions({
   , smartypants: false
 })
 
-/**
- * @todo: rename and make generic by removing project related shizzle etc...
- */
 export const Parse = ({children, state, values, lang}) => {
   const {copy} = state
   const string = copy.hasOwnProperty(children)&&copy[children][lang]||children

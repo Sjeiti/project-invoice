@@ -66,7 +66,6 @@ export const Client = withRouter(
       ...project
       , description: <LineEllipsed>{project.description}</LineEllipsed>
       , onClick: () => history.push(getProjectHref(project))
-      // todo: make paid click functional
       , paid: <InputCheckbox
           value={project.paid}
           style={{margin:'0.25rem 0 0'}}
