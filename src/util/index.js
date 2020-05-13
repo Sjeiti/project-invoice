@@ -92,7 +92,11 @@ export function interpolate(text, context, pattern = /\$\{(.+?)\}/g) {
   return text.replace(pattern, (_, key) => {
     let value = context
     for (const p of key.split('.')) value = value[p] || ''
-    return value || ''
+    //
+    const result = value||''
+    const remaining = result&&result.match&&result.match(pattern)
+    //
+    return remaining&&remaining.length&&interpolate(result, context, pattern)||result
   })
 }
 
@@ -103,9 +107,13 @@ export function interpolate(text, context, pattern = /\$\{(.+?)\}/g) {
  * @return {string}
  */
 export function interpolateEvil(text, context) {
-  const keys = Object.keys(context)
-  const values = Object.values(context)
-  return (new Function(...keys, 'return `'+text+'`'))(...values) // eslint-disable-line no-new-func
+  let evilResult
+  try {
+    const keys = Object.keys(context)
+    const values = Object.values(context)
+    evilResult = (new Function(...keys, 'return `'+text+'`'))(...values) // eslint-disable-line no-new-func
+  } catch (err) { /* typing interpolations strings always produces errors */ }
+  return evilResult||text
 }
 
 export function getInterpolationContext(state){

@@ -323,7 +323,7 @@ export const Project = withRouter(
                   , { key: 'quotationAfter', Element: InterpolationInput }
                 ].map(({key, Element}) => {
                   return <Label key={key}><T>{key}</T><Element
-                      value={project[key]}
+                      value={project[key]||''}
                       setter={getSetter(key)}
                       context={context}
                   /></Label>

@@ -15,7 +15,10 @@ const dividerSize = '0.3%';
 const dividerSize_ = '99.7%';
 const dividerWidth = `${1.02*A4w}mm`
 
-const scale = w=>0.265*w/A4w // wtf is that number?
+const px2mm = 0.2645833333
+const pageHeightPx = A4h/px2mm
+
+const scale = w=>px2mm*w/A4w
 
 const Currency = ({children:val}) => {
   let dotValue = parseFloat(val||0).toFixed(2)
@@ -29,12 +32,12 @@ const StyledPrintInvoice = styled.div`
   .iframe-wrapper {
     position: relative;
     width: ${props => scale(props.width)*A4w}mm;
-    min-height: ${props => scale(props.width)*A4h}mm;
-    height: ${props => scale(props.width)*A4h}mm;
+    height: ${props => scale(props.width)*props.pageHeight}px;
     overflow: hidden;
   }
   iframe, .invoice-shade, .page-dividers {
     width: ${A4w}mm;
+    height: ${props => props.pageHeight}px;
     transform-origin: top left;
     transform: scale(${props => scale(props.width)});
   }
@@ -136,13 +139,17 @@ export const PrintInvoice = forwardRef(({state, project, client, invoiceIndex, l
   }, [invoiceRef, iframeRef, lang, invoiceIndex])
 
   // update IFrame CSS
+  const [pageNum, setPageNum] = useState(1)
+  const [pageHeight, setPageHeight] = useState(A4h)
   useEffect(()=>{
     const iframe = iframeRef.current
-    const {contentDocument:{head}} = iframe
+    const {contentDocument:{head, body}} = iframe
     const style = head.querySelector('style')||document.createElement('style')
     sass.compile(invoiceCSS)
         .then(css=>style.innerText = print+CSSVariables+themeLogoCSS+css)
     head.appendChild(style)
+    setPageHeight(body.scrollHeight)
+    setPageNum(Math.ceil(body.scrollHeight/pageHeightPx)) // not needed
   }, [iframeRef, invoiceCSS])
 
   // expose print method
@@ -152,27 +159,32 @@ export const PrintInvoice = forwardRef(({state, project, client, invoiceIndex, l
   }, [iframeRef])
 
   // force re-render to prevent iframe whiteout
-  const reRender = useState(0)[1]
-  useEffect(()=>{ setTimeout(reRender, 100) }, [])
-  // useEffect(()=>{ requestAnimationFrame(setFoo) }, [])
+  // const reRender = useState(0)[1]
+  // useEffect(()=>{ setTimeout(reRender, 100) }, [])
 
-  // size/resize
-  const getWidth = useCallback(()=>ref?.current?.offsetWidth||500, [])
-  /*function getWidth(){
-  	return ref?.current?.offsetWidth||500
-  }*/
+  // page size/resize
+  const getWidth = useCallback(()=>ref?.current?.offsetWidth||500, [ref])
   const [width, setWidth] = useState(getWidth)
   useEffect(()=>{
-    // todo throttle event
-    const handleResize = ()=>setWidth(getWidth())
+    let throttleID = -1
+    const handleResize = ()=>{
+      clearTimeout(throttleID)
+      throttleID = setTimeout(()=>{
+        setWidth(getWidth())
+      }, 400)
+    }
     window.addEventListener('resize', handleResize)
-    requestAnimationFrame(handleResize)
+    handleResize()
     return () => window.removeEventListener('resize', handleResize)
   }, [ref])
 
+  ////////////////////////////////////
+  ////////////////////////////////////
+  ////////////////////////////////////
+
   project = enhanceProject(project)
 
-  return <StyledPrintInvoice width={width} ref={ref} {...attr}>
+  return <StyledPrintInvoice width={width} pageNum={pageNum} pageHeight={pageHeight} ref={ref} {...attr}>
 
     <div className="invoice-shade"><div /></div>
 
