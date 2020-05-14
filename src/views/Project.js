@@ -37,6 +37,7 @@ import {CSSTransition, TransitionGroup} from 'react-transition-group'
 import styled from 'styled-components'
 import {getCloneProjectEvents, getNextProjectEvents, getPreviousProjectEvents} from '../model/eventFactory'
 import {getInvoice} from '../model/clients/factory'
+import {getData} from '../model/personal/selectors'
 
 const StyledProject = styled.div`
   label.description {
@@ -67,7 +68,7 @@ const DragHandle = ()=><DragHandleStyled type="drag" />
 
 export const Project = withRouter(
   connect(
-    state => ({ state, clients: getClients(state) }),
+    state => ({ state, clients: getClients(state), data: getData(state) }),
     { storeProject, removeProject, cloneProject }
   )(
     ({
@@ -80,6 +81,7 @@ export const Project = withRouter(
       , cloneProject
       , state
       , clients
+      , data
     }) => {
       const {t} = useTranslation()
 
@@ -173,7 +175,7 @@ export const Project = withRouter(
         p.lines[index][key] = format?format(value):value
         setProject(p)
       }
-      const vatOptions = [0, 9, 21].map(value=>({value, text:value}))
+      const vatOptions = data.vatAmounts.split(',').map(s=>parseFloat(s)).map(value=>({value, text:value}))
       const projectLineSubjects = lines.map((line, index) => {
         const {description, hours, amount, vat} = line
         const lineSetter = getLineSetter(index)
@@ -212,11 +214,11 @@ export const Project = withRouter(
           <StyledProject>
 
             <header className="clearfix">
-              <h3 className="float-left base-height"><Link to={getClientHref(client)}>{client.name||nbsp}</Link></h3>
+              <h3 className="float-left base-height"><Link to={getClientHref(client)} data-cy="clientLink">{client.name||nbsp}</Link></h3>
               <div className="float-right">
-                <ButtonLink invert={1} {...getPreviousProjectEvents(client, project)}><i className="icon-chevron-left" /></ButtonLink>
-                <ButtonLink invert={1} {...getNextProjectEvents(client, project)}><i className="icon-chevron-right" /></ButtonLink>
-                <ButtonLink {...cloneProjectEvents}><T>clone</T></ButtonLink>
+                <ButtonLink invert={1} {...getPreviousProjectEvents(client, project)} data-cy="previousProject"><i className="icon-chevron-left" /></ButtonLink>
+                <ButtonLink invert={1} {...getNextProjectEvents(client, project)} data-cy="nextProject"><i className="icon-chevron-right" /></ButtonLink>
+                <ButtonLink {...cloneProjectEvents} data-cy="clone"><T>clone</T></ButtonLink>
               </div>
               <h2 className="clear" data-cy="projectHeading">{project.description||nbsp}</h2>
             </header>
@@ -236,8 +238,8 @@ export const Project = withRouter(
               </div>
             </section>
 
-            <section>
-              <Button onClick={addLine} className="float-right"><T>new line</T></Button>
+            <section data-cy="linesSection">
+              <Button onClick={addLine} className="float-right" data-cy="newLine"><T>new line</T></Button>
               <h3 className="base-height"><T>lines</T></h3>
               <Table
                   cols={projectLineCols}
@@ -254,7 +256,7 @@ export const Project = withRouter(
                       <td>{totalHours}</td>
                       <td><PriceRight amount={totalHours*hourlyRate} /></td>
                     </>}
-                    <td><PriceRight amount={getTotal(project)} /></td>
+                    <td><PriceRight amount={getTotal(project)} data-cy="totalExVAT" /></td>
                     <td colSpan="2" />
                   </tr>
                   {!!project.discount&&<tr>
@@ -269,7 +271,7 @@ export const Project = withRouter(
                   <tr>
                     <td />
                     <td colSpan={hourlyRate>0?3:1}><T>totalIncVAT</T></td>
-                    <td><PriceRight amount={getTotalIncDiscounted(project)} style={{fontWeight:'bold'}} /></td>
+                    <td><PriceRight amount={getTotalIncDiscounted(project)} style={{fontWeight:'bold'}} data-cy="totalIncVAT" /></td>
                     <td colSpan="2" />
                   </tr>
                 </tfoot>

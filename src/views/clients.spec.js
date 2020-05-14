@@ -1,19 +1,20 @@
-/* global before, beforeEach, cy, describe, it, expect, assert */
-
-before(() => cy.visitPage('/clients'))
-
-beforeEach(() => cy
-    .get('[data-cy=clientList] tbody>tr').as('clientList')
-    .get('[data-cy=heading] small').as('indicator')
-)
+/* global before, beforeEach, cy, describe, it */
 
 const numCLients = 33
 const numCLientFiltered = 3
 
-describe('Project Invoice clients', () => {
+before(() => cy.visitPage('/clients'))
+
+beforeEach(() => cy
+    .asAll()
+    .get('@clientList').find('tbody>tr').as('clientListRow')
+    .get('@heading').find('small').as('indicator')
+)
+
+describe('clients', () => {
 
   it('should have a list of clients', () => cy
-      .get('@clientList').should('have.length', numCLients)
+      .get('@clientListRow').should('have.length', numCLients)
   )
 
   it('should have a heading indication', () => cy
@@ -22,19 +23,19 @@ describe('Project Invoice clients', () => {
 
   it('should have a name filtering', () => cy
       .get('th:contains(name) input').type('sons')
-      .get('@clientList').should('have.length', numCLientFiltered)
+      .get('@clientListRow').should('have.length', numCLientFiltered)
   )
 
   it('should be able to add a client', () => cy
       .get('[data-cy=newClient]').click()
-      .location().should(location=>expect(location.pathname).to.eq(`/client/${numCLients+1}`))
+      .expectPathname(`/client/${numCLients+1}`)
       .get('label:contains(name) input').type('Foobar inc.')
       .get('[data-cy=save]').click()
       .go('back')
   )
 
   it('should have updated client list', () => cy
-      .get('@clientList').should('have.length', numCLients+1)
+      .get('@clientListRow').should('have.length', numCLients+1)
   )
 
   it('should have updated client indication', () => cy

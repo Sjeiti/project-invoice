@@ -1,4 +1,4 @@
-/* globals Cypress, cy */
+/* globals Cypress, cy, expect */
 
 // ***********************************************
 // This example commands.js shows you how to
@@ -130,8 +130,13 @@ Cypress.Commands.overwrite('as', (orig, value, name, options={}) => {
   return orig(value, name)
 })
 
-Cypress.Commands.add('path', pathname => cy
-  .location().should(location => expect(location.pathname).to.eq(pathname))
+Cypress.Commands.add('asAll', () => cy
+    .get('[data-cy]')
+    .then(list=>{
+      list.each((i, {dataset: {cy: name}})=>
+          cy.get(`[data-cy=${name}]`).as(name)
+      )
+    })
 )
 
 Cypress.Commands.add('visitPage', (path = '', options={}) => cy.readFile(fixtureLsData).then(json => cy
@@ -145,10 +150,14 @@ Cypress.Commands.add('visitPage', (path = '', options={}) => cy.readFile(fixture
   )
 ))
 
-Cypress.Commands.add('toCurrentPage', () => cy
-  .get('@currentPage').then(cy.visit)
+Cypress.Commands.add('expectPathname', pathname => cy
+  .location().should(location => expect(location.pathname).to.eq(pathname))
 )
 
-Cypress.Commands.add('isDirty', is => cy
-  .get('.saveable-buttons>div>:nth-child(1)').should(is?'not.be.disabled':'be.disabled')
-)
+// Cypress.Commands.add('toCurrentPage', () => cy
+//   .get('@currentPage').then(cy.visit)
+// )
+//
+// Cypress.Commands.add('isDirty', is => cy
+//   .get('.saveable-buttons>div>:nth-child(1)').should(is?'not.be.disabled':'be.disabled')
+// )

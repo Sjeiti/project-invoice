@@ -94,7 +94,7 @@ export const Client = withRouter(
           </form>
           <hr/>
           <section>
-            <ButtonLink {...newProjectEvents} className="float-right"><T>new project</T></ButtonLink>
+            <ButtonLink {...newProjectEvents} className="float-right" data-cy="newProject"><T>new project</T></ButtonLink>
             <h3><T>projects</T></h3>
             <Table
               cols="paid nr date dateLatest description totalIncDiscounted"
@@ -102,7 +102,6 @@ export const Client = withRouter(
               sort="date" // todo
               asc="false" // todo
               empty={emptyMsg}
-              // empty={[<T key={0}>clientNoProjects</T>, ', ', <Link {...newProjectEvents} key={1}><T key={2}>create one</T></Link>]}
             />
           </section>
           <DirtyPrompt when={isDirty} />

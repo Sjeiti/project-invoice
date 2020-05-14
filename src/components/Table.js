@@ -142,27 +142,23 @@ export const Table = ({
         </tr>
       </thead>
       <TransitionGroup component="tbody">
-        {(subjects.length &&
-          subjects.map((subject, index) => (
-            <CSSTransition
-              timeout={200}
-              classNames="animate"
-              key={subject.hasOwnProperty('key')?subject.key:index}
+        {subjects.map((subject, index) => (
+          <CSSTransition
+            timeout={200}
+            classNames="animate"
+            key={subject.hasOwnProperty('key')?subject.key:index}
+          >
+            {/* CSSTransition props causes warnings onto tr that cannot be caught */}
+            <TableRow
+                {...TableRowAttr}
+                onClick={subject.onClick}
+                data-position={index}
             >
-              {/* CSSTransition props causes warnings onto tr that cannot be caught */}
-              <TableRow
-                  {...TableRowAttr}
-                  onClick={subject.onClick}
-                  data-position={index}
-              >
-                {cols.map(({key}, index) => <td key={index} className={key}><div>{subject[key]}</div></td>)}
-              </TableRow>
-            </CSSTransition>
-          ))) || (
-          <tr>
-            <td colSpan={length}>{empty||'-'}</td>
-          </tr>
-        )}
+              {cols.map(({key}, index) => <td key={index} className={key}><div>{subject[key]}</div></td>)}
+            </TableRow>
+          </CSSTransition>
+        ))}
+        {subjects.length?<></>:<tr><td colSpan={length}>{empty||'-'}</td></tr>}
       </TransitionGroup>
       {!hasTFoot&&<tfoot><tr><td className="empty" colSpan={length} /></tr></tfoot>}
       {children}

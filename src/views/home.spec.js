@@ -1,4 +1,4 @@
-/* global beforeEach, cy, describe, it, expect */
+/* global beforeEach, cy, describe, it */
 
 beforeEach(() => {
   cy.visitPage('/')
@@ -7,7 +7,7 @@ beforeEach(() => {
 const clientName = 'ClientWhoPays'
 const projectName = 'CoolProject'
 
-describe('Project Invoice home', () => {
+describe('home', () => {
   it('should have collapseable jumbotron', () => cy
       .get('[data-cy=jumbotron]').as('jumbotron')
       .get('@jumbotron').should('be.visible')
@@ -37,9 +37,7 @@ describe('Project Invoice home', () => {
       .go('back')
 
       .get('[data-cy=linkQuarter]').should('exist').click()
-      .location().should(location =>
-        expect(location.pathname).to.eq('/overview')
-      )
+      .expectPathname('/overview')
       .go('back')
   )
   it('should have open invoices', () => cy
