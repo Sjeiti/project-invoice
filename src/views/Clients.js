@@ -52,8 +52,8 @@ export const Clients = connect(
   return (
     <>
       <div className="clearfix">
-        <ButtonLink className="float-right" {...newClientEvents}><T>new client</T></ButtonLink>
-        <h1 className="float-left margin-top-0">
+        <ButtonLink className="float-right" {...newClientEvents} data-cy="newClient"><T>new client</T></ButtonLink>
+        <h1 className="float-left margin-top-0" data-cy="heading">
           <T>clients</T> <small>({clients.length})</small>
         </h1>
       </div>
@@ -64,6 +64,7 @@ export const Clients = connect(
             &&<AnchorButton onClick={()=>setFilter('')}><T>clear filter</T></AnchorButton>
             ||<Link {...newClientEvents}><T>create one</T></Link>
         ].map(keyMap)}
+        data-cy="clientList"
       />
     </>
   )
