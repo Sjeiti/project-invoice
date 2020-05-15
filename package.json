@@ -1,6 +1,6 @@
 {
   "name": "project-invoice",
-  "version": "3.0.11",
+  "version": "3.0.12",
   "description": "Invoicing without sharing data.",
   "keywords": [],
   "main": "src/index.js",

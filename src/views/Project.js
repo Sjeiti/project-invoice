@@ -278,8 +278,8 @@ export const Project = withRouter(
               </Table>
             </section>
 
-            <Tabs currentIndex={project.invoices.length?0:1}>
-              <section>
+            <Tabs currentIndex={project.invoices.length?0:1} data-cy="tabs">
+              <section data-cy="tabInvoices">
                 <Button onClick={onClickAddInvoiceButton} className="float-right" data-cy="addInvoice"><T>{project.invoices.length&&'addReminder'||'addInvoice'}</T></Button>
                 <h3 className="invisible"><T>invoices</T></h3>
                 <TransitionGroup component="ol" data-cy="invoices">
@@ -291,7 +291,7 @@ export const Project = withRouter(
                       >
                         <li className="row no-gutters" key={index}>
                           <div className="col-4">
-                            <ButtonLink to={`${getProjectHref(project)}/${invoice.type}${index!==0?'/'+index:''}`}>
+                            <ButtonLink to={`${getProjectHref(project)}/${index===0?'invoice':'reminder'}${index!==0?'/'+index:''}`}>
                               <T>{index===0?'invoice':'reminder'}</T>
                               {index!==0?nbsp + index:''}
                           </ButtonLink>
@@ -313,8 +313,8 @@ export const Project = withRouter(
                 </TransitionGroup>
               </section>
 
-              <section>
-                <ButtonLink to={`${getProjectHref(project)}/quotation`} className="float-right"><T>show quotation</T></ButtonLink>
+              <section data-cy="tabQuotation">
+                <ButtonLink to={`${getProjectHref(project)}/quotation`} className="float-right" data-cy="showQuotation"><T>show quotation</T></ButtonLink>
                 <h3 className="invisible"><T>quotation</T></h3>
                 {[
                   { key: 'quotationDate', Element: InputDate }
@@ -345,6 +345,7 @@ export const Project = withRouter(
                   const {bottom, height, left, right, top, width, x, y} = r
                   return {bottom: bottom-4, height, left, right, top, width, x, y}
                 }}
+                data-cy="dialog"
             >
               <Label><T>date</T><InputDate value={invoice.date} setter={getInvoiceSetter('date')}/></Label>
               {invoice.type!=='invoice'&&<>

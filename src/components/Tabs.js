@@ -51,7 +51,7 @@ const Tab = styled.button`
     line-height: 100%;
   }`
 
-export const Tabs = ({ currentIndex=0, children }) => {
+export const Tabs = ({ currentIndex=0, children, ...attr }) => {
   const [selectedChildIndex, setSelectedChildIndex] = useState(currentIndex)
   const tabs = children
       .map(section=>firstChildType(section, 'h3'))
@@ -64,7 +64,7 @@ export const Tabs = ({ currentIndex=0, children }) => {
       ><h3>{children}</h3></Tab>)
   ;
   const selectedChild = children[selectedChildIndex]
-  return <StyledTabs>
+  return <StyledTabs {...attr}>
     <nav>{tabs}</nav>
     {selectedChild}
   </StyledTabs>
