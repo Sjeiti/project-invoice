@@ -1,10 +1,10 @@
 /* global before, beforeEach, cy, describe, it, expect */
 
-before(() => cy.visitPage('/overview'))
-
-beforeEach(() => cy.asAll())
-
 describe('overview', () => {
+
+  before(() => cy.visitPage('/overview'))
+
+  beforeEach(() => cy.asAll())
 
   it('should have a list of years', () => cy
       .get('@years').find('a').should('have.length', 6)

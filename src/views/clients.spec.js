@@ -3,15 +3,15 @@
 const numCLients = 33
 const numCLientFiltered = 3
 
-before(() => cy.visitPage('/clients'))
-
-beforeEach(() => cy
-    .asAll()
-    .get('@clientList').find('tbody>tr').as('clientListRow')
-    .get('@heading').find('small').as('indicator')
-)
-
 describe('clients', () => {
+
+  before(() => cy.visitPage('/clients'))
+
+  beforeEach(() => cy
+      .asAll()
+      .get('@clientList').find('tbody>tr').as('clientListRow')
+      .get('@heading').find('small').as('indicator')
+  )
 
   it('should have a list of clients', () => cy
       .get('@clientListRow').should('have.length', numCLients)

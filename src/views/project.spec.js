@@ -13,17 +13,17 @@ const projectLine2 = 'Peel potatoes'
 const quotationDate = '2020-03-15'
 const invoiceDate = '2020-04-15'
 
-before(() => cy
-    .visitPage(clientUri)
-    .get('[data-cy=newProject]').click()
-)
-
-beforeEach(() => cy
-    .asAll()
-    .get('label:contains(discount) input').first().as('discountInput')
-)
-
 describe('project', () => {
+
+  before(() => cy
+      .visitPage(clientUri)
+      .get('[data-cy=newProject]').click()
+  )
+
+  beforeEach(() => cy
+      .asAll()
+      .get('label:contains(discount) input').first().as('discountInput')
+  )
 
   it('should have an editable description', () => cy
     .get('label:contains(description) input').first().type(projectDescription)

@@ -30,7 +30,6 @@ import {
 
 describe('utils', () => {
 
-
   it('getDateString', () => {
     assert.equal(typeof getDateString(new Date()), 'string')
     assert.equal(getDateString(new Date(1588107294906)), '2020-04-28')

@@ -1,13 +1,14 @@
 /* global beforeEach, cy, describe, it */
 
-beforeEach(() => {
-  cy.visitPage('/')
-})
-
 const clientName = 'ClientWhoPays'
 const projectName = 'CoolProject'
 
 describe('home', () => {
+
+  beforeEach(() => {
+    cy.visitPage('/')
+  })
+
   it('should have collapseable jumbotron', () => cy
       .get('[data-cy=jumbotron]').as('jumbotron')
       .get('@jumbotron').should('be.visible')
