@@ -26,8 +26,6 @@
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
-const base = 'http://localhost:4212'
-const fixtureLsData = 'cypress/fixtures/localStorageData.json'
 const asLive = []
 
 Cypress.Commands.add('getListElements', () => cy.get('@list').find('li'))
@@ -73,57 +71,29 @@ Cypress.Commands.add('updateAlias', (domAlias, options) => {
   })||cy.get(domAlias, options)
 })
 
-
-
 const overrides = {
   get: [
     // (...arg) => [...arg]
     (orig, selector, options={}) => {
-      console.log('get', {orig, selector, options}) // todo: remove log
+      // console.log('get1', {orig, selector, options}) // todo: remove log
       // Cypress.log({message:`get:selector '${selector}'`}) // todo: remove log
       return [orig, selector, options]
     }
-    // , (orig, selector, options={}) => {
-    //   Cypress.log({message:'bar'}) // todo: remove log
-    //   return [orig, selector, options]
-    // }
-    // , (orig, selector, options={}) => {
-    //   const hasText = selector.match(/\{([^}]+)\}/)
-    //   const text = hasText&&hasText.pop()
-    //   // Cypress.log({message:'hasText '+hasText}) // todo: remove log
-    //   if (hasText) {
-    //     selector = selector.replace(/\{[^}]+\}/, '')
-    //     const realOrig = orig
-    //     orig = (selector, options) => realOrig(selector, options).then($result => {
-    //       const $ = $result.constructor
-    //       const foo = $result.filter((i, elm)=>$(elm).find(`:contains('${text}')`).length)
-    //       console.log('foo',$result,foo) // todo: remove log
-    //       return $result.filter((i, elm)=>$(elm).find(`:contains('${text}')`).length)
-    //     })
-    //   }
-    //   return [orig, selector, options]
-    // }
     , (orig, selector, options={}) => {
       const {update, ignoreLive} = options
       const aliasName = getAliasName(selector)
       const isLive = aliasName && !ignoreLive && asLive.includes(aliasName)
       return [aliasName&&(update||isLive)?cy.updateAlias:orig, selector, options]
-      // return aliasName&&(update||isLive)?cy.updateAlias(selector, options):orig(selector, options)
     }
   ]
 }
 
-overrides.get&&overrides.get.length&&Cypress.Commands.overwrite('get', (orig, selector, options={}) => {
-  const [fn, ...arg] = overrides.get.reduce((acc, fn) => fn(...acc), [orig, selector, options])
-  return fn(...arg)
+Object.entries(overrides).forEach(([key, list])=>{
+  Cypress.Commands.overwrite(key, (orig, selector, options={}) => {
+    const [fn, ...arg] = list.reduce((acc, fn) => fn(...acc), [orig, selector, options])
+    return fn(...arg)
+  })
 })
-
-/*Cypress.Commands.overwrite('get', (orig, selector, options={}) => {
-  const {update, ignoreLive} = options
-  const aliasName = getAliasName(selector)
-  const isLive = aliasName && !ignoreLive && asLive.includes(aliasName)
-  return aliasName&&(update||isLive)?cy.updateAlias(selector, options):orig(selector, options)
-})*/
 
 Cypress.Commands.overwrite('as', (orig, value, name, options={}) => {
   options&&options.live&&!asLive.includes(name)&&asLive.push(name)||options&&options.live===false&&removeFromArray(asLive, name)
@@ -139,16 +109,27 @@ Cypress.Commands.add('asAll', () => cy
     })
 )
 
-Cypress.Commands.add('visitPage', (path = '', options={}) => cy.readFile(fixtureLsData).then(json => cy
-  .wrap(base + path).as('currentPage').then(url => cy
-    .visit(url, Object.assign({}, options, {
-      onBeforeLoad: win => {
-        win.localStorage.setItem('data', JSON.stringify(json))
-        options.onBeforeLoad&&options.onBeforeLoad(win)
-      }
-    }))
+Cypress.Commands.add('visitPage', (path = '', options={}) => {
+  const data = {}
+  return cy.then(()=>
+        ['sessionStorage', 'localStorage', 'cookies'].forEach(type => {
+          const file = options[type]||Cypress.config(type)
+          file&&cy.readFile(file).then(json=>data[type]=json)
+        })
+      )
+      .wrap(path).then(url => cy
+      .visit(url, Object.assign({}, options, {
+        onBeforeLoad: win => {
+          const {sessionStorage, localStorage, document} = win
+          const {sessionStorage:ss, localStorage:ls, cookies} = data
+          ss&&Object.entries(ss).forEach(([key, value]) => sessionStorage.setItem(key, JSON.stringify(value)))
+          ls&&Object.entries(ls).forEach(([key, value]) => localStorage.setItem(key, JSON.stringify(value)))
+          cookies&&(document.cookie = Object.entries(cookies).map(([key, value]) => `${key}=${value}`).join(';'))
+          options.onBeforeLoad&&options.onBeforeLoad(win)
+        }
+      }))
   )
-))
+})
 
 Cypress.Commands.add('expectPathname', pathname => cy
   .location().should(location => expect(location.pathname).to.eq(pathname))
