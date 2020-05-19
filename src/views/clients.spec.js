@@ -8,7 +8,7 @@ describe('clients', () => {
   before(() => cy.visitPage('/clients'))
 
   beforeEach(() => cy
-      .asAll()
+      // .asAll()
       .get('@clientList').find('tbody>tr').as('clientListRow')
       .get('@heading').find('small').as('indicator')
   )
@@ -27,10 +27,10 @@ describe('clients', () => {
   )
 
   it('should be able to add a client', () => cy
-      .get('[data-cy=newClient]').click()
+      .get('@newClient').click()
       .expectPathname(`/client/${numCLients+1}`)
       .get('label:contains(name) input').type('Foobar inc.')
-      .get('[data-cy=save]').click()
+      .get('@save').click()
       .go('back')
   )
 

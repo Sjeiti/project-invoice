@@ -17,17 +17,16 @@ describe('project', () => {
 
   before(() => cy
       .visitPage(clientUri)
-      .get('[data-cy=newProject]').click()
+      .get('@newProject').click()
   )
 
   beforeEach(() => cy
-      .asAll()
       .get('label:contains(discount) input').first().as('discountInput')
   )
 
   it('should have an editable description', () => cy
     .get('label:contains(description) input').first().type(projectDescription)
-    .get('[data-cy=projectHeading]').should('have.text', projectDescription)
+    .get('@projectHeading').should('have.text', projectDescription)
   )
 
   it('should save', () => cy
@@ -37,7 +36,7 @@ describe('project', () => {
   )
 
   it('should link back to the original client', () => cy
-      .get('[data-cy=clientLink]').click()
+      .get('@clientLink').click()
       .expectPathname(clientUri)
       .go('back')
   )
@@ -53,7 +52,7 @@ describe('project', () => {
 
   it('should be able to clone', () => cy
       .get('@clone').click()
-      .get('[data-cy=projectHeading]').should('have.text', projectDescription+' (clone)')
+      .get('@projectHeading').should('have.text', projectDescription+' (clone)')
       .expectPathname(projectUriClone)
       .get('@delete').click()
       .expectPathname(clientUri)
@@ -97,10 +96,11 @@ describe('project', () => {
   )
 
   it('should have quotation tab selected without invoices', () => cy
-      .get('[data-cy=tabInvoices]').should('not.exist')
+      .get('@tabInvoices').should('not.exist')
       .get('@tabQuotation').should('be.visible')
       .get('@tabs').find('nav button:contains(invoices)').click()
-      .get('[data-cy=tabInvoices]').should('be.visible')
+      .updateAlias('@tabInvoices')
+      .get('@tabInvoices').should('be.visible')
       .get('@tabs').find('nav button:contains(quotation)').click()
   )
 
@@ -144,8 +144,8 @@ describe('project', () => {
 
   it('should be able set invoice date', () => cy
       .get('@invoices').find('li').first().find('button').last().click()
-      .get('[data-cy=dialog]').find('input').first().type(invoiceDate)
-      .get('[data-cy=dialog]').find('button:contains(ok)').click()
+      .get('@dialog').find('input').first().type(invoiceDate)
+      .get('@dialog').find('button:contains(ok)').click()
       .get('@save').click()
       .get('@invoices').find('li').first().find(`div:contains(${invoiceDate})`).should('exist')
   )

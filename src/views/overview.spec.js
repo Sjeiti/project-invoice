@@ -4,8 +4,6 @@ describe('overview', () => {
 
   before(() => cy.visitPage('/overview'))
 
-  beforeEach(cy.asAll.bind(cy))
-
   it('should have a list of years', () => cy
       .get('@years').find('a').should('have.length', 6)
       .last().should('have.class', 'current')
