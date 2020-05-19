@@ -33,8 +33,8 @@ export const SettingsEncryption = ({config, session, storeSession, storeConfigWi
   }
 
   return <>
-      <Button onClick={()=>setEncryptionDialog(true)} disabled={config.encryption}><T>enable</T></Button>
-      <Button onClick={()=>storeConfigWith({encryption:false})} disabled={!config.encryption}><T>disable</T></Button>
+      <Button onClick={()=>setEncryptionDialog(true)} disabled={config.encryption} data-cy="encryptionEnable"><T>enable</T></Button>
+      <Button onClick={()=>storeConfigWith({encryption:false})} disabled={!config.encryption} data-cy="encryptionDisable"><T>disable</T></Button>
       <StyledDialog
           show={encryptionDialogOpen}
           title={t('passwordSet')}
@@ -42,7 +42,7 @@ export const SettingsEncryption = ({config, session, storeSession, storeConfigWi
           submit={()=>encryptAndReload()}
       >
         <T>passwordResetReload</T>
-        <InputText value={encryptionKey} setter={setEncryptionKey} />
+        <InputText value={encryptionKey} setter={setEncryptionKey} data-cy="password" />
       </StyledDialog>
     </>
 }

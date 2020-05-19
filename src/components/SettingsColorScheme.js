@@ -18,7 +18,7 @@ const SunMoon = styled.span`
 export const SettingsColorScheme = ({
     config: {colorScheme}
     , storeConfigWith
-  }) => <Label><T>color scheme</T>
+  }) => <Label data-cy="colorScheme"><T>color scheme</T>
     <SunMoon className="input">
       <input
           type="checkbox"

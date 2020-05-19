@@ -74,9 +74,17 @@ Cypress.Commands.add('updateAlias', (domAlias, options) => {
 const overrides = {
   get: [
     // (...arg) => [...arg]
-    (orig, selector, options={}) => {
+    /*(orig, selector, options={}) => {
       // console.log('get1', {orig, selector, options}) // todo: remove log
       // Cypress.log({message:`get:selector '${selector}'`}) // todo: remove log
+      return [orig, selector, options]
+    }
+    ,*/(orig, selector, options={}) => {
+      if (selector.substr(0, 1)==='@') {
+        const name = selector.substr(1)
+        const aliasExists = (Cypress.state('aliases')||{}).hasOwnProperty(name)
+        orig = aliasExists?orig:(()=>cy.get(`[data-cy=${name}]`).as(name))
+      }
       return [orig, selector, options]
     }
     , (orig, selector, options={}) => {
@@ -107,6 +115,12 @@ Cypress.Commands.add('asAll', () => cy
           cy.get(`[data-cy=${name}]`).as(name)
       )
     })
+)
+
+Cypress.Commands.add('getAs', name => Cypress
+  .state('aliases').hasOwnProperty(name)
+    ?cy.get('@' + name)
+    :cy.get(`[data-cy=${name}]`).as(name)
 )
 
 Cypress.Commands.add('visitPage', (path = '', options={}) => {
@@ -142,3 +156,20 @@ Cypress.Commands.add('expectPathname', pathname => cy
 // Cypress.Commands.add('isDirty', is => cy
 //   .get('.saveable-buttons>div>:nth-child(1)').should(is?'not.be.disabled':'be.disabled')
 // )
+
+Cypress.Commands.add('upload', {prevSubject: 'element'}, (subject, fileName, type) => cy
+  .fixture(fileName, 'hex').then(fileHex => {
+    if (typeof fileHex!=='string') throw('When uploading json rename your filetype to \'notjson\'. See Cypress issue #7412')
+    const bytes = hexStringToByteArray(fileHex)
+    const file = new File([bytes], fileName, {type})
+    const dataTransfer = new DataTransfer()
+    dataTransfer.items.add(file)
+    subject.get(0).files = dataTransfer.files
+    return subject
+  })
+  .trigger('change', {force:true})
+)
+
+function hexStringToByteArray(str) {
+    return new Uint8Array(str.match(/.{2}|./g).map(s=>parseInt(s, 16)));
+}

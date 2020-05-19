@@ -13,10 +13,10 @@ export const SettingsData = ({state, restoreState}) => {
   const downloadString = 'data:text/json;charset=utf-8,'+encodeURIComponent(JSON.stringify(state))
 
   return <>
-    <ButtonAnchor href={downloadString} download={`data_${getDateString()}.json`}><T>download</T></ButtonAnchor>
-    <ButtonLabel htmlFor="restore"><T>restore</T></ButtonLabel>
-    <input accept="application/json, text/json, .json" onChange={onChangeRestore.bind(null, restoreState)} type="file" id="restore" className="visually-hidden"/>
-    <Button onClick={()=>restoreState(defaultData)}><T>clear</T></Button>
+    <ButtonAnchor href={downloadString} download={`data_${getDateString()}.json`} data-cy="download"><T>download</T></ButtonAnchor>
+    <ButtonLabel htmlFor="restore" data-cy="restore"><T>restore</T></ButtonLabel>
+    <input accept="application/json, text/json, .json" onChange={onChangeRestore.bind(null, restoreState)} type="file" id="restore" className="visually-hidden" data-cy="inputFile" />
+    <Button onClick={()=>restoreState(defaultData)} data-cy="clear"><T>clear</T></Button>
   </>
 }
 

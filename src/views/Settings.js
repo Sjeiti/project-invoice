@@ -92,7 +92,7 @@ export const Settings = connect(
             <SettingsColorScheme {...{config, storeConfigWith}} />
           </Section>
           <Section>
-            <h2 className="col-12 col-sm-3 float-left"><T>data</T> <small>({clients.length})</small></h2>
+            <h2 className="col-12 col-sm-3 float-left"><T>data</T> <small data-cy="clientsLength">({clients.length})</small></h2>
             <div className="col-12 col-sm-9 float-left">
               <SettingsData {...{state, restoreState}} />
               <p><Trans>dataExplain</Trans></p>

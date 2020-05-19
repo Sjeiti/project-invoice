@@ -63,7 +63,7 @@ export const Notification = connect(
       return ::binding.detach
     })
 
-    return <TransitionGroup component={StyledList}>
+    return <TransitionGroup component={StyledList} data-cy="notifications">
         {notifications.map(notification=><CSSTransition
             timeout={200}
             classNames="anim-li-height"

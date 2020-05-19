@@ -19,8 +19,8 @@ export const SettingsCloud = ({config, storeConfigWith}) => {
   }
 
   return <>
-    <Select value={cloudProvider} setter={setCloudProvider} disabled={config.cloudSelected} options={cloudProviders} />
-    <Button onClick={cloudAuthorise} disabled={!!config.cloudSelected}><T>authorise</T></Button>
-    <Button onClick={cloudRevoke} disabled={!config.cloudSelected}><T>revoke</T></Button>
+    <Select value={cloudProvider} setter={setCloudProvider} disabled={config.cloudSelected} options={cloudProviders} data-cy="cloudSelect" />
+    <Button onClick={cloudAuthorise} disabled={!!config.cloudSelected} data-cy="cloudAuthorise"><T>authorise</T></Button>
+    <Button onClick={cloudRevoke} disabled={!config.cloudSelected} data-cy="cloudRevoke"><T>revoke</T></Button>
   </>
 }

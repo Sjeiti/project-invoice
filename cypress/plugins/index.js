@@ -23,25 +23,34 @@
 
 
 // cypress/plugins/index.js
-const webpack = require('@cypress/webpack-preprocessor')
-const webpackOptions = {
-  module: {
-    rules: [
-      {
-        test: /\.vue$/,
-        loader: 'vue-loader'
-      }
-    ]
-  }
-}
+// const webpack = require('@cypress/webpack-preprocessor')
+// const webpackOptions = {
+//   module: {
+//     rules: [
+//       {
+//         test: /\.vue$/,
+//         loader: 'vue-loader'
+//       }
+//     ]
+//   }
+// }
+//
+// const options = {
+//   // send in the options from your webpack.config.js, so it works the same
+//   // as your app's code
+//   webpackOptions,
+//   watchOptions: {}
+// }
+//
+// module.exports = on => {
+//   on('file:preprocessor', webpack(options))
+// }
 
-const options = {
-  // send in the options from your webpack.config.js, so it works the same
-  // as your app's code
-  webpackOptions,
-  watchOptions: {}
-}
-
+const clipboardy = require('clipboardy')
 module.exports = on => {
-  on('file:preprocessor', webpack(options))
+    on('task', {
+        getClipboard() {
+            return clipboardy.readSync()
+        }
+    })
 }

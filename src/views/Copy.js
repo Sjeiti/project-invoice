@@ -117,7 +117,7 @@ export const Copy = connect(
   })
 
   return <>
-    <div className="float-right">
+    <div className="float-right" data-cy="languages">
       {config.langs.map(iso=><Button key={iso} onClick={setLang.bind(null, iso)} disabled={iso===lang}>{iso}</Button>)}
     </div>
     <h1><T>copy</T></h1>

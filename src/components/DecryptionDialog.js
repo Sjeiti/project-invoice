@@ -60,8 +60,8 @@ export const DecryptionDialog = connect(
           submit={()=>decryptAndSetStore()}
       >
         <p><T>passwordRequiredFor</T></p>
-        <InputText value={encryptionKey} setter={setEncryptionKey} />
-        {invalid&&<p><T>passwordInvalidMessage</T></p>}
+        <InputText value={encryptionKey} setter={setEncryptionKey} data-cy="password" />
+        {invalid&&<p data-cy="wrongPassword"><T>passwordInvalidMessage</T></p>}
       </StyledDialog>
     </>
   )

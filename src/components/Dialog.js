@@ -93,12 +93,12 @@ export const Dialog = attr => {
         onExiting={()=>animating.current = true}
         onExited={()=>animating.current = false}
       >
-          <StyledDialog ref={setElmDialog} {...attr}>
+          <StyledDialog ref={setElmDialog} {...attr} data-cy="dialog">
             <header><h3>{Enter&&1}{title}</h3> <IconButton type="close" invert onClick={close}></IconButton></header>
             <section>{children}</section>
             <footer className="text-align-right">
-              <Button onClick={close}><T>cancel</T></Button>
-              <Button onClick={submit}><T>ok</T></Button>
+              <Button onClick={close} data-cy="dialogCancel"><T>cancel</T></Button>
+              <Button onClick={submit} data-cy="dialogConfirm"><T>ok</T></Button>
             </footer>
           </StyledDialog>
       </CSSTransition>

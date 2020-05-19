@@ -95,15 +95,15 @@ export const SettingsPeer2Peer = ({state, restoreState}) => {
       {sending&&(
         awaiting
           &&<Wait />
-          ||<><InputText value={id} setter={setID} /><Button onClick={peerSend}><T>send</T></Button></>
+          ||<><InputText value={id} setter={setID} data-cy="p2pInput" /><Button onClick={peerSend} data-cy="p2pSend"><T>send</T></Button></>
       )}
       {cendeiving||<>
-        <Button onClick={peerSendIntent}><T>send</T></Button>
-        <Button onClick={peerReceive}><T>receive</T></Button>
+        <Button onClick={peerSendIntent} data-cy="p2pSendIntent"><T>send</T></Button>
+        <Button onClick={peerReceive} data-cy="p2pReceive"><T>receive</T></Button>
       </>}
       {receiving&&<Id>ID: {id||<Wait />}</Id>}
       {cendeiving&&<>
-        <Button onClick={peerCancel}><T>cancel</T></Button>
+        <Button onClick={peerCancel} data-cy="p2pCancel"><T>cancel</T></Button>
         {/*<div>Status: {status}</div>*/}
       </>}
       {receiving&&<Explain><T>peer2peerExplainReceiverID</T></Explain>}
