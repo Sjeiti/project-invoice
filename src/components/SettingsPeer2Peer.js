@@ -55,16 +55,20 @@ export const SettingsPeer2Peer = ({state, restoreState}) => {
 
   useEffect(()=>{
     const video = videoRef.current
+    console.log('video',video) // todo: remove log
     ////////////////////////////
     // const getUserMedia = navigator.mediaDevices.getUserMedia.bind(navigator.mediaDevices)
     // if (getUserMedia) {
     //     getUserMedia({audio:false, video:true}, stream=>{
     if (navigator.mediaDevices.getUserMedia) {
-        navigator.mediaDevices.getUserMedia({audio:false, video:true}, stream=>{
-          video.src = window.URL.createObjectURL(stream)
-          video.play()
-          console.log('video.src',video.src) // todo: remove log
-        }, console.warn.bind(console, 'Camera fail'))
+        navigator.mediaDevices.getUserMedia(
+            {video:true}
+            , stream=>{
+              console.log('stream',stream) // todo: remove log
+              video.srcObject = stream
+            }
+            , console.warn.bind(console, 'Camera fail')
+        )
     } else {
         console.warn('getUserMedia() not supported')
     }
