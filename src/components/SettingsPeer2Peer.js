@@ -65,7 +65,7 @@ export const SettingsPeer2Peer = ({state, restoreState}) => {
         console.warn('getUserMedia() not supported')
     }
     new QrScanner(video, result => console.log('decoded qr code:', result))
-    ////////////////////////////
+    /////////////////////////////
     // const image = document.createElement('image')
     // QrScanner.scanImage(image)
     //   .then(result => console.log(result))
