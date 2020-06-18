@@ -1,9 +1,12 @@
-import React, {useState} from 'react'
+import React,{createRef,useState,useEffect} from 'react'
 import styled from 'styled-components'
 import {Button} from './Button'
 import {T} from '../components/T'
 import {status as peerStatus, init as initPeer} from '../service/peer2peer'
 import {InputText} from './Input'
+import QrScanner from 'qr-scanner'
+
+console.log('QrScanner', QrScanner) // todo: remove log
 
 const Id = styled.span`
   position: relative;
@@ -30,6 +33,11 @@ const Wait = styled.span`
     to {   content: '|'; }
   }
 `
+const Video = styled.video`
+  width: 400px;
+  height: 300px;
+  box-shadow: 0 0 0 1px blue;
+`
 
 const AWAITING = Symbol('AWAITING')
 
@@ -42,6 +50,27 @@ export const SettingsPeer2Peer = ({state, restoreState}) => {
   const [peerr, setPeer] = useState()
   const cendeiving = sending||receiving
   const awaiting = status===AWAITING
+
+  const videoRef = createRef()
+
+  useEffect(()=>{
+    const video = videoRef.current
+    ////////////////////////////
+    if (navigator.getUserMedia) {
+        navigator.getUserMedia({audio:false, video:true}, stream=>{
+          video.src = window.URL.createObjectURL(stream)
+          // video.play()
+        }, console.warn.bind(console, 'Camera fail'))
+    } else {
+        console.warn('getUserMedia() not supported')
+    }
+    new QrScanner(video, result => console.log('decoded qr code:', result))
+    ////////////////////////////
+    // const image = document.createElement('image')
+    // QrScanner.scanImage(image)
+    //   .then(result => console.log(result))
+    //   .catch(error => console.log(error || 'No QR code found.'));
+  }, [videoRef])
 
   function peerSendIntent(){
     setID('')
@@ -108,5 +137,6 @@ export const SettingsPeer2Peer = ({state, restoreState}) => {
       </>}
       {receiving&&<Explain><T>peer2peerExplainReceiverID</T></Explain>}
       {sending&&<Explain><T>peer2peerExplainSenderID</T></Explain>}
+    <Video ref={videoRef}></Video>
     </>
 }

@@ -17,6 +17,7 @@ module.exports = env => {
       contentBase: './public'
       ,port: 4212
       ,historyApiFallback: true
+      ,https: true
     },
     module: {
       rules: [
@@ -53,7 +54,10 @@ module.exports = env => {
       })
       ,new CopyWebpackPlugin(isProduction&&[
           { from: 'public', to: './', toType: 'dir', dot: true}
-      ]||[], {})
+          ,{ from: './node_modules/qr-scanner/qr-scanner-worker.min.js', to: './' }
+      ]||[
+          { from: './node_modules/qr-scanner/qr-scanner-worker.min.js', to: './' }
+      ], {})
     ]
   }
 }
