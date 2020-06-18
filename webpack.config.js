@@ -34,7 +34,7 @@ module.exports = env => {
           ]
         }
         ,{
-          test: /\.(html|css)/
+          test: /\.(html|css|svg)/
           ,use: ['raw-loader']
         }
       ]

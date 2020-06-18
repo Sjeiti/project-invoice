@@ -77,6 +77,10 @@ So I created my own:
 
 I cleaned it up a bit because I thought you might like it.
 
+### There is a typo on the first page
+
+No [there isn't](https://en.wikipedia.org/wiki/All_your_base_are_belong_to_us)
+
 ## Contributing
 
 The sources of this application are open-source and can be found at [Github](https://github.com/Sjeiti/project-invoice).

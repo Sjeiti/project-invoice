@@ -31,6 +31,9 @@ import {InputCheckbox} from '../components/Input'
 import {onClickInvoice, onClickPaid, onClickRemind} from '../model/clients/util'
 import {getData} from '../model/personal/selectors'
 import {LineEllipsed} from '../components/LineEllipsed'
+import piglet from '../../public/static/img/piglet.svg'
+import pigletSleeping from '../../public/static/img/pigletSleeping.svg'
+import pigletHappy from '../../public/static/img/pigletHappy.svg'
 
 const bgcolor = '#3f5267'
 const Jumbotron = styled.div`
@@ -174,7 +177,7 @@ export const Home = withRouter(connect(
               asc="false" // todo
             ttotals="false" // todo
             aanimate="true" // todo
-              empty={<T>youCurrentlyHaveNoOpenInvoices</T>}
+              empty={<><style>svg{'{'}width:25%;height:25%;{'}'}</style><div dangerouslySetInnerHTML={{ __html: pigletHappy }} /><T>youCurrentlyHaveNoOpenInvoices</T></>}
             />
       </section>
       <section className="col-12 col-md-7">
@@ -186,7 +189,7 @@ export const Home = withRouter(connect(
               sort="date" // todo
               asc="false" // todo
             ttotals="false" // todo
-              empty={<T>youCurrentlyHaveNoDrafts</T>}
+              empty={<><div dangerouslySetInnerHTML={{ __html: pigletSleeping }} /><T>youCurrentlyHaveNoDrafts</T></>}
             />
       </section>
     </div>
