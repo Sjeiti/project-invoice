@@ -52,12 +52,16 @@ module.exports = env => {
       new webpack.DefinePlugin({
         'process.env.VERSION': JSON.stringify(require('./package.json').version)
       })
-      ,new CopyWebpackPlugin(isProduction&&[
+      ,new CopyWebpackPlugin([
           { from: 'public', to: './', toType: 'dir', dot: true}
-          ,{ from: './node_modules/qr-scanner/qr-scanner-worker.min.js', to: './' }
-      ]||[
-          { from: './node_modules/qr-scanner/qr-scanner-worker.min.js', to: './' }
+          ,{ from: 'node_modules/qr-scanner/qr-scanner-worker.min.js', to: './qr-scanner-worker.min.js' }
       ], {})
+      // ,new CopyWebpackPlugin(isProduction&&[
+      //     { from: 'public', to: './', toType: 'dir', dot: true}
+      //     ,{ from: 'node_modules/qr-scanner/qr-scanner-worker.min.js', to: './qr-scanner-worker.min.js' }
+      // ]||[
+      //     { from: 'node_modules/qr-scanner/qr-scanner-worker.min.js', to: './qr-scanner-worker.min.js' }
+      // ], {})
     ]
   }
 }
