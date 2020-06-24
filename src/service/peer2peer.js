@@ -72,7 +72,10 @@ export function init(initID){
     connection = null
     setStatus(status.DESTROYED)
   })
-  peer.on('error', err=>setStatus(status.ERROR, err))
+  peer.on('error', err=>{
+    setStatus(status.ERROR, err)
+    console.warn('Peer error', err)
+  })
 
   function connect(id){
     connection&&connection.close()

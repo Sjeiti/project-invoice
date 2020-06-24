@@ -6,6 +6,9 @@ import {status as peerStatus, init as initPeer} from '../service/peer2peer'
 import {InputText} from './Input'
 import {VideoQR} from './VideoQR'
 import {QRSVG} from './QRSVG'
+import {validateRaw} from '../model/validate'
+import {notify} from '../util/signal'
+import {ERROR} from './Notification'
 
 const Id = styled.span`
   position: relative;
@@ -35,7 +38,7 @@ const Wait = styled.span`
 
 const AWAITING = Symbol('AWAITING')
 
-export const SettingsPeer2Peer = ({state, restoreState}) => {
+export const SettingsPeer2Peer = ({state, restore}) => {
 
   const [id, setID] = useState('')
   const [status, setStatus] = useState(peerStatus.IDLE)
@@ -46,12 +49,13 @@ export const SettingsPeer2Peer = ({state, restoreState}) => {
 
   const isStateAwaiting = status===AWAITING
   const isStateIdle = status===peerStatus.IDLE
+  const isStateClosed = status===peerStatus.CLOSED
+  const isStateIdleOrClosed = isStateIdle||isStateClosed
 
   const [receivedId, setReceivedId] = useState('')
 
   useEffect(()=>{
     if (receivedId) {
-      console.log('video useEffect receivedId',receivedId) // todo: remove log
       setID(receivedId)
       peerSend(receivedId)
     }
@@ -82,7 +86,7 @@ export const SettingsPeer2Peer = ({state, restoreState}) => {
     peer.id.add(setID)
     peer.received.add(data=>{
       peer.send('thanks')
-      restoreState(JSON.parse(data))
+      validateRaw(data).then(restore, error)
       peer.disconnect()
     })
     peer.statusChanged.add(onStatusChanged)
@@ -107,8 +111,6 @@ export const SettingsPeer2Peer = ({state, restoreState}) => {
     newStatus===peerStatus.LOST&&peerCancel()
   }
 
-  console.log('video state',status,{sending, awaiting: isStateAwaiting, receiving, cendeiving}) // todo: remove log
-
   return <>
       {sending&&(
         isStateAwaiting
@@ -125,6 +127,10 @@ export const SettingsPeer2Peer = ({state, restoreState}) => {
         {/*<div>Status: {status}</div>*/}
       </>}
       {receiving&&<Explain><T>peer2peerExplainReceiverID</T><QRSVG content={id} /></Explain>}
-      {sending&&<Explain><T>peer2peerExplainSenderID</T>{isStateIdle&&<VideoQR ref={videoRef} setID={setReceivedId} />}</Explain>}
+      {sending&&<Explain><T>peer2peerExplainSenderID</T>{isStateIdleOrClosed&&<VideoQR ref={videoRef} setID={setReceivedId} />}</Explain>}
     </>
+}
+
+function error(message){
+	notify.dispatch({message, type: ERROR})
 }

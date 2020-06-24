@@ -65,7 +65,6 @@ export const VideoQR = forwardRef((props, ref) => {
     const video = ref.current
     setVideoStream(video, setStream)
     const qr = createScanner(video, setID)
-    console.log('video useEffect', new Date) // todo: remove log
     return ()=>qr.destroy()
   }, [])
 
