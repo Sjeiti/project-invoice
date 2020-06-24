@@ -30,7 +30,7 @@ const Element = styled.div`
   }
 `
 
-async function scanVideo(video, setStream, setID){
+async function setVideoStream(video, setStream){
   const devices = await navigator.mediaDevices.enumerateDevices()
   const videoDevices = devices.filter(({kind})=>kind==='videoinput')
   const backVideo = videoDevices.filter(({label})=>label.includes('back')).pop()
@@ -39,11 +39,18 @@ async function scanVideo(video, setStream, setID){
   video.srcObject = stream
   video.play()
   setStream(stream)
+}
+
+function createScanner(video, setID){
+  let scanned = false
   const qr = new QrScanner(video, result => {
-    console.log('decoded qr code:', result)
-    setID(result)
+    if (!scanned) {
+      setID(result)
+      scanned = true
+    }
   })
   qr.start()
+  return qr
 }
 
 function stopTracks(stream){
@@ -55,9 +62,12 @@ export const VideoQR = forwardRef((props, ref) => {
   const [stream, setStream] = useState(null)
 
   useEffect(()=>{
-    const {current} = ref
-    current&&scanVideo(current, setStream, setID)
-  }, [ref.current])
+    const video = ref.current
+    setVideoStream(video, setStream)
+    const qr = createScanner(video, setID)
+    console.log('video useEffect', new Date) // todo: remove log
+    return ()=>qr.destroy()
+  }, [])
 
   useEffect(()=>()=>stopTracks(stream), [stream])
 

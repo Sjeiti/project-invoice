@@ -1,4 +1,4 @@
-import React, {createRef, useState} from 'react'
+import React, {createRef, useEffect, useState} from 'react'
 import styled from 'styled-components'
 import {Button} from './Button'
 import {T} from '../components/T'
@@ -43,7 +43,19 @@ export const SettingsPeer2Peer = ({state, restoreState}) => {
   const [receiving, setReceiving] = useState(false)
   const [peerr, setPeer] = useState()
   const cendeiving = sending||receiving
-  const awaiting = status===AWAITING
+
+  const isStateAwaiting = status===AWAITING
+  const isStateIdle = status===peerStatus.IDLE
+
+  const [receivedId, setReceivedId] = useState('')
+
+  useEffect(()=>{
+    if (receivedId) {
+      console.log('video useEffect receivedId',receivedId) // todo: remove log
+      setID(receivedId)
+      peerSend(receivedId)
+    }
+  }, [receivedId])
 
   const videoRef = createRef()
 
@@ -51,10 +63,10 @@ export const SettingsPeer2Peer = ({state, restoreState}) => {
     setID('')
     setSending(true)
   }
-  function peerSend(){
+  function peerSend(receivedId){
     setStatus(AWAITING)
     receiving&&setReceiving(false)
-    const peer = initPeer(id)
+    const peer = initPeer(receivedId||id)
     peer.connected.add(()=>{
       peer.send(JSON.stringify(state))
       peer.received.add(peer.disconnect.bind(peer))
@@ -95,9 +107,11 @@ export const SettingsPeer2Peer = ({state, restoreState}) => {
     newStatus===peerStatus.LOST&&peerCancel()
   }
 
+  console.log('video state',status,{sending, awaiting: isStateAwaiting, receiving, cendeiving}) // todo: remove log
+
   return <>
       {sending&&(
-        awaiting
+        isStateAwaiting
           &&<Wait />
           ||<><InputText value={id} setter={setID} data-cy="p2pInput" /><Button onClick={peerSend} data-cy="p2pSend"><T>send</T></Button></>
       )}
@@ -111,6 +125,6 @@ export const SettingsPeer2Peer = ({state, restoreState}) => {
         {/*<div>Status: {status}</div>*/}
       </>}
       {receiving&&<Explain><T>peer2peerExplainReceiverID</T><QRSVG content={id} /></Explain>}
-      {sending&&<Explain><T>peer2peerExplainSenderID</T><VideoQR ref={videoRef} setID={setID} /></Explain>}
+      {sending&&<Explain><T>peer2peerExplainSenderID</T>{isStateIdle&&<VideoQR ref={videoRef} setID={setReceivedId} />}</Explain>}
     </>
 }
