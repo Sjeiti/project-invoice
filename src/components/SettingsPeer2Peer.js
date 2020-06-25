@@ -121,12 +121,12 @@ export const SettingsPeer2Peer = ({state, restore}) => {
         <Button onClick={peerSendIntent} data-cy="p2pSendIntent"><T>send</T></Button>
         <Button onClick={peerReceive} data-cy="p2pReceive"><T>receive</T></Button>
       </>}
-      {receiving&&<Id>ID: {id||<Wait />}</Id>}
+      {receiving&&<Id data-cy="p2pCode">ID: {id||<Wait />}</Id>}
       {cendeiving&&<>
         <Button onClick={peerCancel} data-cy="p2pCancel"><T>cancel</T></Button>
         {/*<div>Status: {status}</div>*/}
       </>}
-      {receiving&&<Explain><T>peer2peerExplainReceiverID</T><QRSVG content={id} /></Explain>}
+      {receiving&&<Explain><T>peer2peerExplainReceiverID</T><QRSVG data-cy="p2pQR" content={id} /></Explain>}
       {sending&&<Explain><T>peer2peerExplainSenderID</T>{isStateIdleOrClosed&&<VideoQR ref={videoRef} setID={setReceivedId} />}</Explain>}
     </>
 }
