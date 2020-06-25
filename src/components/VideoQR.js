@@ -19,6 +19,10 @@ const Element = styled.div`
     transform: translate(-50%, -50%);
     background-color: #666;
     box-shadow: 0 0 5rem black inset, 0 0 0 1px black;
+    &.qr-scanner {
+      transform: translate(-50%, -50%) scaleX(1);
+      &--mirror { transform: translate(-50%, -50%) scaleX(-1); }
+    }
   }
   &:after {
     content: '';
@@ -75,7 +79,6 @@ function createScanner(video, setID, t){
 function centerVideo(video){
   video.addEventListener('loadedmetadata', ()=>{
     const ar = video.videoWidth/video.videoHeight
-    video.style.transform = 'translate(-50%, -50%) ' + video.style.transform
     if (ar>1) video.style.width = `${100*ar}%`
     else video.style.height = `${100*(1/ar)}%`
   })

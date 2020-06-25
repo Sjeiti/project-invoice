@@ -43,7 +43,7 @@
     "moment": "^2.20.1",
     "node-sass": "^4.14.1",
     "peerjs": "^1.2.0",
-    "qr-scanner": "^1.1.1",
+    "qr-scanner": "sjeiti/qr-scanner#develop",
     "qrcode-svg": "^1.1.0",
     "react": "16.8.6",
     "react-app-polyfill": "^1.0.1",
