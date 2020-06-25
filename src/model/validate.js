@@ -2,7 +2,6 @@ import {tryParse} from '../util'
 
 
 export function validateExternalStore(store) {
-  console.log('validateExternalStore', store) // todo: remove log
   return validate(store)
       .validateRoot()
       .validateConfig()
@@ -48,6 +47,7 @@ export function validateRaw(data){
     } else if (!resultData) {
       reject('Malformed JSON data.')
     } else {
+      console.warn('The JSON is missing data specific to Project Invoice.\n\t', resultData)
       reject('The JSON is missing data specific to Project Invoice.')
     }
   })

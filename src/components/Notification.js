@@ -5,6 +5,8 @@ import {connect} from 'react-redux'
 import {getSession} from '../model/session/selectors'
 import {notify} from '../util/signal'
 import {Button, IconButton} from './Button'
+import {ButtonLink} from './ButtonLink'
+import {ButtonAnchor} from './ButtonAnchor'
 
 export const MESSAGE = Symbol('MESSAGE')
 export const ERROR = Symbol('ERROR')
@@ -27,17 +29,22 @@ const StyledLi = styled.li`
   min-height: 1rem;
   padding: 0.5rem;
   color: white;
-  background-color: var(--color-buttonD10);
-  span { flex: 1 1 auto; }
-  &:not(:last-child) {
-    box-shadow: 0 -1px 0 var(--color-not-white) inset;
+  background-color: var(--color-buttonD20);
+  span { 
+    flex: 1 1 auto;
+    align-self: center;
   }
-  ${props => props.type===ERROR && css`
+  a:not(${ButtonLink}):not(${ButtonAnchor}) { color: var(--color-buttonL30); }
+  &:not(:last-child) {
+    box-shadow: 0 -1px 0 var(--color-button) inset;
+  }
+  ${props => props.notificationType===ERROR && css`
     background-color: var(--color-redD30);
   `}
   ${Button} {
     color: var(--color-not-white);
     margin: 0;
+    flex: 0 0 2rem;
     &:hover {
       color: white;
     }
@@ -46,15 +53,15 @@ const StyledLi = styled.li`
 
 export const Notification = connect(
     state => ({ session: getSession(state), state })
-  )(({ state, session }) => {
+  )(() => {
 
-    const [notifications, setNotifications] = useState([]) // ['welcome', 'test', 'foo'].map(notificationFactory)
+    const [notifications, setNotifications] = useState([])
 
     function handleNotify(msg){
     	setNotifications([...notifications, notificationFactory(msg)])
     }
 
-    const handleClose = (msg, evt)=>{
+    const handleClose = msg=>{
     	setNotifications(notifications.filter(n=>n!==msg))
     }
 
@@ -69,8 +76,13 @@ export const Notification = connect(
             classNames="anim-li-height"
             key={notification.id}
           >
-            <StyledLi type={notification.type}>
-              <span>{notification?.props?.children||<span dangerouslySetInnerHTML={{ __html: notification.message }} />}</span>
+            <StyledLi notificationType={notification.type}>
+              {
+                notification?.props?.children
+                  &&<span>{notification.props.children}</span>
+                  ||(typeof notification.message==='string'&&<span dangerouslySetInnerHTML={{ __html: notification.message }} />)
+                  ||<span>{notification.message}</span>
+              }
               <IconButton type="close" invert onClick={handleClose.bind(null, notification)}></IconButton>
             </StyledLi>
           </CSSTransition>
@@ -86,28 +98,3 @@ function notificationFactory(message){
     , type: MESSAGE
   }, typeof message === 'string'?{message}:message)
 }
-
-/* examples
-
-  useState(()=>{
-    setTimeout(()=>{
-      notify.dispatch({
-        message: 'hallo allemaal'
-        ,type: ERROR
-      })
-    }, 1000)
-    setTimeout(()=>{
-      notify.dispatch('hallo allemaal')
-    }, 2000)
-    setTimeout(()=>{
-      notify.dispatch('an anchor link to <a href="/settings">the settings page</a>')
-    }, 2000)
-    setTimeout(()=>{
-      notify.dispatch(<>a button to <ButtonAnchor to="/settings">the settings page</ButtonAnchor></>)
-    }, 3000)
-    setTimeout(()=>{
-      notify.dispatch(<>a Link to <Link to="/settings">the settings page</Link></>)
-    }, 4000)
-  })
-
-*/
