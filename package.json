@@ -25,8 +25,7 @@
     "cypress:run": "cypress run",
     "svg": "svgo -f design",
     "sitemap": "node task/sitemap",
-    "i18n": "node task/i18n-about",
-    "i18n:analyse": "node task/i18n-analyse"
+    "i18n": "node task/i18n-about"
   },
   "dependencies": {
     "animejs": "^2.2.0",
