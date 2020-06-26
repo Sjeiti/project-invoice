@@ -193,11 +193,11 @@ export const PrintInvoice = forwardRef(({state, project, client, invoiceIndex, l
     </div>
 
     <div className="iframe-wrapper">
-      <iframe title="a" ref={iframeRef} />
+      <iframe title="a" ref={iframeRef} data-cy="printIframe" />
     </div>
 
     {/*############################################################*/}
-    <div ref={invoiceRef} className={`invoice print-invoice visually-hidden ${config.theme||''}`}>
+    <div ref={invoiceRef} className={`invoice print-invoice visually-hidden ${config.theme||''}`} data-cy="iframePage">
       <link href={fontsURI} rel='stylesheet' type='text/css'/>
       <header>
         <div className="page">
