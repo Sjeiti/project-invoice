@@ -4,6 +4,7 @@ import {TODAY} from '../config'
 import {data as defaultData} from '../model/default'
 import {project as enhanceProject} from '../model/clients/project'
 import {CURRENCY_ISO} from '../config/currencyISO'
+import {sass} from '../service/css'
 
 /**
  * Return the date part of the ISO date string (yyyy-mm-dd)
@@ -285,6 +286,20 @@ export function weakAssign(obj, ...adds){
     }
   })
   return obj
+}
+
+/**
+ * Async memoisation
+ * @param {function} method
+ * @return {function}
+ */
+export function memoizeAsync(method) {
+    let cache = {}
+    return async function() {
+        let args = JSON.stringify(arguments)
+        cache[args] = cache[args] || method.apply(this, arguments)
+        return cache[args]
+    }
 }
 
 /**

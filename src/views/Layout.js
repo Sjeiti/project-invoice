@@ -6,7 +6,7 @@ import {storeConfig} from '../model/config/actions'
 import {data} from '../model/default'
 import {getFontList} from '../service/googleAPI'
 import {saveable} from '../util/signal'
-import {getGetSetter,isEqual,noop} from '../util'
+import {capitalise,getGetSetter,isEqual,noop} from '../util'
 import {notify} from '../util/signal'
 import {PrintInvoice} from '../components/PrintInvoice'
 import {Button} from '../components/Button'
@@ -146,8 +146,8 @@ export const Layout = connect(
 
         <div className="col-12 col-sm-6">
           <menu style={{marginBottom:'1rem'}}>
-            {invoiceTypes.map((type, index)=><Button key={type} onClick={()=>setInvoiceIndex(index-1)} disabled={invoiceIndex===(index-1)}>{type}</Button>)}
-            {config.langs.map(iso=><Button key={iso} onClick={()=>setLang(iso)} disabled={iso===lang}>{iso}</Button>)}
+            {invoiceTypes.map((type, index)=><Button key={type} onClick={()=>setInvoiceIndex(index-1)} disabled={invoiceIndex===(index-1)} data-cy={`pageType${capitalise(type)}`}>{type}</Button>)}
+            {config.langs.map(iso=><Button key={iso} onClick={()=>setLang(iso)} disabled={iso===lang} data-cy={`pageLang${capitalise(iso)}`}>{iso}</Button>)}
           </menu>
           <PrintInvoice
             className="example"

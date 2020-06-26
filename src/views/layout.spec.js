@@ -24,12 +24,7 @@ describe('overview', () => {
       .get('@save').click()
       .get('@iframePage').should('not.have.class', 'clean')
       .get('@iframePage').should('have.class', 'vertical')
-      .get('@printIframe').then($iframe=>{
-        const iframe = $iframe.get(0)
-        const {contentDocument:{body}} = iframe
-        const iframePage = body.querySelector('[data-cy="iframePage"]')
-        assert(iframePage.classList.contains('vertical'))
-      })
+      .get('@printIframe').should(havePageClass('vertical'))
   )
 
   it('should be able to add logo image', () => cy
@@ -63,7 +58,14 @@ describe('overview', () => {
   )
 
   it('should be able to switch page type and language', () => cy
-      // todo write
+      .get('@printIframe').should(notHavePageClass('quotation'))
+      .get('@pageTypeQuotation').click()
+      .get('@printIframe').should(havePageClass('quotation'))
+      .get('@pageTypeInvoice').click()
+      .get('@printIframe').should(notHavePageClass('quotation'))
+      .get('@pageTypeReminder').click()
+      .get('@pageLangNl').click()
+      .get('@pageLangEn').click()
   )
 })
 
@@ -72,8 +74,26 @@ function havePageStyle(property, value){
     const iframe = $iframe.get(0)
     const {contentDocument:{body}} = iframe
     const page = body.querySelector('[data-cy="iframePage"]')
-    // const style = getComputedStyle(page)
-    // expect(style[property]).to.equal(value)
     expect(page).to.have.css(property, value)
+  }
+}
+
+function havePageClass(className){
+  return pageClass(className, true)
+}
+
+function notHavePageClass(className){
+  return pageClass(className, false)
+}
+
+
+function pageClass(className, has=true){
+  return $iframe=>{
+    const iframe = $iframe.get(0)
+    const {contentDocument:{body}} = iframe
+    const iframePage = body.querySelector('[data-cy="iframePage"]')
+    has
+      ?expect(iframePage).to.have.class(className)
+      :expect(iframePage).not.to.have.class(className)
   }
 }

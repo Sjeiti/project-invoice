@@ -1,6 +1,6 @@
 import {css} from 'styled-components'
 import Sass from 'sass.js/dist/sass'
-import {camelCase} from '../util'
+import {camelCase,memoizeAsync} from '../util'
 
 import '../style/_variables.scss'
 
@@ -92,3 +92,5 @@ export const sass = {
     })
   }
 }
+
+export const sassCompile = memoizeAsync(sass.compile)
