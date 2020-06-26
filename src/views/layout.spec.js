@@ -1,6 +1,6 @@
 /* global before, beforeEach, cy, describe, it, expect, assert */
 
-describe('overview', () => {
+describe('layout', () => {
 
   before(() => cy.visitPage('/layout'))
 
