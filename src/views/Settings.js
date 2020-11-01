@@ -109,7 +109,12 @@ export const Settings = connect(
           <Section>
             <h2 className="col-12 col-sm-3 float-left"><T>peer2peerTitle</T></h2>
             <div className="col-12 col-sm-9 float-left">
-              <SettingsPeer2Peer {...{state, restore}} />
+              <SettingsPeer2Peer {...{
+                state
+                , restore
+                , peerHost: config.peerHost
+                , setPeerHost: getSetter('peerHost')
+              }} />
               <p><Trans>peer2peerExplain</Trans></p>
             </div>
           </Section>
