@@ -9,6 +9,8 @@ import {QRSVG} from './QRSVG'
 import {validateRaw} from '../model/validate'
 import {notify} from '../util/signal'
 import {ERROR} from './Notification'
+import {Select} from './Select'
+import {PEER_HOSTS} from '../config'
 
 const Id = styled.span`
   position: relative;
@@ -38,7 +40,7 @@ const Wait = styled.span`
 
 const AWAITING = Symbol('AWAITING')
 
-export const SettingsPeer2Peer = ({state, restore}) => {
+export const SettingsPeer2Peer = ({state, restore, peerHost, setPeerHost}) => {
 
   const [id, setID] = useState('')
   const [status, setStatus] = useState(peerStatus.IDLE)
@@ -70,7 +72,7 @@ export const SettingsPeer2Peer = ({state, restore}) => {
   function peerSend(receivedId){
     setStatus(AWAITING)
     receiving&&setReceiving(false)
-    const peer = initPeer(receivedId||id)
+    const peer = initPeer(receivedId||id, peerHost)
     peer.connected.add(()=>{
       peer.send(JSON.stringify(state))
       peer.received.add(peer.disconnect.bind(peer))
@@ -82,7 +84,7 @@ export const SettingsPeer2Peer = ({state, restore}) => {
   function peerReceive(){
     setID('')
     setReceiving(true)
-    const peer = initPeer()
+    const peer = initPeer(null, peerHost)
     peer.id.add(setID)
     peer.received.add(data=>{
       peer.send('thanks')
@@ -120,6 +122,11 @@ export const SettingsPeer2Peer = ({state, restore}) => {
       {cendeiving||<>
         <Button onClick={peerSendIntent} data-cy="p2pSendIntent"><T>send</T></Button>
         <Button onClick={peerReceive} data-cy="p2pReceive"><T>receive</T></Button>
+        <div><label>
+          <span style={{lineHeight:'1.875rem', paddingRight:'1rem'}}><T>Peer host</T>:</span>
+          <InputText value={peerHost} setter={setPeerHost} list="listPeerHost" style={{width:'60%'}} />
+          <datalist id="listPeerHost">{PEER_HOSTS.map(k=><option value={k}>{k}</option>)}</datalist>
+        </label></div>
       </>}
       {receiving&&<Id data-cy="p2pCode">ID: {id||<Wait />}</Id>}
       {cendeiving&&<>
