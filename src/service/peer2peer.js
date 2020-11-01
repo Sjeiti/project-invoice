@@ -1,5 +1,5 @@
 import Peer from 'peerjs'
-import {signal} from '../util/signal'
+import {notify, signal} from '../util/signal'
 import {MODE_DEVELOPMENT, PEER_HOST, PEER_STUN, STORAGE_NAME, VERSION} from '../config'
 
 let connection
@@ -75,6 +75,7 @@ export function init(initID){
   peer.on('error', err=>{
     setStatus(status.ERROR, err)
     console.warn('Peer error', err)
+    notify.dispatch(`Peer error ${err}`)
   })
 
   function connect(id){
