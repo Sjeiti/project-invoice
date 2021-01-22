@@ -4,7 +4,6 @@ import {TODAY} from '../config'
 import {data as defaultData} from '../model/default'
 import {project as enhanceProject} from '../model/clients/project'
 import {CURRENCY_ISO} from '../config/currencyISO'
-import {sass} from '../service/css'
 
 /**
  * Return the date part of the ISO date string (yyyy-mm-dd)
