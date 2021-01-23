@@ -2,7 +2,7 @@ const webpack = require('webpack')
 const path = require('path')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 // const {InjectManifest} = require('workbox-webpack-plugin')
-const {GenerateSW} = require('workbox-webpack-plugin')
+// const {GenerateSW} = require('workbox-webpack-plugin')
 
 module.exports = env => {
   const isProduction = !!env&&env.production
