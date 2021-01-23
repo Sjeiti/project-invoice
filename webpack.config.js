@@ -63,21 +63,21 @@ module.exports = env => {
       ], {})
 
       // see https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-webpack-plugin.GenerateSW
-      ,...(isProduction?[new GenerateSW({
-        cleanupOutdatedCaches: true
-        , maximumFileSizeToCacheInBytes: 4000000
-        // , globDirectory: 'dist'
-        // , globPatterns: [
-        //    '*.html'
-        //   , '*.css'
-        //   , '*.js'
-        //   , '*.png'
-        //   , '*.svg'
-        //   , '*.xml'
-        //   , '*.json'
-        // ]
-        // , include: ['*.*']
-      })]:[])
+      // ,...(isProduction?[new GenerateSW({
+      //   cleanupOutdatedCaches: true
+      //   , maximumFileSizeToCacheInBytes: 4000000
+      //   // , globDirectory: 'dist'
+      //   // , globPatterns: [
+      //   //    '*.html'
+      //   //   , '*.css'
+      //   //   , '*.js'
+      //   //   , '*.png'
+      //   //   , '*.svg'
+      //   //   , '*.xml'
+      //   //   , '*.json'
+      //   // ]
+      //   // , include: ['*.*']
+      // })]:[])
 
     ]
   }
