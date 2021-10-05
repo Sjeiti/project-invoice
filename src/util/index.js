@@ -288,6 +288,20 @@ export function weakAssign(obj, ...adds){
 }
 
 /**
+ * Async memoisation
+ * @param {function} method
+ * @return {function}
+ */
+export function memoizeAsync(method) {
+    let cache = {}
+    return async function() {
+        let args = JSON.stringify(arguments)
+        cache[args] = cache[args] || method.apply(this, arguments)
+        return cache[args]
+    }
+}
+
+/**
  * More an array item
  * @param {Array} arr
  * @param {number} from

@@ -11,8 +11,9 @@ import {Notification} from './components/Notification'
 import {notify} from './util/signal'
 import {tableGlobalStyle} from './components/tableGlobalStyle'
 import {ColorScheme} from './components/ColorScheme'
+import {MODE_DEVELOPMENT} from './config'
 
-notify.add(console.log.bind(console, 'notify:'))
+MODE_DEVELOPMENT&&notify.add(console.log.bind(console, 'Notify:'))
 
 const Layout = styled.div`
   width: 100%;

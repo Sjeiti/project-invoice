@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 import {Link, withRouter} from 'react-router-dom'
-import {isEqual, keyMap, nbsp} from '../util'
+import {capitalise,isEqual,keyMap,nbsp} from '../util'
 import {
   getClients,
   getClient,
@@ -82,13 +82,13 @@ export const Client = withRouter(
     return (
       (isClient && (
         <>
-          <h3>{client.name||nbsp}</h3>
+          <h3 data-cy="clientNameTitle">{client.name||nbsp}</h3>
           <form>
             {editablePropNames.map(
               ({key, input:Input}, index) =>
                 <Label key={index}>
                   <T>{key}</T>
-                  <Input value={client[key]} setter={getSetter(key)} />
+                  <Input value={client[key]} setter={getSetter(key)} data-cy={`client${capitalise(key)}`} />
                 </Label>
             )}
           </form>
@@ -102,6 +102,7 @@ export const Client = withRouter(
               sort="date" // todo
               asc="false" // todo
               empty={emptyMsg}
+              data-cy="clientProjects"
             />
           </section>
           <DirtyPrompt when={isDirty} />

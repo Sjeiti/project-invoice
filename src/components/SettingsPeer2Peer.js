@@ -1,9 +1,16 @@
-import React, {useState} from 'react'
+import React, {createRef, useEffect, useState} from 'react'
 import styled from 'styled-components'
 import {Button} from './Button'
 import {T} from '../components/T'
 import {status as peerStatus, init as initPeer} from '../service/peer2peer'
 import {InputText} from './Input'
+import {VideoQR} from './VideoQR'
+import {QRSVG} from './QRSVG'
+import {validateRaw} from '../model/validate'
+import {notify} from '../util/signal'
+import {ERROR} from './Notification'
+import {Select} from './Select'
+import {PEER_HOSTS} from '../config'
 
 const Id = styled.span`
   position: relative;
@@ -33,7 +40,7 @@ const Wait = styled.span`
 
 const AWAITING = Symbol('AWAITING')
 
-export const SettingsPeer2Peer = ({state, restoreState}) => {
+export const SettingsPeer2Peer = ({state, restore, peerHost, setPeerHost}) => {
 
   const [id, setID] = useState('')
   const [status, setStatus] = useState(peerStatus.IDLE)
@@ -41,16 +48,31 @@ export const SettingsPeer2Peer = ({state, restoreState}) => {
   const [receiving, setReceiving] = useState(false)
   const [peerr, setPeer] = useState()
   const cendeiving = sending||receiving
-  const awaiting = status===AWAITING
+
+  const isStateAwaiting = status===AWAITING
+  const isStateIdle = status===peerStatus.IDLE
+  const isStateClosed = status===peerStatus.CLOSED
+  const isStateIdleOrClosed = isStateIdle||isStateClosed
+
+  const [receivedId, setReceivedId] = useState('')
+
+  useEffect(()=>{
+    if (receivedId) {
+      setID(receivedId)
+      peerSend(receivedId)
+    }
+  }, [receivedId])
+
+  const videoRef = createRef()
 
   function peerSendIntent(){
     setID('')
     setSending(true)
   }
-  function peerSend(){
+  function peerSend(receivedId){
     setStatus(AWAITING)
     receiving&&setReceiving(false)
-    const peer = initPeer(id)
+    const peer = initPeer(receivedId||id, peerHost)
     peer.connected.add(()=>{
       peer.send(JSON.stringify(state))
       peer.received.add(peer.disconnect.bind(peer))
@@ -62,11 +84,11 @@ export const SettingsPeer2Peer = ({state, restoreState}) => {
   function peerReceive(){
     setID('')
     setReceiving(true)
-    const peer = initPeer()
+    const peer = initPeer(null, peerHost)
     peer.id.add(setID)
     peer.received.add(data=>{
       peer.send('thanks')
-      restoreState(JSON.parse(data))
+      validateRaw(data).then(restore, error)
       peer.disconnect()
     })
     peer.statusChanged.add(onStatusChanged)
@@ -93,20 +115,29 @@ export const SettingsPeer2Peer = ({state, restoreState}) => {
 
   return <>
       {sending&&(
-        awaiting
+        isStateAwaiting
           &&<Wait />
           ||<><InputText value={id} setter={setID} data-cy="p2pInput" /><Button onClick={peerSend} data-cy="p2pSend"><T>send</T></Button></>
       )}
       {cendeiving||<>
         <Button onClick={peerSendIntent} data-cy="p2pSendIntent"><T>send</T></Button>
         <Button onClick={peerReceive} data-cy="p2pReceive"><T>receive</T></Button>
+        <div><label>
+          <span style={{lineHeight:'1.875rem', paddingRight:'1rem'}}><T>Peer host</T>:</span>
+          <InputText value={peerHost} setter={setPeerHost} list="listPeerHost" style={{width:'60%'}} />
+          <datalist id="listPeerHost">{PEER_HOSTS.map(k=><option value={k}>{k}</option>)}</datalist>
+        </label></div>
       </>}
-      {receiving&&<Id>ID: {id||<Wait />}</Id>}
+      {receiving&&<Id data-cy="p2pCode">ID: {id||<Wait />}</Id>}
       {cendeiving&&<>
         <Button onClick={peerCancel} data-cy="p2pCancel"><T>cancel</T></Button>
         {/*<div>Status: {status}</div>*/}
       </>}
-      {receiving&&<Explain><T>peer2peerExplainReceiverID</T></Explain>}
-      {sending&&<Explain><T>peer2peerExplainSenderID</T></Explain>}
+      {receiving&&<Explain><T>peer2peerExplainReceiverID</T><QRSVG data-cy="p2pQR" content={id} /></Explain>}
+      {sending&&<Explain><T>peer2peerExplainSenderID</T>{isStateIdleOrClosed&&<VideoQR ref={videoRef} setID={setReceivedId} />}</Explain>}
     </>
+}
+
+function error(message){
+	notify.dispatch({message, type: ERROR})
 }

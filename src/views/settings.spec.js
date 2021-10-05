@@ -119,6 +119,16 @@ describe('overview', () => {
       .get('@p2pCancel').should('not.be.visible')
   )
 
+  it('should show a QR svg when peer2peer receive is clicked', () => cy
+      .get('@p2pReceive').click()
+      .get('@p2pCode').should('be.visible')
+      .get('@p2pQR').should('be.visible')
+      .get('@p2pCancel').click()
+      .get('@p2pCode').should('not.be.visible')
+      .get('@p2pQR').should('not.be.visible')
+      .get('@p2pCancel').should('not.be.visible')
+  )
+
   it('should wait when sending data', () => cy
       .get('@p2pSendIntent').click()
       .get('@p2pInput').should('be.visible')
@@ -137,7 +147,7 @@ describe('overview', () => {
       .get('@p2pCancel').click()
   )
 
-  it('should be able to encrypt localStorage data', () => cy
+  it.only('should be able to encrypt localStorage data', () => cy
       .get('@encryptionEnable').click()
       .get('@dialog').should('be.visible')
       .get('@dialogCancel').click()

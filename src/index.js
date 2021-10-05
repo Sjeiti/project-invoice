@@ -1,6 +1,9 @@
+import './util/cache'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import 'mc_picker/dist/index'
+import 'core-js/stable'
+import 'regenerator-runtime/runtime' // these fix async await for babel
+import 'mc_picker/dist/index'        // these fix async await for babel
 import { store } from './model/store'
 import { App } from './App'
 import './style/main.scss'

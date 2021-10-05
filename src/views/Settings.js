@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useCallback} from 'react'
 import {connect} from 'react-redux'
 import i18next from 'i18next'
 import {Trans} from 'react-i18next'
@@ -60,6 +60,14 @@ export const Settings = connect(
         storeConfig(newConfig)
     }
 
+    const restore = useCallback(
+      data => {
+        restoreState(data)
+        setConfig(data.config)
+      },
+      [restoreState, setConfig]
+    )
+
     const isDirty = !isEqual(configOld, config)
     saveable.dispatch(
         true
@@ -94,14 +102,19 @@ export const Settings = connect(
           <Section>
             <h2 className="col-12 col-sm-3 float-left"><T>data</T> <small data-cy="clientsLength">({clients.length})</small></h2>
             <div className="col-12 col-sm-9 float-left">
-              <SettingsData {...{state, restoreState}} />
+              <SettingsData {...{state, restore}} />
               <p><Trans>dataExplain</Trans></p>
             </div>
           </Section>
           <Section>
             <h2 className="col-12 col-sm-3 float-left"><T>peer2peerTitle</T></h2>
             <div className="col-12 col-sm-9 float-left">
-              <SettingsPeer2Peer {...{state, restoreState}} />
+              <SettingsPeer2Peer {...{
+                state
+                , restore
+                , peerHost: config.peerHost
+                , setPeerHost: getSetter('peerHost')
+              }} />
               <p><Trans>peer2peerExplain</Trans></p>
             </div>
           </Section>

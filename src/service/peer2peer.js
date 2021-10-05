@@ -1,6 +1,6 @@
 import Peer from 'peerjs'
-import {signal} from '../util/signal'
-import {MODE_DEVELOPMENT, PEER_HOST, PEER_STUN, STORAGE_NAME, VERSION} from '../config'
+import {notify, signal} from '../util/signal'
+import {MODE_DEVELOPMENT, PEER_HOSTS, PEER_STUN, STORAGE_NAME, VERSION} from '../config'
 
 let connection
 let lastPeerId
@@ -8,7 +8,7 @@ let lastPeerId
 const peerConfig = {
   debug: MODE_DEVELOPMENT?3:0
   , config: {iceServers: [{ urls: PEER_STUN }]}
-  , host: PEER_HOST
+  , host: PEER_HOSTS[0]
 }
 
 // stati need to be sent so cannot be Symbols
@@ -22,7 +22,7 @@ export const status = {
   , CLOSED: 'CLOSED'
 }
 
-export function init(initID){
+export function init(initID, host){
 
   const idState = signal()
   const statusChanged = signal()
@@ -31,7 +31,7 @@ export function init(initID){
   const disconnected = signal()
 
   const peerId = getRandomPeerID()
-  const peer = new Peer(peerId, peerConfig)
+  const peer = new Peer(peerId, Object.assign(peerConfig, {host}))
   const disconnect = peer.disconnect.bind(peer)
 
   peer.on('open', () => {
@@ -72,7 +72,11 @@ export function init(initID){
     connection = null
     setStatus(status.DESTROYED)
   })
-  peer.on('error', err=>setStatus(status.ERROR, err))
+  peer.on('error', err=>{
+    setStatus(status.ERROR, err)
+    console.warn('Peer error', err)
+    notify.dispatch(`Peer error ${err}`)
+  })
 
   function connect(id){
     connection&&connection.close()

@@ -1,3 +1,4 @@
+import {tryParse} from '../util'
 
 
 export function validateExternalStore(store) {
@@ -38,3 +39,16 @@ function validate(store){
 
 }
 
+export function validateRaw(data){
+  const resultData = typeof data==='object'?data:tryParse(data)
+  return new Promise((resolve, reject)=>{
+    if (resultData&&resultData.clients&&resultData.copy&&resultData.personal){
+      resolve(resultData)
+    } else if (!resultData) {
+      reject('Malformed JSON data.')
+    } else {
+      console.warn('The JSON is missing data specific to Project Invoice.\n\t', resultData)
+      reject('The JSON is missing data specific to Project Invoice.')
+    }
+  })
+}

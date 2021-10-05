@@ -64,6 +64,7 @@ $breakpointHigh: '(min-width: 599px)';
   --color-buttonL30: #{lighten($colorButton,30%)};
   --color-buttonL40: #{lighten($colorButton,40%)};
   --color-buttonL54: #{lighten($colorButton,54%)};
+  --color-buttonD20: #{darken($colorButton,20%)};
   --color-buttonD10: #{darken($colorButton,10%)};
   --color-buttonD05: #{darken($colorButton,5%)};
 

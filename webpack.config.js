@@ -1,6 +1,8 @@
 const webpack = require('webpack')
 const path = require('path')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+// const {InjectManifest} = require('workbox-webpack-plugin')
+const {GenerateSW} = require('workbox-webpack-plugin')
 
 module.exports = env => {
   const isProduction = !!env&&env.production
@@ -17,6 +19,7 @@ module.exports = env => {
       contentBase: './public'
       ,port: 4212
       ,historyApiFallback: true
+      ,https: true
     },
     module: {
       rules: [
@@ -48,12 +51,34 @@ module.exports = env => {
       ]
     }
     ,plugins: [
+
       new webpack.DefinePlugin({
-        'process.env.VERSION': JSON.stringify(require('./package.json').version)
+        'process.env.VERSION': JSON.stringify(require('./package.json').version),
+        'process.env.BASE_URL': ''
       })
-      ,new CopyWebpackPlugin(isProduction&&[
+
+      ,new CopyWebpackPlugin([
           { from: 'public', to: './', toType: 'dir', dot: true}
-      ]||[], {})
+          ,{ from: 'node_modules/qr-scanner/qr-scanner-worker.min.js', to: './qr-scanner-worker.min.js' }
+      ], {})
+
+      // see https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-webpack-plugin.GenerateSW
+      ,...(isProduction?[new GenerateSW({
+        cleanupOutdatedCaches: true
+        , maximumFileSizeToCacheInBytes: 4000000
+        // , globDirectory: 'dist'
+        // , globPatterns: [
+        //    '*.html'
+        //   , '*.css'
+        //   , '*.js'
+        //   , '*.png'
+        //   , '*.svg'
+        //   , '*.xml'
+        //   , '*.json'
+        // ]
+        // , include: ['*.*']
+      })]:[])
+
     ]
   }
 }

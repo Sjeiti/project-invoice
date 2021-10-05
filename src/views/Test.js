@@ -13,6 +13,7 @@ import {FormSpan} from '../components/FormSpan'
 import {getInterpolationContext} from '../util'
 import {InterpolationInput} from '../components/InterpolationInput'
 import {notify} from '../util/signal'
+import {ERROR} from '../components/Notification'
 
 // const editablePropNames = [
 //   {key:'description', input:InputText}
@@ -168,6 +169,11 @@ export const Test = withRouter(
 
         <section>
           <Button onClick={()=>notify.dispatch('hello')}>Notify me</Button>
+          <Button onClick={()=>notify.dispatch({message:'holle', type:ERROR})}>Error me</Button>
+          <Button onClick={()=>notify.dispatch('Definition of multiline: composed of, involving, or able to accommodate more than one line: such as\n' + 'a : consisting of multiple lines of text a multiline headline : capable of showing, containing, or processing multiple lines of text a multiline display/field New multiline optical character readers are already being put in place; they can read an entire address and spray forth a bar code that stands for a nine-digit ZIP …— Jake Page. b : having or involving multiple telecommunications lines a multiline phone plan. c : having or selling multiple product lines It is a single-line car dealer in an era of hungry multiline megadealers.— Thomas Moore While most agents specialize in life insurance, a growing number (called multiline agents) offer both life and property/casualty policies. — Occupational Outlook Handbook')}>Multiline</Button>
+          <Button onClick={()=>notify.dispatch('An anchor link to <a href="/settings">the settings page</a>')}>A link</Button>
+          <Button onClick={()=>notify.dispatch({message: <>A button link to <ButtonLink to="/settings">the settings page</ButtonLink> or a <ButtonLabel>ButtonLabel</ButtonLabel> or a <ButtonAnchor>ButtonAnchor</ButtonAnchor></>})}>Buttons</Button>
+
         </section>
       </>
     }

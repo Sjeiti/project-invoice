@@ -1,12 +1,12 @@
 import React, {createRef, forwardRef, useState, useEffect, useCallback} from 'react'
 import {getCSSVariables, nbsp} from '../util'
 import styled from 'styled-components'
-import {sass} from '../service/css'
+import {sassCompile} from '../service/css'
 import {project as enhanceProject} from '../model/clients/project'
 import {getProjectNumber} from '../model/clients/selectors'
 import {Parse as ParseUnbound} from './Parse'
 import {T as TUnbound} from './T'
-import print from '../config/print.css'
+import printSASS from '!!raw-loader!../config/print.scss'
 
 const A4w = 210
 const A4h = 297
@@ -145,8 +145,10 @@ export const PrintInvoice = forwardRef(({state, project, client, invoiceIndex, l
     const iframe = iframeRef.current
     const {contentDocument:{head, body}} = iframe
     const style = head.querySelector('style')||document.createElement('style')
-    sass.compile(invoiceCSS)
-        .then(css=>style.innerText = print+CSSVariables+themeLogoCSS+css)
+    //
+    Promise.all([sassCompile(printSASS), sassCompile(invoiceCSS)])
+        .then((print,css)=>style.innerText = print+CSSVariables+themeLogoCSS+css)
+    //
     head.appendChild(style)
     setPageHeight(body.scrollHeight)
     setPageNum(Math.ceil(body.scrollHeight/pageHeightPx)) // not needed
@@ -193,11 +195,11 @@ export const PrintInvoice = forwardRef(({state, project, client, invoiceIndex, l
     </div>
 
     <div className="iframe-wrapper">
-      <iframe title="a" ref={iframeRef} />
+      <iframe title="a" ref={iframeRef} data-cy="printIframe" />
     </div>
 
     {/*############################################################*/}
-    <div ref={invoiceRef} className={`invoice print-invoice visually-hidden ${config.theme||''}`}>
+    <div ref={invoiceRef} className={`invoice print-invoice visually-hidden ${config.theme||''} ${isQuotation&&'quotation'||''}`} data-cy="iframePage">
       <link href={fontsURI} rel='stylesheet' type='text/css'/>
       <header>
         <div className="page">

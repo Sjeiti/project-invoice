@@ -3,6 +3,6 @@
   "video": false,
   "ignoreTestFiles": ["components/*.spec*.js", "!*.spec*.js"],
   "integrationFolder": "src",
-  "baseUrl": "http://localhost:4212",
+  "baseUrl": "https://localhost:4212",
   "localStorage": "cypress/fixtures/localStorageData.json"
 }
