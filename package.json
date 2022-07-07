@@ -36,7 +36,7 @@
     "i18next": "^17.2.0",
     "json-parse-better-errors": "^1.0.2",
     "lodash": "4.17.21",
-    "marked": "^0.3.18",
+    "marked": "^4.0.10",
     "mc_picker": "^1.1.6",
     "moment": "^2.29.4",
     "node-sass": "^4.14.1",
