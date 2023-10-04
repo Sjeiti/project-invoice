@@ -16,13 +16,16 @@ module.exports = env => {
       ,filename: 'bundle.js'
     }
     ,devServer: {
-      contentBase: './public'
+      static: {
+        directory: path.join(__dirname, 'public')
+      }
       ,port: 4212
       ,historyApiFallback: true
       ,https: true
     },
     module: {
-      rules: [
+      exprContextCritical: false
+      ,rules: [
         {
           test: /\.(js|jsx)$/
           ,use: 'babel-loader'
@@ -49,6 +52,9 @@ module.exports = env => {
         ,'.json'
         ,'.html'
       ]
+      ,fallback: {
+        fs: false
+      }
     }
     ,plugins: [
 
