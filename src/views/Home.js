@@ -1,5 +1,5 @@
 import React from 'react'
-import {withRouter, Link} from 'react-router-dom'
+import {Link,useNavigate} from 'react-router-dom'
 import {connect} from 'react-redux'
 import styled from 'styled-components'
 import {CSSTransition} from 'react-transition-group'
@@ -31,6 +31,8 @@ import {InputCheckbox} from '../components/Input'
 import {onClickInvoice, onClickPaid, onClickRemind} from '../model/clients/util'
 import {getData} from '../model/personal/selectors'
 import {LineEllipsed} from '../components/LineEllipsed'
+import {withRouter} from '../util/withRouter'
+import {Page} from '../components/Page'
 
 const bgcolor = '#3f5267'
 const Jumbotron = styled.div`
@@ -103,6 +105,7 @@ export const Home = withRouter(connect(
   { addClient, addProject, cloneProject, storeProject, storeConfig }
 )(({history, clients, config, data, addClient, addProject, cloneProject, storeProject, storeConfig}) => {
   // const [clients, setClients] = useState(clientsOld)
+  const navigate = useNavigate()
   const latestClient = getLatestClient(clients)
   const latestProject = getLatestProject(clients)
   const openInvoices = getOpenProjects(clients).map(project => ({
@@ -114,7 +117,8 @@ export const Home = withRouter(connect(
       onClick={onClickPaid.bind(null, project, storeProject)}
     />
     , date: project.invoices.slice(0).shift().date
-    , onClick: () => history.push(getProjectHref(project))
+    , onClick: () => navigate(getProjectHref(project))
+    // , onClick: () => history.push(getProjectHref(project))
     , totalIncDiscounted: <Price symbol="€" amount={getTotalIncDiscounted(project)} separator="," />
     , actions: (()=>{
       // const daysElapsed = getInvoiceDaysElapsed(project)
@@ -132,12 +136,13 @@ export const Home = withRouter(connect(
     ...project
     , clientName: <LineEllipsed>{getClient(clients, project.clientNr).name}</LineEllipsed>
     , description: <LineEllipsed>{project.description}</LineEllipsed>
-    , onClick: () => history.push(getProjectHref(project))
+    , onClick: () => navigate(getProjectHref(project))
+    // , onClick: () => history.push(getProjectHref(project))
     , totalIncDiscounted: <Price symbol="€" amount={getTotalIncDiscounted(project)} separator="," />
     , actions: <Button onClick={onClickInvoice.bind(null, project, storeProject)}><T>addInvoice</T></Button>
   }))
   const hideHomeMessage = storeConfig.bind(null, {...config, ...{homeMessage:false}})
-  return <div>
+  return <Page>
     <CSSTransition
         classNames="jumbotron"
         timeout={500}
@@ -190,5 +195,5 @@ export const Home = withRouter(connect(
             />
       </section>
     </div>
-  </div>
+  </Page>
 }))

@@ -14,6 +14,7 @@ import {Table} from '../components/Table'
 import {T} from '../components/T'
 import {Icon} from '../components/Icon'
 import {keyMap} from '../util'
+import {Page} from '../components/Page'
 
 export const Clients = connect(
   state => ({
@@ -50,7 +51,7 @@ export const Clients = connect(
     />
   </>
   return (
-    <>
+    <Page>
       <div className="clearfix">
         <ButtonLink className="float-right" {...newClientEvents} data-cy="newClient"><T>new client</T></ButtonLink>
         <h1 className="float-left margin-top-0" data-cy="heading">
@@ -66,6 +67,6 @@ export const Clients = connect(
         ].map(keyMap)}
         data-cy="clientList"
       />
-    </>
+    </Page>
   )
 })

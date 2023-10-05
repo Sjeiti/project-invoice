@@ -1,11 +1,13 @@
-import React, {useEffect, useState} from 'react'
+import React,{useEffect,useMemo,useState} from 'react'
 import styled from 'styled-components'
 import {useTranslation} from 'react-i18next'
-import {withRouter} from 'react-router-dom'
 import {ORIGIN} from '../config'
+import {useNavigate} from 'react-router-dom'
+import {Page} from '../components/Page'
 
 const {body} = document
 
+//const StyledAbout = styled(Page)`
 const StyledAbout = styled.div`
   dt {
     font-weight: bold;
@@ -15,18 +17,19 @@ const StyledAbout = styled.div`
   }
 `
 
-export const About = withRouter(({history}) => {
+export const About = () => {
   const {t} = useTranslation()
+  const navigate = useNavigate()
   const [handleDocumentClick] = useState(()=>e=>{
-      const {target:{origin, href}} = e
-      if (origin===ORIGIN||origin===location.origin) {
-        e.preventDefault()
-        history.push(href.replace(origin, ''))
-      }
+    const {target:{origin, href}} = e
+    if (origin===ORIGIN||origin===location.origin) {
+      e.preventDefault()
+      navigate(href.replace(origin, ''))
+    }
   })
   useEffect(()=>{
     body.addEventListener('click', handleDocumentClick)
     return ()=>body.addEventListener('click', handleDocumentClick)
   })
-  return <StyledAbout dangerouslySetInnerHTML={{ __html: t('pageAbout') }} />
-})
+  return <Page><StyledAbout dangerouslySetInnerHTML={{ __html: t('pageAbout') }} /></Page>
+}

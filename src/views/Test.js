@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
 import {connect} from 'react-redux'
-import {withRouter} from 'react-router-dom'
 import {Button, IconButton} from '../components/Button'
 import {ButtonAnchor} from '../components/ButtonAnchor'
 import {ButtonLink} from '../components/ButtonLink'
@@ -14,6 +13,7 @@ import {getInterpolationContext} from '../util'
 import {InterpolationInput} from '../components/InterpolationInput'
 import {notify} from '../util/signal'
 import {ERROR} from '../components/Notification'
+import {withRouter} from '../util/withRouter'
 
 // const editablePropNames = [
 //   {key:'description', input:InputText}

@@ -125,7 +125,7 @@ export const SettingsPeer2Peer = ({state, restore, peerHost, setPeerHost}) => {
         <div><label>
           <span style={{lineHeight:'1.875rem', paddingRight:'1rem'}}><T>Peer host</T>:</span>
           <InputText value={peerHost} setter={setPeerHost} list="listPeerHost" style={{width:'60%'}} />
-          <datalist id="listPeerHost">{PEER_HOSTS.map(k=><option value={k}>{k}</option>)}</datalist>
+          <datalist id="listPeerHost">{PEER_HOSTS.map(k=><option value={k} key={k}>{k}</option>)}</datalist>
         </label></div>
       </>}
       {receiving&&<Id data-cy="p2pCode">ID: {id||<Wait />}</Id>}

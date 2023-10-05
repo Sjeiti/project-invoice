@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link, withRouter } from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import styled, {css} from 'styled-components'
 import { SaveableButtons } from './SaveableButtons'
 import {Logo} from './Logo'
@@ -9,6 +9,7 @@ import {CloudNotification} from './CloudNotification'
 import {connect} from 'react-redux'
 import {getConfig} from '../model/config/selectors'
 import {APP_NAME} from '../config'
+import {withRouter} from '../util/withRouter'
 
 const {breakpointLow, breakpointHigh} = cssVarValue
 const halfHeaderHeight = `calc(0.5 * var(--header-height))` //multiply(headerHeight, 0.5)
@@ -210,14 +211,15 @@ const DropLi = ({to, title, children}) => <DropLiStyled>
 
 export const Header = withRouter(connect(
     state => ({ config: getConfig(state) })
-  )(({ config, history }) => {
+  )(({ config/*, history*/ }) => {
   const [cloudProvider] = useState(config.cloudSelected)
   const [hamburger, setHamburger] = useState(false)
 
   useEffect(()=>{
     const setHamburgerFalse = e=>e?.target?.matches('[for=hamburger]')||setHamburger(false)
     body.addEventListener('click', setHamburgerFalse)
-    const unbind = history.listen(requestAnimationFrame.bind(null, setHamburgerFalse))
+    // const unbind = history.listen(requestAnimationFrame.bind(null, setHamburgerFalse))
+    const unbind = ()=>{}
     return ()=>(unbind(), body.removeEventListener('click', setHamburgerFalse))
   }, [])
 

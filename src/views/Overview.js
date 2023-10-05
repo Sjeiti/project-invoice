@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {connect} from 'react-redux'
-import {Link, withRouter} from 'react-router-dom'
+import {Link,useParams} from 'react-router-dom'
 import {T} from '../components/T'
 import {
   getClient,
@@ -25,6 +25,7 @@ import {onClickPaid} from '../model/clients/util'
 import {appendChild, currency, interpolateEvil} from '../util'
 import {project as enhanceProject} from '../model/clients/project'
 import {CURRENCY_ISO} from '../config/currencyISO'
+import {withRouter} from '../util/withRouter'
 
 const {body} = document
 
@@ -58,10 +59,12 @@ export const Overview = withRouter(connect(
     , state
   }),
   { storeProject }
-)(({ history, match, clients, storeProject, state }) => {
+)(({ history, clients, storeProject, state }) => {
+
+  const params = useParams()
 
   const [years] = useState(getProjectsYears(clients))
-  const year = match.params.year||years[years.length-1]
+  const year = params?.year||years[years.length-1]
   const {config:{csvTemplate, currency:_currency}, personal:data} = state
 
   const quarterProjects = [0, 0, 0, 0].map((n, i)=>getProjectsOfYearQuarter(clients, year, i).map((project, j) => ({
@@ -84,7 +87,8 @@ export const Overview = withRouter(connect(
   })))
 
   const [elmCsv] = useState(appendChild('textarea', body, 'visually-hidden'))
-  useEffect(()=>body.removeChild.bind(body, elmCsv), [])
+  // useEffect(()=>body.removeChild.bind(body, elmCsv), [])
+  useEffect(()=>elmCsv.remove.bind(elmCsv), [])
   function onClickCSVButton(quarter){
     const parsed = quarter.map(prj=>{
       const {clientNr, invoices: [invoice]} = prj

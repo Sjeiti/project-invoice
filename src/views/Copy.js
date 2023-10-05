@@ -13,6 +13,10 @@ import {T} from '../components/T'
 import {InterpolationInput} from '../components/InterpolationInput'
 import {DirtyPrompt} from '../components/DirtyPrompt'
 import {InputText} from '../components/Input'
+import {Page} from '../components/Page'
+import i18next from 'i18next'
+import {getSession} from '../model/session/selectors'
+import {storeSession} from '../model/session/actions'
 // import {useKeyDown} from '../hook/useKeyDown'
 
 const CopyLabelStyled = styled(Label)`
@@ -56,9 +60,9 @@ const CopyLabels = ({list, getSetter, context, lang, custom, onClickDeleteCopy, 
 </>
 
 export const Copy = connect(
-  state => ({ state, copyOld: getCopy(state), config: getConfig(state) })
-  , {storeCopy}
-)(({state, copyOld, config, storeCopy}) => {
+  state => ({ state, copyOld: getCopy(state), config: getConfig(state), session: getSession(state) })
+  , {storeCopy, storeSession}
+)(({state, copyOld, config, storeCopy, storeSession}) => {
 
   const [copy, setCopy] = useState(copyOld)
   const getSetter = getGetSetter(copy, setCopy)
@@ -68,13 +72,21 @@ export const Copy = connect(
   const [key, setKey] = useState('')
 
   const isDirty = !isEqual(copyOld, copy)
-  saveable.dispatch(
-      true
-      , isDirty && storeCopy.bind(null, copy) || null
-      , isDirty && (() => setCopy(copyOld)) || null
-      , null
-  )
-  useEffect(()=>{setTimeout(()=>saveable.dispatch(true))}, [])
+  useEffect(()=>{
+    storeSession({
+      saveable: true
+      , save: isDirty && storeCopy.bind(null, copy) || null
+      , revert: isDirty && (() => setCopy(copyOld)) || null
+      , deleet: null
+    })
+  }, [isDirty, storeSession])
+  // saveable.dispatch(
+  //     true
+  //     , isDirty && storeCopy.bind(null, copy) || null
+  //     , isDirty && (() => setCopy(copyOld)) || null
+  //     , null
+  // )
+  // useEffect(()=>{setTimeout(()=>saveable.dispatch(true))}, [])
 
   const keyInput = createRef()
 
@@ -116,7 +128,7 @@ export const Copy = connect(
     (defaultKeys.includes(key)&&copyDefault||copyCustom).push([key, value])
   })
 
-  return <>
+  return <Page saveable>
     <div className="float-right" data-cy="languages">
       {config.langs.map(iso=><Button key={iso} onClick={setLang.bind(null, iso)} disabled={iso===lang}>{iso}</Button>)}
     </div>
@@ -131,5 +143,5 @@ export const Copy = connect(
       <Button onClick={onClickAddCopy}>Add copy</Button>
     </div>
     <DirtyPrompt when={isDirty} />
-  </>
+  </Page>
 })

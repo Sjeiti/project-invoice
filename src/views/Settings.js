@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react'
+import React,{useState,useCallback,useEffect} from 'react'
 import {connect} from 'react-redux'
 import i18next from 'i18next'
 import {Trans} from 'react-i18next'
@@ -24,6 +24,7 @@ import {SettingsColorScheme} from '../components/SettingsColorScheme'
 import {T} from '../components/T'
 import {InterpolationInput} from '../components/InterpolationInput'
 import {DirtyPrompt} from '../components/DirtyPrompt'
+import {Page} from '../components/Page'
 
 const Section = styled.section`
   &:after {
@@ -48,9 +49,11 @@ export const Settings = connect(
       configOld: getConfig(state)
       , session: getSession(state)
       , clients: getClients(state)
-      , state }),
-    { storeConfig, restoreState, storeSession }
+      , state
+    })
+    , { storeConfig, restoreState, storeSession }
   )(({ state, configOld, storeConfig, restoreState, session, storeSession, clients }) => {
+
     const [config, setConfig] = useState(configOld)
     const getSetter = getGetSetter(config, setConfig)
 
@@ -69,20 +72,31 @@ export const Settings = connect(
     )
 
     const isDirty = !isEqual(configOld, config)
-    saveable.dispatch(
-        true
-        , isDirty && (()=>{
+    // saveable.dispatch(
+    //     true
+    //     , isDirty && (()=>{
+    //         storeConfig(config)
+    //         configOld.uilang!==config.uilang&&i18next.changeLanguage(config.uilang)
+    //       }) || null
+    //     , isDirty && (() => setConfig(configOld)) || null
+    //     , null
+    // )
+    useEffect(()=>{
+      storeSession({
+        saveable: true
+        , save: isDirty && (()=>{
             storeConfig(config)
             configOld.uilang!==config.uilang&&i18next.changeLanguage(config.uilang)
           }) || null
-        , isDirty && (() => setConfig(configOld)) || null
-        , null
-    )
+        , revert: isDirty && (() => setConfig(configOld)) || null
+        , deleet: null
+      })
+    }, [isDirty, storeSession])
 
     const context = getInterpolationContext(state)
 
     return (
-        <>
+        <Page saveable>
           <Section>
             <h1 className="hide-low"><T>settings</T></h1>
             {Object.entries(varMap).map(([key, {Element, title, map, attrs={}}], i)=>
@@ -133,6 +147,6 @@ export const Settings = connect(
             </div>
           </Section>
           <DirtyPrompt when={isDirty} />
-        </>
+        </Page>
     )
   })
