@@ -66,7 +66,6 @@
     "@babel/plugin-proposal-optional-chaining": "^7.6.0",
     "@babel/preset-env": "^7.6.3",
     "@babel/preset-react": "^7.6.3",
-    "@cypress/webpack-preprocessor": "^5.1.2",
     "adm-zip": "^0.4.11",
     "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.6",
@@ -75,7 +74,6 @@
     "copy-webpack-plugin": "^5.1.1",
     "crypto-js": "^3.1.9-1",
     "css-loader": "^6.7.1",
-    "cypress-plugin-tab": "^1.0.5",
     "eslint": "^7.0.0",
     "eslint-plugin-flowtype": "^4.7.0",
     "eslint-plugin-import": "^2.20.2",
@@ -103,7 +101,9 @@
     "xml2js": "^0.4.19"
   },
   "optionalDependencies": {
-    "cypress": "6.3.0"
+    "@cypress/webpack-preprocessor": "^5.1.2",
+    "cypress": "6.3.0",
+    "cypress-plugin-tab": "^1.0.5"
   },
   "postcss": {
     "plugins": {

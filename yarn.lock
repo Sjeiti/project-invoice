@@ -11283,7 +11283,11 @@ __metadata:
     workbox-webpack-plugin: ^7.0.0
     xml2js: ^0.4.19
   dependenciesMeta:
+    "@cypress/webpack-preprocessor":
+      optional: true
     cypress:
+      optional: true
+    cypress-plugin-tab:
       optional: true
   languageName: unknown
   linkType: soft
