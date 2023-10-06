@@ -1,2 +1,2 @@
 [build.environment]
-    YARN_FLAGS = "--mode skip-build"
+    YARN_FLAGS = "--mode update-lockfile"
