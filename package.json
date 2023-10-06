@@ -117,5 +117,6 @@
   ],
   "gitHooks": {
     "pre-commit": "npm run version"
-  }
+  },
+  "packageManager": "yarn@3.6.4"
 }
