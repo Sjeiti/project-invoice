@@ -11203,6 +11203,8 @@ __metadata:
       optional: true
     cypress-plugin-tab:
       optional: true
+    svg2png:
+      optional: true
   languageName: unknown
   linkType: soft
 
