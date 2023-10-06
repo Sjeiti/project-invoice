@@ -2,7 +2,7 @@
 
 describe('client', () => {
 
-  before(() => cy.visitPage('/client/1'))
+  beforeEach(() => cy.visitPage('/client/1'))
 
   it('should have a name', () => cy
       .get('@clientNameTitle').then($el=>cy.get('@clientName').should('have.value', $el.text()))
