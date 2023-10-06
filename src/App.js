@@ -1,7 +1,6 @@
 import React from 'react'
 import {Provider, connect} from 'react-redux'
 import {BrowserRouter as Router} from 'react-router-dom'
-import {hot} from 'react-hot-loader'
 import styled from 'styled-components'
 import {AppRoutes} from './AppRoutes'
 import {Header} from './components/Header'
@@ -28,7 +27,7 @@ const Layout = styled.div`
   ${tableGlobalStyle}
 `
 
-export const App = /*hot(module)*/(connect()(({ store }) =>
+export const App = (connect()(({ store }) =>
   <Provider store={store}>
     <Router>
       <Header />
@@ -44,20 +43,3 @@ export const App = /*hot(module)*/(connect()(({ store }) =>
     </Router>
   </Provider>
 ))
-
-// export const App = hot(module)(connect()(({ store }) =>
-//   <Provider store={store}>
-//     <Router>
-//       <Header />
-//       <Layout>
-//         <Notification />
-//         <div>
-//           <Routes />
-//         </div>
-//       </Layout>
-//       <Footer />
-//       <DecryptionDialog />
-//       <ColorScheme />
-//     </Router>
-//   </Provider>
-// ))
