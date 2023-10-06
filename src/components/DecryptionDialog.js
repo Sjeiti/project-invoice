@@ -34,6 +34,7 @@ export const DecryptionDialog = connect(
   const [encryptionDialogOpen, setEncryptionDialog] = useState(dataIsEncrypted)
   const [invalid, setInvalid] = useState(false)
   const [encryptionKey, setEncryptionKey] = useState('')
+
   const decryptAndSetStore = ()=>{
     if (encryptionKey) {
       const decryptedState = getStorage(STORAGE_NAME, encryptionKey)

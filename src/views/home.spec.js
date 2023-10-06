@@ -12,7 +12,7 @@ describe('home', () => {
   it('should have collapseable jumbotron', () => cy
       .get('@jumbotron').should('be.visible')
       .get('@hideJumbotron').click()
-      .get('@jumbotron').should('not.be.visible')
+      .get('@jumbotron').should('not.exist')
       .get('a[href="/settings"]').click()
       .get('@homeMessage').click()
       .get('@save').click()

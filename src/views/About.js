@@ -22,6 +22,7 @@ export const About = () => {
   const navigate = useNavigate()
   const [handleDocumentClick] = useState(()=>e=>{
     const {target:{origin, href}} = e
+    // translate markdown uris to localhost
     if (origin===ORIGIN||origin===location.origin) {
       e.preventDefault()
       navigate(href.replace(origin, ''))

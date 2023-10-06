@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
-import {Link,useNavigate,useParams} from 'react-router-dom'
+import {Link, useNavigate, useParams} from 'react-router-dom'
 import {isEqual, cloneDeep} from 'lodash'
 import {nbsp, getGetSetter, capitalise, moveArrayItem, getInterpolationContext} from '../util'
-// import {saveable} from '../util/signal'
 import {storeProject, removeProject, cloneProject} from '../model/clients/actions'
 import {
   getClient
@@ -40,8 +39,7 @@ import {getInvoice} from '../model/clients/factory'
 import {getData} from '../model/personal/selectors'
 import {withRouter} from '../util/withRouter'
 import {getSession} from '../model/session/selectors'
-import {storeSession} from '../model/session/actions'
-import i18next from 'i18next'
+import {storeSaveableFunctions} from '../model/session/actions'
 import {Page} from '../components/Page'
 
 const StyledProject = styled.div`
@@ -74,16 +72,16 @@ const DragHandle = ()=><DragHandleStyled type="drag" />
 export const Project = withRouter(
   connect(
     state => ({ state, clients: getClients(state), data: getData(state), session: getSession(state) }),
-    { storeProject, removeProject, cloneProject, storeSession }
+    { storeProject, removeProject, cloneProject, storeSaveableFunctions }
   )(
     ({
-      history
-      , storeProject
+      storeProject
       , removeProject
       , cloneProject
       , state
       , clients
       , data
+      , storeSaveableFunctions
     }) => {
 
       const navigate = useNavigate()
@@ -96,6 +94,8 @@ export const Project = withRouter(
       const client = getClient(clients, clientNr)
       const projectOld = client && getProject(client.projects, projectId)
       const isProject = !!projectOld
+
+      isProject||navigate((client && getClientHref(client)) || '/clients')
 
       const [project, setProject] = useState(projectOld)
       const {hourlyRate, lines} = project
@@ -137,32 +137,15 @@ export const Project = withRouter(
         setProject(p)
       }
 
-      // saveable
-      // useEffect(()=>{setTimeout(()=>saveable.dispatch(true))}, [])
-      // useEffect(()=>{requestAnimationFrame(()=>storeSession({saveable:true}))}, [])
-      //
+      // set saveable functions
       const isDirty = isProject&&!isEqual(projectOld, project)
-      console.log('isDirty',isDirty,projectOld, project) // todo: remove log
       useEffect(()=>{
-        storeSession({
-          saveable: true
-          , save: isDirty && storeProject.bind(null, project) || null
-            , revert: isDirty && (() => setProject(projectOld)) || null
-            , deleet: removeProject.bind(null, projectOld.id)
-        })
-        console.log('useLocationEffect saveable_',true) // todo: remove log
-      }, [isDirty, storeSession])
-      if (isProject){
-        // saveable.dispatch(
-        //     true
-        //     , isDirty && storeProject.bind(null, project) || null
-        //     , isDirty && (() => setProject(projectOld)) || null
-        //     , removeProject.bind(null, projectOld.id)
-        // )
-      } else {
-        // history.push((client && getClientHref(client)) || '/clients')
-        navigate((client && getClientHref(client)) || '/clients')
-      }
+        storeSaveableFunctions(
+          isDirty && storeProject.bind(null, project) || null
+          , isDirty && (() => setProject(projectOld)) || null
+          , projectOld && removeProject.bind(null, projectOld?.id) || null
+        )
+      }, [isDirty, project, projectOld, storeSaveableFunctions])
 
       const addLine = ()=>{
         const p = cloneDeep(project) // {...project} //

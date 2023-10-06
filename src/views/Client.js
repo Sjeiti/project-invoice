@@ -13,7 +13,6 @@ import {
 } from '../model/clients/selectors'
 import {getNewProjectEvents} from '../model/eventFactory'
 import {storeClient, removeClient, addProject, storeProject} from '../model/clients/actions'
-import {saveable} from '../util/signal'
 import {Label} from '../components/Label'
 import {ButtonLink} from '../components/ButtonLink'
 import {Price} from '../components/Price'
@@ -25,9 +24,8 @@ import {LineEllipsed} from '../components/LineEllipsed'
 import {DirtyPrompt} from '../components/DirtyPrompt'
 import {withRouter} from '../util/withRouter'
 import {Page} from '../components/Page'
-import i18next from 'i18next'
 import {getSession} from '../model/session/selectors'
-import {storeSession} from '../model/session/actions'
+import {storeSaveableFunctions} from '../model/session/actions'
 
 const editablePropNames = [
   {key:'name', input:InputText}
@@ -44,42 +42,29 @@ const editablePropNames = [
 export const Client = withRouter(
   connect(
     state => ({ state, clients: getClients(state), session: getSession(state) }),
-    { storeClient, removeClient, addProject, storeProject, storeSession }
-  )(({ state, clients, storeClient, removeClient, addProject, storeProject, storeSession }) => {
+    { storeClient, removeClient, addProject, storeProject, storeSaveableFunctions }
+  )(({ state, clients, storeClient, removeClient, addProject, storeProject, storeSaveableFunctions }) => {
+
+    const navigate = useNavigate()
 
     const params = useParams()
 
     const clientOld = getClient(clients, parseInt(params?.client, 10))
     const isClient = !!clientOld
+    isClient||navigate('/clients')
+
     const [client, setClient] = useState(clientOld)
     const newProjectEvents = getNewProjectEvents(clients, clientOld, addProject)
     const [emptyMsg] = useState(()=>[<T>clientNoProjects</T>, ', ', <Link {...newProjectEvents}><T>create one</T></Link>].map(keyMap))
 
-    const navigate = useNavigate()
-
-    // useEffect(()=>{setTimeout(()=>saveable.dispatch(true))}, [])
     const isDirty = isClient&&!isEqual(clientOld, client, ['projects'])
-    console.log('isDirty',isDirty) // todo: remove log
     useEffect(()=>{
-      storeSession({
-        saveable: true
-        , save: isDirty && storeClient.bind(null, client) || null
-        , revert: isDirty && (() => setClient(clientOld)) || null
-        , deleet: removeClient.bind(null, clientOld.nr)
-      })
-      console.log('useLocationEffect saveable',true) // todo: remove log
-    }, [isDirty, storeSession])
-    if (isClient){
-      // console.log('isDirty',isDirty) // todo: remove log
-      // saveable.dispatch(
-      //     true
-      //     , isDirty && storeClient.bind(null, client) || null
-      //     , isDirty && (() => setClient(clientOld)) || null
-      //     , removeClient.bind(null, clientOld.nr)
-      // )
-    } else {
-      navigate('/clients')
-    }
+      storeSaveableFunctions(
+        isDirty && storeClient.bind(null, client) || null
+        , isDirty && (() => setClient(clientOld)) || null
+        , clientOld && removeClient.bind(null, clientOld?.nr) || null
+      )
+    }, [isDirty, client, clientOld, storeSaveableFunctions])
 
     const projectListProjects = clientOld?.projects.map(project => ({
       ...project

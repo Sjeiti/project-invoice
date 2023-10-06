@@ -5,7 +5,6 @@ import {getConfig} from '../model/config/selectors'
 import {storeConfig} from '../model/config/actions'
 import {data} from '../model/default'
 import {getFontList} from '../service/googleAPI'
-import {saveable} from '../util/signal'
 import {capitalise,getGetSetter,isEqual,noop} from '../util'
 import {notify} from '../util/signal'
 import {PrintInvoice} from '../components/PrintInvoice'
@@ -20,7 +19,7 @@ import {FormSpan} from '../components/FormSpan'
 import {DirtyPrompt} from '../components/DirtyPrompt'
 import {ERROR} from '../components/Notification'
 import {getSession} from '../model/session/selectors'
-import {storeSession} from '../model/session/actions'
+import {storeSaveableFunctions} from '../model/session/actions'
 import {Page} from '../components/Page'
 
 const StyledLayout = styled.section`
@@ -42,9 +41,9 @@ const StyledLayout = styled.section`
 
 export const Layout = connect(
     state => ({ state, configOld: getConfig(state), session: getSession(state) })
-    , {storeConfig, storeSession}
+    , {storeConfig, storeSaveableFunctions}
 )(
-  ({state, configOld, storeConfig, storeSession}) => {
+  ({state, configOld, storeConfig, storeSaveableFunctions}) => {
 
     const client = data.clients[0]
     const project = client.projects[0]
@@ -63,22 +62,12 @@ export const Layout = connect(
     const isDirty = !isEqual(configOld, config)
     useEffect(()=>{
       requestAnimationFrame(()=>{
-        storeSession({
-          saveable: true
-          , save: isDirty && storeConfig.bind(null, config) || null
-          , revert: isDirty && (() => setConfig(configOld)) || null
-          , deleet: null
-        })
-        console.log('useLocationEffect saveable',true) // todo: remove log
+        storeSaveableFunctions(
+          isDirty && storeConfig.bind(null, config) || null
+          , isDirty && (() => setConfig(configOld)) || null
+        )
       })
-    }, [isDirty, storeSession])
-    // saveable.dispatch(
-    //     true
-    //     , isDirty && storeConfig.bind(null, config) || null
-    //     , isDirty && (() => setConfig(configOld)) || null
-    //     , null
-    // )
-    // useEffect(()=>{setTimeout(()=>saveable.dispatch(true))}, [])
+    }, [isDirty, storeSaveableFunctions])
 
     useEffect(()=>{
       getFontList(config.googleFontsAPIKey).then(

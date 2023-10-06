@@ -9,7 +9,7 @@ export const sync = signal()
 // export const modelReplaced = signal()
 // export const projectPaid = signal(/**{project}*/)
 
-export const saveable = new Signal()
+// export const saveable = new Signal()
 
 export const clouding = new Signal()
 

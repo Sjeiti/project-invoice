@@ -58,8 +58,12 @@ describe('layout', () => {
   )
 
   it('should be able to switch page type and language', () => cy
+      .get('@printIframe').then(($printIframe)=>{
+        const invoice = $printIframe.contents().find('.invoice')
+        cy.wrap(invoice).should('exist')
+      })
       .get('@printIframe').should(notHavePageClass('quotation'))
-      .get('@pageTypeQuotation').click()
+      .get('@pageTypeQuotation').scrollIntoView().click()
       .get('@printIframe').should(havePageClass('quotation'))
       .get('@pageTypeInvoice').click()
       .get('@printIframe').should(notHavePageClass('quotation'))

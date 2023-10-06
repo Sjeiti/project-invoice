@@ -1,16 +1,15 @@
-import React,{useEffect,useMemo} from 'react'
+import React, {useEffect} from 'react'
 import {connect} from 'react-redux'
 import {getSession} from '../model/session/selectors'
-import {storeSession} from '../model/session/actions'
+import {storeSaveable} from '../model/session/actions'
 
 export const Page = connect(
-    state => ({session: getSession(state)}, state)
-    , {storeSession}
+    state => ({session: getSession(state)})
+    , {storeSaveable}
 )(props => {
-  const {children, saveable=false, storeSession} = props
+  const {children, saveable=false, storeSaveable, session: {saveable: saveable_}} = props
   useEffect(()=>{
-    console.log('storingSESSION attempt', saveable) // todo: remove log
-    storeSession({saveable})
-  }, [storeSession])
+    saveable!==saveable_&&storeSaveable(saveable)
+  }, [storeSaveable, saveable, saveable_])
   return <>{children}</>
 })

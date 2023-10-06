@@ -6,13 +6,12 @@ import styled from 'styled-components'
 import {getGetSetter, getInterpolationContext, isEqual} from '../util'
 import {I18N_ISO as isos} from '../config/i18n'
 import {CURRENCY_ISO} from '../config/currencyISO'
-import {saveable} from '../util/signal'
 import {storeConfig} from '../model/config/actions'
 import {restoreState} from '../model/rootActions'
 import {getConfig} from '../model/config/selectors'
 import {getClients} from '../model/clients/selectors'
 import {getSession} from '../model/session/selectors'
-import {storeSession} from '../model/session/actions'
+import {storeSaveableFunctions,storeSession} from '../model/session/actions'
 import {Select} from '../components/Select'
 import {InputText, InputCheckbox} from '../components/Input'
 import {Label} from '../components/Label'
@@ -51,8 +50,8 @@ export const Settings = connect(
       , clients: getClients(state)
       , state
     })
-    , { storeConfig, restoreState, storeSession }
-  )(({ state, configOld, storeConfig, restoreState, session, storeSession, clients }) => {
+    , { storeConfig, restoreState, storeSession, storeSaveableFunctions }
+  )(({ state, configOld, storeConfig, restoreState, session, storeSession, storeSaveableFunctions, clients }) => {
 
     const [config, setConfig] = useState(configOld)
     const getSetter = getGetSetter(config, setConfig)
@@ -72,26 +71,15 @@ export const Settings = connect(
     )
 
     const isDirty = !isEqual(configOld, config)
-    // saveable.dispatch(
-    //     true
-    //     , isDirty && (()=>{
-    //         storeConfig(config)
-    //         configOld.uilang!==config.uilang&&i18next.changeLanguage(config.uilang)
-    //       }) || null
-    //     , isDirty && (() => setConfig(configOld)) || null
-    //     , null
-    // )
     useEffect(()=>{
-      storeSession({
-        saveable: true
-        , save: isDirty && (()=>{
+      storeSaveableFunctions(
+        isDirty && (()=>{
             storeConfig(config)
             configOld.uilang!==config.uilang&&i18next.changeLanguage(config.uilang)
           }) || null
-        , revert: isDirty && (() => setConfig(configOld)) || null
-        , deleet: null
-      })
-    }, [isDirty, storeSession])
+        , isDirty && (() => setConfig(configOld)) || null
+      )
+    }, [isDirty, config, storeSaveableFunctions])
 
     const context = getInterpolationContext(state)
 
@@ -120,7 +108,7 @@ export const Settings = connect(
               <p><Trans>dataExplain</Trans></p>
             </div>
           </Section>
-          <Section>
+          <Section data-cy="peer">
             <h2 className="col-12 col-sm-3 float-left"><T>peer2peerTitle</T></h2>
             <div className="col-12 col-sm-9 float-left">
               <SettingsPeer2Peer {...{

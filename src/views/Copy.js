@@ -2,7 +2,6 @@ import React, {useEffect, useState, createRef} from 'react'
 import styled from 'styled-components'
 import {connect} from 'react-redux'
 import {isEqual, getGetSetter, getInterpolationContext} from '../util'
-import {saveable} from '../util/signal'
 import {getCopy} from '../model/copy/selectors'
 import {storeCopy} from '../model/copy/actions'
 import {getConfig} from '../model/config/selectors'
@@ -14,10 +13,8 @@ import {InterpolationInput} from '../components/InterpolationInput'
 import {DirtyPrompt} from '../components/DirtyPrompt'
 import {InputText} from '../components/Input'
 import {Page} from '../components/Page'
-import i18next from 'i18next'
 import {getSession} from '../model/session/selectors'
-import {storeSession} from '../model/session/actions'
-// import {useKeyDown} from '../hook/useKeyDown'
+import {storeSaveableFunctions} from '../model/session/actions'
 
 const CopyLabelStyled = styled(Label)`
   >.input {
@@ -61,8 +58,8 @@ const CopyLabels = ({list, getSetter, context, lang, custom, onClickDeleteCopy, 
 
 export const Copy = connect(
   state => ({ state, copyOld: getCopy(state), config: getConfig(state), session: getSession(state) })
-  , {storeCopy, storeSession}
-)(({state, copyOld, config, storeCopy, storeSession}) => {
+  , {storeCopy, storeSaveableFunctions}
+)(({state, copyOld, config, storeCopy, storeSaveableFunctions}) => {
 
   const [copy, setCopy] = useState(copyOld)
   const getSetter = getGetSetter(copy, setCopy)
@@ -73,20 +70,11 @@ export const Copy = connect(
 
   const isDirty = !isEqual(copyOld, copy)
   useEffect(()=>{
-    storeSession({
-      saveable: true
-      , save: isDirty && storeCopy.bind(null, copy) || null
-      , revert: isDirty && (() => setCopy(copyOld)) || null
-      , deleet: null
-    })
-  }, [isDirty, storeSession])
-  // saveable.dispatch(
-  //     true
-  //     , isDirty && storeCopy.bind(null, copy) || null
-  //     , isDirty && (() => setCopy(copyOld)) || null
-  //     , null
-  // )
-  // useEffect(()=>{setTimeout(()=>saveable.dispatch(true))}, [])
+    storeSaveableFunctions(
+      isDirty && storeCopy.bind(null, copy) || null
+      , isDirty && (() => setCopy(copyOld)) || null
+    )
+  }, [isDirty, copy, storeSaveableFunctions])
 
   const keyInput = createRef()
 
