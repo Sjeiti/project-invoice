@@ -1,2 +1,2 @@
 [build.environment]
-    YARN_FLAGS = "--mode update-lockfile"
+    YARN_FLAGS = ""
