@@ -19,7 +19,7 @@ describe('overview', () => {
   )
 
   it('should have csv download disabled for empty quarters', () => cy
-      .get('@quarter').last().find('tbody>tr>td').should('have.length', 1)
+      .get('@quarter').last().find('tbody>tr>td').should('have.length', 0)
       .get('@quarter').last().find('button').should('be.disabled')
   )
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import {withRouter} from 'react-router-dom'
 import ChangelogHTML from './Changelog.html'
+import {withRouter} from '../util/withRouter'
 
 const StyledAbout = styled.div`
   dt {

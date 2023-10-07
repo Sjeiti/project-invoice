@@ -141,25 +141,37 @@ export const Table = ({
           ))}
         </tr>
       </thead>
-      <TransitionGroup component="tbody">
+      <tbody>
         {subjects.map((subject, index) => (
-          <CSSTransition
-            timeout={200}
-            classNames="animate"
-            key={subject.hasOwnProperty('key')?subject.key:index}
+          <TableRow
+              {...TableRowAttr}
+              onClick={subject.onClick}
+              data-position={index}
+              key={index}
           >
-            {/* CSSTransition props causes warnings onto tr that cannot be caught */}
-            <TableRow
-                {...TableRowAttr}
-                onClick={subject.onClick}
-                data-position={index}
-            >
-              {cols.map(({key}, index) => <td key={index} className={key}><div>{subject[key]}</div></td>)}
-            </TableRow>
-          </CSSTransition>
+            {cols.map(({key}, index) => <td key={index} className={key}><div>{subject[key]}</div></td>)}
+          </TableRow>
         ))}
-        {subjects.length?<></>:<tr><td colSpan={length}>{empty||'-'}</td></tr>}
-      </TransitionGroup>
+      </tbody>
+      {/*<TransitionGroup component="tbody">*/}
+      {/*  {subjects.map((subject, index) => (*/}
+      {/*    <CSSTransition*/}
+      {/*      timeout={200}*/}
+      {/*      classNames="animate"*/}
+      {/*      key={subject.hasOwnProperty('key')?subject.key:index}*/}
+      {/*    >*/}
+      {/*      /!* CSSTransition props causes warnings onto tr that cannot be caught *!/*/}
+      {/*      <TableRow*/}
+      {/*          {...TableRowAttr}*/}
+      {/*          onClick={subject.onClick}*/}
+      {/*          data-position={index}*/}
+      {/*      >*/}
+      {/*        {cols.map(({key}, index) => <td key={index} className={key}><div>{subject[key]}</div></td>)}*/}
+      {/*      </TableRow>*/}
+      {/*    </CSSTransition>*/}
+      {/*  ))}*/}
+      {/*  {subjects.length?<></>:<tr><td colSpan={length}>{empty||'-'}</td></tr>}*/}
+      {/*</TransitionGroup>*/}
       {!hasTFoot&&<tfoot><tr><td className="empty" colSpan={length} /></tr></tfoot>}
       {children}
     </StyledTable></StyledTableWrapper>

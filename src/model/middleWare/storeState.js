@@ -5,7 +5,7 @@ import {cloneDeep} from 'lodash'
 
 export const storeState = store => next => action => {
   const result = next(action)
-  if (!NOOP_ACTIONS.includes(action.type)) {
+  if (!NOOP_ACTIONS.includes(action.type)) { // should not store when session changes
     const state = cloneDeep(store.getState())
     const {session:{encryptionKey}} = state
     delete state.session

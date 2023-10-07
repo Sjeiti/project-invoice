@@ -1,35 +1,20 @@
-import React, { useState, useEffect } from 'react'
-import { withRouter } from 'react-router-dom'
+import React, {useEffect} from 'react'
 import styled from 'styled-components'
-import { saveable } from '../util/signal'
-import { noop } from '../util'
 import { Button, IconButton } from './Button'
 import { T } from './T'
+import {connect} from 'react-redux'
+import {getSession} from '../model/session/selectors'
 
 const Nav = styled.nav`
   padding: 4px 4px 0 0;
 `
 
-export const SaveableButtons = withRouter(props => {
-  const [isSaveable, setSaveable] = useState(false)
+export const SaveableButtons = connect(
+    state => ({session: getSession(state)})
+  )(props => {
 
-  const [save, setSave] = useState(noop)
-  const [revert, setRevert] = useState(noop)
-  const [deleet, setDelete] = useState(noop)
-
-  const { history } = props
-  history.listen(()=>setSaveable(false))
-
-  // saveable signal binding
-  useEffect(() => {
-    const binding = saveable.add((saveable, save, revert, deleet) => {
-      setSave(() => save) // methods cannot be set directly, only as return value
-      setRevert(() => revert)
-      setDelete(() => deleet)
-      setSaveable(saveable)
-    })
-    return ::binding.detach
-  }, [])
+  const {session} = props
+  const {saveable, save, revert, deleet} = session
 
   // CTRL save
   useEffect(()=>{
@@ -47,10 +32,10 @@ export const SaveableButtons = withRouter(props => {
     }
     document.addEventListener('keydown', onKeyDown, false)
     return ()=>document.removeEventListener('keydown', onKeyDown, false)
-  }) // , []
+  }, [save, revert])
 
   return (
-    <Nav style={{ display: isSaveable ? 'block' : 'none' }}>
+    <Nav style={{ display: saveable ? 'block' : 'none' }}>
       <Button data-cy="save" className="hide-low" onClick={save} disabled={!save}><T>save</T></Button>
       <Button data-cy="revert" className="hide-low" onClick={revert} disabled={!revert}><T>revert</T></Button>
       <Button data-cy="delete" className="hide-low" onClick={deleet} disabled={!deleet}><T>delete</T></Button>

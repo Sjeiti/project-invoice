@@ -133,7 +133,7 @@ dl {
   flex-wrap: wrap;
 }
 dt {
-  flex: 0 0 100%/12*3;
+  flex: 0 0 calc(100% / 12*3);
   overflow: hidden;
   text-overflow: ellipsis;
   &[title]:after {
@@ -156,7 +156,7 @@ dt {
   }
 }
 dd {
-  flex: 0 0 100%/12*9;
+  flex: 0 0 calc(100% / 12*9);
   margin: 0;
 }
 

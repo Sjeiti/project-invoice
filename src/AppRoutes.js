@@ -1,5 +1,5 @@
 import React from 'react'
-import {Route} from 'react-router-dom'
+import {Routes, Route} from 'react-router-dom'
 import {Home} from './views/Home'
 import {Overview} from './views/Overview'
 import {Clients} from './views/Clients'
@@ -14,8 +14,8 @@ import {Invoice} from './views/Invoice'
 import {Changelog} from './views/Changelog'
 import {Test} from './views/Test'
 
-export const Routes = () => (
-  <>
+export const AppRoutes = () => (
+  <Routes>
     {[
       [Home, '/']
       , [Overview, '/overview']
@@ -33,8 +33,9 @@ export const Routes = () => (
       , [Layout, '/layout']
       , [Changelog, '/changelog']
       , [Test, '/test']
-    ].map(([component, path], key) => (
-      <Route exact key={key} path={path} component={component} />
+    ].map(([Component, path], key) => (
+      // <Route exact key={key} path={path} component={component} />
+      <Route exact key={key} path={path} element={<Component/>} />
     ))}
-  </>
+  </Routes>
 )

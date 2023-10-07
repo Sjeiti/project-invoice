@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
-import {Link, withRouter} from 'react-router-dom'
+import {Link, useNavigate, useParams} from 'react-router-dom'
 import {isEqual, cloneDeep} from 'lodash'
 import {nbsp, getGetSetter, capitalise, moveArrayItem, getInterpolationContext} from '../util'
-import {saveable} from '../util/signal'
 import {storeProject, removeProject, cloneProject} from '../model/clients/actions'
 import {
   getClient
@@ -38,6 +37,10 @@ import styled from 'styled-components'
 import {getCloneProjectEvents, getNextProjectEvents, getPreviousProjectEvents} from '../model/eventFactory'
 import {getInvoice} from '../model/clients/factory'
 import {getData} from '../model/personal/selectors'
+import {withRouter} from '../util/withRouter'
+import {getSession} from '../model/session/selectors'
+import {storeSaveableFunctions} from '../model/session/actions'
+import {Page} from '../components/Page'
 
 const StyledProject = styled.div`
   label.description {
@@ -68,26 +71,31 @@ const DragHandle = ()=><DragHandleStyled type="drag" />
 
 export const Project = withRouter(
   connect(
-    state => ({ state, clients: getClients(state), data: getData(state) }),
-    { storeProject, removeProject, cloneProject }
+    state => ({ state, clients: getClients(state), data: getData(state), session: getSession(state) }),
+    { storeProject, removeProject, cloneProject, storeSaveableFunctions }
   )(
     ({
-      history
-      , match: {
-        params: { client: clientNr, project: projectId }
-      }
-      , storeProject
+      storeProject
       , removeProject
       , cloneProject
       , state
       , clients
       , data
+      , storeSaveableFunctions
     }) => {
+
+      const navigate = useNavigate()
+
       const {t} = useTranslation()
+
+      const params = useParams()
+      const { client: clientNr, project: projectId } = params
 
       const client = getClient(clients, clientNr)
       const projectOld = client && getProject(client.projects, projectId)
       const isProject = !!projectOld
+
+      isProject||navigate((client && getClientHref(client)) || '/clients')
 
       const [project, setProject] = useState(projectOld)
       const {hourlyRate, lines} = project
@@ -129,19 +137,15 @@ export const Project = withRouter(
         setProject(p)
       }
 
-      // saveable
-      useEffect(()=>{setTimeout(()=>saveable.dispatch(true))}, [])
+      // set saveable functions
       const isDirty = isProject&&!isEqual(projectOld, project)
-      if (isProject){
-        saveable.dispatch(
-            true
-            , isDirty && storeProject.bind(null, project) || null
-            , isDirty && (() => setProject(projectOld)) || null
-            , removeProject.bind(null, projectOld.id)
+      useEffect(()=>{
+        storeSaveableFunctions(
+          isDirty && storeProject.bind(null, project) || null
+          , isDirty && (() => setProject(projectOld)) || null
+          , projectOld && removeProject.bind(null, projectOld?.id) || null
         )
-      } else {
-        history.push((client && getClientHref(client)) || '/clients')
-      }
+      }, [isDirty, project, projectOld, storeSaveableFunctions])
 
       const addLine = ()=>{
         const p = cloneDeep(project) // {...project} //
@@ -209,8 +213,8 @@ export const Project = withRouter(
 
       const context = getInterpolationContext(state)
 
-      return (
-        (isProject && (
+      return <Page saveable>
+        {(isProject && (
           <StyledProject>
 
             <header className="clearfix">
@@ -355,8 +359,8 @@ export const Project = withRouter(
               <Label><T>paid</T><InputNumber value={invoice.paid||0} setter={getInvoiceSetter('paid')}/></Label>
             </Dialog>
           </StyledProject>
-        )) || <StyledProject><T>project not found</T></StyledProject>
-      )
+        )) || <StyledProject><T>project not found</T></StyledProject>}
+      </Page>
     }
   )
 )

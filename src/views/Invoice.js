@@ -1,30 +1,33 @@
 import React, {useState, createRef} from 'react'
 import {connect} from 'react-redux'
-import {Link, withRouter} from 'react-router-dom'
+import {Link,useLocation,useParams} from 'react-router-dom'
 import {getClient, getProject, getClients, getProjectNumber, getProjectHref} from '../model/clients/selectors'
 import {getConfig} from '../model/config/selectors'
 import {PrintInvoice} from '../components/PrintInvoice'
 import {Button} from '../components/Button'
 import {T} from '../components/T'
+import {withRouter} from '../util/withRouter'
 
 export const Invoice = withRouter(
   connect(
     state => ({ state, clients: getClients(state), config:getConfig(state) })
   )(
     ({
-      history
-      , match: {
-        params: { client: clientNr, project: projectId, reminder:reminderIndex }
-        , url
-      }
-      , state
+      state
       , clients
       , config
     }) => {
+
+      const params = useParams()
+      const { client: clientNr, project: projectId, reminder:reminderIndex } = params
+
+      const location = useLocation()
+      const {pathname} = location
+
       const client = getClient(clients, clientNr)
       const project = client && getProject(client.projects, projectId)
 
-      const isQuotation = /quotation$/.test(url)
+      const isQuotation = /quotation$/.test(pathname)
       const invoiceIndex = reminderIndex||isQuotation&&-1||0
 
       const [lang, setLang] = useState(config.lang)

@@ -5,7 +5,6 @@ import {getConfig} from '../model/config/selectors'
 import {storeConfig} from '../model/config/actions'
 import {data} from '../model/default'
 import {getFontList} from '../service/googleAPI'
-import {saveable} from '../util/signal'
 import {capitalise,getGetSetter,isEqual,noop} from '../util'
 import {notify} from '../util/signal'
 import {PrintInvoice} from '../components/PrintInvoice'
@@ -19,6 +18,9 @@ import {ButtonLabel} from '../components/ButtonLabel'
 import {FormSpan} from '../components/FormSpan'
 import {DirtyPrompt} from '../components/DirtyPrompt'
 import {ERROR} from '../components/Notification'
+import {getSession} from '../model/session/selectors'
+import {storeSaveableFunctions} from '../model/session/actions'
+import {Page} from '../components/Page'
 
 const StyledLayout = styled.section`
  
@@ -38,10 +40,10 @@ const StyledLayout = styled.section`
 `
 
 export const Layout = connect(
-    state => ({ state, configOld: getConfig(state) })
-    , {storeConfig}
+    state => ({ state, configOld: getConfig(state), session: getSession(state) })
+    , {storeConfig, storeSaveableFunctions}
 )(
-  ({state, configOld, storeConfig}) => {
+  ({state, configOld, storeConfig, storeSaveableFunctions}) => {
 
     const client = data.clients[0]
     const project = client.projects[0]
@@ -58,13 +60,14 @@ export const Layout = connect(
     const [fontOptions, setFontOptions] = useState([])
 
     const isDirty = !isEqual(configOld, config)
-    saveable.dispatch(
-        true
-        , isDirty && storeConfig.bind(null, config) || null
-        , isDirty && (() => setConfig(configOld)) || null
-        , null
-    )
-    useEffect(()=>{setTimeout(()=>saveable.dispatch(true))}, [])
+    useEffect(()=>{
+      requestAnimationFrame(()=>{
+        storeSaveableFunctions(
+          isDirty && storeConfig.bind(null, config) || null
+          , isDirty && (() => setConfig(configOld)) || null
+        )
+      })
+    }, [isDirty, storeSaveableFunctions])
 
     useEffect(()=>{
       getFontList(config.googleFontsAPIKey).then(
@@ -103,7 +106,7 @@ export const Layout = connect(
       }`:'')
     }
 
-    return <StyledLayout>
+    return <Page saveable><StyledLayout>
 
       <header className="clearfix" style={{marginBottom:'1rem'}}>
         <h1><span className="hide-low"><T>layout</T> </span></h1>
@@ -164,7 +167,7 @@ export const Layout = connect(
 
       <DirtyPrompt when={isDirty} />
 
-    </StyledLayout>
+    </StyledLayout></Page>
   }
 )
 

@@ -19,12 +19,11 @@ export const SettingsEncryption = ({config, session, storeSession, storeConfigWi
 
   const [encryptionDialogOpen, setEncryptionDialog] = useState(false)
   const [encryptionKey, setEncryptionKey] = useState('')
+
   const encryptAndReload = ()=>{
     if (encryptionKey) {
       storeSession({...session, encryptionKey})
-      storeConfigWith({
-        encryption: true
-      })
+      storeConfigWith({encryption: true})
       setEncryptionDialog(false)
       window.location.reload()
     } else {

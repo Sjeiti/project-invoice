@@ -83,7 +83,18 @@ export const Dialog = attr => {
   , [elmDialog, source, winW, winH, scrollY, show, animate.current])
   //
   return <>
-      <CSSTransition
+  {show&&<>
+    <StyledDialog ref={setElmDialog} {...attr} data-cy="dialog">
+      <header><h3>{Enter&&1}{title}</h3> <IconButton type="close" invert onClick={close}></IconButton></header>
+      <section>{children}</section>
+      <footer className="text-align-right">
+        <Button onClick={close} data-cy="dialogCancel"><T>cancel</T></Button>
+        <Button onClick={submit} data-cy="dialogConfirm"><T>ok</T></Button>
+      </footer>
+    </StyledDialog>
+    {svg}
+  </>}
+      {/*<CSSTransition
         in={show}
         timeout={200}
         classNames="anim-tv"
@@ -109,7 +120,7 @@ export const Dialog = attr => {
         unmountOnExit={true}
       >
         {svg}
-      </CSSTransition>
+      </CSSTransition>*/}
     </>
 }
 

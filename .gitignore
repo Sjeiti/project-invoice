@@ -3,6 +3,7 @@ node_modules
 /src/static
 /dist
 /temp
+/public/fonts/
 
 # Local env files
 .env
@@ -22,11 +23,20 @@ yarn-error.log*
 /public/static/i18n/README-en.md
 /public/static/i18n/*.html
 /public/static/img/*.png
-/public/fonts/**/*.*
+#/public/fonts/**/*.*
 /src/views/Changelog.html
 /src/views/About.html
 /cypress/integration/**/*.*
 /cypress/screenshots/**/*.*
+
+# Yarn (https://yarnpkg.com/getting-started/qa#which-files-should-be-gitignored)
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
 
 # Other
 /design/*.ai

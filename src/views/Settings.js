@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react'
+import React,{useState,useCallback,useEffect} from 'react'
 import {connect} from 'react-redux'
 import i18next from 'i18next'
 import {Trans} from 'react-i18next'
@@ -6,13 +6,12 @@ import styled from 'styled-components'
 import {getGetSetter, getInterpolationContext, isEqual} from '../util'
 import {I18N_ISO as isos} from '../config/i18n'
 import {CURRENCY_ISO} from '../config/currencyISO'
-import {saveable} from '../util/signal'
 import {storeConfig} from '../model/config/actions'
 import {restoreState} from '../model/rootActions'
 import {getConfig} from '../model/config/selectors'
 import {getClients} from '../model/clients/selectors'
 import {getSession} from '../model/session/selectors'
-import {storeSession} from '../model/session/actions'
+import {storeSaveableFunctions,storeSession} from '../model/session/actions'
 import {Select} from '../components/Select'
 import {InputText, InputCheckbox} from '../components/Input'
 import {Label} from '../components/Label'
@@ -24,6 +23,7 @@ import {SettingsColorScheme} from '../components/SettingsColorScheme'
 import {T} from '../components/T'
 import {InterpolationInput} from '../components/InterpolationInput'
 import {DirtyPrompt} from '../components/DirtyPrompt'
+import {Page} from '../components/Page'
 
 const Section = styled.section`
   &:after {
@@ -48,9 +48,11 @@ export const Settings = connect(
       configOld: getConfig(state)
       , session: getSession(state)
       , clients: getClients(state)
-      , state }),
-    { storeConfig, restoreState, storeSession }
-  )(({ state, configOld, storeConfig, restoreState, session, storeSession, clients }) => {
+      , state
+    })
+    , { storeConfig, restoreState, storeSession, storeSaveableFunctions }
+  )(({ state, configOld, storeConfig, restoreState, session, storeSession, storeSaveableFunctions, clients }) => {
+
     const [config, setConfig] = useState(configOld)
     const getSetter = getGetSetter(config, setConfig)
 
@@ -69,20 +71,20 @@ export const Settings = connect(
     )
 
     const isDirty = !isEqual(configOld, config)
-    saveable.dispatch(
-        true
-        , isDirty && (()=>{
+    useEffect(()=>{
+      storeSaveableFunctions(
+        isDirty && (()=>{
             storeConfig(config)
             configOld.uilang!==config.uilang&&i18next.changeLanguage(config.uilang)
           }) || null
         , isDirty && (() => setConfig(configOld)) || null
-        , null
-    )
+      )
+    }, [isDirty, config, storeSaveableFunctions])
 
     const context = getInterpolationContext(state)
 
     return (
-        <>
+        <Page saveable>
           <Section>
             <h1 className="hide-low"><T>settings</T></h1>
             {Object.entries(varMap).map(([key, {Element, title, map, attrs={}}], i)=>
@@ -106,7 +108,7 @@ export const Settings = connect(
               <p><Trans>dataExplain</Trans></p>
             </div>
           </Section>
-          <Section>
+          <Section data-cy="peer">
             <h2 className="col-12 col-sm-3 float-left"><T>peer2peerTitle</T></h2>
             <div className="col-12 col-sm-9 float-left">
               <SettingsPeer2Peer {...{
@@ -133,6 +135,6 @@ export const Settings = connect(
             </div>
           </Section>
           <DirtyPrompt when={isDirty} />
-        </>
+        </Page>
     )
   })

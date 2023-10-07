@@ -71,15 +71,39 @@ Cypress.Commands.add('updateAlias', (domAlias, options) => {
   })||cy.get(domAlias, options)
 })
 
+Cypress.Commands.overwriteQuery('get', function (orig, selector_, options={}){
+
+  const isAlias = selector_.substring(0, 1)==='@'
+  const name = selector_.substring(1)
+  const selector = isAlias?`[data-cy=${name}]`:selector_
+  //const aliasExists = (Cypress.state('aliases')||{}).hasOwnProperty(name)
+  // todo set alias
+
+  return orig.call(this, selector, options)
+})
+
+// Cypress.Commands.overwriteQuery('get', function (originalFn, ...args) {
+//   console.log('get called with args:', args)
+//
+//   const innerFn = originalFn.apply(this, args)
+//
+//   return (subject) => {
+//     console.log('get inner function called with subject:', subject)
+//
+//     return innerFn(subject)
+//   }
+// })
+
 const overrides = {
+/*
   get: [
     // (...arg) => [...arg]
-    /*(orig, selector, options={}) => {
+    /!*(orig, selector, options={}) => {
       // console.log('get1', {orig, selector, options}) // todo: remove log
       // Cypress.log({message:`get:selector '${selector}'`}) // todo: remove log
       return [orig, selector, options]
     }
-    ,*/(orig, selector, options={}) => {
+    ,*!/(orig, selector, options={}) => {
       if (selector.substr(0, 1)==='@') {
         const name = selector.substr(1)
         const aliasExists = (Cypress.state('aliases')||{}).hasOwnProperty(name)
@@ -94,6 +118,7 @@ const overrides = {
       return [aliasName&&(update||isLive)?cy.updateAlias:orig, selector, options]
     }
   ]
+*/
 }
 
 Object.entries(overrides).forEach(([key, list])=>{
@@ -103,10 +128,17 @@ Object.entries(overrides).forEach(([key, list])=>{
   })
 })
 
+Cypress.Commands.overwriteQuery('as', (orig, value, name, options={}) => {
+  options&&options.live&&!asLive.includes(name)&&asLive.push(name)||options&&options.live===false&&removeFromArray(asLive, name)
+  return orig(value, name)
+})
+
+/*
 Cypress.Commands.overwrite('as', (orig, value, name, options={}) => {
   options&&options.live&&!asLive.includes(name)&&asLive.push(name)||options&&options.live===false&&removeFromArray(asLive, name)
   return orig(value, name)
 })
+*/
 
 Cypress.Commands.add('asAll', () => cy
     .get('[data-cy]')

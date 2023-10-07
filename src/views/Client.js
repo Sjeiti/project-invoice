@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
-import {Link, withRouter} from 'react-router-dom'
+import {Link,useNavigate,useParams} from 'react-router-dom'
 import {capitalise,isEqual,keyMap,nbsp} from '../util'
 import {
   getClients,
@@ -13,7 +13,6 @@ import {
 } from '../model/clients/selectors'
 import {getNewProjectEvents} from '../model/eventFactory'
 import {storeClient, removeClient, addProject, storeProject} from '../model/clients/actions'
-import {saveable} from '../util/signal'
 import {Label} from '../components/Label'
 import {ButtonLink} from '../components/ButtonLink'
 import {Price} from '../components/Price'
@@ -23,6 +22,10 @@ import {T} from '../components/T'
 import {onClickPaid} from '../model/clients/util'
 import {LineEllipsed} from '../components/LineEllipsed'
 import {DirtyPrompt} from '../components/DirtyPrompt'
+import {withRouter} from '../util/withRouter'
+import {Page} from '../components/Page'
+import {getSession} from '../model/session/selectors'
+import {storeSaveableFunctions} from '../model/session/actions'
 
 const editablePropNames = [
   {key:'name', input:InputText}
@@ -38,33 +41,35 @@ const editablePropNames = [
 
 export const Client = withRouter(
   connect(
-    state => ({ state, clients: getClients(state) }),
-    { storeClient, removeClient, addProject, storeProject }
-  )(({ history, match, state, clients, storeClient, removeClient, addProject, storeProject }) => {
+    state => ({ state, clients: getClients(state), session: getSession(state) }),
+    { storeClient, removeClient, addProject, storeProject, storeSaveableFunctions }
+  )(({ state, clients, storeClient, removeClient, addProject, storeProject, storeSaveableFunctions }) => {
 
-    const clientOld = getClient(clients, parseInt(match.params.client, 10))
+    const navigate = useNavigate()
+
+    const params = useParams()
+
+    const clientOld = getClient(clients, parseInt(params?.client, 10))
     const isClient = !!clientOld
+    isClient||navigate('/clients')
+
     const [client, setClient] = useState(clientOld)
     const newProjectEvents = getNewProjectEvents(clients, clientOld, addProject)
     const [emptyMsg] = useState(()=>[<T>clientNoProjects</T>, ', ', <Link {...newProjectEvents}><T>create one</T></Link>].map(keyMap))
 
-    useEffect(()=>{setTimeout(()=>saveable.dispatch(true))}, [])
     const isDirty = isClient&&!isEqual(clientOld, client, ['projects'])
-    if (isClient){
-      saveable.dispatch(
-          true
-          , isDirty && storeClient.bind(null, client) || null
-          , isDirty && (() => setClient(clientOld)) || null
-          , removeClient.bind(null, clientOld.nr)
+    useEffect(()=>{
+      storeSaveableFunctions(
+        isDirty && storeClient.bind(null, client) || null
+        , isDirty && (() => setClient(clientOld)) || null
+        , clientOld && removeClient.bind(null, clientOld?.nr) || null
       )
-    } else {
-      history.push('/clients')
-    }
+    }, [isDirty, client, clientOld, storeSaveableFunctions])
 
     const projectListProjects = clientOld?.projects.map(project => ({
       ...project
       , description: <LineEllipsed>{project.description}</LineEllipsed>
-      , onClick: () => history.push(getProjectHref(project))
+      , onClick: () => navigate(getProjectHref(project))
       , paid: <InputCheckbox
           value={project.paid}
           style={{margin:'0.25rem 0 0'}}
@@ -79,8 +84,8 @@ export const Client = withRouter(
     const getSetter = key => value =>
         setClient({...client, ...[key, value].reduce((acc, v)=>(acc[key]=v, acc), {})})
 
-    return (
-      (isClient && (
+    return <Page saveable>
+      {(isClient && (
         <>
           <h3 data-cy="clientNameTitle">{client.name||nbsp}</h3>
           <form>
@@ -107,7 +112,7 @@ export const Client = withRouter(
           </section>
           <DirtyPrompt when={isDirty} />
         </>
-      )) || <p>Client not found</p>
-    )
+      )) || <p>Client not found</p>}
+    </Page>
   })
 )
