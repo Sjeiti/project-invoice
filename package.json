@@ -80,6 +80,7 @@
     "eslint-plugin-react": "^7.20.0",
     "eslint-plugin-react-hooks": "^4.5.0",
     "faker": "^4.1.0",
+    "file-loader": "^6.2.0",
     "github-release-notes": "^0.17.0",
     "html-loader": "^0.5.5",
     "jsdom": "^11.6.2",

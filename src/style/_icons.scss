@@ -1,16 +1,16 @@
 @font-face {
   font-family: 'icomoon';
   src:
-    url('../../public/fonts/icomoon.ttf?bp0437') format('truetype'),
-    url('../../public/fonts/icomoon.woff?bp0437') format('woff'),
-    url('../../public/fonts/icomoon.svg?bp0437#icomoon') format('svg');
+    url('../../public/fonts/icomoon.ttf') format('truetype'),
+    url('../../public/fonts/icomoon.woff') format('woff'),
+    url('../../public/fonts/icomoon.svg') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
 }
 
 [class^="icon-"], [class*=" icon-"] {
-  /* use !important to prevent issues with browser extensions that change /fonts */
+  /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
   speak: none;
   font-style: normal;
@@ -91,7 +91,7 @@ $icon-chevron-right: "\e915";
 // mixins
 
 @mixin icon-icon(){
-  /* use !important to prevent issues with browser extensions that change /fonts */
+  /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
   speak: none;
   font-style: normal;

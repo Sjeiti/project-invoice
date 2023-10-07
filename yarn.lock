@@ -6171,6 +6171,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"file-loader@npm:^6.2.0":
+  version: 6.2.0
+  resolution: "file-loader@npm:6.2.0"
+  dependencies:
+    loader-utils: ^2.0.0
+    schema-utils: ^3.0.0
+  peerDependencies:
+    webpack: ^4.0.0 || ^5.0.0
+  checksum: faf43eecf233f4897b0150aaa874eeeac214e4f9de49738a9e0ef734a30b5260059e85b7edadf852b98e415f875bd5f12587768a93fd52aaf2e479ecf95fab20
+  languageName: node
+  linkType: hard
+
 "file-url@npm:^2.0.0":
   version: 2.0.2
   resolution: "file-url@npm:2.0.2"
@@ -11154,6 +11166,7 @@ __metadata:
     eslint-plugin-react: ^7.20.0
     eslint-plugin-react-hooks: ^4.5.0
     faker: ^4.1.0
+    file-loader: ^6.2.0
     github-release-notes: ^0.17.0
     html-loader: ^0.5.5
     i18next: ^23.5.1

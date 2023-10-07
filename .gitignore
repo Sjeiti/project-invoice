@@ -3,6 +3,7 @@ node_modules
 /src/static
 /dist
 /temp
+/public/fonts/
 
 # Local env files
 .env

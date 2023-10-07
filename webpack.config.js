@@ -43,6 +43,16 @@ module.exports = env => {
           test: /\.(html|css)/
           ,use: ['raw-loader']
         }
+        ,{
+          test: /\.(ttf|eot|svg|gif|woff|woff2)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+          use: [{
+            loader: 'file-loader',
+          }]
+        }
+        // ,{
+        //   test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        //   type: 'asset/resource',
+        // }
       ]
     }
     ,resolve: {

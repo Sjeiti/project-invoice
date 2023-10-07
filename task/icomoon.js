@@ -37,7 +37,8 @@ var fs = require('fs')
 	,zip = new AdmZip(sFontSrc)
 	,unzip = zip.extractAllTo('temp',true)
 	//
-	,sSrc = fs.readFileSync('temp/style.css').toString().replace(/fonts/g,'/fonts')
+		// ,sSrc = fs.readFileSync('temp/style.css').toString().replace(/fonts/g,'/fonts')
+	,sSrc = fs.readFileSync('temp/style.css').toString().replace(/(fonts\/icomoon\.\w+)\?[a-z0-9#]+/g,'../../public/$1')
 	//
 //            ,pop1=console.log('p1',!!sSrc.match(/(\[.*{)([^}]*)/))
 //            ,pop3=console.log('p3',!!sSrc.match(/\"([^-]+)-"/))
