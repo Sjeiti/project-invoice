@@ -76,7 +76,7 @@
     "clipboardy": "^2.3.0",
     "commander": "^2.14.1",
     "copy-webpack-plugin": "^11.0.0",
-    "crypto-js": "^3.1.9-1",
+    "crypto-js": "^4.2.0",
     "css-loader": "^6.7.3",
     "cypress-plugin-tab": "^1.0.5",
     "eslint": "^7.0.0",
